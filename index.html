@@ -695,11 +695,12 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         }
 
 .news-item {
-    height: 280px;
+    height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
 .news-content {
     color: var(--text-secondary);
     line-height: 1.6;
@@ -710,13 +711,15 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
 
 .news-bottom {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     margin-top: auto;
     padding-top: 15px;
     gap: 10px;
     flex-wrap: wrap;
-    min-height: 40px;
+    min-height: 50px;
+    position: relative;
+    bottom: 0;
 }
 /* Professor Section - 재설계 */
 .professor-section {
@@ -2011,7 +2014,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     display: inline-flex;
     background: var(--accent-purple);
     color: white;
-    padding: 8px 18px;
+    padding: 10px 20px;
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: 500;
@@ -2020,8 +2023,9 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    min-width: 80px;
+    min-width: 90px;
     text-align: center;
+    height: 36px;
 }
 /* Professor Details Typography */
 .professor-details {
