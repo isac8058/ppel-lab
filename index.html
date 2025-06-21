@@ -3387,19 +3387,13 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             }
         };
 
-  // News data
+ // News data
 const newsData = {
     ko: [
         {
-            date: '2025.06.21',  // 새로운 날짜로 변경
+            date: '2025.01.20',
             title: 'Chemical Engineering Journal 논문 게재',
             content: '그래픽 탄소 질화물의 2D에서 1D 구조 변환을 통한 압전 성능 향상에 관한 연구가 Chemical Engineering Journal (IF: 13.4)에 게재되었습니다.',
-            tag: '논문'
-        },
-        {
-            date: '2025.01.15',
-            title: 'ACS Nano 논문 게재',
-            content: 'Tree-Like Graphene을 이용한 5hmC 초고감도 검출 센서에 관한 연구가 ACS Nano에 게재되었습니다.',
             tag: '논문'
         },
         {
@@ -3408,19 +3402,20 @@ const newsData = {
             content: '2024년 5월 한국연구재단 우수 중견연구자 지원사업에 선정되었습니다.',
             tag: '연구과제'
         },
-        // ... 기존 뉴스들
+        {
+            date: '2024.05.20',
+            title: 'PMMA 기반 마이크로니들 특허 전북대 홍보자료 선정',
+            content: 'PMMA 기반 마이크로니들 특허의 우수성을 인정받아 전북대학교 홍보자료로 선정되었습니다.',
+            tag: '홍보',
+            hasVideo: true,
+            videoPath: 'Video/PMMA.mp4'
+        }
     ],
     en: [
         {
-            date: '2025.06.21',  // 새로운 날짜로 변경
+            date: '2025.01.20',
             title: 'Publication in Chemical Engineering Journal',
             content: 'Our research on structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance has been published in Chemical Engineering Journal (IF: 13.4).',
-            tag: 'Publication'
-        },
-        {
-            date: '2025.01.15',
-            title: 'Publication in ACS Nano',
-            content: 'Our research on ultra-sensitive detection of 5hmC using tree-like graphene has been published in ACS Nano.',
             tag: 'Publication'
         },
         {
@@ -3429,7 +3424,14 @@ const newsData = {
             content: 'Selected for the NRF Mid-Career Researcher Program in May 2024.',
             tag: 'Grant'
         },
-        // ... 기존 뉴스들
+        {
+            date: '2024.05.20',
+            title: 'PMMA Microneedle Patent Selected for JBNU Promotion',
+            content: 'Our PMMA-based microneedle patent was selected as JBNU promotional material for its excellence.',
+            tag: 'Promotion',
+            hasVideo: true,
+            videoPath: 'Video/PMMA.mp4'
+        }
     ]
 };
 
