@@ -711,16 +711,16 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
 
 .news-bottom {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-start;   /* 가운데 정렬을 원하면 이렇게, 좌측 정렬이면 flex-start */
     align-items: center;
-    margin-top: auto;
-    padding-top: 15px;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;         /* wrap을 해제해서 태그가 다음 줄로 넘어가지 않도록 합니다 */
+    padding-top: 15px;
     min-height: 50px;
     position: relative;
     bottom: 0;
 }
+
 /* Professor Section - 재설계 */
 .professor-section {
     padding: var(--section-padding);
