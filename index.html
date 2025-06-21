@@ -711,14 +711,12 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
 
 .news-bottom {
     display: flex;
-    justify-content: flex-start;   /* 가운데 정렬을 원하면 이렇게, 좌측 정렬이면 flex-start */
+    justify-content: flex-start; /* 필요에 따라 center, space-between 등으로 조정 */
     align-items: center;
     gap: 10px;
-    flex-wrap: nowrap;         /* wrap을 해제해서 태그가 다음 줄로 넘어가지 않도록 합니다 */
-    padding-top: 15px;
-    min-height: 50px;
-    position: relative;
-    bottom: 0;
+    margin-top: auto;    /* 버튼을 카드 하단에 붙이기 위해 */
+    flex-wrap: nowrap;   /* ← 여기만 변경 */
+    /* position: relative; bottom: 0; 제거해도 무방합니다 */
 }
 
 /* Professor Section - 재설계 */
