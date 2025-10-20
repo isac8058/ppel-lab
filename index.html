@@ -2194,6 +2194,20 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     .info-section {
         padding-left: 0;
     }
+
+    .q1-badge, .rank-badge {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+    }
+
+    .publication-item {
+        padding: 20px;
+    }
+
+    .publication-title {
+        font-size: 1.05rem;
+    }
+}
     
     .info-section::before {
         display: none;
@@ -2207,16 +2221,76 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         /* Publication styling */
         .publication-item {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
+            border: 2px solid transparent;
+            border-radius: 20px;
             padding: 30px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .publication-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: var(--gradient-1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .publication-item:hover {
-            border-color: var(--accent-blue);
-            transform: translateX(10px);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+        }
+
+        .publication-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Q1 Badge */
+        .q1-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: var(--gradient-1);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            animation: badge-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(0, 212, 255, 0.5); }
+        }
+
+        /* Rank Badge */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .rank-badge:hover {
+            background: rgba(124, 58, 237, 0.25);
+            transform: scale(1.05);
         }
 
         .publication-title {
@@ -2821,60 +2895,112 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     <section class="publications-section" id="publications">
         <div class="publications-container" style="max-width: 1000px; margin: 0 auto;">
             <h2 class="section-title" data-ko="연구 논문" data-en="Research Publications">Research Publications</h2>
-            
+
+            <!-- Description -->
+            <p style="text-align: center; color: var(--text-secondary); max-width: 800px; margin: 20px auto 0; line-height: 1.8; font-size: 1.05rem;">
+                <span data-ko="모든 논문은 JCR Q1 저널 (상위 10%) 및 Impact Factor 10 이상의 고품질 저널에 게재되었습니다."
+                      data-en="All publications are in JCR Q1 journals (Top 10%) with Impact Factor ≥10, representing high-quality research.">
+                    All publications are in JCR Q1 journals (Top 10%) with Impact Factor ≥10, representing high-quality research.
+                </span>
+            </p>
+
             <!-- Publication Stats -->
-            <div style="text-align: center; margin-bottom: 50px; margin-top: 40px;">
-                <div style="display: inline-flex; gap: 40px; align-items: center;">
-                    <div>
+            <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+                <div style="display: inline-flex; gap: 50px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📚</div>
                         <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2,186+</div>
-                        <div style="color: var(--text-secondary);" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
+                        <div style="color: var(--text-secondary); font-size: 0.95rem;" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
                     </div>
-                    <div>
+                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-purple)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📄</div>
                         <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100+</div>
-                        <div style="color: var(--text-secondary);" data-ko="논문 수" data-en="Publications">Publications</div>
+                        <div style="color: var(--text-secondary); font-size: 0.95rem;" data-ko="논문 수" data-en="Publications">Publications</div>
                     </div>
-                    <div>
+                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🎯</div>
                         <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">h-30</div>
-                        <div style="color: var(--text-secondary);">h-index</div>
+                        <div style="color: var(--text-secondary); font-size: 0.95rem;">h-index</div>
                     </div>
                 </div>
             </div>
 
          <!-- 2025 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 20px;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">2025 Selected Publications</h3>
-            <div class="publication-item">
+<h3 style="color: var(--accent-blue); margin-bottom: 30px; font-size: 1.8rem; position: relative; padding-left: 20px;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">
+    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
+    2025 Selected Publications
+</h3>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Chemical Engineering #858</span>
+    </div>
     <h3 class="publication-title">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</h3>
     <p class="publication-authors">OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, S Lim</p>
     <p class="publication-journal">Chemical Engineering Journal, Volume 519 <span style="color: var(--accent-purple); font-weight: 600;">(IF: 13.4)</span></p>
 </div>
-                        <div class="publication-item">
-                <h3 class="publication-title">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</h3>
-                <p class="publication-authors">H Imran, S Lim, A Alam, J An, M Ko, S Lim</p>
-                <p class="publication-journal">ACS Nano <span style="color: var(--accent-purple); font-weight: 600;">(IF: 15.8)</span></p>
-            </div>
-            <div class="publication-item">
-                <h3 class="publication-title">Highly Efficient 3D‐Printed PVDF‐Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</h3>
-                <p class="publication-authors">NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, S Lim, JW Kang</p>
-                <p class="publication-journal">Advanced Functional Materials <span style="color: var(--accent-purple); font-weight: 600;">(IF: 19.0)</span></p>
-            </div>
-           <!-- 2024 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 20px; margin-top: 60px;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">2024 Selected Publications</h3>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Materials Science #2</span>
+    </div>
+    <h3 class="publication-title">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</h3>
+    <p class="publication-authors">H Imran, S Lim, A Alam, J An, M Ko, S Lim</p>
+    <p class="publication-journal">ACS Nano <span style="color: var(--accent-purple); font-weight: 600;">(IF: 15.8)</span></p>
+</div>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Materials Science #4</span>
+    </div>
+    <h3 class="publication-title">Highly Efficient 3D‐Printed PVDF‐Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</h3>
+    <p class="publication-authors">NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, S Lim, JW Kang</p>
+    <p class="publication-journal">Advanced Functional Materials <span style="color: var(--accent-purple); font-weight: 600;">(IF: 19.0)</span></p>
+</div>
+           <!-- 2024 Publications -->
+<h3 style="color: var(--accent-blue); margin-bottom: 30px; margin-top: 60px; font-size: 1.8rem; position: relative; padding-left: 20px;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">
+    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
+    2024 Selected Publications
+</h3>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Materials Chemistry #983</span>
+    </div>
     <h3 class="publication-title">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</h3>
     <p class="publication-authors">A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, S Lim</p>
     <p class="publication-journal">Journal of Materials Chemistry A <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.1)</span></p>
 </div>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Chemical Engineering #858</span>
+    </div>
     <h3 class="publication-title">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets: Exploring 1D/2D structural adjustment</h3>
     <p class="publication-authors">B Diao, C Cong, F Sun, H Li, H Zhang, X Wang, M Jin, S Lim, X Li, SH Kim</p>
     <p class="publication-journal">Chemical Engineering Journal <span style="color: var(--accent-purple); font-weight: 600;">(IF: 13.4)</span></p>
 </div>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Materials Science #1090</span>
+    </div>
     <h3 class="publication-title">Recent advancements in carbon-based materials for resistive switching applications</h3>
     <p class="publication-authors">SL Patil, OY Pawar, TD Dongale, S Chang, S Lim, YM Song</p>
     <p class="publication-journal">Carbon <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.6)</span></p>
 </div>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="q1-badge">Q1</span>
+        <span class="rank-badge">Engineering #774</span>
+    </div>
     <h3 class="publication-title">Optimizing polymethyl methacrylate (PMMA)-based stretchable microneedle arrays by vat photopolymerization for efficient drug loading</h3>
     <p class="publication-authors">AC Ab Rahman, BJ Lee, S Lim</p>
     <p class="publication-journal">Additive Manufacturing <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.1)</span></p>
