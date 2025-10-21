@@ -2,13 +2,18 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>PPEL - Printability for Printed Electronics Lab+</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+            width: 100%;
         }
 
         :root {
@@ -43,8 +48,23 @@
             background: var(--primary-bg);
             color: var(--text-primary);
             overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
             line-height: 1.6;
             transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Prevent horizontal scroll on all sections */
+        section {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        .container,
+        .publications-container,
+        .professor-container {
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         /* Scrollbar */
@@ -1806,7 +1826,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         /* Mobile Responsive */
         @media (max-width: 768px) {
             :root {
-                --section-padding: 80px 20px;
+                --section-padding: 60px 15px;
             }
 
             nav {
@@ -1834,15 +1854,21 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             }
 
             .hero-title {
-                font-size: clamp(3rem, 10vw, 6rem);
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                line-height: 1.6;
             }
 
    .stats-grid, .news-grid {
     grid-template-columns: 1fr;
+    gap: 15px;
 }
 
 .members-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
@@ -1852,48 +1878,232 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             }
 
             .research-card {
-                height: 220px;
+                height: 200px;
             }
 
             .research-card h3 {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .gallery-filter {
-                gap: 10px;
+                gap: 8px;
+                flex-wrap: wrap;
             }
-            
+
             .filter-btn {
-                padding: 8px 16px;
-                font-size: 0.9rem;
+                padding: 8px 14px;
+                font-size: 0.85rem;
             }
-            
+
             .modal-content {
                 width: 95%;
                 margin: 10% auto;
             }
-            
+
             .modal-image {
-                height: 250px;
+                height: auto;
+                max-height: 60vh;
             }
-            
+
             .modal-placeholder {
-                font-size: 4rem;
+                font-size: 3rem;
             }
 
             .chart-bars {
-                gap: 10px;
+                gap: 8px;
             }
 
             .bar {
-                width: 40px;
+                width: 30px;
             }
-.professor-photo {
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-}  
+
+            .professor-photo {
+                width: 250px;
+                height: 250px;
+                border-radius: 20px;
+            }
+
+            /* Professor section mobile */
+            .professor-container {
+                padding: 20px;
+            }
+
+            /* Team image mobile */
+            img[alt="PPEL Research Team"] {
+                height: auto !important;
+                min-height: 250px;
+                max-height: 400px;
+            }
+
+            /* Publication stats mobile */
+            .publication-item {
+                padding: 20px 15px;
+            }
+
+            .publication-title {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .publication-authors {
+                font-size: 0.85rem;
+                line-height: 1.5;
+            }
+
+            .publication-journal {
+                font-size: 0.9rem;
+            }
+
+            /* Section titles mobile */
+            .section-title {
+                font-size: 1.8rem;
+                line-height: 1.3;
+            }
+
+            /* Info cards mobile */
+            .info-card {
+                padding: 20px 15px;
+            }
+
+            .info-label {
+                font-size: 0.85rem;
+            }
+
+            /* Better text wrapping */
+            h1, h2, h3, h4, h5, h6 {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            p, li, span {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            /* Navigation overflow fix */
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            /* Logo text size */
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            /* Rank badge overflow */
+            .rank-badge {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+
+            /* Info content overflow */
+            .info-content {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Professor info text */
+            .professor-info h2,
+            .professor-info p {
+                word-break: break-word;
+            }
 }
+
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            :root {
+                --section-padding: 40px 15px;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 7vw, 3rem);
+            }
+
+            .professor-photo {
+                width: 200px;
+                height: 200px;
+            }
+
+            /* Reduce stats card size */
+            .stats-grid > div,
+            .news-grid > div {
+                min-width: unset;
+            }
+
+            /* Publication stats cards - stack vertically */
+            div[style*="inline-flex"][style*="gap: 50px"] {
+                gap: 20px !important;
+            }
+
+            div[style*="min-width: 180px"] {
+                min-width: 140px !important;
+                padding: 15px !important;
+            }
+
+            div[style*="min-width: 180px"] div[style*="font-size: 2rem"] {
+                font-size: 1.5rem !important;
+            }
+
+            div[style*="min-width: 180px"] div[style*="font-size: 2.5rem"] {
+                font-size: 2rem !important;
+            }
+
+            /* Member cards */
+            .member-card {
+                padding: 15px;
+            }
+
+            .member-name {
+                font-size: 1.1rem;
+            }
+
+            /* Smaller badges */
+            .rank-badge {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+
+            /* Info section */
+            .info-section {
+                padding: 15px;
+            }
+
+            /* Research cards */
+            .research-card {
+                height: 180px;
+            }
+
+            .research-icon span {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .professor-photo {
+                width: 180px;
+                height: 180px;
+            }
+
+            .publication-title {
+                font-size: 0.95rem;
+            }
+
+            .rank-badge {
+                font-size: 0.65rem;
+                padding: 3px 8px;
+            }
+        }
 
         /* Loading Animation */
         .loader {
@@ -2194,6 +2404,20 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     .info-section {
         padding-left: 0;
     }
+
+    .q1-badge, .rank-badge {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+    }
+
+    .publication-item {
+        padding: 20px;
+    }
+
+    .publication-title {
+        font-size: 1.05rem;
+    }
+}
     
     .info-section::before {
         display: none;
@@ -2207,32 +2431,100 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         /* Publication styling */
         .publication-item {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
+            border: 2px solid transparent;
+            border-radius: 20px;
             padding: 30px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .publication-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: var(--gradient-1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .publication-item:hover {
-            border-color: var(--accent-blue);
-            transform: translateX(10px);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+        }
+
+        .publication-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Q1 Badge */
+        .q1-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: var(--gradient-1);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            animation: badge-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(0, 212, 255, 0.5); }
+        }
+
+        /* Rank Badge */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .rank-badge:hover {
+            background: rgba(124, 58, 237, 0.25);
+            transform: scale(1.05);
         }
 
         .publication-title {
             font-size: 1.2rem;
             margin-bottom: 10px;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
 
         .publication-authors {
             color: var(--text-secondary);
             margin-bottom: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
         }
 
         .publication-journal {
             color: var(--accent-blue);
             font-style: italic;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
 /* Patent styling */
@@ -2681,7 +2973,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                     </div>
                     <div class="info-content">
                         <ul style="color: var(--text-secondary); line-height: 1.8; padding-left: 20px;">
-                            <li>2025: Published in ACS Nano (IF: 17.1) on ultra-sensitive DNA detection</li>
+                            <li>2025: Published in ACS Nano (IF: 15.8) on ultra-sensitive DNA detection</li>
                             <li>2024: Selected for NRF Mid-Career Researcher Program</li>
                             <li>2024: 6 patents granted in printed electronics field</li>
                             <li>2023: Best Paper Award at International Conference on Printed Electronics</li>
@@ -2821,63 +3113,100 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     <section class="publications-section" id="publications">
         <div class="publications-container" style="max-width: 1000px; margin: 0 auto;">
             <h2 class="section-title" data-ko="연구 논문" data-en="Research Publications">Research Publications</h2>
-            
+
             <!-- Publication Stats -->
-            <div style="text-align: center; margin-bottom: 50px; margin-top: 40px;">
-                <div style="display: inline-flex; gap: 40px; align-items: center;">
-                    <div>
+            <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
+                <div style="display: inline-flex; gap: 50px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📚</div>
                         <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2,186+</div>
-                        <div style="color: var(--text-secondary);" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
+                        <div style="color: var(--text-secondary); font-size: 0.95rem;" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
                     </div>
-                    <div>
+                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-purple)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📄</div>
                         <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100+</div>
-                        <div style="color: var(--text-secondary);" data-ko="논문 수" data-en="Publications">Publications</div>
+                        <div style="color: var(--text-secondary); font-size: 0.95rem;" data-ko="논문 수" data-en="Publications">Publications</div>
                     </div>
-                    <div>
+                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🎯</div>
                         <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">h-30</div>
-                        <div style="color: var(--text-secondary);">h-index</div>
+                        <div style="color: var(--text-secondary); font-size: 0.95rem;">h-index</div>
                     </div>
                 </div>
             </div>
 
          <!-- 2025 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 20px;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">2025 Selected Publications</h3>
-            <div class="publication-item">
+<h3 style="color: var(--accent-blue); margin-bottom: 30px; font-size: 1.8rem; position: relative; padding-left: 20px;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">
+    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
+    2025 Selected Publications
+</h3>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Chemical Engineering #858</span>
+    </div>
     <h3 class="publication-title">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</h3>
     <p class="publication-authors">OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, S Lim</p>
     <p class="publication-journal">Chemical Engineering Journal, Volume 519 <span style="color: var(--accent-purple); font-weight: 600;">(IF: 13.4)</span></p>
 </div>
-                        <div class="publication-item">
-                <h3 class="publication-title">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</h3>
-                <p class="publication-authors">H Imran, S Lim, A Alam, J An, M Ko, S Lim</p>
-                <p class="publication-journal">ACS Nano <span style="color: var(--accent-purple); font-weight: 600;">(IF: 17.1)</span></p>
-            </div>
-            <div class="publication-item">
-                <h3 class="publication-title">Highly Efficient 3D‐Printed PVDF‐Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</h3>
-                <p class="publication-authors">NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, S Lim, JW Kang</p>
-                <p class="publication-journal">Advanced Functional Materials <span style="color: var(--accent-purple); font-weight: 600;">(IF: 19.0)</span></p>
-            </div>
-           <!-- 2024 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 20px; margin-top: 60px;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">2024 Selected Publications</h3>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Materials Science #2</span>
+    </div>
+    <h3 class="publication-title">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</h3>
+    <p class="publication-authors">H Imran, S Lim, A Alam, J An, M Ko, S Lim</p>
+    <p class="publication-journal">ACS Nano <span style="color: var(--accent-purple); font-weight: 600;">(IF: 15.8)</span></p>
+</div>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Materials Science #4</span>
+    </div>
+    <h3 class="publication-title">Highly Efficient 3D‐Printed PVDF‐Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</h3>
+    <p class="publication-authors">NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, S Lim, JW Kang</p>
+    <p class="publication-journal">Advanced Functional Materials <span style="color: var(--accent-purple); font-weight: 600;">(IF: 19.0)</span></p>
+</div>
+           <!-- 2024 Publications -->
+<h3 style="color: var(--accent-blue); margin-bottom: 30px; margin-top: 60px; font-size: 1.8rem; position: relative; padding-left: 20px;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">
+    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
+    2024 Selected Publications
+</h3>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Materials Chemistry #983</span>
+    </div>
     <h3 class="publication-title">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</h3>
     <p class="publication-authors">A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, S Lim</p>
-    <p class="publication-journal">Journal of Materials Chemistry A <span style="color: var(--accent-purple); font-weight: 600;">(IF: 14.6)</span></p>
+    <p class="publication-journal">Journal of Materials Chemistry A <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.1)</span></p>
 </div>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Chemical Engineering #858</span>
+    </div>
     <h3 class="publication-title">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets: Exploring 1D/2D structural adjustment</h3>
     <p class="publication-authors">B Diao, C Cong, F Sun, H Li, H Zhang, X Wang, M Jin, S Lim, X Li, SH Kim</p>
     <p class="publication-journal">Chemical Engineering Journal <span style="color: var(--accent-purple); font-weight: 600;">(IF: 13.4)</span></p>
 </div>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Materials Science #1090</span>
+    </div>
     <h3 class="publication-title">Recent advancements in carbon-based materials for resistive switching applications</h3>
     <p class="publication-authors">SL Patil, OY Pawar, TD Dongale, S Chang, S Lim, YM Song</p>
-    <p class="publication-journal">Carbon <span style="color: var(--accent-purple); font-weight: 600;">(IF: 10.5)</span></p>
+    <p class="publication-journal">Carbon <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.6)</span></p>
 </div>
+
 <div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Engineering #774</span>
+    </div>
     <h3 class="publication-title">Optimizing polymethyl methacrylate (PMMA)-based stretchable microneedle arrays by vat photopolymerization for efficient drug loading</h3>
     <p class="publication-authors">AC Ab Rahman, BJ Lee, S Lim</p>
-    <p class="publication-journal">Additive Manufacturing <span style="color: var(--accent-purple); font-weight: 600;">(IF: 10.3)</span></p>
+    <p class="publication-journal">Additive Manufacturing <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.1)</span></p>
 </div>
             <div style="text-align: center; margin-top: 40px;">
                 <a href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" 
