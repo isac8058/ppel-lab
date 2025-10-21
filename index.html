@@ -2,13 +2,18 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>PPEL - Printability for Printed Electronics Lab+</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+            width: 100%;
         }
 
         :root {
@@ -43,8 +48,23 @@
             background: var(--primary-bg);
             color: var(--text-primary);
             overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
             line-height: 1.6;
             transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Prevent horizontal scroll on all sections */
+        section {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        .container,
+        .publications-container,
+        .professor-container {
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         /* Scrollbar */
@@ -1806,7 +1826,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         /* Mobile Responsive */
         @media (max-width: 768px) {
             :root {
-                --section-padding: 80px 20px;
+                --section-padding: 60px 15px;
             }
 
             nav {
@@ -1834,66 +1854,219 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             }
 
             .hero-title {
-                font-size: clamp(3rem, 10vw, 6rem);
+                font-size: clamp(2.5rem, 8vw, 4rem);
             }
 
-   .stats-grid, .news-grid {
-    grid-template-columns: 1fr;
-}
+            .hero-subtitle {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
 
-.members-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
+            .stats-grid, .news-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
 
-    .research-grid {
+            .members-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .research-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
 
             .research-card {
-                height: 220px;
+                height: 200px;
             }
 
             .research-card h3 {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .gallery-filter {
-                gap: 10px;
+                gap: 8px;
+                flex-wrap: wrap;
             }
-            
+
             .filter-btn {
-                padding: 8px 16px;
-                font-size: 0.9rem;
+                padding: 8px 14px;
+                font-size: 0.85rem;
             }
-            
+
             .modal-content {
                 width: 95%;
                 margin: 10% auto;
             }
-            
+
             .modal-image {
-                height: 250px;
+                height: auto;
+                max-height: 60vh;
             }
-            
+
             .modal-placeholder {
-                font-size: 4rem;
+                font-size: 3rem;
             }
 
             .chart-bars {
-                gap: 10px;
+                gap: 8px;
             }
 
             .bar {
-                width: 40px;
+                width: 30px;
             }
-.professor-photo {
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-}  
-}
+
+            .professor-photo {
+                width: 250px;
+                height: 250px;
+                border-radius: 20px;
+            }
+
+            /* Professor section mobile */
+            .professor-container {
+                padding: 20px;
+            }
+
+            /* Team image mobile */
+            img[alt="PPEL Research Team"] {
+                height: auto !important;
+                min-height: 250px;
+                max-height: 400px;
+            }
+
+            /* Publication stats mobile */
+            .publication-item {
+                padding: 20px 15px;
+            }
+
+            .publication-title {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .publication-authors {
+                font-size: 0.85rem;
+                line-height: 1.5;
+            }
+
+            .publication-journal {
+                font-size: 0.9rem;
+            }
+
+            /* Section titles mobile */
+            .section-title {
+                font-size: 1.8rem;
+                line-height: 1.3;
+            }
+
+            /* Info cards mobile */
+            .info-card {
+                padding: 20px 15px;
+            }
+
+            .info-label {
+                font-size: 0.85rem;
+            }
+
+            /* Better text wrapping */
+            h1, h2, h3, h4, h5, h6 {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            p, li, span {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            /* Navigation overflow fix */
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            /* Logo text size */
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            /* Info content overflow */
+            .info-content {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Professor info text */
+            .professor-info h2,
+            .professor-info p {
+                word-break: break-word;
+            }
+        }
+
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            :root {
+                --section-padding: 40px 15px;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 7vw, 3rem);
+            }
+
+            .professor-photo {
+                width: 200px;
+                height: 200px;
+            }
+
+            /* Reduce stats card size */
+            .stats-grid > div,
+            .news-grid > div {
+                min-width: unset;
+            }
+
+            /* Member cards */
+            .member-card {
+                padding: 15px;
+            }
+
+            .member-name {
+                font-size: 1.1rem;
+            }
+
+            /* Info section */
+            .info-section {
+                padding: 15px;
+            }
+
+            /* Research cards */
+            .research-card {
+                height: 180px;
+            }
+
+            .research-icon span {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .professor-photo {
+                width: 180px;
+                height: 180px;
+            }
+
+            .publication-title {
+                font-size: 0.95rem;
+            }
+        }
 
         /* Loading Animation */
         .loader {
@@ -2223,16 +2396,24 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             font-size: 1.2rem;
             margin-bottom: 10px;
             font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
 
         .publication-authors {
             color: var(--text-secondary);
             margin-bottom: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
         }
 
         .publication-journal {
             color: var(--accent-blue);
             font-style: italic;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
 /* Patent styling */
