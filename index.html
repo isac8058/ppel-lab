@@ -1862,6 +1862,17 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 line-height: 1.6;
             }
 
+            .stats-grid, .news-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
    .stats-grid, .news-grid {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -1872,7 +1883,12 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     gap: 20px;
 }
 
-    .research-grid {
+            .members-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .research-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
@@ -1990,14 +2006,6 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 font-size: 1.3rem;
             }
 
-            /* Rank badge overflow */
-            .rank-badge {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%;
-            }
-
             /* Info content overflow */
             .info-content {
                 overflow-x: auto;
@@ -2009,7 +2017,72 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             .professor-info p {
                 word-break: break-word;
             }
-}
+        }
+
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            :root {
+                --section-padding: 40px 15px;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 7vw, 3rem);
+            }
+
+            .professor-photo {
+                width: 200px;
+                height: 200px;
+            }
+
+            /* Reduce stats card size */
+            .stats-grid > div,
+            .news-grid > div {
+                min-width: unset;
+            }
+
+            /* Member cards */
+            .member-card {
+                padding: 15px;
+            }
+
+            .member-name {
+                font-size: 1.1rem;
+            }
+
+            /* Info section */
+            .info-section {
+                padding: 15px;
+            }
+
+            /* Research cards */
+            .research-card {
+                height: 180px;
+            }
+
+            .research-icon span {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .professor-photo {
+                width: 180px;
+                height: 180px;
+            }
+
+            .publication-title {
+                font-size: 0.95rem;
+            }
+        }
 
         /* Extra small mobile devices */
         @media (max-width: 480px) {
