@@ -9,12 +9,23 @@
 
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 class TaskRecommender {
     constructor() {
         this.tasks = [];
         this.researchTools = [];
+        this.researchTrends = [];
         this.projectRoot = path.join(__dirname, '..');
+
+        // Research keywords for arXiv search
+        this.researchKeywords = {
+            'ai-electronics': ['printed electronics machine learning', 'inkjet printing optimization neural network', 'flexible electronics AI'],
+            'bio-printing': ['biosensor printing', 'bioelectronics inkjet', 'printed biosensor glucose'],
+            'printed-memories': ['resistive switching printing', 'memristor inkjet', 'printed memory device'],
+            'energy-storage': ['printed supercapacitor', 'flexible battery printing', 'energy harvesting printed'],
+            'piezo-tribo': ['printed piezoelectric', 'triboelectric nanogenerator', 'piezoelectric polymer printing']
+        };
 
         // Research tools database for PPEL Lab research areas
         this.toolsDatabase = {
@@ -445,6 +456,114 @@ class TaskRecommender {
         return array;
     }
 
+    // Fetch research trends from arXiv
+    async fetchResearchTrends() {
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        const researchAreas = ['ai-electronics', 'bio-printing', 'printed-memories', 'energy-storage', 'piezo-tribo'];
+        const todayArea = researchAreas[dayOfWeek % researchAreas.length];
+
+        const keywords = this.researchKeywords[todayArea] || [];
+        const searchQuery = keywords[dayOfWeek % keywords.length] || 'printed electronics';
+
+        console.log(`🔍 연구동향 검색: ${searchQuery}`);
+
+        try {
+            const papers = await this.fetchArxivPapers(searchQuery);
+            this.researchTrends = {
+                area: this.getAreaNameKo(todayArea),
+                areaKey: todayArea,
+                query: searchQuery,
+                papers: papers.slice(0, 5) // Top 5 papers
+            };
+        } catch (error) {
+            console.error('arXiv 검색 실패:', error.message);
+            this.researchTrends = {
+                area: this.getAreaNameKo(todayArea),
+                areaKey: todayArea,
+                query: searchQuery,
+                papers: [],
+                error: error.message
+            };
+        }
+
+        return this.researchTrends;
+    }
+
+    // Fetch papers from arXiv API
+    fetchArxivPapers(query) {
+        return new Promise((resolve, reject) => {
+            const encodedQuery = encodeURIComponent(query);
+            const url = `https://export.arxiv.org/api/query?search_query=all:${encodedQuery}&start=0&max_results=10&sortBy=submittedDate&sortOrder=descending`;
+
+            https.get(url, (res) => {
+                let data = '';
+
+                res.on('data', chunk => {
+                    data += chunk;
+                });
+
+                res.on('end', () => {
+                    try {
+                        const papers = this.parseArxivResponse(data);
+                        resolve(papers);
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            }).on('error', reject);
+        });
+    }
+
+    // Parse arXiv XML response
+    parseArxivResponse(xml) {
+        const papers = [];
+        const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+        let match;
+
+        while ((match = entryRegex.exec(xml)) !== null) {
+            const entry = match[1];
+
+            const title = this.extractXmlValue(entry, 'title').replace(/\n/g, ' ').trim();
+            const summary = this.extractXmlValue(entry, 'summary').replace(/\n/g, ' ').trim();
+            const published = this.extractXmlValue(entry, 'published');
+            const id = this.extractXmlValue(entry, 'id');
+
+            // Extract authors
+            const authorRegex = /<author>[\s\S]*?<name>(.*?)<\/name>[\s\S]*?<\/author>/g;
+            const authors = [];
+            let authorMatch;
+            while ((authorMatch = authorRegex.exec(entry)) !== null) {
+                authors.push(authorMatch[1]);
+            }
+
+            // Extract categories
+            const categoryRegex = /<category[^>]*term="([^"]+)"/g;
+            const categories = [];
+            let catMatch;
+            while ((catMatch = categoryRegex.exec(entry)) !== null) {
+                categories.push(catMatch[1]);
+            }
+
+            papers.push({
+                title,
+                authors: authors.slice(0, 3), // First 3 authors
+                summary: summary.substring(0, 300) + (summary.length > 300 ? '...' : ''),
+                published: published.split('T')[0],
+                url: id,
+                categories: categories.slice(0, 3)
+            });
+        }
+
+        return papers;
+    }
+
+    extractXmlValue(xml, tag) {
+        const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`);
+        const match = xml.match(regex);
+        return match ? match[1] : '';
+    }
+
     // Helper: Get all files recursively
     getAllFiles(dirPath, arrayOfFiles = []) {
         const files = fs.readdirSync(dirPath);
@@ -473,6 +592,27 @@ class TaskRecommender {
         report += `**연구 프로그램 추천:** ${this.researchTools.reduce((sum, area) => sum + area.tools.length, 0)}개\n\n`;
 
         report += `---\n\n`;
+
+        // Research Trends Section
+        if (this.researchTrends && this.researchTrends.papers && this.researchTrends.papers.length > 0) {
+            report += `## 📚 최신 연구동향 (${this.researchTrends.area})\n\n`;
+            report += `**검색 키워드:** ${this.researchTrends.query}\n\n`;
+
+            this.researchTrends.papers.forEach((paper, index) => {
+                report += `### ${index + 1}. ${paper.title}\n\n`;
+                report += `- **저자:** ${paper.authors.join(', ')}${paper.authors.length >= 3 ? ' et al.' : ''}\n`;
+                report += `- **발표일:** ${paper.published}\n`;
+                report += `- **분야:** ${paper.categories.join(', ')}\n`;
+                report += `- **링크:** [arXiv](${paper.url})\n\n`;
+                report += `> ${paper.summary}\n\n`;
+            });
+
+            report += `---\n\n`;
+        } else if (this.researchTrends && this.researchTrends.error) {
+            report += `## 📚 최신 연구동향\n\n`;
+            report += `⚠️ 연구동향 검색 중 오류 발생: ${this.researchTrends.error}\n\n`;
+            report += `---\n\n`;
+        }
 
         // Research Tools Section
         report += `## 🔬 오늘의 연구 프로그램 추천\n\n`;
@@ -560,6 +700,9 @@ async function main() {
     // Recommend research tools
     recommender.recommendResearchTools();
 
+    // Fetch research trends from arXiv
+    await recommender.fetchResearchTrends();
+
     // Generate report
     const report = recommender.generateReport();
 
@@ -573,7 +716,8 @@ async function main() {
 
     // Return counts for GitHub Actions
     const toolCount = recommender.researchTools.reduce((sum, area) => sum + area.tools.length, 0);
-    console.log(`📊 웹사이트 작업: ${recommender.tasks.length}개, 연구 프로그램: ${toolCount}개`);
+    const paperCount = recommender.researchTrends.papers ? recommender.researchTrends.papers.length : 0;
+    console.log(`📊 웹사이트 작업: ${recommender.tasks.length}개, 연구 프로그램: ${toolCount}개, 연구논문: ${paperCount}개`);
 
     return recommender.tasks.length;
 }

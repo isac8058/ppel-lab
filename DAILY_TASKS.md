@@ -6,6 +6,12 @@
 
 ---
 
+## 📚 최신 연구동향
+
+⚠️ 연구동향 검색 중 오류 발생: getaddrinfo EAI_AGAIN export.arxiv.org
+
+---
+
 ## 🔬 오늘의 연구 프로그램 추천
 
 ### AI 기반 프린티드 일렉트로닉스

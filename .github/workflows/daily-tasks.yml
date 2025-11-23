@@ -87,3 +87,27 @@ jobs:
           git add DAILY_TASKS.md
           git diff --staged --quiet || git commit -m "📋 Update daily task report - $(date +%Y-%m-%d)"
           git push || echo "Nothing to push"
+
+      - name: Send Email Report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "📋 PPEL Lab 일일 보고서 - ${{ github.event.repository.updated_at || 'Today' }}"
+          to: smlim@jbnu.ac.kr
+          from: PPEL Lab Bot <${{ secrets.SMTP_USERNAME }}>
+          body: |
+            안녕하세요 임수만 교수님,
+
+            오늘의 PPEL Lab 일일 보고서입니다.
+
+            자세한 내용은 첨부된 보고서 또는 아래 링크에서 확인하실 수 있습니다:
+            https://github.com/${{ github.repository }}/blob/main/DAILY_TASKS.md
+
+            감사합니다.
+            PPEL Lab 자동화 시스템
+          content_type: text/plain
+          attachments: DAILY_TASKS.md
+        continue-on-error: true
