@@ -13,7 +13,60 @@ const path = require('path');
 class TaskRecommender {
     constructor() {
         this.tasks = [];
+        this.researchTools = [];
         this.projectRoot = path.join(__dirname, '..');
+
+        // Research tools database for PPEL Lab research areas
+        this.toolsDatabase = {
+            'ai-electronics': [
+                { name: 'TensorFlow', category: 'AI/ML', description: '전자 회로 설계 자동화 및 결함 예측을 위한 딥러닝 프레임워크', url: 'https://tensorflow.org', tags: ['무료', 'Python'] },
+                { name: 'PyTorch', category: 'AI/ML', description: '프린팅 파라미터 최적화를 위한 신경망 구축', url: 'https://pytorch.org', tags: ['무료', 'Python'] },
+                { name: 'scikit-learn', category: 'AI/ML', description: '인쇄 품질 예측을 위한 머신러닝 라이브러리', url: 'https://scikit-learn.org', tags: ['무료', 'Python'] },
+                { name: 'COMSOL Multiphysics', category: '시뮬레이션', description: '전자 소자의 다중 물리 시뮬레이션', url: 'https://comsol.com', tags: ['유료', '라이선스'] },
+                { name: 'Jupyter Notebook', category: '개발환경', description: '데이터 분석 및 실험 결과 문서화', url: 'https://jupyter.org', tags: ['무료', 'Python'] },
+                { name: 'AutoML (Google)', category: 'AI/ML', description: '코드 없이 머신러닝 모델 자동 생성', url: 'https://cloud.google.com/automl', tags: ['유료', '클라우드'] }
+            ],
+            'bio-printing': [
+                { name: 'ImageJ/FIJI', category: '이미지 분석', description: '바이오센서 이미지 분석 및 세포 카운팅', url: 'https://imagej.net', tags: ['무료', 'Java'] },
+                { name: 'CellProfiler', category: '이미지 분석', description: '자동화된 세포 이미지 분석', url: 'https://cellprofiler.org', tags: ['무료', 'Python'] },
+                { name: 'BioRender', category: '시각화', description: '과학 일러스트레이션 및 논문 피겨 제작', url: 'https://biorender.com', tags: ['무료+유료', '웹'] },
+                { name: 'GraphPad Prism', category: '통계', description: '생물학적 데이터 통계 분석 및 그래프 생성', url: 'https://graphpad.com', tags: ['유료', '라이선스'] },
+                { name: 'SnapGene', category: '분자생물학', description: 'DNA/RNA 시퀀스 분석 및 설계', url: 'https://snapgene.com', tags: ['유료', '라이선스'] },
+                { name: 'PyMOL', category: '분자 시각화', description: '3D 분자 구조 시각화', url: 'https://pymol.org', tags: ['무료+유료', 'Python'] }
+            ],
+            'printed-memories': [
+                { name: 'OriginPro', category: '데이터 분석', description: 'I-V 특성 곡선 분석 및 그래프 생성', url: 'https://originlab.com', tags: ['유료', '라이선스'] },
+                { name: 'MATLAB', category: '수치해석', description: '메모리 소자 특성 모델링 및 시뮬레이션', url: 'https://mathworks.com', tags: ['유료', '라이선스'] },
+                { name: 'LTspice', category: '회로 시뮬레이션', description: 'SPICE 기반 전자회로 시뮬레이션', url: 'https://analog.com/ltspice', tags: ['무료', 'Windows'] },
+                { name: 'Gwyddion', category: 'AFM 분석', description: 'SPM (AFM, STM) 데이터 분석', url: 'http://gwyddion.net', tags: ['무료', '오픈소스'] },
+                { name: 'VESTA', category: '결정 구조', description: '3D 결정 구조 시각화', url: 'https://jp-minerals.org/vesta', tags: ['무료', '다중플랫폼'] },
+                { name: 'CasaXPS', category: 'XPS 분석', description: 'X선 광전자 분광 데이터 분석', url: 'http://casaxps.com', tags: ['유료', 'Windows'] }
+            ],
+            'energy-storage': [
+                { name: 'EC-Lab', category: '전기화학', description: '배터리/슈퍼캐패시터 전기화학 분석', url: 'https://biologic.net', tags: ['하드웨어 번들', '라이선스'] },
+                { name: 'ZView', category: 'EIS 분석', description: '임피던스 스펙트럼 분석 및 피팅', url: 'https://scribner.com', tags: ['유료', 'Windows'] },
+                { name: 'Nova', category: '전기화학', description: 'Autolab 전기화학 워크스테이션 소프트웨어', url: 'https://metrohm.com', tags: ['하드웨어 번들', '라이선스'] },
+                { name: 'Battery Archive', category: '데이터베이스', description: '배터리 수명 데이터 공유 플랫폼', url: 'https://batteryarchive.org', tags: ['무료', '웹'] },
+                { name: 'PyBaMM', category: '시뮬레이션', description: '배터리 모델링 파이썬 패키지', url: 'https://pybamm.org', tags: ['무료', 'Python'] },
+                { name: 'Materials Project', category: '데이터베이스', description: '재료 특성 데이터베이스 및 검색', url: 'https://materialsproject.org', tags: ['무료', '웹'] }
+            ],
+            'piezo-tribo': [
+                { name: 'ANSYS', category: '시뮬레이션', description: '압전 소자 유한요소 해석', url: 'https://ansys.com', tags: ['유료', '라이선스'] },
+                { name: 'COMSOL Piezoelectric Module', category: '시뮬레이션', description: '압전 디바이스 멀티피직스 시뮬레이션', url: 'https://comsol.com', tags: ['유료', '라이선스'] },
+                { name: 'LabVIEW', category: '데이터 수집', description: '압전 출력 측정 및 실시간 모니터링', url: 'https://ni.com/labview', tags: ['유료', '라이선스'] },
+                { name: 'VESTA', category: '결정 구조', description: '압전 재료 결정 구조 분석', url: 'https://jp-minerals.org/vesta', tags: ['무료', '다중플랫폼'] },
+                { name: 'Quantum ESPRESSO', category: 'DFT', description: '압전 상수 이론 계산 (제1원리)', url: 'https://quantum-espresso.org', tags: ['무료', 'Linux'] },
+                { name: 'Mercury', category: '결정 구조', description: 'CIF 파일 시각화 및 분석', url: 'https://ccdc.cam.ac.uk', tags: ['무료', '다중플랫폼'] }
+            ],
+            'general': [
+                { name: 'Zotero', category: '논문 관리', description: '논문 참고문헌 관리 및 인용', url: 'https://zotero.org', tags: ['무료', '다중플랫폼'] },
+                { name: 'Overleaf', category: '논문 작성', description: '협업 LaTeX 논문 작성 플랫폼', url: 'https://overleaf.com', tags: ['무료+유료', '웹'] },
+                { name: 'Grammarly', category: '논문 작성', description: '영어 논문 문법 및 스타일 검사', url: 'https://grammarly.com', tags: ['무료+유료', '웹'] },
+                { name: 'Notion', category: '프로젝트 관리', description: '연구 노트 및 프로젝트 관리', url: 'https://notion.so', tags: ['무료+유료', '웹'] },
+                { name: 'Slack', category: '협업', description: '연구팀 커뮤니케이션', url: 'https://slack.com', tags: ['무료+유료', '다중플랫폼'] },
+                { name: 'GitHub', category: '코드 관리', description: '연구 코드 버전 관리 및 협업', url: 'https://github.com', tags: ['무료+유료', '웹'] }
+            ]
+        };
     }
 
     // Analyze the codebase
@@ -331,6 +384,67 @@ class TaskRecommender {
         }
     }
 
+    // Recommend research tools based on day of week and research areas
+    recommendResearchTools() {
+        const today = new Date();
+        const dayOfWeek = today.getDay(); // 0-6
+        const dayOfMonth = today.getDate();
+
+        // Rotate through research areas based on day
+        const researchAreas = ['ai-electronics', 'bio-printing', 'printed-memories', 'energy-storage', 'piezo-tribo'];
+        const todayArea = researchAreas[dayOfWeek % researchAreas.length];
+
+        // Select tools for today's featured area
+        const areaTools = this.toolsDatabase[todayArea] || [];
+        const selectedAreaTools = this.shuffleArray([...areaTools]).slice(0, 2);
+
+        // Also include general tools
+        const generalTools = this.toolsDatabase['general'] || [];
+        const selectedGeneralTools = this.shuffleArray([...generalTools]).slice(0, 1);
+
+        // Combine and format
+        this.researchTools = [
+            {
+                area: this.getAreaNameKo(todayArea),
+                areaKey: todayArea,
+                tools: selectedAreaTools
+            },
+            {
+                area: '일반 연구 도구',
+                areaKey: 'general',
+                tools: selectedGeneralTools
+            }
+        ];
+
+        return this.researchTools;
+    }
+
+    getAreaNameKo(areaKey) {
+        const names = {
+            'ai-electronics': 'AI 기반 프린티드 일렉트로닉스',
+            'bio-printing': '바이오프린팅',
+            'printed-memories': '프린티드 메모리',
+            'energy-storage': '에너지 저장 소자',
+            'piezo-tribo': '압전 및 마찰전기'
+        };
+        return names[areaKey] || areaKey;
+    }
+
+    shuffleArray(array) {
+        // Use date as seed for consistent daily results
+        const today = new Date().toISOString().split('T')[0];
+        let seed = 0;
+        for (let i = 0; i < today.length; i++) {
+            seed += today.charCodeAt(i);
+        }
+
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = (seed * (i + 1)) % (i + 1);
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
     // Helper: Get all files recursively
     getAllFiles(dirPath, arrayOfFiles = []) {
         const files = fs.readdirSync(dirPath);
@@ -350,41 +464,75 @@ class TaskRecommender {
     // Generate report
     generateReport() {
         const today = new Date().toISOString().split('T')[0];
+        const dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+        const dayName = dayNames[new Date().getDay()];
 
-        let report = `# 📋 PPEL Lab 일일 할일 보고서\n\n`;
-        report += `**날짜:** ${today}\n`;
-        report += `**총 추천 작업:** ${this.tasks.length}개\n\n`;
+        let report = `# 📋 PPEL Lab 일일 보고서\n\n`;
+        report += `**날짜:** ${today} (${dayName})\n`;
+        report += `**웹사이트 개선 작업:** ${this.tasks.length}개\n`;
+        report += `**연구 프로그램 추천:** ${this.researchTools.reduce((sum, area) => sum + area.tools.length, 0)}개\n\n`;
+
+        report += `---\n\n`;
+
+        // Research Tools Section
+        report += `## 🔬 오늘의 연구 프로그램 추천\n\n`;
+
+        this.researchTools.forEach(areaData => {
+            report += `### ${areaData.area}\n\n`;
+            areaData.tools.forEach(tool => {
+                report += `#### ${tool.name}\n`;
+                report += `- **카테고리:** ${tool.category}\n`;
+                report += `- **설명:** ${tool.description}\n`;
+                report += `- **링크:** [${tool.url}](${tool.url})\n`;
+                report += `- **태그:** ${tool.tags.join(', ')}\n\n`;
+            });
+        });
+
+        report += `---\n\n`;
+
+        // Tasks Section
+        report += `## 🛠️ 웹사이트 개선 작업\n\n`;
 
         // Group by priority
         const highPriority = this.tasks.filter(t => t.priority === 'high');
         const mediumPriority = this.tasks.filter(t => t.priority === 'medium');
         const lowPriority = this.tasks.filter(t => t.priority === 'low');
 
-        report += `---\n\n`;
-
         if (highPriority.length > 0) {
-            report += `## 🔴 높은 우선순위 (${highPriority.length}개)\n\n`;
+            report += `### 🔴 높은 우선순위 (${highPriority.length}개)\n\n`;
             highPriority.forEach(task => {
                 report += this.formatTask(task);
             });
         }
 
         if (mediumPriority.length > 0) {
-            report += `## 🟡 중간 우선순위 (${mediumPriority.length}개)\n\n`;
+            report += `### 🟡 중간 우선순위 (${mediumPriority.length}개)\n\n`;
             mediumPriority.forEach(task => {
                 report += this.formatTask(task);
             });
         }
 
         if (lowPriority.length > 0) {
-            report += `## 🟢 낮은 우선순위 (${lowPriority.length}개)\n\n`;
+            report += `### 🟢 낮은 우선순위 (${lowPriority.length}개)\n\n`;
             lowPriority.forEach(task => {
                 report += this.formatTask(task);
             });
         }
 
         report += `---\n\n`;
-        report += `*이 보고서는 자동으로 생성되었습니다.*\n`;
+        report += `## 📅 다음 연구 영역 예정\n\n`;
+
+        const researchAreas = ['ai-electronics', 'bio-printing', 'printed-memories', 'energy-storage', 'piezo-tribo'];
+        const todayIndex = new Date().getDay() % researchAreas.length;
+
+        for (let i = 1; i <= 3; i++) {
+            const nextIndex = (todayIndex + i) % researchAreas.length;
+            const nextArea = researchAreas[nextIndex];
+            report += `- **${i}일 후:** ${this.getAreaNameKo(nextArea)}\n`;
+        }
+
+        report += `\n---\n\n`;
+        report += `*이 보고서는 자동으로 생성되었습니다. 매일 오전 9시(KST)에 업데이트됩니다.*\n`;
 
         return report;
     }
@@ -405,8 +553,14 @@ class TaskRecommender {
 // Main execution
 async function main() {
     const recommender = new TaskRecommender();
+
+    // Analyze codebase for tasks
     await recommender.analyze();
 
+    // Recommend research tools
+    recommender.recommendResearchTools();
+
+    // Generate report
     const report = recommender.generateReport();
 
     // Output to console
@@ -417,7 +571,10 @@ async function main() {
     fs.writeFileSync(outputPath, report);
     console.log(`\n✅ 보고서가 DAILY_TASKS.md에 저장되었습니다.`);
 
-    // Return task count for GitHub Actions
+    // Return counts for GitHub Actions
+    const toolCount = recommender.researchTools.reduce((sum, area) => sum + area.tools.length, 0);
+    console.log(`📊 웹사이트 작업: ${recommender.tasks.length}개, 연구 프로그램: ${toolCount}개`);
+
     return recommender.tasks.length;
 }
 
