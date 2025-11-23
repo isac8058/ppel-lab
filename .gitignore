@@ -1,0 +1,10 @@
+# Node.js
+node_modules/
+
+# Daily generated reports (keep DAILY_REPORT.docx for email)
+PPEL_Lab_일일보고서_*.docx
+DAILY_TASKS.md
+
+# OS files
+.DS_Store
+Thumbs.db

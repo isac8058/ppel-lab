@@ -10,6 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, AlignmentType } = require('docx');
 
 class TaskRecommender {
     constructor() {
@@ -688,6 +689,265 @@ class TaskRecommender {
         output += '\n';
         return output;
     }
+
+    // Generate Word document report
+    async generateWordReport() {
+        const today = new Date().toISOString().split('T')[0];
+        const dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+        const dayName = dayNames[new Date().getDay()];
+
+        const children = [];
+
+        // Title
+        children.push(new Paragraph({
+            text: 'PPEL Lab 일일 보고서',
+            heading: HeadingLevel.TITLE,
+            alignment: AlignmentType.CENTER
+        }));
+
+        // Date info
+        children.push(new Paragraph({
+            children: [
+                new TextRun({ text: '날짜: ', bold: true }),
+                new TextRun(`${today} (${dayName})`)
+            ]
+        }));
+
+        children.push(new Paragraph({
+            children: [
+                new TextRun({ text: '웹사이트 개선 작업: ', bold: true }),
+                new TextRun(`${this.tasks.length}개`)
+            ]
+        }));
+
+        children.push(new Paragraph({
+            children: [
+                new TextRun({ text: '연구 프로그램 추천: ', bold: true }),
+                new TextRun(`${this.researchTools.reduce((sum, area) => sum + area.tools.length, 0)}개`)
+            ]
+        }));
+
+        children.push(new Paragraph({ text: '' }));
+
+        // Research Trends Section
+        if (this.researchTrends && this.researchTrends.papers && this.researchTrends.papers.length > 0) {
+            children.push(new Paragraph({
+                text: `최신 연구동향 (${this.researchTrends.area})`,
+                heading: HeadingLevel.HEADING_1
+            }));
+
+            children.push(new Paragraph({
+                children: [
+                    new TextRun({ text: '검색 키워드: ', bold: true }),
+                    new TextRun(this.researchTrends.query)
+                ]
+            }));
+
+            children.push(new Paragraph({ text: '' }));
+
+            this.researchTrends.papers.forEach((paper, index) => {
+                children.push(new Paragraph({
+                    text: `${index + 1}. ${paper.title}`,
+                    heading: HeadingLevel.HEADING_2
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '저자: ', bold: true }),
+                        new TextRun(`${paper.authors.join(', ')}${paper.authors.length >= 3 ? ' et al.' : ''}`)
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '발표일: ', bold: true }),
+                        new TextRun(paper.published)
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '분야: ', bold: true }),
+                        new TextRun(paper.categories.join(', '))
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '링크: ', bold: true }),
+                        new TextRun(paper.url)
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: paper.summary, italics: true })
+                    ]
+                }));
+
+                children.push(new Paragraph({ text: '' }));
+            });
+        } else if (this.researchTrends && this.researchTrends.error) {
+            children.push(new Paragraph({
+                text: '최신 연구동향',
+                heading: HeadingLevel.HEADING_1
+            }));
+
+            children.push(new Paragraph({
+                children: [
+                    new TextRun({ text: `연구동향 검색 중 오류 발생: ${this.researchTrends.error}`, color: 'FF0000' })
+                ]
+            }));
+        }
+
+        // Research Tools Section
+        children.push(new Paragraph({
+            text: '오늘의 연구 프로그램 추천',
+            heading: HeadingLevel.HEADING_1
+        }));
+
+        this.researchTools.forEach(areaData => {
+            children.push(new Paragraph({
+                text: areaData.area,
+                heading: HeadingLevel.HEADING_2
+            }));
+
+            areaData.tools.forEach(tool => {
+                children.push(new Paragraph({
+                    text: tool.name,
+                    heading: HeadingLevel.HEADING_3
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '카테고리: ', bold: true }),
+                        new TextRun(tool.category)
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '설명: ', bold: true }),
+                        new TextRun(tool.description)
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '링크: ', bold: true }),
+                        new TextRun(tool.url)
+                    ]
+                }));
+
+                children.push(new Paragraph({
+                    children: [
+                        new TextRun({ text: '태그: ', bold: true }),
+                        new TextRun(tool.tags.join(', '))
+                    ]
+                }));
+
+                children.push(new Paragraph({ text: '' }));
+            });
+        });
+
+        // Tasks Section
+        children.push(new Paragraph({
+            text: '웹사이트 개선 작업',
+            heading: HeadingLevel.HEADING_1
+        }));
+
+        const priorityGroups = [
+            { name: '높은 우선순위', tasks: this.tasks.filter(t => t.priority === 'high'), color: 'FF0000' },
+            { name: '중간 우선순위', tasks: this.tasks.filter(t => t.priority === 'medium'), color: 'FFA500' },
+            { name: '낮은 우선순위', tasks: this.tasks.filter(t => t.priority === 'low'), color: '00FF00' }
+        ];
+
+        priorityGroups.forEach(group => {
+            if (group.tasks.length > 0) {
+                children.push(new Paragraph({
+                    text: `${group.name} (${group.tasks.length}개)`,
+                    heading: HeadingLevel.HEADING_2
+                }));
+
+                group.tasks.forEach(task => {
+                    children.push(new Paragraph({
+                        text: task.title,
+                        heading: HeadingLevel.HEADING_3
+                    }));
+
+                    children.push(new Paragraph({
+                        children: [
+                            new TextRun({ text: '카테고리: ', bold: true }),
+                            new TextRun(task.category)
+                        ]
+                    }));
+
+                    children.push(new Paragraph({
+                        children: [
+                            new TextRun({ text: '설명: ', bold: true }),
+                            new TextRun(task.description)
+                        ]
+                    }));
+
+                    const effortText = task.effort === 'low' ? '낮음' : task.effort === 'medium' ? '중간' : '높음';
+                    children.push(new Paragraph({
+                        children: [
+                            new TextRun({ text: '예상 노력: ', bold: true }),
+                            new TextRun(effortText)
+                        ]
+                    }));
+
+                    if (task.files) {
+                        children.push(new Paragraph({
+                            children: [
+                                new TextRun({ text: '관련 파일: ', bold: true }),
+                                new TextRun(task.files.join(', '))
+                            ]
+                        }));
+                    }
+
+                    children.push(new Paragraph({ text: '' }));
+                });
+            }
+        });
+
+        // Next research areas
+        children.push(new Paragraph({
+            text: '다음 연구 영역 예정',
+            heading: HeadingLevel.HEADING_1
+        }));
+
+        const researchAreas = ['ai-electronics', 'bio-printing', 'printed-memories', 'energy-storage', 'piezo-tribo'];
+        const todayIndex = new Date().getDay() % researchAreas.length;
+
+        for (let i = 1; i <= 3; i++) {
+            const nextIndex = (todayIndex + i) % researchAreas.length;
+            const nextArea = researchAreas[nextIndex];
+            children.push(new Paragraph({
+                children: [
+                    new TextRun({ text: `${i}일 후: `, bold: true }),
+                    new TextRun(this.getAreaNameKo(nextArea))
+                ]
+            }));
+        }
+
+        children.push(new Paragraph({ text: '' }));
+        children.push(new Paragraph({
+            children: [
+                new TextRun({ text: '이 보고서는 자동으로 생성되었습니다. 매일 오전 9시(KST)에 업데이트됩니다.', italics: true, size: 20 })
+            ]
+        }));
+
+        // Create document
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: children
+            }]
+        });
+
+        return doc;
+    }
 }
 
 // Main execution
@@ -703,16 +963,19 @@ async function main() {
     // Fetch research trends from arXiv
     await recommender.fetchResearchTrends();
 
-    // Generate report
-    const report = recommender.generateReport();
+    // Generate Word document
+    const doc = await recommender.generateWordReport();
+    const buffer = await Packer.toBuffer(doc);
 
-    // Output to console
-    console.log(report);
+    // Save Word document
+    const today = new Date().toISOString().split('T')[0];
+    const wordOutputPath = path.join(__dirname, '..', `PPEL_Lab_일일보고서_${today}.docx`);
+    fs.writeFileSync(wordOutputPath, buffer);
+    console.log(`\n✅ Word 보고서가 저장되었습니다: PPEL_Lab_일일보고서_${today}.docx`);
 
-    // Save to file
-    const outputPath = path.join(__dirname, '..', 'DAILY_TASKS.md');
-    fs.writeFileSync(outputPath, report);
-    console.log(`\n✅ 보고서가 DAILY_TASKS.md에 저장되었습니다.`);
+    // Also save as latest for email attachment
+    const latestPath = path.join(__dirname, '..', 'DAILY_REPORT.docx');
+    fs.writeFileSync(latestPath, buffer);
 
     // Return counts for GitHub Actions
     const toolCount = recommender.researchTools.reduce((sum, area) => sum + area.tools.length, 0);

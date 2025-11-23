@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      contents: read
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -22,69 +22,20 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Run Task Recommender
         id: recommender
         run: |
           node scripts/task-recommender.js
-          echo "report_file=DAILY_TASKS.md" >> $GITHUB_OUTPUT
-
-      - name: Read Report
-        id: read-report
-        run: |
-          REPORT=$(cat DAILY_TASKS.md)
-          # Escape for GitHub Actions
-          REPORT="${REPORT//'%'/'%25'}"
-          REPORT="${REPORT//$'\n'/'%0A'}"
-          REPORT="${REPORT//$'\r'/'%0D'}"
-          echo "report=$REPORT" >> $GITHUB_OUTPUT
-
-      - name: Create or Update Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const today = new Date().toISOString().split('T')[0];
-            const title = `📋 일일 할일 보고서 - ${today}`;
-
-            // Read the report file
-            const fs = require('fs');
-            const report = fs.readFileSync('DAILY_TASKS.md', 'utf8');
-
-            // Check if there's already an issue for today
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: 'daily-tasks',
-              per_page: 1
-            });
-
-            if (issues.data.length > 0) {
-              // Update existing issue
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issues.data[0].number,
-                title: title,
-                body: report
-              });
-              console.log(`Updated issue #${issues.data[0].number}`);
-            } else {
-              // Create new issue
-              const newIssue = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: title,
-                body: report,
-                labels: ['daily-tasks', 'automated']
-              });
-              console.log(`Created issue #${newIssue.data.number}`);
-            }
+          echo "report_file=DAILY_REPORT.docx" >> $GITHUB_OUTPUT
 
       - name: Commit Report
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add DAILY_TASKS.md
+          git add *.docx package.json package-lock.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "📋 Update daily task report - $(date +%Y-%m-%d)"
           git push || echo "Nothing to push"
 
@@ -95,19 +46,20 @@ jobs:
           server_port: ${{ secrets.SMTP_PORT }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "📋 PPEL Lab 일일 보고서 - ${{ github.event.repository.updated_at || 'Today' }}"
+          subject: "PPEL Lab 일일 보고서"
           to: smlim@jbnu.ac.kr
           from: PPEL Lab Bot <${{ secrets.SMTP_USERNAME }}>
           body: |
             안녕하세요 임수만 교수님,
 
-            오늘의 PPEL Lab 일일 보고서입니다.
+            오늘의 PPEL Lab 일일 보고서를 첨부파일(Word)로 보내드립니다.
 
-            자세한 내용은 첨부된 보고서 또는 아래 링크에서 확인하실 수 있습니다:
-            https://github.com/${{ github.repository }}/blob/main/DAILY_TASKS.md
+            - 최신 연구동향 (arXiv 논문)
+            - 연구 프로그램 추천
+            - 웹사이트 개선 작업
 
             감사합니다.
             PPEL Lab 자동화 시스템
           content_type: text/plain
-          attachments: DAILY_TASKS.md
+          attachments: DAILY_REPORT.docx
         continue-on-error: true
