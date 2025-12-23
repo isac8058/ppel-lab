@@ -45,7 +45,7 @@
             --gradient-1: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
             --gradient-2: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
             --gradient-3: linear-gradient(135deg, #06ffa5 0%, #0099ff 100%);
-            --section-padding: 120px 50px;
+            --section-padding: 150px 80px;
         }
 
         /* Light Mode Variables */
@@ -67,7 +67,8 @@
             overflow-x: hidden;
             width: 100%;
             max-width: 100vw;
-            line-height: 1.6;
+            font-size: 18px;
+            line-height: 1.8;
             transition: background 0.3s ease, color 0.3s ease;
         }
 
@@ -1701,8 +1702,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         .stat-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 25px;
+            padding: 50px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -1737,11 +1738,12 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
             margin-bottom: 10px;
             display: block;
         }
@@ -2230,9 +2232,9 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
 
         /* Section Title Styling */
 .section-title {
-            font-size: 3rem;
+            font-size: 3.5rem;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -2522,9 +2524,9 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         .publication-item {
             background: var(--card-bg);
             border: 2px solid transparent;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 25px;
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 35px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -2594,9 +2596,10 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         }
 
         .publication-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
             font-weight: 600;
+            line-height: 1.6;
             word-wrap: break-word;
             overflow-wrap: break-word;
             hyphens: auto;
@@ -2604,17 +2607,20 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
 
         .publication-authors {
             color: var(--text-secondary);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .publication-journal {
             color: var(--accent-blue);
             font-style: italic;
+            font-size: 1.1rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            line-height: 1.6;
         }
 
 /* Patent styling */
@@ -3206,21 +3212,21 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
 
             <!-- Publication Stats -->
             <div style="text-align: center; margin-bottom: 50px; margin-top: 50px;">
-                <div style="display: inline-flex; gap: 50px; align-items: center; flex-wrap: wrap; justify-content: center;">
-                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
-                        <div style="font-size: 2rem; margin-bottom: 5px;">📚</div>
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2,186+</div>
-                        <div style="color: var(--text-secondary); font-size: 0.95rem;" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
+                <div style="display: inline-flex; gap: 60px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <div style="position: relative; padding: 35px 30px; background: var(--card-bg); border-radius: 25px; min-width: 220px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2.8rem; margin-bottom: 15px;">📚</div>
+                        <div style="font-size: 3.2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">2,186+</div>
+                        <div style="color: var(--text-secondary); font-size: 1.1rem;" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
                     </div>
-                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-purple)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
-                        <div style="font-size: 2rem; margin-bottom: 5px;">📄</div>
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100+</div>
-                        <div style="color: var(--text-secondary); font-size: 0.95rem;" data-ko="논문 수" data-en="Publications">Publications</div>
+                    <div style="position: relative; padding: 35px 30px; background: var(--card-bg); border-radius: 25px; min-width: 220px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-purple)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2.8rem; margin-bottom: 15px;">📄</div>
+                        <div style="font-size: 3.2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">100+</div>
+                        <div style="color: var(--text-secondary); font-size: 1.1rem;" data-ko="논문 수" data-en="Publications">Publications</div>
                     </div>
-                    <div style="position: relative; padding: 20px; background: var(--card-bg); border-radius: 20px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
-                        <div style="font-size: 2rem; margin-bottom: 5px;">🎯</div>
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">h-30</div>
-                        <div style="color: var(--text-secondary); font-size: 0.95rem;">h-index</div>
+                    <div style="position: relative; padding: 35px 30px; background: var(--card-bg); border-radius: 25px; min-width: 220px; border: 1px solid var(--border-color); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
+                        <div style="font-size: 2.8rem; margin-bottom: 15px;">🎯</div>
+                        <div style="font-size: 3.2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">h-30</div>
+                        <div style="color: var(--text-secondary); font-size: 1.1rem;">h-index</div>
                     </div>
                 </div>
             </div>
@@ -3266,7 +3272,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             </div>
 
          <!-- 2025 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 30px; font-size: 1.8rem; position: relative; padding-left: 20px;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">
+<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 20px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">
     <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
     2025 Selected Publications
 </h3>
@@ -3313,7 +3319,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     </div>
 </div>
            <!-- 2024 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 30px; margin-top: 60px; font-size: 1.8rem; position: relative; padding-left: 20px;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">
+<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 70px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">
     <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
     2024 Selected Publications
 </h3>
