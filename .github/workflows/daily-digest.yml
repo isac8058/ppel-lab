@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+defaults:
+  run:
+    working-directory: daily-paper-digest
+
 jobs:
   digest:
     runs-on: ubuntu-latest
@@ -23,6 +27,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
+          cache-dependency-path: daily-paper-digest/requirements.txt
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -31,7 +36,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: papers-db
-          path: .
+          path: daily-paper-digest
         continue-on-error: true
 
       - name: Run Daily Paper Digest
@@ -46,16 +51,17 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: papers-db
-          path: papers.db
+          path: daily-paper-digest/papers.db
           retention-days: 90
           overwrite: true
 
       - name: Commit database to repository
         if: success()
+        working-directory: .
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add papers.db || true
+          git add daily-paper-digest/papers.db || true
           git diff --cached --quiet || git commit -m "chore: update papers database $(date +%Y-%m-%d)"
           git push || true
 
@@ -74,6 +80,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
+          cache-dependency-path: daily-paper-digest/requirements.txt
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -82,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: papers-db
-          path: .
+          path: daily-paper-digest
         continue-on-error: true
 
       - name: Retry Daily Paper Digest
@@ -97,15 +104,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: papers-db
-          path: papers.db
+          path: daily-paper-digest/papers.db
           retention-days: 90
           overwrite: true
 
       - name: Commit database to repository
         if: success()
+        working-directory: .
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add papers.db || true
+          git add daily-paper-digest/papers.db || true
           git diff --cached --quiet || git commit -m "chore: update papers database $(date +%Y-%m-%d)"
           git push || true
