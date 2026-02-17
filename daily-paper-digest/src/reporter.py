@@ -2,7 +2,6 @@
 
 import logging
 import os
-from collections import defaultdict
 from datetime import datetime, timezone
 
 from jinja2 import Environment, FileSystemLoader
@@ -23,21 +22,10 @@ def generate_report(
     all_papers_count: int,
     trends: list[dict],
     weekly_trends: list[dict] | None = None,
+    briefing: dict | None = None,
 ) -> str:
     """HTML 이메일 리포트 생성."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-    # PPEL 연관 Top 5 (ppel_score 기준)
-    top_ppel = sorted(papers, key=lambda p: p.ppel_score, reverse=True)[:5]
-
-    # 분야별 그룹핑
-    by_category: dict[str, list[Paper]] = defaultdict(list)
-    for p in papers:
-        if p.tags:
-            for tag in p.tags:
-                by_category[tag].append(p)
-        else:
-            by_category["기타"].append(p)
 
     # DOI 링크 생성
     for p in papers:
@@ -49,21 +37,28 @@ def generate_report(
     if weekly_trends:
         weekly_trend_text = _format_weekly_trends(weekly_trends)
 
+    # 브리핑 데이터 기본값
+    if briefing is None:
+        briefing = {}
+
     # 템플릿 렌더링
     template_dir = _get_template_dir()
     env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
     template = env.get_template("email_template.html")
+
+    # all_papers는 원본 순서 유지 (briefing의 paper_indices와 매칭)
+    # display_papers는 PPEL 점수순 정렬 (하단 전체 목록용)
+    display_papers = sorted(papers, key=lambda p: p.ppel_score, reverse=True)
 
     html = template.render(
         date=today,
         total_collected=all_papers_count,
         analyzed_count=len(papers),
         journal_count=len(set(p.journal for p in papers)),
-        top_ppel=top_ppel,
-        categories=dict(by_category),
-        trends=trends,
+        briefing=briefing,
         weekly_trend_text=weekly_trend_text,
         all_papers=papers,
+        display_papers=display_papers,
     )
 
     logger.info(f"리포트 생성 완료: {len(papers)}편 포함")
