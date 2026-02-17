@@ -62,6 +62,43 @@ TREND_PROMPT = """다음은 오늘 수집된 논문들의 분석 결과입니다
 }}
 """
 
+BRIEFING_PROMPT = """당신은 PPEL(Printed & Flexible Electronics Lab) 연구실의 연구 동향 브리핑 담당자입니다.
+교수님께 매일 아침 보고하는 간결하면서도 통찰력 있는 연구 브리핑을 작성해주세요.
+
+PPEL 연구실 핵심 연구 분야:
+{ppel_fields}
+
+오늘 주요 학술지에서 수집된 논문 {paper_count}편 중 관련성 높은 {analyzed_count}편입니다:
+
+{papers_list}
+
+위 논문들을 종합 분석하여 아래 JSON 형식으로 일일 연구 브리핑을 작성하세요.
+다른 텍스트 없이 JSON만 출력하세요:
+{{
+    "overview": "오늘 수집된 논문들의 전체 동향을 2-3문장으로 요약. 어떤 분야에서 어떤 흐름이 보이는지 거시적으로.",
+    "themes": [
+        {{
+            "title": "주요 연구 테마명 (예: 차세대 에너지 하베스팅 소재)",
+            "summary": "이 테마에 해당하는 연구들의 동향을 3-4문장으로 설명. 무엇이 연구되고 있고, 어떤 방향으로 가고 있는지.",
+            "ppel_relevance": "PPEL 연구실의 구체적 연구(에너지 하베스팅, 바이오센서, 유연소자, 프린팅, DFT 등)와 어떤 접점이 있는지 1-2문장으로.",
+            "relevance_level": "high 또는 medium 또는 low",
+            "paper_indices": [0, 2]
+        }}
+    ],
+    "ppel_action_items": [
+        "PPEL 연구실에서 주목하거나 참고할 만한 구체적 시사점 (2-4개)"
+    ],
+    "hot_keywords": ["오늘의 핵심 키워드 5개 (영어)"]
+}}
+
+작성 가이드:
+- themes는 3~5개, 연관 논문끼리 테마별로 묶어주세요
+- paper_indices는 위 논문 목록의 번호(0부터)를 사용하세요
+- relevance_level이 high인 테마를 먼저 배치하세요
+- 한글로, 교수님께 보고하는 자연스럽고 간결한 문체로 작성
+- 단순 나열이 아닌, 왜 중요한지/어떤 의미인지 분석적 시각을 담아주세요
+"""
+
 
 class GeminiAnalyzer:
     """Gemini API 기반 논문 분석기."""
@@ -201,3 +238,81 @@ class GeminiAnalyzer:
             {"keyword": kw, "description": f"{cnt}회 등장"}
             for kw, cnt in keyword_counts.most_common(5)
         ]
+
+    def generate_briefing(
+        self, papers: list[Paper], total_collected: int
+    ) -> dict:
+        """전체 논문을 종합 분석하여 브리핑 리포트 생성."""
+        if not papers:
+            return {}
+
+        # 논문 목록 텍스트 생성
+        papers_list = ""
+        for i, p in enumerate(papers):
+            abstract_short = (p.abstract[:200] + "...") if len(p.abstract) > 200 else p.abstract
+            papers_list += (
+                f"[{i}] 제목: {p.title}\n"
+                f"    저널: {p.journal}\n"
+                f"    초록: {abstract_short}\n"
+                f"    태그: {', '.join(p.tags)}\n"
+                f"    PPEL 점수: {p.ppel_score}/10\n\n"
+            )
+
+        self._rate_limit_wait()
+
+        prompt = BRIEFING_PROMPT.format(
+            ppel_fields=PPEL_FIELDS,
+            paper_count=total_collected,
+            analyzed_count=len(papers),
+            papers_list=papers_list,
+        )
+
+        try:
+            response = self.model.generate_content(prompt)
+            result = self._parse_json_response(response.text)
+            if result and "overview" in result:
+                logger.info("종합 브리핑 생성 완료")
+                return result
+            else:
+                logger.warning("브리핑 JSON 파싱 실패, 폴백 사용")
+        except Exception as e:
+            logger.error(f"브리핑 생성 실패: {e}")
+
+        # 폴백: 기본 브리핑
+        return self._fallback_briefing(papers)
+
+    def _fallback_briefing(self, papers: list[Paper]) -> dict:
+        """Gemini 실패 시 기본 브리핑 생성."""
+        # 태그별 논문 그룹핑
+        from collections import defaultdict
+        tag_groups: dict[str, list[int]] = defaultdict(list)
+        for i, p in enumerate(papers):
+            for tag in p.tags:
+                tag_groups[tag].append(i)
+
+        themes = []
+        for tag, indices in sorted(tag_groups.items(), key=lambda x: -len(x[1]))[:5]:
+            themes.append({
+                "title": tag,
+                "summary": f"이 분야에서 {len(indices)}편의 논문이 발표되었습니다.",
+                "ppel_relevance": "개별 논문을 확인해주세요.",
+                "relevance_level": "medium",
+                "paper_indices": indices,
+            })
+
+        top_ppel = sorted(papers, key=lambda p: p.ppel_score, reverse=True)[:3]
+        action_items = [
+            f"[PPEL {p.ppel_score}/10] {p.title[:60]}" for p in top_ppel
+        ]
+
+        all_keywords = []
+        for p in papers:
+            all_keywords.extend(p.keywords)
+        keyword_counts = Counter(all_keywords)
+
+        return {
+            "overview": f"오늘 총 {len(papers)}편의 논문이 분석되었습니다. AI 분석이 일시적으로 불가하여 기본 요약을 제공합니다.",
+            "themes": themes,
+            "ppel_action_items": action_items,
+            "hot_keywords": [kw for kw, _ in keyword_counts.most_common(5)],
+        }

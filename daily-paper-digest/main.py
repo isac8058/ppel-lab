@@ -79,19 +79,30 @@ def main():
 
     # 6. Gemini 분석
     logger.info("--- 4단계: Gemini 분석 ---")
+    analyzer = None
+    briefing = {}
     try:
         analyzer = GeminiAnalyzer(config)
         analyzed = analyzer.analyze_papers(filtered)
         trends = analyzer.get_daily_trends(analyzed)
     except ValueError as e:
         logger.error(f"Gemini 초기화 실패: {e}")
-        # 분석 없이 진행
         analyzed = filtered
         trends = []
     except Exception as e:
         logger.error(f"분석 중 오류: {e}")
         analyzed = filtered
         trends = []
+
+    # 6-1. 종합 브리핑 생성
+    logger.info("--- 4-1단계: 종합 브리핑 생성 ---")
+    if analyzer is not None:
+        try:
+            briefing = analyzer.generate_briefing(analyzed, total_collected)
+        except Exception as e:
+            logger.error(f"브리핑 생성 오류: {e}")
+    else:
+        logger.warning("Gemini 미초기화 - 브리핑 생략")
 
     # 7. 데이터베이스 저장
     logger.info("--- 5단계: 데이터베이스 저장 ---")
@@ -104,7 +115,7 @@ def main():
 
     # 9. 리포트 생성
     logger.info("--- 6단계: 리포트 생성 ---")
-    html = generate_report(analyzed, total_collected, trends, weekly_trends)
+    html = generate_report(analyzed, total_collected, trends, weekly_trends, briefing)
     subject = get_email_subject(analyzed)
 
     # 10. 이메일 발송
