@@ -1,0 +1,55 @@
+# Daily Paper Digest Configuration
+
+journals:
+  - name: Nature
+    url: "https://www.nature.com/nature.rss"
+  - name: Science
+    url: "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science"
+  - name: Advanced Materials
+    url: "https://onlinelibrary.wiley.com/feed/15214095/most-recent"
+  - name: ACS Nano
+    url: "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=ancac3"
+  - name: Nano Energy
+    url: "https://rss.sciencedirect.com/publication/science/22112855"
+  - name: Biosensors and Bioelectronics
+    url: "https://rss.sciencedirect.com/publication/science/09565663"
+  - name: Advanced Functional Materials
+    url: "https://onlinelibrary.wiley.com/feed/16163028/most-recent"
+  - name: "Energy & Environmental Science"
+    url: "https://pubs.rsc.org/en/journals/journalissues/ee#!recentarticles&adv"
+
+keywords:
+  - energy harvesting
+  - triboelectric
+  - piezoelectric
+  - MXene
+  - biosensor
+  - electrochemical sensor
+  - flexible electronics
+  - printed electronics
+  - DFT
+  - first-principles
+  - wearable
+  - nanogenerator
+  - strain sensor
+  - glucose sensor
+  - 2D materials
+  - perovskite
+  - self-powered
+  - impedimetric
+  - voltammetric
+  - screen printing
+  - inkjet printing
+  - 3D printing
+
+email:
+  recipient: "smlim@jbnu.ac.kr"
+
+analysis:
+  max_papers: 20
+  relevance_threshold: 3
+  time_window_hours: 48
+
+gemini:
+  model: "gemini-2.0-flash"
+  rate_limit_per_minute: 14

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Paper Digest - {{ date }}</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  .container {
+    background: #ffffff;
+    margin: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .header {
+    background: linear-gradient(135deg, #1a237e, #283593);
+    color: white;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .header h1 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .header .stats {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .section {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+  }
+  .section:last-child {
+    border-bottom: none;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a237e;
+    margin: 0 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e8eaf6;
+  }
+  .paper-card {
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-left: 4px solid #3f51b5;
+  }
+  .paper-card.top {
+    border-left-color: #ff5722;
+    background: #fff3e0;
+  }
+  .paper-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a237e;
+    margin: 0 0 6px 0;
+  }
+  .paper-title a {
+    color: #1a237e;
+    text-decoration: none;
+  }
+  .paper-title a:hover {
+    text-decoration: underline;
+  }
+  .paper-meta {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  .paper-meta .journal {
+    background: #e8eaf6;
+    color: #283593;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .paper-meta .score {
+    background: #ff5722;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+  .paper-summary {
+    font-size: 13px;
+    color: #444;
+    margin: 8px 0;
+    white-space: pre-line;
+  }
+  .paper-novelty {
+    font-size: 12px;
+    color: #e65100;
+    font-weight: 500;
+    margin: 4px 0;
+  }
+  .paper-tags {
+    margin-top: 6px;
+  }
+  .tag {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin: 2px 4px 2px 0;
+  }
+  .trend-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .trend-item:last-child {
+    border-bottom: none;
+  }
+  .trend-rank {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff5722;
+    width: 30px;
+    text-align: center;
+  }
+  .trend-info {
+    flex: 1;
+    padding-left: 12px;
+  }
+  .trend-keyword {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+  }
+  .trend-desc {
+    font-size: 12px;
+    color: #666;
+  }
+  .weekly-trends {
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .all-papers-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .all-papers-table th {
+    background: #e8eaf6;
+    color: #1a237e;
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .all-papers-table td {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+  .all-papers-table tr:hover {
+    background: #fafafa;
+  }
+  .footer {
+    text-align: center;
+    padding: 16px 20px;
+    font-size: 11px;
+    color: #999;
+    background: #fafafa;
+  }
+  .no-papers {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-size: 16px;
+  }
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .container { margin: 0; border-radius: 0; }
+    .header { padding: 16px; }
+    .header h1 { font-size: 18px; }
+    .section { padding: 14px; }
+    .paper-card { padding: 10px; }
+    .all-papers-table { font-size: 11px; }
+    .all-papers-table th, .all-papers-table td { padding: 6px 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- 헤더: 날짜 & 수집 통계 -->
+  <div class="header">
+    <h1>&#128218; Daily Paper Digest</h1>
+    <div class="stats">
+      &#128197; {{ date }} |
+      수집 {{ total_collected }}편 |
+      분석 {{ analyzed_count }}편 |
+      저널 {{ journal_count }}종
+    </div>
+  </div>
+
+  {% if not all_papers %}
+  <div class="no-papers">
+    &#128543; 오늘은 관련 논문이 없습니다.
+  </div>
+  {% else %}
+
+  <!-- PPEL 연관 Top 5 -->
+  {% if top_ppel %}
+  <div class="section">
+    <h2 class="section-title">&#128293; PPEL 연관 Top 5</h2>
+    {% for paper in top_ppel %}
+    <div class="paper-card top">
+      <div class="paper-title">
+        {% if paper.doi %}
+        <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
+        {% else %}
+        {{ paper.title }}
+        {% endif %}
+      </div>
+      <div class="paper-meta">
+        <span class="journal">{{ paper.journal }}</span>
+        <span class="score">PPEL {{ paper.ppel_score }}/10</span>
+      </div>
+      {% if paper.summary %}
+      <div class="paper-summary">{{ paper.summary }}</div>
+      {% endif %}
+      {% if paper.novelty %}
+      <div class="paper-novelty">&#128161; {{ paper.novelty }}</div>
+      {% endif %}
+      {% if paper.tags %}
+      <div class="paper-tags">
+        {% for tag in paper.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- 분야별 논문 요약 -->
+  {% if categories %}
+  <div class="section">
+    <h2 class="section-title">&#128209; 분야별 논문 요약</h2>
+    {% for category, cat_papers in categories.items() %}
+    <h3 style="font-size:14px; color:#333; margin:16px 0 8px 0;">{{ category }} ({{ cat_papers|length }}편)</h3>
+    {% for paper in cat_papers %}
+    <div class="paper-card">
+      <div class="paper-title">
+        {% if paper.doi %}
+        <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
+        {% else %}
+        {{ paper.title }}
+        {% endif %}
+      </div>
+      <div class="paper-meta">
+        <span class="journal">{{ paper.journal }}</span>
+      </div>
+      {% if paper.summary %}
+      <div class="paper-summary">{{ paper.summary }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- 트렌드 키워드 -->
+  {% if trends %}
+  <div class="section">
+    <h2 class="section-title">&#128200; 일간 트렌드 키워드</h2>
+    {% for trend in trends %}
+    <div class="trend-item">
+      <div class="trend-rank">{{ loop.index }}</div>
+      <div class="trend-info">
+        <div class="trend-keyword">{{ trend.keyword }}</div>
+        {% if trend.description %}
+        <div class="trend-desc">{{ trend.description }}</div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+
+    {% if weekly_trend_text %}
+    <h3 style="font-size:13px; color:#666; margin:16px 0 8px 0;">&#128197; 최근 7일 키워드 빈도 변화</h3>
+    <div class="weekly-trends">{{ weekly_trend_text }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- 전체 논문 리스트 -->
+  <div class="section">
+    <h2 class="section-title">&#128203; 전체 논문 리스트</h2>
+    <table class="all-papers-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>제목</th>
+          <th>저널</th>
+          <th>PPEL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for paper in all_papers %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>
+            {% if paper.doi %}
+            <a href="https://doi.org/{{ paper.doi }}" style="color:#1a237e; text-decoration:none;">{{ paper.title }}</a>
+            {% else %}
+            {{ paper.title }}
+            {% endif %}
+          </td>
+          <td>{{ paper.journal }}</td>
+          <td style="text-align:center;">{{ paper.ppel_score }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% endif %}
+
+  <!-- 푸터 -->
+  <div class="footer">
+    PPEL Lab Daily Paper Digest | Powered by Gemini AI<br>
+    이 이메일은 자동으로 생성되었습니다.
+  </div>
+</div>
+</body>
+</html>
