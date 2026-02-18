@@ -50,6 +50,33 @@ ANALYSIS_PROMPT = """다음 논문을 분석해주세요.
 5. trend_keywords: 이 논문의 핵심 트렌드 키워드 3개 (영어)
 """
 
+BATCH_ANALYSIS_PROMPT = """다음 논문들을 각각 분석해주세요.
+
+{papers_block}
+
+아래 형식의 JSON 배열로만 응답하세요. 다른 텍스트 없이 JSON만 출력하세요:
+[
+    {{
+        "index": 0,
+        "summary_kr": ["첫 번째 요약 문장", "두 번째 요약 문장", "세 번째 요약 문장"],
+        "novelty": "핵심 기여/novelty 한 줄 설명",
+        "tags": ["연구 분야 태그1", "태그2"],
+        "ppel_score": 5,
+        "trend_keywords": ["키워드1", "키워드2", "키워드3"]
+    }},
+    ...
+]
+
+분석 기준 (각 논문마다 적용):
+1. index: 위 논문 번호 (0부터)
+2. summary_kr: 한글로 3문장 요약 (각 문장은 명확하고 구체적으로)
+3. novelty: 이 논문의 핵심 기여나 새로운 점을 한 줄로 (한글)
+4. tags: 관련 연구 분야 태그 (영어, 복수 가능)
+5. ppel_score: PPEL 연구실 연관성 점수 (1-10)
+   PPEL 연구분야: {ppel_fields}
+6. trend_keywords: 이 논문의 핵심 트렌드 키워드 3개 (영어)
+"""
+
 TREND_PROMPT = """다음은 오늘 수집된 논문들의 분석 결과입니다.
 
 {papers_info}
@@ -121,6 +148,7 @@ class GeminiAnalyzer:
         self._errors: list[str] = []  # 에러 추적
         self._success_count = 0
         self._fail_count = 0
+        self._quota_exhausted = False
 
     def _rate_limit_wait(self):
         """Rate limiting: 분당 호출 횟수 제한."""
@@ -143,6 +171,9 @@ class GeminiAnalyzer:
         Returns:
             응답 텍스트 또는 None (모든 재시도 실패 시)
         """
+        if self._quota_exhausted:
+            return None
+
         last_error = None
         for attempt in range(MAX_RETRIES):
             self._rate_limit_wait()
@@ -152,6 +183,13 @@ class GeminiAnalyzer:
             except Exception as e:
                 last_error = e
                 error_str = str(e)
+
+                # 429 할당량 초과는 재시도해도 해결 안 됨 → 즉시 중단
+                if "429" in error_str or "quota" in error_str.lower() or "ResourceExhausted" in error_str:
+                    logger.error(f"Gemini API 할당량 초과 - 재시도 중단: {error_str[:150]}")
+                    self._quota_exhausted = True
+                    break
+
                 delay = RETRY_BASE_DELAY * (2 ** attempt)
                 if attempt < MAX_RETRIES - 1:
                     logger.warning(
@@ -232,19 +270,113 @@ class GeminiAnalyzer:
 
         return paper
 
-    def analyze_papers(self, papers: list[Paper]) -> list[Paper]:
-        """여러 논문 분석."""
-        total = len(papers)
-        for i, paper in enumerate(papers):
-            logger.info(f"분석 중 ({i + 1}/{total}): {paper.title[:60]}")
-            self.analyze_paper(paper)
+    def _parse_json_array_response(self, text: str) -> list[dict]:
+        """Gemini 응답에서 JSON 배열 파싱."""
+        text = text.strip()
+        if text.startswith("```"):
+            lines = text.split("\n")
+            lines = [l for l in lines if not l.strip().startswith("```")]
+            text = "\n".join(lines)
 
-            # 첫 3개 논문이 연속 실패하면 API 문제로 판단하고 나머지 건너뛰기
-            if i == 2 and self._fail_count == 3 and self._success_count == 0:
+        try:
+            result = json.loads(text)
+            if isinstance(result, list):
+                return result
+        except json.JSONDecodeError:
+            pass
+
+        # JSON 배열 부분만 추출
+        match = re.search(r"\[.*\]", text, re.DOTALL)
+        if match:
+            try:
+                result = json.loads(match.group())
+                if isinstance(result, list):
+                    return result
+            except json.JSONDecodeError:
+                pass
+
+        logger.warning(f"JSON 배열 파싱 실패: {text[:200]}")
+        return []
+
+    def _analyze_batch(self, papers: list[Paper], start_idx: int) -> int:
+        """논문 배치를 한 번의 API 호출로 분석. 성공 건수 반환."""
+        papers_block = ""
+        for i, p in enumerate(papers):
+            abstract_short = (p.abstract[:300] + "...") if p.abstract and len(p.abstract) > 300 else (p.abstract or "(초록 없음)")
+            papers_block += (
+                f"[{i}] 제목: {p.title}\n"
+                f"    저널: {p.journal}\n"
+                f"    초록: {abstract_short}\n\n"
+            )
+
+        prompt = BATCH_ANALYSIS_PROMPT.format(
+            papers_block=papers_block,
+            ppel_fields=PPEL_FIELDS,
+        )
+
+        response_text = self._call_gemini(prompt)
+        if response_text is None:
+            self._fail_count += len(papers)
+            for p in papers:
+                p.summary = "분석 불가: Gemini API 호출 실패"
+            return 0
+
+        results = self._parse_json_array_response(response_text)
+        if not results:
+            # 배열 파싱 실패 시 단일 JSON으로 시도
+            single = self._parse_json_response(response_text)
+            if single and "summary_kr" in single:
+                results = [single]
+
+        success = 0
+        result_map = {r.get("index", i): r for i, r in enumerate(results)}
+
+        for i, p in enumerate(papers):
+            result = result_map.get(i)
+            if result and "summary_kr" in result:
+                summary_lines = result.get("summary_kr", [])
+                p.summary = "\n".join(summary_lines) if isinstance(summary_lines, list) else str(summary_lines)
+                p.novelty = result.get("novelty", "")
+                p.tags = result.get("tags", [])
+                p.ppel_score = int(result.get("ppel_score", 0))
+                p.keywords = result.get("trend_keywords", [])
+                self._success_count += 1
+                success += 1
+            else:
+                self._fail_count += 1
+                p.summary = "분석 불가: 배치 응답에서 누락"
+
+        return success
+
+    def analyze_papers(self, papers: list[Paper]) -> list[Paper]:
+        """여러 논문 배치 분석 (API 호출 절감)."""
+        total = len(papers)
+        batch_size = 5
+        logger.info(f"배치 분석 시작: 총 {total}편, 배치 크기 {batch_size}")
+
+        for batch_start in range(0, total, batch_size):
+            batch = papers[batch_start:batch_start + batch_size]
+            batch_num = batch_start // batch_size + 1
+            total_batches = (total + batch_size - 1) // batch_size
+            logger.info(f"배치 {batch_num}/{total_batches} 분석 중 ({len(batch)}편)")
+
+            success = self._analyze_batch(batch, batch_start)
+
+            # 할당량 초과 시 즉시 중단
+            if self._quota_exhausted:
+                logger.error("할당량 초과로 나머지 배치 건너뜁니다.")
+                for p in papers[batch_start + len(batch):]:
+                    p.summary = "분석 불가: API 할당량 초과"
+                break
+
+            # 첫 배치 전체 실패 시 중단
+            if batch_start == 0 and success == 0:
                 logger.error(
-                    "처음 3편 연속 실패 - Gemini API 문제로 판단하여 나머지 건너뜁니다. "
+                    f"첫 배치 전체 실패 - API 문제로 판단하여 나머지 건너뜁니다. "
                     f"에러: {'; '.join(self._errors)}"
                 )
+                for p in papers[batch_size:]:
+                    p.summary = "분석 불가: API 오류로 건너뜀"
                 break
 
         logger.info(
@@ -254,33 +386,16 @@ class GeminiAnalyzer:
         return papers
 
     def get_daily_trends(self, papers: list[Paper]) -> list[dict]:
-        """일간 트렌드 키워드 Top 5 추출."""
+        """일간 트렌드 키워드 Top 5 추출 (API 호출 없이 키워드 빈도 기반)."""
         if not papers:
             return []
 
-        # 먼저 각 논문의 키워드로 기본 트렌드 계산
         all_keywords = []
         for p in papers:
             all_keywords.extend(p.keywords)
 
         keyword_counts = Counter(all_keywords)
 
-        # Gemini로 종합 트렌드 분석
-        papers_info = ""
-        for p in papers:
-            papers_info += f"- {p.title} [{p.journal}]: {', '.join(p.tags)}\n"
-            if p.keywords:
-                papers_info += f"  키워드: {', '.join(p.keywords)}\n"
-
-        prompt = TREND_PROMPT.format(papers_info=papers_info)
-        response_text = self._call_gemini(prompt)
-        if response_text:
-            result = self._parse_json_response(response_text)
-            trends = result.get("trend_keywords", [])
-            if trends:
-                return trends
-
-        # 폴백: 키워드 빈도 기반
         return [
             {"keyword": kw, "description": f"{cnt}회 등장"}
             for kw, cnt in keyword_counts.most_common(5)
