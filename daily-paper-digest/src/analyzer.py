@@ -3,14 +3,19 @@
 import json
 import logging
 import os
+import re
 import time
-from collections import Counter
+from collections import Counter, defaultdict
 
 import google.generativeai as genai
 
 from src.collector import Paper
 
 logger = logging.getLogger(__name__)
+
+# 재시도 설정
+MAX_RETRIES = 3
+RETRY_BASE_DELAY = 5  # seconds
 
 # PPEL 연구 분야 설명
 PPEL_FIELDS = (
@@ -113,6 +118,9 @@ class GeminiAnalyzer:
         self.model = genai.GenerativeModel(model_name)
         self.rate_limit = config.get("gemini", {}).get("rate_limit_per_minute", 14)
         self._call_times: list[float] = []
+        self._errors: list[str] = []  # 에러 추적
+        self._success_count = 0
+        self._fail_count = 0
 
     def _rate_limit_wait(self):
         """Rate limiting: 분당 호출 횟수 제한."""
@@ -129,6 +137,40 @@ class GeminiAnalyzer:
 
         self._call_times.append(time.time())
 
+    def _call_gemini(self, prompt: str) -> str | None:
+        """Gemini API 호출 (재시도 포함).
+
+        Returns:
+            응답 텍스트 또는 None (모든 재시도 실패 시)
+        """
+        last_error = None
+        for attempt in range(MAX_RETRIES):
+            self._rate_limit_wait()
+            try:
+                response = self.model.generate_content(prompt)
+                return response.text
+            except Exception as e:
+                last_error = e
+                error_str = str(e)
+                delay = RETRY_BASE_DELAY * (2 ** attempt)
+                if attempt < MAX_RETRIES - 1:
+                    logger.warning(
+                        f"Gemini API 호출 실패 (시도 {attempt + 1}/{MAX_RETRIES}): "
+                        f"{error_str[:100]} → {delay}초 후 재시도"
+                    )
+                    time.sleep(delay)
+                else:
+                    logger.error(
+                        f"Gemini API 호출 최종 실패 ({MAX_RETRIES}회 시도): "
+                        f"{error_str[:200]}"
+                    )
+        # 에러 유형 기록 (중복 제거용 짧은 키)
+        if last_error:
+            error_key = type(last_error).__name__
+            if error_key not in [e.split(":")[0] for e in self._errors]:
+                self._errors.append(f"{error_key}: {str(last_error)[:100]}")
+        return None
+
     def _parse_json_response(self, text: str) -> dict:
         """Gemini 응답에서 JSON 파싱."""
         # 코드 블록 제거
@@ -143,8 +185,6 @@ class GeminiAnalyzer:
             return json.loads(text)
         except json.JSONDecodeError:
             # JSON 부분만 추출 시도
-            import re
-
             match = re.search(r"\{.*\}", text, re.DOTALL)
             if match:
                 try:
@@ -160,8 +200,6 @@ class GeminiAnalyzer:
             paper.summary = "분석 불가: 제목 및 초록 없음"
             return paper
 
-        self._rate_limit_wait()
-
         prompt = ANALYSIS_PROMPT.format(
             title=paper.title,
             journal=paper.journal,
@@ -169,27 +207,28 @@ class GeminiAnalyzer:
             ppel_fields=PPEL_FIELDS,
         )
 
-        try:
-            response = self.model.generate_content(prompt)
-            result = self._parse_json_response(response.text)
+        response_text = self._call_gemini(prompt)
+        if response_text is None:
+            self._fail_count += 1
+            paper.summary = "분석 불가: Gemini API 호출 실패"
+            return paper
 
-            if result:
-                summary_lines = result.get("summary_kr", [])
-                if isinstance(summary_lines, list):
-                    paper.summary = "\n".join(summary_lines)
-                else:
-                    paper.summary = str(summary_lines)
-
-                paper.novelty = result.get("novelty", "")
-                paper.tags = result.get("tags", [])
-                paper.ppel_score = int(result.get("ppel_score", 0))
-                paper.keywords = result.get("trend_keywords", [])
+        result = self._parse_json_response(response_text)
+        if result:
+            summary_lines = result.get("summary_kr", [])
+            if isinstance(summary_lines, list):
+                paper.summary = "\n".join(summary_lines)
             else:
-                paper.summary = "분석 불가: 응답 파싱 실패"
+                paper.summary = str(summary_lines)
 
-        except Exception as e:
-            logger.error(f"논문 분석 실패: {paper.title[:50]} - {e}")
-            paper.summary = f"분석 불가: {str(e)[:100]}"
+            paper.novelty = result.get("novelty", "")
+            paper.tags = result.get("tags", [])
+            paper.ppel_score = int(result.get("ppel_score", 0))
+            paper.keywords = result.get("trend_keywords", [])
+            self._success_count += 1
+        else:
+            self._fail_count += 1
+            paper.summary = "분석 불가: 응답 파싱 실패"
 
         return paper
 
@@ -199,7 +238,19 @@ class GeminiAnalyzer:
         for i, paper in enumerate(papers):
             logger.info(f"분석 중 ({i + 1}/{total}): {paper.title[:60]}")
             self.analyze_paper(paper)
-        logger.info(f"총 {total}편 분석 완료")
+
+            # 첫 3개 논문이 연속 실패하면 API 문제로 판단하고 나머지 건너뛰기
+            if i == 2 and self._fail_count == 3 and self._success_count == 0:
+                logger.error(
+                    "처음 3편 연속 실패 - Gemini API 문제로 판단하여 나머지 건너뜁니다. "
+                    f"에러: {'; '.join(self._errors)}"
+                )
+                break
+
+        logger.info(
+            f"분석 결과: 전체 {total}편 중 성공 {self._success_count}편, "
+            f"실패 {self._fail_count}편"
+        )
         return papers
 
     def get_daily_trends(self, papers: list[Paper]) -> list[dict]:
@@ -221,17 +272,13 @@ class GeminiAnalyzer:
             if p.keywords:
                 papers_info += f"  키워드: {', '.join(p.keywords)}\n"
 
-        self._rate_limit_wait()
-
-        try:
-            prompt = TREND_PROMPT.format(papers_info=papers_info)
-            response = self.model.generate_content(prompt)
-            result = self._parse_json_response(response.text)
+        prompt = TREND_PROMPT.format(papers_info=papers_info)
+        response_text = self._call_gemini(prompt)
+        if response_text:
+            result = self._parse_json_response(response_text)
             trends = result.get("trend_keywords", [])
             if trends:
                 return trends
-        except Exception as e:
-            logger.error(f"트렌드 분석 실패: {e}")
 
         # 폴백: 키워드 빈도 기반
         return [
@@ -258,8 +305,6 @@ class GeminiAnalyzer:
                 f"    PPEL 점수: {p.ppel_score}/10\n\n"
             )
 
-        self._rate_limit_wait()
-
         prompt = BRIEFING_PROMPT.format(
             ppel_fields=PPEL_FIELDS,
             paper_count=total_collected,
@@ -267,51 +312,87 @@ class GeminiAnalyzer:
             papers_list=papers_list,
         )
 
-        try:
-            response = self.model.generate_content(prompt)
-            result = self._parse_json_response(response.text)
+        response_text = self._call_gemini(prompt)
+        if response_text:
+            result = self._parse_json_response(response_text)
             if result and "overview" in result:
                 logger.info("종합 브리핑 생성 완료")
                 return result
             else:
                 logger.warning("브리핑 JSON 파싱 실패, 폴백 사용")
-        except Exception as e:
-            logger.error(f"브리핑 생성 실패: {e}")
 
         # 폴백: 기본 브리핑
         return self._fallback_briefing(papers)
 
     def _fallback_briefing(self, papers: list[Paper]) -> dict:
         """Gemini 실패 시 기본 브리핑 생성."""
-        # 태그별 논문 그룹핑
-        from collections import defaultdict
+        # 1. 태그별 논문 그룹핑 (분석 성공한 논문이 있는 경우)
         tag_groups: dict[str, list[int]] = defaultdict(list)
         for i, p in enumerate(papers):
             for tag in p.tags:
                 tag_groups[tag].append(i)
 
         themes = []
-        for tag, indices in sorted(tag_groups.items(), key=lambda x: -len(x[1]))[:5]:
-            themes.append({
-                "title": tag,
-                "summary": f"이 분야에서 {len(indices)}편의 논문이 발표되었습니다.",
-                "ppel_relevance": "개별 논문을 확인해주세요.",
-                "relevance_level": "medium",
-                "paper_indices": indices,
-            })
 
-        top_ppel = sorted(papers, key=lambda p: p.ppel_score, reverse=True)[:3]
-        action_items = [
-            f"[PPEL {p.ppel_score}/10] {p.title[:60]}" for p in top_ppel
-        ]
+        if tag_groups:
+            # 태그 기반 테마 생성
+            for tag, indices in sorted(tag_groups.items(), key=lambda x: -len(x[1]))[:5]:
+                themes.append({
+                    "title": tag,
+                    "summary": f"이 분야에서 {len(indices)}편의 논문이 발표되었습니다.",
+                    "ppel_relevance": "개별 논문을 확인해주세요.",
+                    "relevance_level": "medium",
+                    "paper_indices": indices,
+                })
+        else:
+            # 태그도 없는 경우: 저널별 그룹핑으로 최소한의 테마 생성
+            journal_groups: dict[str, list[int]] = defaultdict(list)
+            for i, p in enumerate(papers):
+                journal_groups[p.journal].append(i)
+
+            for journal, indices in sorted(
+                journal_groups.items(), key=lambda x: -len(x[1])
+            )[:5]:
+                titles = [papers[i].title[:50] for i in indices[:3]]
+                titles_text = "; ".join(titles)
+                themes.append({
+                    "title": f"{journal} 논문 ({len(indices)}편)",
+                    "summary": f"주요 논문: {titles_text}",
+                    "ppel_relevance": "개별 논문을 확인해주세요.",
+                    "relevance_level": "medium",
+                    "paper_indices": indices,
+                })
+
+        # PPEL 점수가 있는 논문과 없는 논문 구분
+        analyzed_papers = [p for p in papers if p.ppel_score > 0]
+        if analyzed_papers:
+            top_ppel = sorted(analyzed_papers, key=lambda p: p.ppel_score, reverse=True)[:3]
+            action_items = [
+                f"[PPEL {p.ppel_score}/10] {p.title[:60]}" for p in top_ppel
+            ]
+        else:
+            # 분석 미완료 시 논문 제목만 표시
+            action_items = [
+                f"{p.title[:70]}" for p in papers[:3]
+            ]
 
         all_keywords = []
         for p in papers:
             all_keywords.extend(p.keywords)
         keyword_counts = Counter(all_keywords)
 
+        # 에러 정보 포함
+        error_note = ""
+        if self._errors:
+            error_note = f" (오류: {'; '.join(self._errors[:2])})"
+
+        overview = (
+            f"오늘 총 {len(papers)}편의 논문이 수집되었습니다. "
+            f"AI 분석이 일시적으로 불가하여 기본 요약을 제공합니다.{error_note}"
+        )
+
         return {
-            "overview": f"오늘 총 {len(papers)}편의 논문이 분석되었습니다. AI 분석이 일시적으로 불가하여 기본 요약을 제공합니다.",
+            "overview": overview,
             "themes": themes,
             "ppel_action_items": action_items,
             "hot_keywords": [kw for kw, _ in keyword_counts.most_common(5)],

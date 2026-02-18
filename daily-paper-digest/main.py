@@ -101,8 +101,38 @@ def main():
             briefing = analyzer.generate_briefing(analyzed, total_collected)
         except Exception as e:
             logger.error(f"브리핑 생성 오류: {e}")
+            briefing = analyzer._fallback_briefing(analyzed)
     else:
-        logger.warning("Gemini 미초기화 - 브리핑 생략")
+        logger.warning("Gemini 미초기화 - 기본 브리핑 생성")
+        # analyzer 없이도 최소한의 브리핑 제공
+        from collections import defaultdict
+        journal_groups: dict[str, list[int]] = defaultdict(list)
+        for i, p in enumerate(analyzed):
+            journal_groups[p.journal].append(i)
+
+        themes = []
+        for journal, indices in sorted(
+            journal_groups.items(), key=lambda x: -len(x[1])
+        )[:5]:
+            titles = [analyzed[i].title[:50] for i in indices[:3]]
+            themes.append({
+                "title": f"{journal} ({len(indices)}편)",
+                "summary": "; ".join(titles),
+                "ppel_relevance": "개별 논문을 확인해주세요.",
+                "relevance_level": "medium",
+                "paper_indices": indices,
+            })
+
+        briefing = {
+            "overview": (
+                f"오늘 총 {len(analyzed)}편의 논문이 수집되었습니다. "
+                "Gemini API 초기화 실패로 AI 분석을 수행하지 못했습니다. "
+                "GEMINI_API_KEY 설정을 확인해주세요."
+            ),
+            "themes": themes,
+            "ppel_action_items": [p.title[:70] for p in analyzed[:3]],
+            "hot_keywords": [],
+        }
 
     # 7. 데이터베이스 저장
     logger.info("--- 5단계: 데이터베이스 저장 ---")
