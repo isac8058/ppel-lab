@@ -56,7 +56,7 @@ def compute_relevance(papers: list[Paper], keywords: list[str]) -> list[Paper]:
 def filter_papers(
     papers: list[Paper],
     keywords: list[str],
-    max_papers: int = 20,
+    max_papers: int = 10,
     relevance_threshold: float = 3.0,
 ) -> list[Paper]:
     """키워드 기반 필터링 및 상위 논문 선별."""

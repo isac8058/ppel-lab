@@ -49,9 +49,8 @@ def main():
 
     if total_collected == 0:
         logger.warning("수집된 논문이 없습니다.")
-        # 빈 리포트 발송
         html = generate_report([], 0, [])
-        subject = get_email_subject([])
+        subject = get_email_subject([], ai_success=False)
         recipient = config.get("email", {}).get("recipient", "smlim@jbnu.ac.kr")
         send_email(subject, html, recipient)
         logger.info("빈 리포트 발송 완료")
@@ -65,74 +64,43 @@ def main():
     if not new_papers:
         logger.info("모든 논문이 이미 처리되었습니다.")
         html = generate_report([], total_collected, [])
-        subject = get_email_subject([])
+        subject = get_email_subject([], ai_success=False)
         recipient = config.get("email", {}).get("recipient", "smlim@jbnu.ac.kr")
         send_email(subject, html, recipient)
         return
 
-    # 5. 키워드 필터링
+    # 5. 키워드 필터링 (상위 10편)
     logger.info("--- 3단계: 키워드 필터링 ---")
     keywords = config.get("keywords", [])
-    max_papers = config.get("analysis", {}).get("max_papers", 20)
+    max_papers = config.get("analysis", {}).get("max_papers", 10)
     threshold = config.get("analysis", {}).get("relevance_threshold", 3)
     filtered = filter_papers(new_papers, keywords, max_papers, threshold)
+    logger.info(f"Gemini 분석 대상: {len(filtered)}편")
 
-    # 6. Gemini 분석
-    logger.info("--- 4단계: Gemini 분석 ---")
-    analyzer = None
-    briefing = {}
+    # 6. Gemini 1회 호출로 전체 분석 + 브리핑 + 트렌드
+    logger.info("--- 4단계: Gemini 분석 (1회 API 호출) ---")
+    ai_success = False
     try:
         analyzer = GeminiAnalyzer(config)
-        analyzed = analyzer.analyze_papers(filtered)
-        trends = analyzer.get_daily_trends(analyzed)
+        result = analyzer.analyze_all(filtered, total_collected)
+        analyzed = result["papers"]
+        briefing = result["briefing"]
+        trends = result["trends"]
+        ai_success = result["success"]
+        logger.info(
+            f"Gemini 분석 {'성공' if ai_success else '실패 (fallback)'} | "
+            f"API 호출 횟수: {analyzer.api_calls}회"
+        )
     except ValueError as e:
         logger.error(f"Gemini 초기화 실패: {e}")
         analyzed = filtered
+        briefing = {}
         trends = []
     except Exception as e:
         logger.error(f"분석 중 오류: {e}")
         analyzed = filtered
+        briefing = {}
         trends = []
-
-    # 6-1. 종합 브리핑 생성
-    logger.info("--- 4-1단계: 종합 브리핑 생성 ---")
-    if analyzer is not None:
-        try:
-            briefing = analyzer.generate_briefing(analyzed, total_collected)
-        except Exception as e:
-            logger.error(f"브리핑 생성 오류: {e}")
-            briefing = analyzer._fallback_briefing(analyzed)
-    else:
-        logger.warning("Gemini 미초기화 - 기본 브리핑 생성")
-        # analyzer 없이도 최소한의 브리핑 제공
-        from collections import defaultdict
-        journal_groups: dict[str, list[int]] = defaultdict(list)
-        for i, p in enumerate(analyzed):
-            journal_groups[p.journal].append(i)
-
-        themes = []
-        for journal, indices in sorted(
-            journal_groups.items(), key=lambda x: -len(x[1])
-        )[:5]:
-            titles = [analyzed[i].title[:50] for i in indices[:3]]
-            themes.append({
-                "title": f"{journal} ({len(indices)}편)",
-                "summary": "; ".join(titles),
-                "ppel_relevance": "개별 논문을 확인해주세요.",
-                "relevance_level": "medium",
-                "paper_indices": indices,
-            })
-
-        briefing = {
-            "overview": (
-                f"오늘 총 {len(analyzed)}편의 논문이 수집되었습니다. "
-                "Gemini API 초기화 실패로 AI 분석을 수행하지 못했습니다. "
-                "GEMINI_API_KEY 설정을 확인해주세요."
-            ),
-            "themes": themes,
-            "ppel_action_items": [p.title[:70] for p in analyzed[:3]],
-            "hot_keywords": [],
-        }
 
     # 7. 데이터베이스 저장
     logger.info("--- 5단계: 데이터베이스 저장 ---")
@@ -145,8 +113,10 @@ def main():
 
     # 9. 리포트 생성
     logger.info("--- 6단계: 리포트 생성 ---")
-    html = generate_report(analyzed, total_collected, trends, weekly_trends, briefing)
-    subject = get_email_subject(analyzed)
+    html = generate_report(
+        analyzed, total_collected, trends, weekly_trends, briefing, ai_success
+    )
+    subject = get_email_subject(analyzed, ai_success)
 
     # 10. 이메일 발송
     logger.info("--- 7단계: 이메일 발송 ---")
@@ -156,7 +126,10 @@ def main():
     if success:
         logger.info("=" * 60)
         logger.info("Daily Paper Digest 완료!")
-        logger.info(f"수집: {total_collected}편 | 분석: {len(analyzed)}편 | 발송: {recipient}")
+        logger.info(
+            f"수집: {total_collected}편 | 분석: {len(analyzed)}편 | "
+            f"AI: {'성공' if ai_success else 'fallback'} | 발송: {recipient}"
+        )
         logger.info("=" * 60)
     else:
         logger.error("이메일 발송 실패")

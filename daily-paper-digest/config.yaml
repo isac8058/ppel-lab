@@ -46,7 +46,7 @@ email:
   recipient: "smlim@jbnu.ac.kr"
 
 analysis:
-  max_papers: 20
+  max_papers: 10
   relevance_threshold: 3
   time_window_hours: 48
 
