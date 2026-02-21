@@ -17,12 +17,22 @@ def _get_template_dir() -> str:
     return os.path.join(base, "templates")
 
 
+def _relevance_label(score: float) -> str:
+    """키워드 매칭 점수를 High/Medium/Low 라벨로 변환."""
+    if score >= 7:
+        return "High"
+    elif score >= 4:
+        return "Medium"
+    return "Low"
+
+
 def generate_report(
     papers: list[Paper],
     all_papers_count: int,
     trends: list[dict],
     weekly_trends: list[dict] | None = None,
     briefing: dict | None = None,
+    ai_success: bool = False,
 ) -> str:
     """HTML 이메일 리포트 생성."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -41,14 +51,21 @@ def generate_report(
     if briefing is None:
         briefing = {}
 
+    # fallback 모드: 키워드 매칭 기반 관련성 라벨 추가
+    if not ai_success and papers:
+        for p in papers:
+            p.relevance_label = _relevance_label(p.relevance_score)
+
     # 템플릿 렌더링
     template_dir = _get_template_dir()
     env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
     template = env.get_template("email_template.html")
 
-    # all_papers는 원본 순서 유지 (briefing의 paper_indices와 매칭)
-    # display_papers는 PPEL 점수순 정렬 (하단 전체 목록용)
-    display_papers = sorted(papers, key=lambda p: p.ppel_score, reverse=True)
+    # display_papers: AI 성공시 PPEL 점수순, 실패시 키워드 매칭 점수순
+    if ai_success:
+        display_papers = sorted(papers, key=lambda p: p.ppel_score, reverse=True)
+    else:
+        display_papers = sorted(papers, key=lambda p: p.relevance_score, reverse=True)
 
     html = template.render(
         date=today,
@@ -59,9 +76,10 @@ def generate_report(
         weekly_trend_text=weekly_trend_text,
         all_papers=papers,
         display_papers=display_papers,
+        ai_success=ai_success,
     )
 
-    logger.info(f"리포트 생성 완료: {len(papers)}편 포함")
+    logger.info(f"리포트 생성 완료: {len(papers)}편 포함 (AI: {'성공' if ai_success else 'fallback'})")
     return html
 
 
@@ -90,16 +108,16 @@ def _format_weekly_trends(weekly_trends: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def get_email_subject(papers: list[Paper]) -> str:
+def get_email_subject(papers: list[Paper], ai_success: bool = False) -> str:
     """이메일 제목 생성."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     if not papers:
         return f"[Paper Digest] {today} | 오늘은 관련 논문이 없습니다"
 
-    # 최고 PPEL 점수 논문
-    top = max(papers, key=lambda p: p.ppel_score)
-    # 제목 축약 (40자)
-    short_title = top.title[:40] + "..." if len(top.title) > 40 else top.title
-
-    return f"[Paper Digest] {today} | \U0001f525 Top: {short_title}"
+    if ai_success:
+        top = max(papers, key=lambda p: p.ppel_score)
+        short_title = top.title[:40] + "..." if len(top.title) > 40 else top.title
+        return f"[Paper Digest] {today} | Top: {short_title}"
+    else:
+        return f"[Paper Digest] {today} | {len(papers)}편 수집 (키워드 매칭)"

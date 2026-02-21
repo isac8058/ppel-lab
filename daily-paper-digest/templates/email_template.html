@@ -411,15 +411,21 @@
   </div>
   {% endif %}
 
-  <!-- 5. 전체 논문 목록 (간략, PPEL 점수순) -->
+  <!-- 5. 전체 논문 목록 -->
   <div class="paper-list-section">
     <div class="section-label">Full List</div>
     <h2 class="section-title">전체 분석 논문 ({{ display_papers|length }}편)</h2>
     {% for paper in display_papers %}
     <div class="paper-list-item">
+      {% if ai_success %}
       <div class="paper-list-score {% if paper.ppel_score >= 7 %}score-high{% elif paper.ppel_score >= 4 %}score-mid{% else %}score-low{% endif %}">
         {{ paper.ppel_score }}
       </div>
+      {% else %}
+      <div class="paper-list-score {% if paper.relevance_label == 'High' %}score-high{% elif paper.relevance_label == 'Medium' %}score-mid{% else %}score-low{% endif %}">
+        {{ paper.relevance_label or 'Low' }}
+      </div>
+      {% endif %}
       <div class="paper-list-info">
         <div class="paper-list-title">
           {% if paper.doi %}
@@ -440,7 +446,7 @@
 
   <!-- 푸터 -->
   <div class="footer">
-    PPEL Lab Daily Research Briefing | Powered by Gemini AI<br>
+    PPEL Lab Daily Research Briefing | {% if ai_success %}Powered by Gemini AI{% else %}키워드 매칭 기반{% endif %}<br>
     이 이메일은 자동으로 생성되었습니다.
   </div>
 </div>

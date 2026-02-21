@@ -29,6 +29,7 @@ class Paper:
     novelty: str = ""
     tags: list[str] = field(default_factory=list)
     ppel_score: int = 0
+    relevance_label: str = ""
 
 
 def load_config(config_path: str = "config.yaml") -> dict:
