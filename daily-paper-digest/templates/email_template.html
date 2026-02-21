@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PPEL Lab Research Briefing - {{ date }}</title>
+<title>PPEL Lab Research Digest - {{ date }}</title>
 <style>
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -39,10 +39,7 @@
     font-size: 21px;
     font-weight: 700;
   }
-  .header .date {
-    font-size: 13px;
-    opacity: 0.85;
-  }
+  .header .date { font-size: 13px; opacity: 0.85; }
   .header .stats {
     margin-top: 12px;
     display: flex;
@@ -60,9 +57,7 @@
     padding: 22px 24px;
     border-bottom: 1px solid #eef0f2;
   }
-  .section:last-child {
-    border-bottom: none;
-  }
+  .section:last-child { border-bottom: none; }
   .section-label {
     font-size: 10px;
     text-transform: uppercase;
@@ -77,7 +72,7 @@
     color: #1a1a2e;
     margin: 0 0 14px 0;
   }
-  /* 개요 섹션 */
+  /* 개요 */
   .overview-text {
     font-size: 14px;
     color: #333;
@@ -87,17 +82,15 @@
     border-radius: 8px;
     border-left: 3px solid #0f3460;
   }
-  /* 테마 카드 */
-  .theme-card {
+  /* 분야별 대표 논문 카드 */
+  .featured-card {
     margin-bottom: 18px;
     border: 1px solid #e8eaed;
     border-radius: 8px;
     overflow: hidden;
   }
-  .theme-card:last-child {
-    margin-bottom: 0;
-  }
-  .theme-header {
+  .featured-card:last-child { margin-bottom: 0; }
+  .featured-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -105,174 +98,125 @@
     background: #f8f9fb;
     border-bottom: 1px solid #e8eaed;
   }
-  .theme-title {
-    font-size: 14px;
+  .field-name {
+    font-size: 12px;
     font-weight: 700;
-    color: #1a1a2e;
-    margin: 0;
+    color: #0f3460;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-  .relevance-badge {
+  .ppel-score {
     font-size: 10px;
     font-weight: 700;
     padding: 3px 10px;
     border-radius: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
-  .relevance-high {
-    background: #e8f5e9;
-    color: #2e7d32;
+  .score-high { background: #e8f5e9; color: #2e7d32; }
+  .score-mid { background: #fff3e0; color: #e65100; }
+  .score-low { background: #f5f5f5; color: #999; }
+  .featured-body { padding: 14px 16px; }
+  .featured-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
   }
-  .relevance-medium {
-    background: #fff3e0;
-    color: #e65100;
+  .featured-title a {
+    color: #1a1a2e;
+    text-decoration: none;
   }
-  .relevance-low {
-    background: #f5f5f5;
-    color: #757575;
+  .featured-title a:hover {
+    color: #1565c0;
+    text-decoration: underline;
   }
-  .theme-body {
-    padding: 14px 16px;
+  .featured-journal {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 10px;
   }
-  .theme-summary {
+  .featured-summary {
     font-size: 13px;
     color: #444;
-    margin: 0 0 10px 0;
     line-height: 1.7;
+    margin: 0 0 8px 0;
   }
-  .theme-ppel {
+  .featured-novelty {
     font-size: 12px;
     color: #0f3460;
     background: #e8eef8;
     padding: 8px 12px;
     border-radius: 6px;
-    margin: 0 0 12px 0;
+    margin: 0;
     line-height: 1.6;
   }
-  .theme-ppel strong {
-    color: #0a2540;
+  /* 분야별 트렌드 */
+  .trend-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f4f5f7;
+    font-size: 13px;
   }
-  .theme-papers {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  .trend-item:last-child { border-bottom: none; }
+  .trend-field {
+    min-width: 140px;
+    font-weight: 600;
+    color: #1a1a2e;
   }
-  .theme-papers li {
+  .trend-count {
+    min-width: 50px;
     font-size: 12px;
-    padding: 5px 0;
-    border-top: 1px solid #f0f2f4;
+    color: #888;
+  }
+  .trend-bar {
+    flex: 1;
+    height: 8px;
+    background: #f0f2f5;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 12px;
+  }
+  .trend-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0f3460, #1565c0);
+    border-radius: 4px;
+  }
+  .trend-desc {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    padding-left: 140px;
+    line-height: 1.6;
+  }
+  /* 기타 논문 링크 */
+  .other-papers { margin: 0; padding: 0; list-style: none; }
+  .other-papers li {
+    font-size: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f4f5f7;
     color: #555;
+    line-height: 1.5;
   }
-  .theme-papers li:first-child {
-    border-top: none;
-  }
-  .theme-papers a {
+  .other-papers li:last-child { border-bottom: none; }
+  .other-papers a {
     color: #1565c0;
     text-decoration: none;
     font-weight: 500;
   }
-  .theme-papers a:hover {
-    text-decoration: underline;
-  }
-  .theme-papers .journal-tag {
+  .other-papers a:hover { text-decoration: underline; }
+  .other-papers .journal-tag {
     font-size: 10px;
     color: #888;
     margin-left: 4px;
   }
-  /* 시사점 섹션 */
-  .action-items {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .action-items li {
-    font-size: 13px;
-    color: #333;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    background: #fef9f0;
-    border-left: 3px solid #ff8f00;
-    border-radius: 0 6px 6px 0;
-    line-height: 1.6;
-  }
-  .action-items li:last-child {
-    margin-bottom: 0;
-  }
-  /* 키워드 */
-  .keywords-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .keyword-chip {
-    display: inline-block;
+  .other-papers .field-tag {
+    font-size: 10px;
     background: #e3f2fd;
     color: #1565c0;
-    padding: 5px 14px;
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  /* 전체 논문 목록 */
-  .paper-list-section {
-    padding: 22px 24px;
-    border-bottom: 1px solid #eef0f2;
-  }
-  .paper-list-item {
-    display: flex;
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px solid #f4f5f7;
-    font-size: 12px;
-  }
-  .paper-list-item:last-child {
-    border-bottom: none;
-  }
-  .paper-list-score {
-    min-width: 36px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 0;
-    border-radius: 4px;
-    margin-right: 10px;
-    margin-top: 2px;
-  }
-  .score-high { background: #e8f5e9; color: #2e7d32; }
-  .score-mid { background: #fff3e0; color: #e65100; }
-  .score-low { background: #f5f5f5; color: #999; }
-  .paper-list-info {
-    flex: 1;
-  }
-  .paper-list-title {
-    color: #333;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-  .paper-list-title a {
-    color: #1a1a2e;
-    text-decoration: none;
-  }
-  .paper-list-title a:hover {
-    color: #1565c0;
-    text-decoration: underline;
-  }
-  .paper-list-meta {
-    font-size: 11px;
-    color: #888;
-    margin-top: 2px;
-  }
-  /* 주간 트렌드 */
-  .weekly-trends {
-    background: #f8f9fb;
-    border-radius: 6px;
-    padding: 14px;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    line-height: 1.8;
-    white-space: pre;
-    overflow-x: auto;
-    color: #555;
+    padding: 1px 6px;
+    border-radius: 8px;
+    margin-left: 4px;
   }
   /* 빈 상태 */
   .no-papers {
@@ -297,7 +241,9 @@
     .header h1 { font-size: 18px; }
     .header .stats { flex-wrap: wrap; gap: 8px; }
     .section { padding: 16px; }
-    .theme-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .featured-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .trend-field { min-width: 100px; }
+    .trend-desc { padding-left: 0; }
   }
 </style>
 </head>
@@ -306,128 +252,44 @@
   <!-- 헤더 -->
   <div class="header">
     <div class="header-lab">PPEL Lab</div>
-    <h1>Daily Research Briefing</h1>
+    <h1>Daily Research Digest</h1>
     <div class="date">{{ date }}</div>
     <div class="stats">
       <span class="stat-item">&#128218; 수집 {{ total_collected }}편</span>
-      <span class="stat-item">&#128269; 분석 {{ analyzed_count }}편</span>
-      <span class="stat-item">&#128214; {{ journal_count }}개 저널</span>
+      <span class="stat-item">&#127942; 대표 {{ featured_count }}편</span>
+      <span class="stat-item">&#128279; 기타 {{ others_count }}편</span>
     </div>
   </div>
 
-  {% if not all_papers %}
+  {% if not featured %}
   <div class="no-papers">
     오늘은 관련 논문이 없습니다.
   </div>
   {% else %}
 
-  <!-- 1. 오늘의 연구 동향 개요 -->
-  {% if briefing.overview %}
+  <!-- 1. Overview -->
   <div class="section">
     <div class="section-label">Overview</div>
     <h2 class="section-title">오늘의 연구 동향</h2>
-    <div class="overview-text">{{ briefing.overview }}</div>
+    <div class="overview-text">{{ overview }}</div>
   </div>
-  {% endif %}
 
-  <!-- 2. 주요 연구 테마 -->
-  {% if briefing.themes %}
+  <!-- 2. 분야별 대표 논문 -->
   <div class="section">
-    <div class="section-label">Key Themes</div>
-    <h2 class="section-title">주요 연구 테마 분석</h2>
-    {% for theme in briefing.themes %}
-    <div class="theme-card">
-      <div class="theme-header">
-        <h3 class="theme-title">{{ theme.title }}</h3>
-        {% if theme.relevance_level == 'high' %}
-        <span class="relevance-badge relevance-high">&#9733; PPEL 높음</span>
-        {% elif theme.relevance_level == 'medium' %}
-        <span class="relevance-badge relevance-medium">PPEL 보통</span>
-        {% else %}
-        <span class="relevance-badge relevance-low">PPEL 낮음</span>
+    <div class="section-label">Featured Papers</div>
+    <h2 class="section-title">분야별 대표 논문</h2>
+    {% for field, paper in featured.items() %}
+    <div class="featured-card">
+      <div class="featured-header">
+        <span class="field-name">{{ field }}</span>
+        {% if paper.ppel_score > 0 %}
+        <span class="ppel-score {% if paper.ppel_score >= 7 %}score-high{% elif paper.ppel_score >= 4 %}score-mid{% else %}score-low{% endif %}">
+          PPEL {{ paper.ppel_score }}/10
+        </span>
         {% endif %}
       </div>
-      <div class="theme-body">
-        <p class="theme-summary">{{ theme.summary }}</p>
-        {% if theme.ppel_relevance %}
-        <div class="theme-ppel">
-          <strong>&#128300; Lab 연관성:</strong> {{ theme.ppel_relevance }}
-        </div>
-        {% endif %}
-        {% if theme.paper_indices %}
-        <ul class="theme-papers">
-          {% for idx in theme.paper_indices %}
-          {% if idx < all_papers|length %}
-          {% set p = all_papers[idx] %}
-          <li>
-            {% if p.doi %}
-            <a href="https://doi.org/{{ p.doi }}">{{ p.title }}</a>
-            {% elif p.link %}
-            <a href="{{ p.link }}">{{ p.title }}</a>
-            {% else %}
-            {{ p.title }}
-            {% endif %}
-            <span class="journal-tag">{{ p.journal }}</span>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-        {% endif %}
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  <!-- 3. PPEL Lab 시사점 -->
-  {% if briefing.ppel_action_items %}
-  <div class="section">
-    <div class="section-label">Action Items</div>
-    <h2 class="section-title">&#128161; PPEL Lab 시사점</h2>
-    <ul class="action-items">
-      {% for item in briefing.ppel_action_items %}
-      <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
-
-  <!-- 4. 오늘의 키워드 -->
-  {% if briefing.hot_keywords %}
-  <div class="section">
-    <div class="section-label">Hot Keywords</div>
-    <h2 class="section-title">오늘의 키워드</h2>
-    <div class="keywords-container">
-      {% for kw in briefing.hot_keywords %}
-      <span class="keyword-chip">#{{ kw }}</span>
-      {% endfor %}
-    </div>
-    {% if weekly_trend_text %}
-    <div style="margin-top:16px;">
-      <div style="font-size:12px; color:#888; margin-bottom:8px;">&#128200; 최근 7일 키워드 빈도</div>
-      <div class="weekly-trends">{{ weekly_trend_text }}</div>
-    </div>
-    {% endif %}
-  </div>
-  {% endif %}
-
-  <!-- 5. 전체 논문 목록 -->
-  <div class="paper-list-section">
-    <div class="section-label">Full List</div>
-    <h2 class="section-title">전체 분석 논문 ({{ display_papers|length }}편)</h2>
-    {% for paper in display_papers %}
-    <div class="paper-list-item">
-      {% if ai_success %}
-      <div class="paper-list-score {% if paper.ppel_score >= 7 %}score-high{% elif paper.ppel_score >= 4 %}score-mid{% else %}score-low{% endif %}">
-        {{ paper.ppel_score }}
-      </div>
-      {% else %}
-      <div class="paper-list-score {% if paper.relevance_label == 'High' %}score-high{% elif paper.relevance_label == 'Medium' %}score-mid{% else %}score-low{% endif %}">
-        {{ paper.relevance_label or 'Low' }}
-      </div>
-      {% endif %}
-      <div class="paper-list-info">
-        <div class="paper-list-title">
+      <div class="featured-body">
+        <h3 class="featured-title">
           {% if paper.doi %}
           <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
           {% elif paper.link %}
@@ -435,18 +297,71 @@
           {% else %}
           {{ paper.title }}
           {% endif %}
-        </div>
-        <div class="paper-list-meta">{{ paper.journal }}{% if paper.novelty %} &middot; {{ paper.novelty }}{% endif %}</div>
+        </h3>
+        <div class="featured-journal">{{ paper.journal }}</div>
+        {% if paper.summary %}
+        <p class="featured-summary">{{ paper.summary }}</p>
+        {% endif %}
+        {% if paper.novelty %}
+        <p class="featured-novelty">&#128161; {{ paper.novelty }}</p>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
   </div>
 
+  <!-- 3. 분야별 트렌드 -->
+  {% if trend_items %}
+  <div class="section">
+    <div class="section-label">Field Trends</div>
+    <h2 class="section-title">분야별 논문 동향</h2>
+    {% for item in trend_items %}
+    <div>
+      <div class="trend-item">
+        <span class="trend-field">{{ item.field }}{% if item.has_featured %} &#127942;{% endif %}</span>
+        <div class="trend-bar">
+          <div class="trend-bar-fill" style="width: {{ (item.count / total_collected * 100) | round(1) }}%"></div>
+        </div>
+        <span class="trend-count">{{ item.count }}편</span>
+      </div>
+      {% if item.trend %}
+      <div class="trend-desc">{{ item.trend }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- 4. 기타 관련 논문 (링크만) -->
+  {% if others %}
+  <div class="section">
+    <div class="section-label">More Papers</div>
+    <h2 class="section-title">기타 관련 논문 ({{ others|length }}편)</h2>
+    <ul class="other-papers">
+      {% for paper in others %}
+      <li>
+        {% if paper.doi %}
+        <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
+        {% elif paper.link %}
+        <a href="{{ paper.link }}">{{ paper.title }}</a>
+        {% else %}
+        {{ paper.title }}
+        {% endif %}
+        <span class="journal-tag">{{ paper.journal }}</span>
+        {% if paper.relevance_label %}
+        <span class="field-tag">{{ paper.relevance_label }}</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
   {% endif %}
 
   <!-- 푸터 -->
   <div class="footer">
-    PPEL Lab Daily Research Briefing | {% if ai_success %}Powered by Gemini AI{% else %}키워드 매칭 기반{% endif %}<br>
+    PPEL Lab Daily Research Digest{% if ai_success %} | Powered by Gemini AI{% endif %}<br>
     이 이메일은 자동으로 생성되었습니다.
   </div>
 </div>
