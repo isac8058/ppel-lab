@@ -54,17 +54,9 @@ def get_duty_team(saturday: date) -> dict:
 def build_message(team: dict, sunday: date) -> tuple[str, str]:
     """(제목, 본문) 반환"""
     members_str = ", ".join(team["members"])
-    subject = f"[식당봉사 알림] {sunday.strftime('%m/%d')} {team['name']} ({team['leader']} 조장)"
+    subject = f"[식당봉사 알림] {sunday.strftime('%m/%d')}"
     body = (
-        f"[식당봉사 알림]\n"
-        f"\n"
-        f"일시: {sunday.strftime('%Y년 %m월 %d일')} (일요일)\n"
-        f"\n"
-        f"봉사팀: {team['name']}\n"
-        f"  조장: {team['leader']}\n"
-        f"  팀원: {members_str}\n"
-        f"\n"
-        f"봉사에 수고해 주세요!\n"
+        f"이번주 식당봉사는 {team['name']} ({team['leader']} 조장, {members_str}) 입니다."
     )
     return subject, body
 
