@@ -1,0 +1,28 @@
+name: 식당봉사 주간 알림
+
+on:
+  # 매주 토요일 오전 9시 (KST) = UTC 00:00 토요일
+  schedule:
+    - cron: '0 0 * * 6'
+  # 수동 테스트용
+  workflow_dispatch:
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Send volunteer reminder email
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python volunteer-reminder/reminder.py
