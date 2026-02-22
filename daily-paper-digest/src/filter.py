@@ -154,25 +154,86 @@ def filter_and_classify(
     others.extend(unclassified)
     others.sort(key=lambda p: p.relevance_score, reverse=True)
 
-    # 5. 분야별 전체 논문 수 (전체 papers 기준)
-    field_counts: dict[str, int] = defaultdict(int)
-    unrelated_count = 0
-    for p in papers:
-        field = _classify_paper(p)
-        if field:
-            field_counts[field] += 1
-        else:
-            unrelated_count += 1
+    # 5. 분야별 상세 통계 (전체 papers 기준)
+    field_stats = _build_field_stats(papers)
 
     logger.info(
         f"분야별 분류 완료: 대표 {len(featured)}편, "
         f"기타 관련 {len(others)}편, "
-        f"전체 분야 분포 {dict(field_counts)}"
+        f"분야 수 {len(field_stats)}"
     )
 
     return {
         "featured": featured,
         "others": others,
-        "field_counts": dict(field_counts),
-        "unrelated_count": unrelated_count,
+        "field_stats": field_stats,
     }
+
+
+# 분야별 세부 키워드 (트렌드 분석용)
+_FIELD_SUBTOPICS = {
+    "에너지 하베스팅": [
+        "triboelectric", "piezoelectric", "nanogenerator", "self-powered",
+        "thermoelectric", "solar cell", "photovoltaic", "energy storage",
+        "supercapacitor", "battery", "hybrid", "wearable energy",
+    ],
+    "바이오센서": [
+        "electrochemical", "glucose", "immunosensor", "aptasensor",
+        "wearable sensor", "point-of-care", "lab-on-chip", "microfluidic",
+        "sweat", "biomarker", "real-time monitoring", "AI",
+    ],
+    "유연/웨어러블 전자소자": [
+        "flexible", "stretchable", "wearable", "e-skin", "strain sensor",
+        "pressure sensor", "textile", "soft", "self-healing", "transparent",
+    ],
+    "프린팅 전자소자": [
+        "screen printing", "inkjet", "3d printing", "aerosol jet",
+        "roll-to-roll", "printed", "additive", "direct ink writing",
+    ],
+    "DFT/계산소재과학": [
+        "perovskite", "mxene", "2d material", "graphene", "borophene",
+        "first-principles", "dft", "machine learning", "high-throughput",
+        "catalysis", "band gap", "electronic structure",
+    ],
+}
+
+
+def _build_field_stats(papers: list[Paper]) -> dict[str, dict]:
+    """분야별 논문 수, 주요 저널, 세부 키워드 트렌드 추출."""
+    field_papers_all: dict[str, list[Paper]] = defaultdict(list)
+    unrelated_count = 0
+
+    for p in papers:
+        field = _classify_paper(p)
+        if field:
+            field_papers_all[field].append(p)
+        else:
+            unrelated_count += 1
+
+    stats = {}
+    for field, plist in field_papers_all.items():
+        # 저널 분포
+        journal_counts: dict[str, int] = defaultdict(int)
+        for p in plist:
+            journal_counts[p.journal] += 1
+        top_journals = sorted(journal_counts.items(), key=lambda x: -x[1])[:3]
+
+        # 세부 키워드 트렌드
+        subtopics = _FIELD_SUBTOPICS.get(field, [])
+        hot_subtopics = []
+        for st in subtopics:
+            count = sum(
+                1 for p in plist
+                if st.lower() in f"{p.title} {p.abstract}".lower()
+            )
+            if count > 0:
+                hot_subtopics.append((st, count))
+        hot_subtopics.sort(key=lambda x: -x[1])
+
+        stats[field] = {
+            "count": len(plist),
+            "top_journals": top_journals,
+            "hot_subtopics": hot_subtopics[:5],
+        }
+
+    return stats

@@ -17,10 +17,85 @@ def _get_template_dir() -> str:
     return os.path.join(base, "templates")
 
 
+def _generate_field_comment(
+    field: str, stats: dict, featured_paper: Paper | None
+) -> str:
+    """분야별 분석 코멘트를 데이터 기반으로 생성."""
+    count = stats["count"]
+    top_journals = stats.get("top_journals", [])
+    hot_subtopics = stats.get("hot_subtopics", [])
+
+    parts = []
+
+    # 저널 동향
+    if top_journals:
+        journal_names = [f"{j}({c}편)" for j, c in top_journals[:2]]
+        parts.append(f"주요 게재: {', '.join(journal_names)}")
+
+    # 세부 키워드 트렌드
+    if hot_subtopics:
+        top_kws = [f"{kw}({c})" for kw, c in hot_subtopics[:3]]
+        parts.append(f"주요 키워드: {', '.join(top_kws)}")
+
+    # 대표 논문 기반 코멘트
+    if featured_paper and featured_paper.novelty:
+        parts.append(f"주목: {featured_paper.novelty}")
+
+    if not parts:
+        parts.append(f"총 {count}편 발표")
+
+    return ". ".join(parts) + "."
+
+
+def _generate_overview(
+    total_collected: int,
+    featured: dict[str, Paper],
+    field_stats: dict[str, dict],
+) -> str:
+    """데이터 기반 overview 생성."""
+    total_related = sum(s["count"] for s in field_stats.values())
+
+    # 가장 활발한 분야
+    if field_stats:
+        top_field = max(field_stats.items(), key=lambda x: x[1]["count"])
+        top_name, top_stat = top_field
+
+        # 전체에서 가장 핫한 서브토픽
+        all_subtopics = []
+        for s in field_stats.values():
+            all_subtopics.extend(s.get("hot_subtopics", []))
+        all_subtopics.sort(key=lambda x: -x[1])
+        hot_kw = all_subtopics[0][0] if all_subtopics else ""
+
+        overview = (
+            f"오늘 총 {total_collected}편의 논문 중 PPEL 관련 {total_related}편이 확인되었습니다. "
+            f"{top_name} 분야가 {top_stat['count']}편으로 가장 활발하며"
+        )
+        if hot_kw:
+            overview += f", '{hot_kw}' 관련 연구가 두드러집니다."
+        else:
+            overview += "."
+
+        # 저널 다양성
+        all_journals = set()
+        for s in field_stats.values():
+            for j, _ in s.get("top_journals", []):
+                all_journals.add(j)
+        if len(all_journals) >= 3:
+            overview += (
+                f" {', '.join(list(all_journals)[:3])} 등 "
+                f"다양한 저널에서 관련 연구가 발표되었습니다."
+            )
+    else:
+        overview = f"오늘 총 {total_collected}편의 논문이 수집되었습니다."
+
+    return overview
+
+
 def generate_report(
     featured: dict[str, Paper],
     others: list[Paper],
-    field_counts: dict[str, int],
+    field_stats: dict[str, dict],
     total_collected: int,
     ai_result: dict | None = None,
 ) -> str:
@@ -34,27 +109,42 @@ def generate_report(
 
     ai_success = ai_result is not None
 
-    # AI overview 또는 기본 overview
-    if ai_success:
-        overview = ai_result.get("overview", "")
-        field_trends = ai_result.get("field_trends", {})
+    # Overview
+    if ai_success and ai_result.get("overview"):
+        overview = ai_result["overview"]
     else:
-        overview = (
-            f"오늘 총 {total_collected}편의 논문에서 "
-            f"{len(featured)}개 분야, {len(featured) + len(others)}편의 관련 논문이 선별되었습니다."
-        )
-        field_trends = {}
+        overview = _generate_overview(total_collected, featured, field_stats)
 
-    # 분야별 트렌드 (AI 없어도 field_counts 기반으로 생성)
+    # 분야별 트렌드 + 분석 코멘트
+    ai_field_trends = ai_result.get("field_trends", {}) if ai_result else {}
+
     trend_items = []
-    for field, count in sorted(field_counts.items(), key=lambda x: -x[1]):
-        ai_trend = field_trends.get(field, "")
+    for field, stats in sorted(field_stats.items(), key=lambda x: -x[1]["count"]):
+        # AI 트렌드가 있으면 우선 사용, 없으면 데이터 기반 생성
+        if field in ai_field_trends and ai_field_trends[field]:
+            comment = ai_field_trends[field]
+        else:
+            comment = _generate_field_comment(
+                field, stats, featured.get(field)
+            )
+
         trend_items.append({
             "field": field,
-            "count": count,
-            "trend": ai_trend,
+            "count": stats["count"],
+            "comment": comment,
             "has_featured": field in featured,
+            "hot_subtopics": [kw for kw, _ in stats.get("hot_subtopics", [])[:3]],
         })
+
+    # Featured 논문에 분석 코멘트 추가 (AI summary 없는 경우)
+    featured_comments = {}
+    for field, paper in featured.items():
+        if paper.summary:
+            featured_comments[field] = paper.summary
+        elif field in field_stats:
+            featured_comments[field] = _generate_field_comment(
+                field, field_stats[field], paper
+            )
 
     template_dir = _get_template_dir()
     env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
@@ -64,6 +154,7 @@ def generate_report(
         date=today,
         total_collected=total_collected,
         featured=featured,
+        featured_comments=featured_comments,
         others=others,
         overview=overview,
         trend_items=trend_items,

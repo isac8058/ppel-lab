@@ -75,7 +75,7 @@ def main():
 
     featured = classification["featured"]       # {분야: Paper}
     others = classification["others"]           # [Paper, ...]
-    field_counts = classification["field_counts"]
+    field_stats = classification["field_stats"]  # {분야: {count, top_journals, hot_subtopics}}
 
     logger.info(f"분야별 대표: {len(featured)}편, 기타: {len(others)}편")
 
@@ -107,7 +107,7 @@ def main():
     html = generate_report(
         featured=featured,
         others=others,
-        field_counts=field_counts,
+        field_stats=field_stats,
         total_collected=total_collected,
         ai_result=ai_result,
     )

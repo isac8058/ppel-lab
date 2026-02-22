@@ -147,6 +147,16 @@
     background: #e8eef8;
     padding: 8px 12px;
     border-radius: 6px;
+    margin: 0 0 8px 0;
+    line-height: 1.6;
+  }
+  .featured-comment {
+    font-size: 12px;
+    color: #555;
+    background: #f4f6f9;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 3px solid #1565c0;
     margin: 0;
     line-height: 1.6;
   }
@@ -184,10 +194,23 @@
   }
   .trend-desc {
     font-size: 12px;
-    color: #666;
+    color: #555;
     margin-top: 4px;
     padding-left: 140px;
     line-height: 1.6;
+  }
+  .trend-keywords {
+    margin-top: 4px;
+    padding-left: 140px;
+  }
+  .kw-chip {
+    display: inline-block;
+    font-size: 10px;
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin: 2px 4px 2px 0;
   }
   /* 기타 논문 링크 */
   .other-papers { margin: 0; padding: 0; list-style: none; }
@@ -244,6 +267,7 @@
     .featured-header { flex-direction: column; align-items: flex-start; gap: 6px; }
     .trend-field { min-width: 100px; }
     .trend-desc { padding-left: 0; }
+    .trend-keywords { padding-left: 0; }
   }
 </style>
 </head>
@@ -305,6 +329,9 @@
         {% if paper.novelty %}
         <p class="featured-novelty">&#128161; {{ paper.novelty }}</p>
         {% endif %}
+        {% if featured_comments.get(field) %}
+        <p class="featured-comment">&#128202; {{ featured_comments[field] }}</p>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
@@ -324,8 +351,13 @@
         </div>
         <span class="trend-count">{{ item.count }}편</span>
       </div>
-      {% if item.trend %}
-      <div class="trend-desc">{{ item.trend }}</div>
+      {% if item.comment %}
+      <div class="trend-desc">{{ item.comment }}</div>
+      {% endif %}
+      {% if item.hot_subtopics %}
+      <div class="trend-keywords">
+        {% for kw in item.hot_subtopics %}<span class="kw-chip">{{ kw }}</span>{% endfor %}
+      </div>
       {% endif %}
     </div>
     {% endfor %}
