@@ -86,7 +86,7 @@ def main():
 
     try:
         analyzer = GeminiAnalyzer(config)
-        ai_result = analyzer.analyze_featured(featured)
+        ai_result = analyzer.analyze_featured(featured, others)
         ai_success = ai_result is not None
         logger.info(
             f"Gemini: {'성공' if ai_success else '실패 (fallback)'} | "

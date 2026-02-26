@@ -82,24 +82,53 @@
     border-radius: 8px;
     border-left: 3px solid #0f3460;
   }
-  /* 분야별 대표 논문 카드 */
+  /* 분야 섹션 헤더 */
+  .field-section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .field-section-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .field-section-count {
+    font-size: 12px;
+    color: #888;
+    background: #f0f2f5;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  /* 분야별 분석 코멘트 */
+  .field-analysis {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.8;
+    background: #f8f9fb;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border-left: 3px solid #e8a020;
+    margin-bottom: 14px;
+  }
+  /* 대표 논문 카드 */
   .featured-card {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     border: 1px solid #e8eaed;
     border-radius: 8px;
     overflow: hidden;
   }
-  .featured-card:last-child { margin-bottom: 0; }
   .featured-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding: 10px 16px;
     background: #f8f9fb;
     border-bottom: 1px solid #e8eaed;
   }
-  .field-name {
-    font-size: 12px;
+  .featured-label {
+    font-size: 11px;
     font-weight: 700;
     color: #0f3460;
     text-transform: uppercase;
@@ -116,10 +145,10 @@
   .score-low { background: #f5f5f5; color: #999; }
   .featured-body { padding: 14px 16px; }
   .featured-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: #1a1a2e;
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     line-height: 1.5;
   }
   .featured-title a {
@@ -150,46 +179,39 @@
     margin: 0;
     line-height: 1.6;
   }
-  /* 분야별 트렌드 */
-  .trend-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
+  /* 분야 내 기타 논문 */
+  .field-others-label {
+    font-size: 11px;
+    color: #999;
+    margin: 10px 0 6px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .field-paper-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .field-paper-list li {
+    font-size: 12px;
+    padding: 5px 0;
     border-bottom: 1px solid #f4f5f7;
-    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
   }
-  .trend-item:last-child { border-bottom: none; }
-  .trend-field {
-    min-width: 140px;
-    font-weight: 600;
-    color: #1a1a2e;
+  .field-paper-list li:last-child { border-bottom: none; }
+  .field-paper-list a {
+    color: #1565c0;
+    text-decoration: none;
+    font-weight: 500;
   }
-  .trend-count {
-    min-width: 50px;
-    font-size: 12px;
+  .field-paper-list a:hover { text-decoration: underline; }
+  .journal-tag {
+    font-size: 10px;
     color: #888;
+    margin-left: 6px;
   }
-  .trend-bar {
-    flex: 1;
-    height: 8px;
-    background: #f0f2f5;
-    border-radius: 4px;
-    overflow: hidden;
-    margin: 0 12px;
-  }
-  .trend-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #0f3460, #1565c0);
-    border-radius: 4px;
-  }
-  .trend-desc {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-    padding-left: 140px;
-    line-height: 1.6;
-  }
-  /* 기타 논문 링크 */
+  /* 미분류 논문 */
   .other-papers { margin: 0; padding: 0; list-style: none; }
   .other-papers li {
     font-size: 12px;
@@ -205,19 +227,6 @@
     font-weight: 500;
   }
   .other-papers a:hover { text-decoration: underline; }
-  .other-papers .journal-tag {
-    font-size: 10px;
-    color: #888;
-    margin-left: 4px;
-  }
-  .other-papers .field-tag {
-    font-size: 10px;
-    background: #e3f2fd;
-    color: #1565c0;
-    padding: 1px 6px;
-    border-radius: 8px;
-    margin-left: 4px;
-  }
   /* 빈 상태 */
   .no-papers {
     text-align: center;
@@ -242,8 +251,6 @@
     .header .stats { flex-wrap: wrap; gap: 8px; }
     .section { padding: 16px; }
     .featured-header { flex-direction: column; align-items: flex-start; gap: 6px; }
-    .trend-field { min-width: 100px; }
-    .trend-desc { padding-left: 0; }
   }
 </style>
 </head>
@@ -261,7 +268,7 @@
     </div>
   </div>
 
-  {% if not featured %}
+  {% if not field_sections %}
   <div class="no-papers">
     오늘은 관련 논문이 없습니다.
   </div>
@@ -274,71 +281,55 @@
     <div class="overview-text">{{ overview }}</div>
   </div>
 
-  <!-- 2. 분야별 대표 논문 -->
+  <!-- 2. 분야별 섹션 (분석 코멘트 + 대표 논문 + 기타 논문 링크) -->
+  {% for sec in field_sections %}
   <div class="section">
-    <div class="section-label">Featured Papers</div>
-    <h2 class="section-title">분야별 대표 논문</h2>
-    {% for field, paper in featured.items() %}
+    <!-- 분야 헤더 -->
+    <div class="field-section-header">
+      <span class="field-section-name">{{ sec.field }}</span>
+      <span class="field-section-count">{{ sec.count }}편</span>
+    </div>
+
+    <!-- AI 분석 코멘트 -->
+    {% if sec.analysis %}
+    <div class="field-analysis">{{ sec.analysis }}</div>
+    {% endif %}
+
+    <!-- 대표 논문 카드 -->
     <div class="featured-card">
       <div class="featured-header">
-        <span class="field-name">{{ field }}</span>
-        {% if paper.ppel_score > 0 %}
-        <span class="ppel-score {% if paper.ppel_score >= 7 %}score-high{% elif paper.ppel_score >= 4 %}score-mid{% else %}score-low{% endif %}">
-          PPEL {{ paper.ppel_score }}/10
+        <span class="featured-label">대표 논문</span>
+        {% if sec.featured.ppel_score > 0 %}
+        <span class="ppel-score {% if sec.featured.ppel_score >= 7 %}score-high{% elif sec.featured.ppel_score >= 4 %}score-mid{% else %}score-low{% endif %}">
+          PPEL {{ sec.featured.ppel_score }}/10
         </span>
         {% endif %}
       </div>
       <div class="featured-body">
         <h3 class="featured-title">
-          {% if paper.doi %}
-          <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
-          {% elif paper.link %}
-          <a href="{{ paper.link }}">{{ paper.title }}</a>
+          {% if sec.featured.doi %}
+          <a href="https://doi.org/{{ sec.featured.doi }}">{{ sec.featured.title }}</a>
+          {% elif sec.featured.link %}
+          <a href="{{ sec.featured.link }}">{{ sec.featured.title }}</a>
           {% else %}
-          {{ paper.title }}
+          {{ sec.featured.title }}
           {% endif %}
         </h3>
-        <div class="featured-journal">{{ paper.journal }}</div>
-        {% if paper.summary %}
-        <p class="featured-summary">{{ paper.summary }}</p>
+        <div class="featured-journal">{{ sec.featured.journal }}</div>
+        {% if sec.featured.summary %}
+        <p class="featured-summary">{{ sec.featured.summary }}</p>
         {% endif %}
-        {% if paper.novelty %}
-        <p class="featured-novelty">&#128161; {{ paper.novelty }}</p>
+        {% if sec.featured.novelty %}
+        <p class="featured-novelty">&#128161; {{ sec.featured.novelty }}</p>
         {% endif %}
       </div>
     </div>
-    {% endfor %}
-  </div>
 
-  <!-- 3. 분야별 트렌드 -->
-  {% if trend_items %}
-  <div class="section">
-    <div class="section-label">Field Trends</div>
-    <h2 class="section-title">분야별 논문 동향</h2>
-    {% for item in trend_items %}
-    <div>
-      <div class="trend-item">
-        <span class="trend-field">{{ item.field }}{% if item.has_featured %} &#127942;{% endif %}</span>
-        <div class="trend-bar">
-          <div class="trend-bar-fill" style="width: {{ (item.count / total_collected * 100) | round(1) }}%"></div>
-        </div>
-        <span class="trend-count">{{ item.count }}편</span>
-      </div>
-      {% if item.trend %}
-      <div class="trend-desc">{{ item.trend }}</div>
-      {% endif %}
-    </div>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  <!-- 4. 기타 관련 논문 (링크만) -->
-  {% if others %}
-  <div class="section">
-    <div class="section-label">More Papers</div>
-    <h2 class="section-title">기타 관련 논문 ({{ others|length }}편)</h2>
-    <ul class="other-papers">
-      {% for paper in others %}
+    <!-- 분야 내 기타 논문 링크 -->
+    {% if sec.others %}
+    <div class="field-others-label">관련 논문 {{ sec.others|length }}편</div>
+    <ul class="field-paper-list">
+      {% for paper in sec.others %}
       <li>
         {% if paper.doi %}
         <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
@@ -348,9 +339,29 @@
         {{ paper.title }}
         {% endif %}
         <span class="journal-tag">{{ paper.journal }}</span>
-        {% if paper.relevance_label %}
-        <span class="field-tag">{{ paper.relevance_label }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+  <!-- 3. 미분류 기타 논문 -->
+  {% if unclassified_others %}
+  <div class="section">
+    <div class="section-label">기타</div>
+    <h2 class="section-title">분야 미분류 논문 ({{ unclassified_others|length }}편)</h2>
+    <ul class="other-papers">
+      {% for paper in unclassified_others %}
+      <li>
+        {% if paper.doi %}
+        <a href="https://doi.org/{{ paper.doi }}">{{ paper.title }}</a>
+        {% elif paper.link %}
+        <a href="{{ paper.link }}">{{ paper.title }}</a>
+        {% else %}
+        {{ paper.title }}
         {% endif %}
+        <span class="journal-tag">{{ paper.journal }}</span>
       </li>
       {% endfor %}
     </ul>

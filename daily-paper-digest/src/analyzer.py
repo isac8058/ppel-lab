@@ -15,10 +15,14 @@ PPEL_FIELDS_DESC = (
     "에너지 하베스팅, 바이오센서, 유연/프린팅 전자소자, DFT 계산소재과학"
 )
 
-# 분야별 대표 논문(최대 5편)만 분석하는 간결한 프롬프트
+# 분야별 대표 논문(최대 5편) + 전체 논문 목록을 분석하는 프롬프트
 ANALYSIS_PROMPT = """PPEL 연구실({ppel_fields}) 관점에서 아래 논문들을 분석하세요.
 
+=== 분야별 대표 논문 (개별 요약 생성 필요) ===
 {papers_list}
+
+=== 분야별 전체 논문 목록 (동향 분석 참고용) ===
+{field_papers_summary}
 
 JSON으로만 응답하세요:
 {{
@@ -30,9 +34,9 @@ JSON으로만 응답하세요:
             "ppel_score": 7
         }}
     ],
-    "overview": "오늘의 연구 동향 2-3문장 요약 (한글)",
-    "field_trends": {{
-        "분야명": "이 분야 동향 1-2문장 (한글)"
+    "overview": "오늘의 전체 연구 동향 2-3문장 요약 (한글)",
+    "field_analysis": {{
+        "분야명": "이 분야 오늘 논문들 동향 3-4문장: 주요 재료·방법, 핵심 트렌드, 응용 방향, PPEL 랩 시사점 포함 (한글)"
     }}
 }}"""
 
@@ -57,9 +61,13 @@ class GeminiAnalyzer:
         self.api_calls = 0
 
     def analyze_featured(
-        self, featured: dict[str, Paper]
+        self, featured: dict[str, Paper], others: list | None = None
     ) -> dict | None:
         """분야별 대표 논문(최대 5편)을 1회 API 호출로 분석.
+
+        Args:
+            featured: 분야별 대표 논문 dict
+            others: 기타 관련 논문 리스트 (동향 분석 컨텍스트용)
 
         Returns:
             파싱된 결과 dict 또는 None (실패시)
@@ -79,9 +87,29 @@ class GeminiAnalyzer:
             )
             paper_index[i] = (field, paper)
 
+        # 분야별 전체 논문 목록 구성 (동향 분석 컨텍스트)
+        field_papers: dict[str, list[str]] = {}
+        for field, paper in featured.items():
+            field_papers[field] = [paper.title]
+        if others:
+            for p in others:
+                label = getattr(p, "relevance_label", "") or ""
+                if label:
+                    if label not in field_papers:
+                        field_papers[label] = []
+                    field_papers[label].append(p.title)
+
+        field_papers_summary = ""
+        for field, titles in field_papers.items():
+            field_papers_summary += f"{field} ({len(titles)}편):\n"
+            for title in titles[:8]:
+                field_papers_summary += f"  - {title}\n"
+            field_papers_summary += "\n"
+
         prompt = ANALYSIS_PROMPT.format(
             ppel_fields=PPEL_FIELDS_DESC,
             papers_list=papers_list,
+            field_papers_summary=field_papers_summary,
         )
 
         # 1회 시도, 429면 즉시 포기

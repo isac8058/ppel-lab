@@ -2,6 +2,7 @@
 
 import logging
 import os
+from collections import defaultdict
 from datetime import datetime, timezone
 
 from jinja2 import Environment, FileSystemLoader
@@ -37,23 +38,33 @@ def generate_report(
     # AI overview 또는 기본 overview
     if ai_success:
         overview = ai_result.get("overview", "")
-        field_trends = ai_result.get("field_trends", {})
+        field_analysis = ai_result.get("field_analysis", {})
     else:
         overview = (
             f"오늘 총 {total_collected}편의 논문에서 "
             f"{len(featured)}개 분야, {len(featured) + len(others)}편의 관련 논문이 선별되었습니다."
         )
-        field_trends = {}
+        field_analysis = {}
 
-    # 분야별 트렌드 (AI 없어도 field_counts 기반으로 생성)
-    trend_items = []
-    for field, count in sorted(field_counts.items(), key=lambda x: -x[1]):
-        ai_trend = field_trends.get(field, "")
-        trend_items.append({
+    # others를 분야별로 그룹핑
+    field_others: dict[str, list[Paper]] = defaultdict(list)
+    unclassified_others: list[Paper] = []
+    for p in others:
+        label = getattr(p, "relevance_label", "") or ""
+        if label:
+            field_others[label].append(p)
+        else:
+            unclassified_others.append(p)
+
+    # 분야별 섹션 구성
+    field_sections = []
+    for field, paper in featured.items():
+        field_sections.append({
             "field": field,
-            "count": count,
-            "trend": ai_trend,
-            "has_featured": field in featured,
+            "count": field_counts.get(field, 1),
+            "analysis": field_analysis.get(field, ""),
+            "featured": paper,
+            "others": field_others.get(field, []),
         })
 
     template_dir = _get_template_dir()
@@ -63,10 +74,9 @@ def generate_report(
     html = template.render(
         date=today,
         total_collected=total_collected,
-        featured=featured,
-        others=others,
+        field_sections=field_sections,
+        unclassified_others=unclassified_others,
         overview=overview,
-        trend_items=trend_items,
         ai_success=ai_success,
         featured_count=len(featured),
         others_count=len(others),
