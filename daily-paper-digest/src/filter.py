@@ -107,14 +107,19 @@ def filter_and_classify(
 
     Returns:
         {
-            "featured": {분야명: Paper, ...},  # 분야별 대표 1편
-            "others": [Paper, ...],            # 나머지 관련 논문
-            "field_counts": {분야명: int, ...}, # 분야별 전체 논문 수
-            "unrelated_count": int,             # PPEL 무관 논문 수
+            "featured": {분야명: Paper, ...},        # 분야별 대표 1편
+            "others": [Paper, ...],                  # 나머지 관련 논문 (전체)
+            "field_others": {분야명: [Paper], ...},  # 분야별 나머지 관련 논문
+            "unclassified": [Paper, ...],            # 미분류 관련 논문
+            "field_counts": {분야명: int, ...},      # 분야별 전체 논문 수
+            "unrelated_count": int,                  # PPEL 무관 논문 수
         }
     """
     if not papers:
-        return {"featured": {}, "others": [], "field_counts": {}, "unrelated_count": 0}
+        return {
+            "featured": {}, "others": [], "field_others": {},
+            "unclassified": [], "field_counts": {}, "unrelated_count": 0,
+        }
 
     # 1. 관련성 점수 계산
     papers = compute_relevance(papers, keywords)
@@ -142,12 +147,14 @@ def filter_and_classify(
 
     # 4. 분야별 대표 1편 선정 (관련성 점수 최고)
     featured: dict[str, Paper] = {}
+    field_others_map: dict[str, list[Paper]] = {}
     others: list[Paper] = []
 
     for field, field_list in field_papers.items():
         # 점수순 정렬
         field_list.sort(key=lambda p: p.relevance_score, reverse=True)
         featured[field] = field_list[0]
+        field_others_map[field] = field_list[1:]
         others.extend(field_list[1:])
 
     # 미분류 논문은 전부 others로
@@ -173,6 +180,8 @@ def filter_and_classify(
     return {
         "featured": featured,
         "others": others,
+        "field_others": field_others_map,
+        "unclassified": unclassified,
         "field_counts": dict(field_counts),
         "unrelated_count": unrelated_count,
     }

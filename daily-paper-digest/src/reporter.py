@@ -23,6 +23,8 @@ def generate_report(
     field_counts: dict[str, int],
     total_collected: int,
     ai_result: dict | None = None,
+    field_others: dict[str, list[Paper]] | None = None,
+    unclassified: list[Paper] | None = None,
 ) -> str:
     """HTML 이메일 리포트 생성."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -45,16 +47,24 @@ def generate_report(
         )
         field_trends = {}
 
-    # 분야별 트렌드 (AI 없어도 field_counts 기반으로 생성)
-    trend_items = []
-    for field, count in sorted(field_counts.items(), key=lambda x: -x[1]):
-        ai_trend = field_trends.get(field, "")
-        trend_items.append({
+    # 분야별 통합 섹션 구성
+    field_sections = []
+    for field, paper in featured.items():
+        related = (field_others or {}).get(field, [])
+        section = {
             "field": field,
-            "count": count,
-            "trend": ai_trend,
-            "has_featured": field in featured,
-        })
+            "count": field_counts.get(field, 0),
+            "trend": field_trends.get(field, ""),
+            "featured": paper,
+            "related": related,
+            "related_count": len(related),
+        }
+        field_sections.append(section)
+
+    # 논문 수 기준 내림차순 정렬
+    field_sections.sort(key=lambda s: s["count"], reverse=True)
+
+    unclassified_papers = unclassified or []
 
     template_dir = _get_template_dir()
     env = Environment(loader=FileSystemLoader(template_dir), autoescape=True)
@@ -66,7 +76,8 @@ def generate_report(
         featured=featured,
         others=others,
         overview=overview,
-        trend_items=trend_items,
+        field_sections=field_sections,
+        unclassified=unclassified_papers,
         ai_success=ai_success,
         featured_count=len(featured),
         others_count=len(others),
