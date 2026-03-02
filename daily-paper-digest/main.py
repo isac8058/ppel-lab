@@ -76,6 +76,8 @@ def main():
     featured = classification["featured"]       # {분야: Paper}
     others = classification["others"]           # [Paper, ...]
     field_counts = classification["field_counts"]
+    field_others = classification["field_others"]   # {분야: [Paper, ...]}
+    unclassified = classification["unclassified"]   # [Paper, ...]
 
     logger.info(f"분야별 대표: {len(featured)}편, 기타: {len(others)}편")
 
@@ -86,7 +88,7 @@ def main():
 
     try:
         analyzer = GeminiAnalyzer(config)
-        ai_result = analyzer.analyze_featured(featured)
+        ai_result = analyzer.analyze_featured(featured, field_counts)
         ai_success = ai_result is not None
         logger.info(
             f"Gemini: {'성공' if ai_success else '실패 (fallback)'} | "
@@ -110,6 +112,8 @@ def main():
         field_counts=field_counts,
         total_collected=total_collected,
         ai_result=ai_result,
+        field_others=field_others,
+        unclassified=unclassified,
     )
     subject = get_email_subject(len(featured))
 

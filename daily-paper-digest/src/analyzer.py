@@ -16,7 +16,9 @@ PPEL_FIELDS_DESC = (
 )
 
 # 분야별 대표 논문(최대 5편)만 분석하는 간결한 프롬프트
-ANALYSIS_PROMPT = """PPEL 연구실({ppel_fields}) 관점에서 아래 논문들을 분석하세요.
+ANALYSIS_PROMPT = """PPEL 연구실({ppel_fields}) 관점에서 아래 분야별 대표 논문들을 분석하세요.
+
+오늘 분야별 수집 논문 수: {field_counts_text}
 
 {papers_list}
 
@@ -30,9 +32,9 @@ JSON으로만 응답하세요:
             "ppel_score": 7
         }}
     ],
-    "overview": "오늘의 연구 동향 2-3문장 요약 (한글)",
+    "overview": "오늘의 전체 연구 동향 2-3문장 요약 (한글)",
     "field_trends": {{
-        "분야명": "이 분야 동향 1-2문장 (한글)"
+        "분야명": "이 분야 오늘의 연구 동향과 PPEL 랩 관점에서의 시사점/방향 제안 (한글, 3-4문장)"
     }}
 }}"""
 
@@ -57,7 +59,8 @@ class GeminiAnalyzer:
         self.api_calls = 0
 
     def analyze_featured(
-        self, featured: dict[str, Paper]
+        self, featured: dict[str, Paper],
+        field_counts: dict[str, int] | None = None,
     ) -> dict | None:
         """분야별 대표 논문(최대 5편)을 1회 API 호출로 분석.
 
@@ -79,9 +82,16 @@ class GeminiAnalyzer:
             )
             paper_index[i] = (field, paper)
 
+        field_counts_text = ""
+        if field_counts:
+            field_counts_text = ", ".join(
+                f"{f} {c}편" for f, c in field_counts.items()
+            )
+
         prompt = ANALYSIS_PROMPT.format(
             ppel_fields=PPEL_FIELDS_DESC,
             papers_list=papers_list,
+            field_counts_text=field_counts_text,
         )
 
         # 1회 시도, 429면 즉시 포기
