@@ -1,6 +1,7 @@
 """Gmail IMAP 리더 - 최근 24시간 이메일을 읽어옵니다."""
 
 import email
+import email.message
 import imaplib
 import logging
 from dataclasses import dataclass, field
