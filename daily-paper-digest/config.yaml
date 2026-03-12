@@ -12,7 +12,7 @@ journals:
   - name: Nano Energy
     url: "https://rss.sciencedirect.com/publication/science/22112855"
   - name: Biosensors and Bioelectronics
-    url: "https://rss.sciencedirect.com/publication/science/09565663"
+    url: "https://rss.sciencedirect.com/publicathion/science/09565663"
   - name: Advanced Functional Materials
     url: "https://onlinelibrary.wiley.com/feed/16163028/most-recent"
   - name: "Energy & Environmental Science"
@@ -51,5 +51,5 @@ analysis:
   time_window_hours: 48
 
 gemini:
-  model: "gemini-2.0-flash"
+    model: "gemini-2.5-flash"
   rate_limit_per_minute: 14
