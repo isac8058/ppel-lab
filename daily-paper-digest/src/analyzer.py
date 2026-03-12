@@ -1,11 +1,15 @@
-"""Gemini API 논문 분석 모듈 - 선택적 AI 강화."""
+"""Gemini API 논문 분석 모듈 - 선택적 AI 강화.
+
+google-genai SDK 사용 (google-generativeai deprecated 대체).
+"""
 
 import json
 import logging
 import os
 import time
 
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 from src.collector import Paper
 
@@ -40,21 +44,18 @@ JSON으로만 응답하세요:
 
 
 class GeminiAnalyzer:
-    """Gemini 분석기 - 실패해도 리포트에 영향 없음."""
+    """제미니 분석기 - 실패해도 리포트에 영향 없음."""
 
     def __init__(self, config: dict):
         api_key = os.environ.get("GEMINI_API_KEY", "")
         if not api_key:
             raise ValueError("GEMINI_API_KEY 환경변수가 설정되지 않았습니다.")
 
-        genai.configure(api_key=api_key)
-        model_name = config.get("gemini", {}).get("model", "gemini-2.0-flash")
-        self.model = genai.GenerativeModel(
-            model_name,
-            generation_config={
-                "response_mime_type": "application/json",
-                "temperature": 0.2,
-            },
+        self.model_name = config.get("gemini", {}).get("model", "gemini-2.5-flash")
+        self.client = genai.Client(api_key=api_key)
+        self.config = types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.2,
         )
         self.api_calls = 0
 
@@ -97,11 +98,12 @@ class GeminiAnalyzer:
         # 1회 시도, 429면 즉시 포기
         self.api_calls += 1
         try:
-            response = self.model.generate_content(
-                prompt,
-                request_options={"timeout": 60},
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+                config=self.config,
             )
-            logger.info(f"Gemini API 호출 성공 (1회)")
+            logger.info("Gemini API 호출 성공 (1회)")
             result = json.loads(response.text)
 
             # 결과를 논문에 적용
@@ -119,7 +121,7 @@ class GeminiAnalyzer:
             error_str = str(e)
             # 429/quota → 즉시 포기 (재시도 무의미)
             if "429" in error_str or "quota" in error_str.lower() or "ResourceExhausted" in error_str:
-                logger.warning(f"Gemini 할당량 초과 → AI 분석 건너뜀: {error_str[:100]}")
+                logger.warning(f"Gemini 할당량 초과 → AI 분석 건너뛰: {error_str[:100]}")
                 return None
 
             # 기타 에러 → 30초 후 1회 재시도
@@ -128,9 +130,10 @@ class GeminiAnalyzer:
 
             self.api_calls += 1
             try:
-                response = self.model.generate_content(
-                    prompt,
-                    request_options={"timeout": 60},
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=self.config,
                 )
                 logger.info("Gemini API 재시도 성공")
                 result = json.loads(response.text)
