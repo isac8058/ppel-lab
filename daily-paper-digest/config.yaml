@@ -52,4 +52,4 @@ analysis:
 
 gemini:
     model: "gemini-2.5-flash"
-  rate_limit_per_minute: 14
+    rate_limit_per_minute: 14
