@@ -1,4 +1,4 @@
-"""키워드 기반 논문 필터링 및 PPEL 분야별 분류 모듈."""
+"""키워드 기반 논문 필터링 및 7개 카테고리별 분류 모듈."""
 
 import logging
 import re
@@ -11,61 +11,37 @@ from src.collector import Paper
 
 logger = logging.getLogger(__name__)
 
-# PPEL 연구 분야 정의
-PPEL_FIELDS = {
-    "에너지 하베스팅": [
-        "energy harvesting", "triboelectric", "piezoelectric",
-        "nanogenerator", "self-powered", "thermoelectric",
-        "solar cell", "photovoltaic",
-    ],
-    "바이오센서": [
-        "biosensor", "electrochemical sensor", "glucose sensor",
-        "impedimetric", "voltammetric", "immunosensor",
-        "aptasensor", "bioelectronics",
-    ],
-    "유연/웨어러블 전자소자": [
-        "flexible electronics", "wearable", "strain sensor",
-        "stretchable", "e-skin", "soft electronics",
-        "flexible sensor", "textile electronics",
-    ],
-    "프린팅 전자소자": [
-        "printed electronics", "screen printing", "inkjet printing",
-        "3d printing", "additive manufacturing", "roll-to-roll",
-        "gravure printing", "aerosol jet",
-    ],
-    "DFT/계산소재과학": [
-        "dft", "first-principles", "first principles",
-        "2d materials", "mxene", "perovskite",
-        "density functional", "ab initio", "molecular dynamics",
-    ],
-}
 
-
-def _classify_paper(paper: Paper) -> str | None:
-    """논문을 PPEL 분야로 분류. 매칭되지 않으면 None."""
+def _classify_paper(paper: Paper, categories: dict) -> tuple[str | None, int]:
+    """논문을 카테고리로 분류. (카테고리키, 매칭수) 반환."""
     text = f"{paper.title} {paper.abstract}".lower()
 
-    best_field = None
+    best_cat = None
     best_count = 0
 
-    for field, keywords in PPEL_FIELDS.items():
+    for cat_key, cat_info in categories.items():
+        keywords = cat_info.get("keywords", [])
         count = sum(
             1 for kw in keywords
-            if re.search(r'\b' + re.escape(kw) + r'\b', text)
+            if re.search(r'\b' + re.escape(kw.lower()) + r'\b', text)
         )
         if count > best_count:
             best_count = count
-            best_field = field
+            best_cat = cat_key
 
-    return best_field if best_count > 0 else None
+    return (best_cat, best_count) if best_count > 0 else (None, 0)
 
 
-def compute_relevance(papers: list[Paper], keywords: list[str]) -> list[Paper]:
+def compute_relevance(papers: list[Paper], categories: dict) -> list[Paper]:
     """TF-IDF 기반 키워드 관련성 점수 계산."""
     if not papers:
         return []
 
-    keyword_doc = " ".join(keywords)
+    all_keywords = []
+    for cat_info in categories.values():
+        all_keywords.extend(cat_info.get("keywords", []))
+
+    keyword_doc = " ".join(all_keywords)
 
     paper_docs = []
     for p in papers:
@@ -100,88 +76,66 @@ def compute_relevance(papers: list[Paper], keywords: list[str]) -> list[Paper]:
 
 def filter_and_classify(
     papers: list[Paper],
-    keywords: list[str],
-    relevance_threshold: float = 3.0,
-) -> dict:
-    """논문 필터링 후 분야별 분류.
+    config: dict,
+) -> dict[str, list[Paper]]:
+    """논문 필터링 후 7개 카테고리별 분류.
 
     Returns:
-        {
-            "featured": {분야명: Paper, ...},        # 분야별 대표 1편
-            "others": [Paper, ...],                  # 나머지 관련 논문 (전체)
-            "field_others": {분야명: [Paper], ...},  # 분야별 나머지 관련 논문
-            "unclassified": [Paper, ...],            # 미분류 관련 논문
-            "field_counts": {분야명: int, ...},      # 분야별 전체 논문 수
-            "unrelated_count": int,                  # PPEL 무관 논문 수
-        }
+        {"peng": [Paper, ...], "teng": [...], ...}
+        각 카테고리 내에서 관련성 점수 상위 max_papers_per_category개 선별.
     """
+    categories = config.get("categories", {})
+    max_per_cat = config.get("analysis", {}).get("max_papers_per_category", 8)
+    max_total = config.get("analysis", {}).get("max_total_papers", 50)
+    threshold = config.get("analysis", {}).get("relevance_threshold", 4)
+
     if not papers:
-        return {
-            "featured": {}, "others": [], "field_others": {},
-            "unclassified": [], "field_counts": {}, "unrelated_count": 0,
-        }
+        return {cat_key: [] for cat_key in categories}
 
     # 1. 관련성 점수 계산
-    papers = compute_relevance(papers, keywords)
+    papers = compute_relevance(papers, categories)
 
-    # 2. 관련성 있는 논문만 선별
-    sorted_papers = sorted(papers, key=lambda p: p.relevance_score, reverse=True)
-    relevant = [p for p in sorted_papers if p.relevance_score >= relevance_threshold]
+    # 2. 각 논문을 가장 높은 점수의 카테고리에 배정
+    cat_papers: dict[str, list[Paper]] = defaultdict(list)
 
-    if not relevant:
-        relevant = sorted_papers[:5]
-        logger.info(f"관련 논문 없음. 상위 {len(relevant)}편 사용")
-
-    # 3. 분야별 분류
-    field_papers: dict[str, list[Paper]] = defaultdict(list)
-    unclassified: list[Paper] = []
-
-    for p in relevant:
-        field = _classify_paper(p)
-        if field:
-            p.relevance_label = field
-            field_papers[field].append(p)
-        else:
-            p.relevance_label = ""
-            unclassified.append(p)
-
-    # 4. 분야별 대표 1편 선정 (관련성 점수 최고)
-    featured: dict[str, Paper] = {}
-    field_others_map: dict[str, list[Paper]] = {}
-    others: list[Paper] = []
-
-    for field, field_list in field_papers.items():
-        # 점수순 정렬
-        field_list.sort(key=lambda p: p.relevance_score, reverse=True)
-        featured[field] = field_list[0]
-        field_others_map[field] = field_list[1:]
-        others.extend(field_list[1:])
-
-    # 미분류 논문은 전부 others로
-    others.extend(unclassified)
-    others.sort(key=lambda p: p.relevance_score, reverse=True)
-
-    # 5. 분야별 전체 논문 수 (전체 papers 기준)
-    field_counts: dict[str, int] = defaultdict(int)
-    unrelated_count = 0
     for p in papers:
-        field = _classify_paper(p)
-        if field:
-            field_counts[field] += 1
-        else:
-            unrelated_count += 1
+        cat_key, match_count = _classify_paper(p, categories)
+        if cat_key and (p.relevance_score >= threshold or match_count >= 2):
+            p.category = cat_key
+            p.relevance_label = categories[cat_key].get("name", cat_key)
+            cat_papers[cat_key].append(p)
 
+    # 3. 각 카테고리 내에서 관련성 점수 상위 max_per_cat개 선별
+    result: dict[str, list[Paper]] = {}
+    total_selected = 0
+
+    for cat_key in categories:
+        papers_in_cat = cat_papers.get(cat_key, [])
+        papers_in_cat.sort(key=lambda p: p.relevance_score, reverse=True)
+        selected = papers_in_cat[:max_per_cat]
+        result[cat_key] = selected
+        total_selected += len(selected)
+
+    # 4. max_total_papers 제한
+    if total_selected > max_total:
+        all_selected = []
+        for cat_key, cat_list in result.items():
+            for p in cat_list:
+                all_selected.append((cat_key, p))
+        all_selected.sort(key=lambda x: x[1].relevance_score, reverse=True)
+
+        kept = set()
+        for cat_key, p in all_selected[:max_total]:
+            kept.add(id(p))
+
+        for cat_key in result:
+            result[cat_key] = [p for p in result[cat_key] if id(p) in kept]
+
+    total_final = sum(len(v) for v in result.values())
+    cat_summary = {categories[k]["name"]: len(v) for k, v in result.items() if v}
     logger.info(
-        f"분야별 분류 완료: 대표 {len(featured)}편, "
-        f"기타 관련 {len(others)}편, "
-        f"전체 분야 분포 {dict(field_counts)}"
+        f"카테고리별 분류 완료: 총 {total_final}편 선별, "
+        f"분포 {cat_summary}"
     )
 
-    return {
-        "featured": featured,
-        "others": others,
-        "field_others": field_others_map,
-        "unclassified": unclassified,
-        "field_counts": dict(field_counts),
-        "unrelated_count": unrelated_count,
-    }
+    return result

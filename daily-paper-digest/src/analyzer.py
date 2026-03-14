@@ -1,4 +1,4 @@
-"""Gemini API 논문 분석 모듈 - 선택적 AI 강화.
+"""Gemini API 논문 분석 모듈 - 주간 다이제스트용.
 
 google-genai SDK 사용 (google-generativeai deprecated 대체).
 """
@@ -15,31 +15,48 @@ from src.collector import Paper
 
 logger = logging.getLogger(__name__)
 
-PPEL_FIELDS_DESC = (
-    "에너지 하베스팅, 바이오센서, 유연/프린팅 전자소자, DFT 계산소재과학"
-)
+ANALYSIS_PROMPT = """당신은 재료공학/전자공학 분야 논문 분석 전문가입니다.
+아래 논문들을 7개 카테고리별로 분석하여 JSON으로 응답하세요.
 
-# 분야별 대표 논문(최대 5편)만 분석하는 간결한 프롬프트
-ANALYSIS_PROMPT = """PPEL 연구실({ppel_fields}) 관점에서 아래 분야별 대표 논문들을 분석하세요.
+분석 대상 연구실(PPEL Lab, 전북대학교):
+- 에너지 하베스팅 (TENG, PENG)
+- 바이오센서 (전기화학 센서, 압타머)
+- 유연/프린팅 전자소자
+- MXene 소재 응용
+- DFT 계산소재과학
+- 멤리스터 (ReRAM)
 
-오늘 분야별 수집 논문 수: {field_counts_text}
+[논문 목록 - 카테고리별]
+{papers_by_category}
 
-{papers_list}
+각 논문에 대해:
+- highlight_title: 핵심 소재/기술명 (한글, 짧게, 예: "BeO/PVDF 복합 박막")
+- summary_kr: 한글 핵심 요약 1줄 (소재 → 방법 → 결과 순, 수치 포함)
+- relevance: PPEL 연관성 점수 (1-10)
+- sub_group: "소재" | "응용" | "트렌드" 중 하나
 
-JSON으로만 응답하세요:
+추가로:
+- weekly_summary: PPEL 연구 시사점 총평 (한글, 4개 문단, 각 문단은 HTML <p> 태그 형식:
+  <p><b>번호. 주제 — 키워드.</b> 설명</p>
+  <p style="margin-top:10px;"><b>번호. 주제 — 키워드.</b> 설명</p>
+  총평에서는 PPEL의 구체적 연구 프로젝트(cherry blossom TENG, 셀룰로오스/GCN TENG, MXene/Fe3O4 전극, 5-hmC 암진단 센서, p-tau217 알츠하이머 진단, CuO@PDA 멤리스터, DLP 마이크로니들 패치)와 이번 주 논문의 연관성을 직접 언급)
+
+반드시 JSON만 출력하세요. 다른 텍스트 없이.
+
+응답 형식:
 {{
-    "papers": [
-        {{
-            "index": 0,
-            "summary_kr": "한글 2줄 핵심 요약",
-            "novelty": "핵심 기여 1줄 (한글)",
-            "ppel_score": 7
-        }}
-    ],
-    "overview": "오늘의 전체 연구 동향 2-3문장 요약 (한글)",
-    "field_trends": {{
-        "분야명": "이 분야 오늘의 연구 동향과 PPEL 랩 관점에서의 시사점/방향 제안 (한글, 3-4문장)"
-    }}
+    "papers": {{
+        "카테고리키": [
+            {{
+                "doi": "10.xxx/yyy",
+                "highlight_title": "핵심 소재/기술명",
+                "summary_kr": "한글 핵심 요약 1줄",
+                "relevance": 7,
+                "sub_group": "소재"
+            }}
+        ]
+    }},
+    "weekly_summary": "<p><b>1. ...</b> ...</p>..."
 }}"""
 
 
@@ -59,41 +76,44 @@ class GeminiAnalyzer:
         )
         self.api_calls = 0
 
-    def analyze_featured(
-        self, featured: dict[str, Paper],
-        field_counts: dict[str, int] | None = None,
+    def analyze_papers(
+        self,
+        categorized_papers: dict[str, list[Paper]],
+        categories_config: dict,
     ) -> dict | None:
-        """분야별 대표 논문(최대 5편)을 1회 API 호출로 분석.
+        """전체 카테고리별 논문을 1회 API 호출로 분석.
 
         Returns:
             파싱된 결과 dict 또는 None (실패시)
         """
-        if not featured:
+        # 논문 목록 텍스트 구성
+        papers_text = ""
+        paper_lookup = {}  # doi -> Paper
+
+        for cat_key, papers in categorized_papers.items():
+            if not papers:
+                continue
+            cat_name = categories_config.get(cat_key, {}).get("name", cat_key)
+            papers_text += f"\n=== {cat_name} ===\n"
+
+            for p in papers:
+                abstract = p.abstract or "(초록 없음)"
+                if len(abstract) > 300:
+                    abstract = abstract[:300] + "..."
+                doi_str = p.doi or "N/A"
+                url_str = p.url or p.link or ""
+                papers_text += (
+                    f"- [{cat_key}] {p.title}\n"
+                    f"  DOI: {doi_str} | URL: {url_str}\n"
+                    f"  초록: {abstract}\n\n"
+                )
+                if p.doi:
+                    paper_lookup[p.doi] = p
+
+        if not papers_text.strip():
             return None
 
-        papers_list = ""
-        paper_index = {}
-        for i, (field, paper) in enumerate(featured.items()):
-            abstract = paper.abstract or "(초록 없음)"
-            if len(abstract) > 250:
-                abstract = abstract[:250] + "..."
-            papers_list += (
-                f"{i}. [{field}] {paper.title}\n"
-                f"   초록: {abstract}\n\n"
-            )
-            paper_index[i] = (field, paper)
-
-        field_counts_text = ""
-        if field_counts:
-            field_counts_text = ", ".join(
-                f"{f} {c}편" for f, c in field_counts.items()
-            )
-
-        prompt = ANALYSIS_PROMPT.format(
-            ppel_fields=PPEL_FIELDS_DESC,
-            papers_list=papers_list,
-            field_counts_text=field_counts_text,
-        )
+        prompt = ANALYSIS_PROMPT.format(papers_by_category=papers_text)
 
         # 1회 시도, 429면 즉시 포기
         self.api_calls += 1
@@ -107,24 +127,26 @@ class GeminiAnalyzer:
             result = json.loads(response.text)
 
             # 결과를 논문에 적용
-            for pr in result.get("papers", []):
-                idx = pr.get("index", -1)
-                if idx in paper_index:
-                    _, paper = paper_index[idx]
-                    paper.summary = pr.get("summary_kr", "")
-                    paper.novelty = pr.get("novelty", "")
-                    paper.ppel_score = int(pr.get("ppel_score", 0))
+            papers_result = result.get("papers", {})
+            if isinstance(papers_result, dict):
+                for cat_key, paper_list in papers_result.items():
+                    for pr in paper_list:
+                        doi = pr.get("doi", "")
+                        if doi and doi in paper_lookup:
+                            paper = paper_lookup[doi]
+                            paper.highlight_title = pr.get("highlight_title", paper.title)
+                            paper.summary_kr = pr.get("summary_kr", "")
+                            paper.ppel_score = int(pr.get("relevance", 0))
+                            paper.sub_group = pr.get("sub_group", "소재")
 
             return result
 
         except Exception as e:
             error_str = str(e)
-            # 429/quota → 즉시 포기 (재시도 무의미)
             if "429" in error_str or "quota" in error_str.lower() or "ResourceExhausted" in error_str:
                 logger.warning(f"Gemini 할당량 초과 → AI 분석 건너뛰: {error_str[:100]}")
                 return None
 
-            # 기타 에러 → 30초 후 1회 재시도
             logger.warning(f"Gemini API 실패: {error_str[:100]} → 30초 후 재시도")
             time.sleep(30)
 
@@ -138,13 +160,17 @@ class GeminiAnalyzer:
                 logger.info("Gemini API 재시도 성공")
                 result = json.loads(response.text)
 
-                for pr in result.get("papers", []):
-                    idx = pr.get("index", -1)
-                    if idx in paper_index:
-                        _, paper = paper_index[idx]
-                        paper.summary = pr.get("summary_kr", "")
-                        paper.novelty = pr.get("novelty", "")
-                        paper.ppel_score = int(pr.get("ppel_score", 0))
+                papers_result = result.get("papers", {})
+                if isinstance(papers_result, dict):
+                    for cat_key, paper_list in papers_result.items():
+                        for pr in paper_list:
+                            doi = pr.get("doi", "")
+                            if doi and doi in paper_lookup:
+                                paper = paper_lookup[doi]
+                                paper.highlight_title = pr.get("highlight_title", paper.title)
+                                paper.summary_kr = pr.get("summary_kr", "")
+                                paper.ppel_score = int(pr.get("relevance", 0))
+                                paper.sub_group = pr.get("sub_group", "소재")
 
                 return result
 

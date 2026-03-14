@@ -1,9 +1,9 @@
-name: Daily Paper Digest
+name: PPEL Weekly Paper Digest
 
 on:
   schedule:
-    # UTC 22:00 = KST 07:00
-    - cron: '0 22 * * *'
+    # 매주 월요일 UTC 00:00 = KST 09:00
+    - cron: '0 0 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -39,7 +39,7 @@ jobs:
           path: daily-paper-digest
         continue-on-error: true
 
-      - name: Run Daily Paper Digest
+      - name: Run Weekly Paper Digest
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -92,7 +92,7 @@ jobs:
           path: daily-paper-digest
         continue-on-error: true
 
-      - name: Retry Daily Paper Digest
+      - name: Retry Weekly Paper Digest
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}

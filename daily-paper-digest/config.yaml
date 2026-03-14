@@ -1,4 +1,8 @@
-# Daily Paper Digest Configuration
+# PPEL Weekly Paper Digest Configuration
+
+schedule:
+  mode: weekly
+  collection_window_days: 7
 
 journals:
   - name: Nature
@@ -18,38 +22,115 @@ journals:
   - name: "Energy & Environmental Science"
     url: "https://pubs.rsc.org/en/journals/journalissues/ee#!recentarticles&adv"
 
-keywords:
-  - energy harvesting
-  - triboelectric
-  - piezoelectric
-  - MXene
-  - biosensor
-  - electrochemical sensor
-  - flexible electronics
-  - printed electronics
-  - DFT
-  - first-principles
-  - wearable
-  - nanogenerator
-  - strain sensor
-  - glucose sensor
-  - 2D materials
-  - perovskite
-  - self-powered
-  - impedimetric
-  - voltammetric
-  - screen printing
-  - inkjet printing
-  - 3D printing
+categories:
+  peng:
+    name: "압전소자 (PENG)"
+    icon: "⚡"
+    css_class: "c-peng"
+    keywords:
+      - piezoelectric
+      - PENG
+      - piezo
+      - BaTiO3
+      - PVDF
+      - PZT
+      - ZnO nanowire
+      - piezoelectric nanogenerator
+      - ferroelectric
+      - d33
+  teng:
+    name: "마찰전기 나노발전기 (TENG)"
+    icon: "🔋"
+    css_class: "c-teng"
+    keywords:
+      - triboelectric
+      - TENG
+      - triboelectrification
+      - contact electrification
+      - friction layer
+      - tribo
+      - nanogenerator
+  reram:
+    name: "ReRAM / Memristor"
+    icon: "💾"
+    css_class: "c-reram"
+    keywords:
+      - ReRAM
+      - RRAM
+      - memristor
+      - resistive switching
+      - memristive
+      - neuromorphic
+      - synaptic device
+      - conductive filament
+  biosensor:
+    name: "바이오센서"
+    icon: "🧬"
+    css_class: "c-bio"
+    keywords:
+      - biosensor
+      - electrochemical sensor
+      - aptamer
+      - immunosensor
+      - glucose sensor
+      - biomarker detection
+      - point-of-care
+      - LOD
+      - impedimetric
+      - voltammetric
+      - amperometric
+  photocatalyst:
+    name: "광촉매 활용"
+    icon: "☀️"
+    css_class: "c-photo"
+    keywords:
+      - photocatalyst
+      - photocatalytic
+      - water splitting
+      - hydrogen evolution
+      - Z-scheme
+      - S-scheme
+      - heterojunction
+      - CO2 reduction
+      - photodegradation
+      - solar fuel
+  mxene:
+    name: "MXene 활용"
+    icon: "🔬"
+    css_class: "c-mxene"
+    keywords:
+      - MXene
+      - Ti3C2
+      - Ti3C2Tx
+      - MAX phase
+      - V2C
+      - Nb2C
+      - 2D carbide
+      - 2D nitride
+      - MXene composite
+  supercapacitor:
+    name: "슈퍼커패시터"
+    icon: "⚙️"
+    css_class: "c-sc"
+    keywords:
+      - supercapacitor
+      - pseudocapacitor
+      - EDLC
+      - electrochemical capacitor
+      - specific capacitance
+      - energy density
+      - asymmetric supercapacitor
+      - hybrid capacitor
 
 email:
   recipient: "smlim@jbnu.ac.kr"
+  subject_format: "[PPEL Digest] {start_date}~{end_date} | {total}개 분야 주요 논문"
 
 analysis:
-  max_papers: 10
-  relevance_threshold: 3
-  time_window_hours: 48
+  max_papers_per_category: 8
+  max_total_papers: 50
+  relevance_threshold: 4
 
 gemini:
-    model: "gemini-2.5-flash"
-    rate_limit_per_minute: 14
+  model: "gemini-2.5-flash"
+  rate_limit_per_minute: 14

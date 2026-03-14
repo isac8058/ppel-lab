@@ -29,11 +29,9 @@ def send_email(
     msg["From"] = gmail_user
     msg["To"] = recipient
 
-    # HTML 본문
     html_part = MIMEText(html_body, "html", "utf-8")
     msg.attach(html_part)
 
-    # 재시도 로직 (지수 백오프)
     for attempt in range(max_retries):
         try:
             with smtplib.SMTP("smtp.gmail.com", 587, timeout=30) as server:
