@@ -8,7 +8,6 @@ from datetime import datetime, timedelta, timezone
 
 from dotenv import load_dotenv
 
-from src.analyzer import GeminiAnalyzer
 from src.collector import collect_papers, load_config
 from src.database import PaperDatabase
 from src.filter import filter_and_classify
@@ -99,6 +98,7 @@ def main():
     ai_success = False
 
     try:
+        from src.analyzer import GeminiAnalyzer
         analyzer = GeminiAnalyzer(config)
         ai_result = analyzer.analyze_papers(categorized, categories_config)
         ai_success = ai_result is not None
