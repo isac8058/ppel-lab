@@ -721,6 +721,72 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             background: var(--secondary-bg);
         }
 
+        
+        /* Fancy Section Dividers */
+        .fancy-section-divider {
+            text-align: center;
+            margin: 60px auto 40px;
+            max-width: 1200px;
+            position: relative;
+        }
+        .fancy-section-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+        }
+        .fancy-section-divider h3 {
+            display: inline-block;
+            background: var(--primary-bg);
+            padding: 0 30px;
+            position: relative;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .fancy-section-divider .year-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* Fancy member section headers */
+        .member-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 50px 0 24px;
+        }
+        .member-section-header::before,
+        .member-section-header::after {
+            content: '';
+            height: 2px;
+            width: 60px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue));
+        }
+        .member-section-header::after {
+            background: linear-gradient(90deg, var(--accent-blue), transparent);
+        }
+        .member-section-header h3 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
         /* ===== Research Impact Showcase Section ===== */
         .research-impact {
             padding: 80px 30px;
@@ -904,7 +970,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         }
 
         .impact-card.expanded .impact-card-expand {
-            max-height: 300px;
+            max-height: 600px;
         }
 
         .impact-card-expand-inner {
@@ -912,6 +978,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             border-top: 1px solid var(--border-color);
             margin: 0 20px;
             padding-top: 20px;
+            max-height: 450px;
+            overflow-y: auto;
         }
 
         .impact-example {
@@ -3612,7 +3680,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         <h2 class="section-title" data-ko="연구실 구성원" data-en="Lab Members">Lab Members</h2>
         
         <!-- Postdoctoral Researchers -->
-        <h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사후연구원" data-en="Postdoctoral Researchers">Postdoctoral Researchers</h3>
+        <div class="member-section-header"><h3 data-ko="박사후연구원" data-en="Postdoctoral Researchers">POSTDOCTORAL</h3></div>
         <div class="members-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px;">
             <div class="member-card standard-card" style="grid-column: span 2; border: 2px solid var(--accent-blue); flex-direction: row; gap: 24px; padding: 28px 36px;">
                 <div class="member-avatar" style="border-color: var(--accent-blue); flex-shrink: 0;">
@@ -3627,7 +3695,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         </div>
 
         <!-- Ph.D. Students -->
-        <h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사과정" data-en="Ph.D. Students">Ph.D. Students</h3>
+        <div class="member-section-header"><h3 data-ko="박사과정" data-en="Ph.D. Students">PH.D. STUDENTS</h3></div>
         <div class="members-grid">
     <div class="member-card standard-card">
         <div class="member-avatar">
@@ -3758,11 +3826,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 <div id="searchResults" style="text-align: center; margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;"></div>
             </div>
 
-         <!-- 2025 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 20px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="최신 주요 논문" data-en="Recent Selected Publications">
-    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
-    Recent Selected Publications
-</h3>
+         <!-- 2026 Publications -->
+<div class="fancy-section-divider"><span class="year-badge">2026</span><br><h3 data-ko="2026년 주요 논문" data-en="Selected Publications">Selected Publications</h3></div>
 
 <div class="publication-item">
     <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
@@ -3834,11 +3899,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     </div>
 </div>
 
-           <!-- 2024 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 70px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="이전 주요 논문" data-en="Previous Selected Publications">
-    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
-    Previous Selected Publications
-</h3>
+           <!-- 2023-2025 Publications -->
+<div class="fancy-section-divider"><span class="year-badge">2023 — 2025</span><br><h3 data-ko="2023-2025년 주요 논문" data-en="Selected Publications">Selected Publications</h3></div>
 
 <div class="publication-item">
     <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
