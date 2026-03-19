@@ -3611,15 +3611,24 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     <section class="members-section" id="members">
         <h2 class="section-title" data-ko="연구실 구성원" data-en="Lab Members">Lab Members</h2>
         
-        <div class="members-grid">
-            <div class="member-card standard-card" style="border: 2px solid var(--accent-blue);">
-                <span style="display: inline-block; padding: 3px 12px; background: var(--accent-blue); color: white; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 12px;">Postdoc</span>
-                <div class="member-avatar" style="border-color: var(--accent-blue);">
+        <!-- Postdoctoral Researchers -->
+        <h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사후연구원" data-en="Postdoctoral Researchers">Postdoctoral Researchers</h3>
+        <div class="members-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px;">
+            <div class="member-card standard-card" style="grid-column: span 2; border: 2px solid var(--accent-blue); flex-direction: row; gap: 24px; padding: 28px 36px;">
+                <div class="member-avatar" style="border-color: var(--accent-blue); flex-shrink: 0;">
                     <img src="image/STUDENTS PICTURES/HABIBULLA IMRAN_opt.jpg" loading="lazy" alt="Dr. Habibulla Imran" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <h3 class="member-name">Dr. Habibulla Imran</h3>
-                <p class="member-role" data-ko="박사후연구원" data-en="Postdoctoral Researcher">Postdoctoral Researcher</p>
+                <div style="text-align: left;">
+                    <span style="display: inline-block; padding: 3px 12px; background: var(--accent-blue); color: white; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;">Postdoc</span>
+                    <h3 class="member-name" style="font-size: 1.3rem;">Dr. Habibulla Imran</h3>
+                    <p class="member-role" data-ko="박사후연구원" data-en="Postdoctoral Researcher">Postdoctoral Researcher</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Ph.D. Students -->
+        <h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사과정" data-en="Ph.D. Students">Ph.D. Students</h3>
+        <div class="members-grid">
     <div class="member-card standard-card">
         <div class="member-avatar">
             <img src="image/STUDENTS PICTURES/PATIL OMKAR_opt.jpg" loading="lazy" alt="Omkar Patil" style="width: 100%; height: 100%; object-fit: cover;">
