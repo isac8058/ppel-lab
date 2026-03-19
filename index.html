@@ -4376,6 +4376,7 @@ content: '그래픽 탄소 질화물의 압전 성능 연구가 Chemical Enginee
         // Update News - auto-generates from publications + manual news
         function updateNews() {
             const newsGrid = document.getElementById('newsGrid');
+            if (!newsGrid) return;
             
             // Auto-generate news from publications
             const autoNews = [];
@@ -4646,11 +4647,11 @@ function showTab(tabName) {
             }
         }
 
-        // Initialize typing effect on page load
+        // Initialize on page load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-                initTypingEffect();
+                try { initTypingEffect(); } catch(e) {}
             }, 500);
         });
 
@@ -4748,11 +4749,11 @@ function showTab(tabName) {
             });
         });
 
-        // Create particle effect
+        // Create particle effect (disabled - hero simplified)
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
             const particleCount = 50;
-            
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -4762,11 +4763,6 @@ function showTab(tabName) {
                 particlesContainer.appendChild(particle);
             }
         }
-
-        // Initialize particles
-        createParticles();
-// Initialize particles
-createParticles();
 
 // Simple Email Popup Functions
 function showEmailPopup(event) {
