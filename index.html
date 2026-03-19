@@ -777,6 +777,18 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
         }
 
+        
+        .impact-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .impact-card.has-img .impact-card-header {
+            padding-top: 20px;
+        }
+
         .impact-card-header {
             padding: 28px 28px 0;
             display: flex;
@@ -3174,7 +3186,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         <div class="impact-grid">
 
             <!-- Card 1: AI Printed Electronics -->
-            <div class="impact-card" onclick="toggleImpactCard(this)">
+            <div class="impact-card has-img" onclick="toggleImpactCard(this)">
+                <img class="impact-card-img" src="image/research/ai-electronics.jpg" alt="AI Printed Electronics" loading="lazy">
                 <div class="impact-card-header">
                     <div class="impact-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🤖</div>
                     <h3 data-ko="AI 기반 프린티드 일렉트로닉스" data-en="AI-Powered Printed Electronics">AI-Powered Printed Electronics</h3>
@@ -3211,7 +3224,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             </div>
 
             <!-- Card 2: Biosensors -->
-            <div class="impact-card" onclick="toggleImpactCard(this)">
+            <div class="impact-card has-img" onclick="toggleImpactCard(this)">
+                <img class="impact-card-img" src="image/research/biosensor.jpg" alt="Bioprinting & Biosensors" loading="lazy">
                 <div class="impact-card-header">
                     <div class="impact-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🧬</div>
                     <h3 data-ko="바이오프린팅 & 바이오센서" data-en="Bioprinting & Biosensors">Bioprinting & Biosensors</h3>
@@ -3248,7 +3262,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             </div>
 
             <!-- Card 3: Printed Memories -->
-            <div class="impact-card" onclick="toggleImpactCard(this)">
+            <div class="impact-card has-img" onclick="toggleImpactCard(this)">
+                <img class="impact-card-img" src="image/research/memory.jpg" alt="Printed Memory Devices" loading="lazy">
                 <div class="impact-card-header">
                     <div class="impact-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">💾</div>
                     <h3 data-ko="프린티드 메모리" data-en="Printed Memory Devices">Printed Memory Devices</h3>
@@ -3285,7 +3300,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             </div>
 
             <!-- Card 4: Energy Storage -->
-            <div class="impact-card" onclick="toggleImpactCard(this)">
+            <div class="impact-card has-img" onclick="toggleImpactCard(this)">
+                <img class="impact-card-img" src="image/research/energy.jpg" alt="Printed Energy Storage" loading="lazy">
                 <div class="impact-card-header">
                     <div class="impact-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">⚡</div>
                     <h3 data-ko="프린티드 슈퍼캐패시터 & 배터리" data-en="Printed Supercapacitors & Batteries">Printed Supercapacitors & Batteries</h3>
@@ -3322,7 +3338,8 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             </div>
 
             <!-- Card 5: Piezo & Tribo -->
-            <div class="impact-card" onclick="toggleImpactCard(this)">
+            <div class="impact-card has-img" onclick="toggleImpactCard(this)">
+                <img class="impact-card-img" src="image/research/piezo.jpg" alt="Piezo & Triboelectric" loading="lazy">
                 <div class="impact-card-header">
                     <div class="impact-icon" style="background: linear-gradient(135deg, #ec4899, #be185d);">🔋</div>
                     <h3 data-ko="압전 & 마찰전기 에너지 하베스팅" data-en="Piezo & Triboelectric Energy Harvesting">Piezo & Triboelectric Energy Harvesting</h3>
