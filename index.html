@@ -778,6 +778,50 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         }
 
         
+        
+        .impact-papers {
+            padding: 0 28px 24px;
+        }
+        .impact-papers h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .impact-paper-item {
+            padding: 12px 16px;
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        .impact-paper-item:hover {
+            background: var(--card-bg);
+            border-color: var(--accent-blue);
+            transform: translateX(4px);
+        }
+        .impact-paper-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .impact-paper-meta {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+        .impact-paper-if {
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+
         .impact-card-img {
             width: 100%;
             height: 180px;
@@ -3203,22 +3247,21 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 </div>
                 <div class="impact-card-expand">
                     <div class="impact-card-expand-inner">
-                        <div class="impact-example">
-                            <div class="impact-example-icon">📱</div>
-                            <p data-ko="스마트폰 뒷면의 NFC 안테나 — 인쇄 공정으로 더 얇고 저렴하게" data-en="NFC antennas on smartphones — thinner and cheaper with printing">NFC antennas on smartphones — thinner and cheaper with printing</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🖥️</div>
-                            <p data-ko="유연한 OLED 디스플레이 배선을 AI가 최적 설계" data-en="AI-optimized wiring for flexible OLED displays">AI-optimized wiring for flexible OLED displays</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🏭</div>
-                            <p data-ko="실험 없이 AI로 최적 인쇄 조건 예측 → 개발 기간 90% 단축" data-en="AI predicts optimal print conditions without experiments → 90% faster R&D">AI predicts optimal print conditions without experiments → 90% faster R&D</p>
+                        <div class="impact-papers">
+                            <h4>Selected Papers (IF ≥ 10)</h4>
+                            <a class="impact-paper-item" href="https://doi.org/10.1002/adfm.202424271" target="_blank">
+                                <div class="impact-paper-title">Highly Efficient 3D‐Printed PVDF‐Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</div>
+                                <div class="impact-paper-meta">Advanced Functional Materials, 2025 · <span class="impact-paper-if">IF: 19.0</span></div>
+                            </a>
+                            <a class="impact-paper-item" href="https://doi.org/10.1016/j.addma.2024.104001" target="_blank">
+                                <div class="impact-paper-title">Optimizing PMMA-based stretchable microneedle arrays by vat photopolymerization for efficient drug loading</div>
+                                <div class="impact-paper-meta">Additive Manufacturing, 2024 · <span class="impact-paper-if">IF: 11.1</span></div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="impact-card-toggle">
-                    <span data-ko="응용 사례 보기" data-en="See Applications">See Applications</span>
+                    <span data-ko="대표 논문 보기" data-en="Selected Papers">Selected Papers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
             </div>
@@ -3241,22 +3284,21 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 </div>
                 <div class="impact-card-expand">
                     <div class="impact-card-expand-inner">
-                        <div class="impact-example">
-                            <div class="impact-example-icon">💉</div>
-                            <p data-ko="당뇨 환자의 비침습 혈당 모니터링 패치 — 하루 종일 실시간 추적" data-en="Non-invasive glucose monitoring patch for diabetics — all-day real-time tracking">Non-invasive glucose monitoring patch for diabetics — all-day real-time tracking</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🏃</div>
-                            <p data-ko="운동선수 땀 분석 센서 — 탈수·전해질 균형 실시간 알림" data-en="Athlete sweat analysis sensor — real-time dehydration & electrolyte alerts">Athlete sweat analysis sensor — real-time dehydration & electrolyte alerts</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🧪</div>
-                            <p data-ko="현장 진단(POCT) 키트 — 감염병 5분 내 판별" data-en="Point-of-care testing kits — detect infections within 5 minutes">Point-of-care testing kits — detect infections within 5 minutes</p>
+                        <div class="impact-papers">
+                            <h4>Selected Papers (IF ≥ 10)</h4>
+                            <a class="impact-paper-item" href="https://doi.org/10.1021/acsnano.4c13276" target="_blank">
+                                <div class="impact-paper-title">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</div>
+                                <div class="impact-paper-meta">ACS Nano, 2025 · <span class="impact-paper-if">IF: 15.8</span></div>
+                            </a>
+                            <a class="impact-paper-item" href="https://doi.org/10.1016/j.ijbiomac.2025.147736" target="_blank">
+                                <div class="impact-paper-title">Portable and wireless DNA nanosensor for early detection of lung cancer using 1T-MoS₂/liposome-AuNP modified transducer</div>
+                                <div class="impact-paper-meta">Int. J. Biological Macromolecules, 2025 · <span class="impact-paper-if">IF: 11.2</span> · JCR Q1</div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="impact-card-toggle">
-                    <span data-ko="응용 사례 보기" data-en="See Applications">See Applications</span>
+                    <span data-ko="대표 논문 보기" data-en="Selected Papers">Selected Papers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
             </div>
@@ -3279,22 +3321,17 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 </div>
                 <div class="impact-card-expand">
                     <div class="impact-card-expand-inner">
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🏷️</div>
-                            <p data-ko="식품 포장지 스마트 라벨 — 유통기한·온도 이력을 실시간 기록" data-en="Smart food packaging labels — record expiry dates & temperature history in real-time">Smart food packaging labels — record expiry dates & temperature history in real-time</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">👕</div>
-                            <p data-ko="스마트 의류 내장 메모리 — 세탁 횟수·착용 패턴 저장" data-en="Smart clothing embedded memory — store wash count & wearing patterns">Smart clothing embedded memory — store wash count & wearing patterns</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">💊</div>
-                            <p data-ko="의약품 위변조 방지 — 인쇄형 보안 메모리 태그" data-en="Anti-counterfeit pharmaceuticals — printed security memory tags">Anti-counterfeit pharmaceuticals — printed security memory tags</p>
+                        <div class="impact-papers">
+                            <h4>Selected Papers (IF ≥ 10)</h4>
+                            <a class="impact-paper-item" href="https://doi.org/10.1016/j.carbon.2024.119234" target="_blank">
+                                <div class="impact-paper-title">Recent advancements in carbon-based materials for resistive switching applications</div>
+                                <div class="impact-paper-meta">Carbon, 2024 · <span class="impact-paper-if">IF: 11.6</span></div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="impact-card-toggle">
-                    <span data-ko="응용 사례 보기" data-en="See Applications">See Applications</span>
+                    <span data-ko="대표 논문 보기" data-en="Selected Papers">Selected Papers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
             </div>
@@ -3317,22 +3354,21 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 </div>
                 <div class="impact-card-expand">
                     <div class="impact-card-expand-inner">
-                        <div class="impact-example">
-                            <div class="impact-example-icon">⌚</div>
-                            <p data-ko="차세대 스마트워치 — 밴드 자체가 배터리, 충전 시간 1/10로 단축" data-en="Next-gen smartwatch — the band IS the battery, charging 10x faster">Next-gen smartwatch — the band IS the battery, charging 10x faster</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🌾</div>
-                            <p data-ko="스마트 농업 센서 — 토양에 삽입하는 자가전원 IoT 모니터링" data-en="Smart agriculture sensors — self-powered IoT monitoring inserted in soil">Smart agriculture sensors — self-powered IoT monitoring inserted in soil</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">💳</div>
-                            <p data-ko="초박형 카드 배터리 — 신용카드 두께의 에너지원" data-en="Ultra-thin card batteries — power source as thin as a credit card">Ultra-thin card batteries — power source as thin as a credit card</p>
+                        <div class="impact-papers">
+                            <h4>Selected Papers (IF ≥ 10)</h4>
+                            <a class="impact-paper-item" href="https://doi.org/10.1039/D4TA01234H" target="_blank">
+                                <div class="impact-paper-title">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</div>
+                                <div class="impact-paper-meta">J. Mater. Chem. A, 2024 · <span class="impact-paper-if">IF: 11.1</span></div>
+                            </a>
+                            <a class="impact-paper-item" href="https://doi.org/10.1016/j.cej.2024.152345" target="_blank">
+                                <div class="impact-paper-title">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets</div>
+                                <div class="impact-paper-meta">Chemical Engineering Journal, 2024 · <span class="impact-paper-if">IF: 13.4</span></div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="impact-card-toggle">
-                    <span data-ko="응용 사례 보기" data-en="See Applications">See Applications</span>
+                    <span data-ko="대표 논문 보기" data-en="Selected Papers">Selected Papers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
             </div>
@@ -3355,22 +3391,25 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 </div>
                 <div class="impact-card-expand">
                     <div class="impact-card-expand-inner">
-                        <div class="impact-example">
-                            <div class="impact-example-icon">👟</div>
-                            <p data-ko="자가발전 운동화 — 걸을 때 발생하는 에너지로 GPS 트래커 구동" data-en="Self-charging sneakers — power GPS trackers from walking energy">Self-charging sneakers — power GPS trackers from walking energy</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🌉</div>
-                            <p data-ko="교량·건물 안전 모니터링 — 진동으로 자체 전력을 생산하는 센서" data-en="Bridge & building safety monitoring — vibration-powered sensors">Bridge & building safety monitoring — vibration-powered sensors</p>
-                        </div>
-                        <div class="impact-example">
-                            <div class="impact-example-icon">🖐️</div>
-                            <p data-ko="터치 감지 전자피부 — 로봇 손에 촉각을 부여하는 자가발전 센서" data-en="Touch-sensing e-skin — self-powered tactile sensors for robot hands">Touch-sensing e-skin — self-powered tactile sensors for robot hands</p>
+                        <div class="impact-papers">
+                            <h4>Selected Papers (IF ≥ 10)</h4>
+                            <a class="impact-paper-item" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank">
+                                <div class="impact-paper-title">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</div>
+                                <div class="impact-paper-meta">Chemical Engineering Journal, 2025 · <span class="impact-paper-if">IF: 13.4</span></div>
+                            </a>
+                            <a class="impact-paper-item" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank">
+                                <div class="impact-paper-title">Self-Powered Gesture Recognition Using a Sustainable Cherry Blossom Triboelectric Nanogenerator</div>
+                                <div class="impact-paper-meta">Nano Energy, 2025 · <span class="impact-paper-if">IF: 16.8</span></div>
+                            </a>
+                            <a class="impact-paper-item" href="https://doi.org/10.1002/adfm.202424271" target="_blank">
+                                <div class="impact-paper-title">Highly Efficient 3D‐Printed PVDF‐Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</div>
+                                <div class="impact-paper-meta">Advanced Functional Materials, 2025 · <span class="impact-paper-if">IF: 19.0</span></div>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="impact-card-toggle">
-                    <span data-ko="응용 사례 보기" data-en="See Applications">See Applications</span>
+                    <span data-ko="대표 논문 보기" data-en="Selected Papers">Selected Papers</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
             </div>
@@ -3460,7 +3499,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                     <div class="info-content">
                         <p style="color: var(--text-secondary); line-height: 1.6;">
                             • 100+ publications in peer-reviewed journals<br>
-                            • 2,186+ citations with h-index of 30<br>
+                            • 2,733+ citations with h-index of 30<br>
                             • 6 patents granted in printed electronics field<br>
                             • for NRF Mid-Career Researcher Program (2024)
                         </p>
@@ -3572,20 +3611,14 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     <section class="members-section" id="members">
         <h2 class="section-title" data-ko="연구실 구성원" data-en="Lab Members">Lab Members</h2>
         
-        <!-- Postdoctoral Researchers -->
-        <h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사후연구원" data-en="Postdoctoral Researchers">Postdoctoral Researchers</h3>
-        <div class="members-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="members-grid">
             <div class="member-card standard-card">
-<div class="member-avatar">
-    <img src="image/STUDENTS PICTURES/HABIBULLA IMRAN_opt.jpg" loading="lazy" alt="Dr. Habibulla Imran" style="width: 100%; height: 100%; object-fit: cover;">
-</div>                <h3 class="member-name">Dr. Habibulla Imran</h3>
+                <div class="member-avatar">
+                    <img src="image/STUDENTS PICTURES/HABIBULLA IMRAN_opt.jpg" loading="lazy" alt="Dr. Habibulla Imran" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <h3 class="member-name">Dr. Habibulla Imran</h3>
                 <p class="member-role" data-ko="박사후연구원" data-en="Postdoctoral Researcher">Postdoctoral Researcher</p>
             </div>
-        </div>
-        
-<!-- Ph.D. Students -->
-<h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사과정" data-en="Ph.D. Students">Ph.D. Students</h3>
-<div class="members-grid">
     <div class="member-card standard-card">
         <div class="member-avatar">
             <img src="image/STUDENTS PICTURES/PATIL OMKAR_opt.jpg" loading="lazy" alt="Omkar Patil" style="width: 100%; height: 100%; object-fit: cover;">
@@ -3658,7 +3691,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 <div style="display: inline-flex; gap: 30px; align-items: center; flex-wrap: wrap; justify-content: center;">
                     <div style="position: relative; padding: 25px 30px; background: var(--card-bg); border-radius: 12px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease; box-shadow: var(--card-shadow);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-blue)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
                         <div style="font-size: 2.2rem; margin-bottom: 10px;">📚</div>
-                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">2,186+</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">2,733+</div>
                         <div style="color: var(--text-secondary); font-size: 1rem;" data-ko="총 인용수" data-en="Total Citations">Total Citations</div>
                     </div>
                     <div style="position: relative; padding: 25px 30px; background: var(--card-bg); border-radius: 12px; min-width: 180px; border: 1px solid var(--border-color); transition: all 0.3s ease; box-shadow: var(--card-shadow);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-purple)';" onmouseout="this.style.transform=''; this.style.borderColor='var(--border-color)';">
@@ -3696,6 +3729,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                             onfocus="this.style.borderColor='var(--accent-purple)'"
                             onblur="this.style.borderColor='var(--border-color)'">
                         <option value="all">All Years</option>
+                        <option value="2026">2026</option>
                         <option value="2025">2025</option>
                         <option value="2024">2024</option>
                         <option value="2023">2023</option>
@@ -3713,6 +3747,21 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 </div>
                 <div id="searchResults" style="text-align: center; margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;"></div>
             </div>
+
+         <!-- 2026 Publications -->
+<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 20px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="2026년 주요 논문" data-en="2026 Selected Publications">
+    <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
+    2026 Selected Publications
+</h3>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Alloys #15</span>
+    </div>
+    <h3 class="publication-title">Defect-Tailored Fe-NiCr₂O₄ Nano-spinel for Efficient Solar-Light Responsive Photocatalysis and Water Disinfection</h3>
+    <p class="publication-authors">K Ajmal, I Bibi, Q Raza, S Lim, M Mahmood, G Mustafa, B Taj, N Alwadai</p>
+    <p class="publication-journal">Journal of Alloys and Compounds <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.2)</span></p>
+</div>
 
          <!-- 2025 Publications -->
 <h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 20px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="2025년 주요 논문" data-en="2025 Selected Publications">
@@ -3761,10 +3810,39 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         </a>
     </div>
 </div>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Energy #12</span>
+    </div>
+    <h3 class="publication-title">Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator</h3>
+    <p class="publication-authors">OA Patil, MY Chougale, S Lim</p>
+    <p class="publication-journal">Nano Energy <span style="color: var(--accent-purple); font-weight: 600;">(IF: 16.8)</span></p>
+    <div style="margin-top: 10px;">
+        <a href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
+            <span>🔗</span> DOI: 10.1016/j.nanoen.2025.111687
+        </a>
+    </div>
+</div>
+
+<div class="publication-item">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="rank-badge">Biosensors #5</span>
+    </div>
+    <h3 class="publication-title">Portable and wireless DNA nanosensor for early detection of lung cancer using ultrafast synthesis of 1T-MoS₂/liposome-AuNP modified transducer</h3>
+    <p class="publication-authors">H Imran, M Ko, V Dharuman, J An, S Lim</p>
+    <p class="publication-journal">Int. J. Biological Macromolecules <span style="color: var(--accent-purple); font-weight: 600;">(IF: 11.2)</span></p>
+    <div style="margin-top: 10px;">
+        <a href="https://doi.org/10.1016/j.ijbiomac.2025.147736" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
+            <span>🔗</span> DOI: 10.1016/j.ijbiomac.2025.147736
+        </a>
+    </div>
+</div>
+
            <!-- 2024 Publications -->
-<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 70px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="2024년 주요 논문" data-en="2024 Selected Publications">
+<h3 style="color: var(--accent-blue); margin-bottom: 40px; margin-top: 70px; font-size: 2.2rem; position: relative; padding-left: 25px; font-weight: 700;" data-ko="2023-2025년 주요 논문" data-en="2023-2025 Selected Publications">
     <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 5px; height: 30px; background: var(--gradient-1); border-radius: 3px;"></span>
-    2024 Selected Publications
+    2023-2025 Selected Publications
 </h3>
 
 <div class="publication-item">
