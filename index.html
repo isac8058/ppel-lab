@@ -3104,7 +3104,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
                 <li><a href="#home" class="nav-link" data-ko="홈" data-en="Home">Home</a></li>
                 <li><a href="#professor" class="nav-link" data-ko="교수님" data-en="Professor">Professor</a></li>
                 <li><a href="#members" class="nav-link" data-ko="구성원" data-en="Members">Members</a></li>
-                <li><a href="#research" class="nav-link" data-ko="연구" data-en="Research">Research</a></li>
+                <li><a href="#impact" class="nav-link" data-ko="연구" data-en="Research">Research</a></li>
                 <li><a href="#publications" class="nav-link" data-ko="논문" data-en="Publications">Publications</a></li>
                 <li><a href="#patents" class="nav-link" data-ko="특허" data-en="Patents">Patents</a></li>
                 <li><a href="#collaborations" class="nav-link" data-ko="협력기관" data-en="Collaborations">Collaborations</a></li>
@@ -3122,25 +3122,14 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg-animation">
-            <div class="floating-shape shape-1"></div>
-            <div class="floating-shape shape-2"></div>
-            <div class="floating-shape shape-3"></div>
-        </div>
-        
-        <div class="particles" id="particles"></div>
-        
+    <section class="hero" id="home" style="min-height: 60vh; padding: 120px 30px 60px;">
         <div class="hero-content">
-    <h1 class="hero-title">
-    <span class="letter">P</span><span class="letter">P</span><span class="letter">E</span><span class="letter">L</span><span class="plus-symbol">+</span>
-</h1>
-            <p class="hero-subtitle" data-ko="미래를 인쇄하다" data-en="Printing the Future">
-                <span class="typing-container">
-                    <span class="typing-text" id="typingText"></span><span class="typing-cursor" id="typingCursor"></span>
-                </span>
-            </p>
-            <a href="#research" class="hero-cta" data-ko="연구 분야 탐색" data-en="Explore Our Research">
+            <h1 class="hero-title" style="margin-bottom: 12px;">
+                <span class="letter">P</span><span class="letter">P</span><span class="letter">E</span><span class="letter">L</span><span class="plus-symbol">+</span>
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 8px;" data-ko="Printability for Printed Electronics Lab" data-en="Printability for Printed Electronics Lab">Printability for Printed Electronics Lab</p>
+            <p style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 30px;" data-ko="전북대학교 유연인쇄전자학과" data-en="Jeonbuk National University">Jeonbuk National University</p>
+            <a href="#impact" class="hero-cta" data-ko="연구 분야 탐색" data-en="Explore Our Research">
                 Explore Our Research
             </a>
         </div>
@@ -3373,14 +3362,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     </section>
 
     <!-- News Section -->
-    <section class="news-section" id="news">
-        <div class="news-container">
-            <h2 class="section-title" data-ko="최신 소식" data-en="Latest News">Latest News</h2>
-            <div class="news-grid" id="newsGrid">
-                <!-- News items will be dynamically added -->
-            </div>
-        </div>
-    </section>
+
 
    <!-- Professor Section -->
 <section class="professor-section" id="professor">
@@ -3575,7 +3557,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         
         <!-- Postdoctoral Researchers -->
         <h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="박사후연구원" data-en="Postdoctoral Researchers">Postdoctoral Researchers</h3>
-        <div class="members-grid">
+        <div class="members-grid" style="grid-template-columns: repeat(3, 1fr);">
             <div class="member-card standard-card">
 <div class="member-avatar">
     <img src="image/STUDENTS PICTURES/HABIBULLA IMRAN_opt.jpg" loading="lazy" alt="Dr. Habibulla Imran" style="width: 100%; height: 100%; object-fit: cover;">
@@ -3644,55 +3626,9 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
     </div>
 </div>
 
-<!-- Master Students -->
-<h3 style="text-align: center; margin: 40px 0 20px 0; color: var(--text-secondary);" data-ko="석사과정" data-en="Master Students">Master Students</h3>
-<div class="members-grid">
-    <div class="member-card standard-card">
-        <div class="member-avatar">
-            <img src="image/STUDENTS PICTURES/MUHAMMAD ZEESHAN ASGHAR_opt.jpg" loading="lazy" alt="Muhammad Zeeshan" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <h3 class="member-name">Muhammad Zeeshan</h3>
-        <p class="member-role" data-ko="석사과정" data-en="Master Student">Master Student</p>
-    </div>
-</div>
     </section>
 
-    <!-- Research Areas -->
-    <section class="research-areas" id="research">
-        <h2 class="section-title" data-ko="연구 분야" data-en="Research Areas">Research Areas</h2>
-        <div class="research-grid">
-            <div class="research-card standard-card" onclick="showResearchPapers('ai-electronics')">
-                <div class="research-icon" data-icon="🤖">
-                    <span style="animation: icon-bounce 2s ease-in-out infinite;">🤖</span>
-                </div>
-                <h3 data-ko="AI 기반 프린티드 일렉트로닉스" data-en="AI-Printed Electronics">AI-Printed Electronics</h3>
-            </div>
-            <div class="research-card standard-card" onclick="showResearchPapers('bio-printing')">
-                <div class="research-icon" data-icon="🧬">
-                    <span style="animation: icon-bounce 2s ease-in-out infinite; animation-delay: 0.2s;">🧬</span>
-                </div>
-                <h3 data-ko="바이오프린팅" data-en="Bio-printing">Bio-printing</h3>
-            </div>
-            <div class="research-card standard-card" onclick="showResearchPapers('printed-memories')">
-                <div class="research-icon" data-icon="💾">
-                    <span style="animation: icon-bounce 2s ease-in-out infinite; animation-delay: 0.4s;">💾</span>
-                </div>
-                <h3 data-ko="프린티드 메모리" data-en="Printed Memories">Printed Memories</h3>
-            </div>
-            <div class="research-card standard-card" onclick="showResearchPapers('energy-storage')">
-                <div class="research-icon" data-icon="⚡">
-                    <span style="animation: icon-bounce 2s ease-in-out infinite; animation-delay: 0.6s;">⚡</span>
-                </div>
-                <h3 data-ko="프린티드 슈퍼캐패시터 및 배터리" data-en="Printed Supercapacitors & Batteries">Printed Supercapacitors & Batteries</h3>
-            </div>
-            <div class="research-card standard-card" onclick="showResearchPapers('piezo-tribo')">
-                <div class="research-icon" data-icon="⚡">
-                    <span style="animation: icon-bounce 2s ease-in-out infinite; animation-delay: 0.8s;">⚡</span>
-                </div>
-                <h3 data-ko="압전 및 마찰전기" data-en="Piezo and Triboelectricity">Piezo and Triboelectricity</h3>
-            </div>
-        </div>
-</section>
+
 
    
     <!-- Publications Section -->
