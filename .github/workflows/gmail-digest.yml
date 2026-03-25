@@ -2,8 +2,8 @@ name: Gmail Daily Digest
 
 on:
   schedule:
-    # UTC 22:30 = KST 07:30 (논문 다이제스트 30분 뒤 실행)
-    - cron: '30 22 * * *'
+    # UTC 23:00 = KST 08:00
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 defaults:
