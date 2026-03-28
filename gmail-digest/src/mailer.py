@@ -40,7 +40,7 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
 <body>
 <div class="container">
   <div class="header">
-    <h1>📬 Gmail Daily Digest</h1>
+    <h1>📬 Gmail Weekly Digest</h1>
     <p>{date} | {total_count}개 수신 → {important_count}개 중요</p>
   </div>
 
@@ -49,7 +49,7 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
   {email_cards}
 
   <div class="footer">
-    PPEL Lab Gmail Digest &middot; 매일 KST 07:30 자동 발송<br>
+    PPEL Lab Gmail Digest &middot; 매주 월요일 KST 07:30 자동 발송<br>
     GitHub Actions 기반 자동화
   </div>
 </div>
@@ -110,11 +110,11 @@ def send_digest(
         important_emails = analysis["emails"]
         important_count = len(important_emails)
 
-        summary_section = f'<div class="summary">{analysis.get("daily_summary", "")}</div>'
+        summary_section = f'<div class="summary">{analysis.get("weekly_summary", "")}</div>'
         email_cards = "\n".join(_build_email_card(item) for item in important_emails)
     else:
         important_count = 0
-        summary_section = '<div class="empty">오늘은 특별히 중요한 이메일이 없습니다. 좋은 하루 되세요! 🎉</div>'
+        summary_section = '<div class="empty">이번 주는 특별히 중요한 이메일이 없습니다. 좋은 한 주 되세요! 🎉</div>'
         email_cards = ""
 
     html = EMAIL_TEMPLATE.format(
@@ -127,7 +127,7 @@ def send_digest(
 
     # 이메일 구성
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"[Gmail Digest] {date_str} | {important_count}개 중요 메일"
+    msg["Subject"] = f"[Weekly Digest] {date_str} | {important_count}개 중요 메일"
     msg["From"] = gmail_user
     msg["To"] = recipient
     msg.attach(MIMEText(html, "html", "utf-8"))

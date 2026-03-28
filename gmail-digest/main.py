@@ -1,4 +1,4 @@
-"""Gmail Daily Digest - 매일 중요 이메일을 분석하여 요약 발송."""
+"""Gmail Weekly Digest - 매주 월요일 한 주간 중요 이메일을 분석하여 총평 발송."""
 
 import logging
 import os
@@ -18,13 +18,13 @@ logger = logging.getLogger(__name__)
 
 # 설정
 RECIPIENT = os.environ.get("DIGEST_RECIPIENT", "smlim@jbnu.ac.kr")
-HOURS_LOOKBACK = int(os.environ.get("HOURS_LOOKBACK", "24"))
+HOURS_LOOKBACK = int(os.environ.get("HOURS_LOOKBACK", "168"))
 MIN_IMPORTANCE = int(os.environ.get("MIN_IMPORTANCE", "5"))
 
 
 def main():
     logger.info("=" * 50)
-    logger.info("Gmail Daily Digest 시작")
+    logger.info("Gmail Weekly Digest 시작")
     logger.info("=" * 50)
 
     gmail_user = os.environ.get("GMAIL_USER", "")
@@ -70,7 +70,7 @@ def main():
     )
 
     if success:
-        logger.info("Gmail Daily Digest 완료!")
+        logger.info("Gmail Weekly Digest 완료!")
     else:
         logger.error("이메일 발송 실패!")
         sys.exit(1)
