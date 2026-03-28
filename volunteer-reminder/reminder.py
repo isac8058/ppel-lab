@@ -1,6 +1,6 @@
 """
 식당봉사 주간 알림 스크립트
-- 매주 토요일에 다음 주 일요일 봉사팀을 이메일로 알림
+- 매주 금요일에 이번 주 일요일 봉사팀을 이메일로 알림
 - 기준: 2026-03-01(일) 1팀 시작, 이후 매주 순환
 """
 
@@ -84,11 +84,11 @@ def main():
 
     today = date.today()
 
-    if today.weekday() != 5:
-        print(f"경고: 오늘({today})은 토요일이 아닙니다. 계속 실행합니다.")
+    if today.weekday() != 4:
+        print(f"경고: 오늘({today})은 금요일이 아닙니다. 계속 실행합니다.")
 
-    saturday = today
-    sunday = saturday + timedelta(days=1)
+    saturday = today + timedelta(days=1)
+    sunday = today + timedelta(days=2)
 
     team = get_duty_team(saturday)
     subject, body = build_message(team, sunday)

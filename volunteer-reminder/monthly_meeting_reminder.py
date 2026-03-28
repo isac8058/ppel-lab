@@ -1,6 +1,6 @@
 """
 부목자 월간 모임 알림 스크립트
-- 매월 마지막 주 주일 전날(토요일)에 발송
+- 매월 마지막 주 주일 이틀 전(금요일)에 발송
 - 5개 마을 순환 (기준: 2026년 2월 = 209 정상연)
 - 기도 / 말씀 요약 / 간식당번 랜덤 배정 (월별 고정 seed)
 """
@@ -116,14 +116,14 @@ def main():
 
     today = date.today()
 
-    # 이 스크립트는 토요일에 실행됨
-    # 내일(일요일)이 해당 월의 마지막 주 일요일인지 확인
-    tomorrow = today + timedelta(days=1)
-    year, month = tomorrow.year, tomorrow.month
+    # 이 스크립트는 금요일에 실행됨
+    # 이번 주 일요일(모레)이 해당 월의 마지막 주 일요일인지 확인
+    sunday = today + timedelta(days=2)
+    year, month = sunday.year, sunday.month
     last_sun = last_sunday_of_month(year, month)
 
-    if tomorrow != last_sun:
-        print(f"내일({tomorrow})은 마지막 주 일요일이 아닙니다 (마지막 주 일요일: {last_sun}). 종료.")
+    if sunday != last_sun:
+        print(f"이번 주 일요일({sunday})은 마지막 주 일요일이 아닙니다 (마지막 주 일요일: {last_sun}). 종료.")
         sys.exit(0)
 
     village = get_village_for_month(year, month)

@@ -1,9 +1,9 @@
 name: 식당봉사 주간 알림
 
 on:
-  # 매주 토요일 오전 9시 (KST) = UTC 00:00 토요일
+  # 매주 금요일 오전 9시 (KST) = UTC 00:00 금요일
   schedule:
-    - cron: '0 0 * * 6'
+    - cron: '0 0 * * 5'
   # 수동 테스트용
   workflow_dispatch:
 

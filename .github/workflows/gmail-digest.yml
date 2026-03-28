@@ -1,9 +1,9 @@
-name: Gmail Daily Digest
+name: Gmail Weekly Digest
 
 on:
   schedule:
-    # UTC 22:30 = KST 07:30 (논문 다이제스트 30분 뒤 실행)
-    - cron: '30 22 * * *'
+    # 매주 일요일 UTC 22:30 = 월요일 KST 07:30
+    - cron: '30 22 * * 0'
   workflow_dispatch:
 
 defaults:
@@ -35,4 +35,5 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           DIGEST_RECIPIENT: smlim@jbnu.ac.kr
+          HOURS_LOOKBACK: '168'
         run: python main.py
