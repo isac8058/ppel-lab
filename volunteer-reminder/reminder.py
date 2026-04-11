@@ -1,7 +1,7 @@
 """
 식당봉사 주간 알림 스크립트
-- 매주 금요일에 이번 주 일요일 봉사팀을 이메일로 알림
-- 기준: 2026-03-01(일) 1팀 시작, 이후 매주 순환
+- 매주 금요일에 이번 주 일요일 봉사조를 이메일로 알림
+- 기준: 2026-04-19(일) A조 시작, 이후 격주(2조) 순환
 """
 
 import os
@@ -12,33 +12,31 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # ─────────────────────────────────────────────
-# 봉사팀 명단
+# 봉사조 명단 (2조 격주 체제)
 # ─────────────────────────────────────────────
 TEAMS = [
     {
-        "name": "1팀",
+        "name": "A조",
         "leader": "임수만",
-        "members": ["김경은E", "정재성A", "장쾌남"],
+        "vice_leader": "최성계",
+        "members": [
+            "김호기", "김준영H", "김재근B", "김병수C", "박광진",
+            "홍성일A", "장쾌남", "김성철E", "정재성A",
+        ],
     },
     {
-        "name": "2팀",
+        "name": "B조",
         "leader": "정정진",
-        "members": ["김호기", "김병수C", "오선록"],
-    },
-    {
-        "name": "3팀",
-        "leader": "최성계",
-        "members": ["최종문A", "김대연A", "홍성일A"],
-    },
-    {
-        "name": "4팀",
-        "leader": "김종민C",
-        "members": ["김도윤B", "김재근B", "박광진"],
+        "vice_leader": "김대연A",
+        "members": [
+            "김도윤B", "김종민C", "김승호D", "오선록", "최종문A",
+            "임철승", "김중백", "김경은E", "정준기C",
+        ],
     },
 ]
 
-# 기준 토요일: 2026-02-28 → 다음 날(일) 1팀 봉사 시작
-REFERENCE_SATURDAY = date(2026, 2, 28)
+# 기준 토요일: 2026-04-18 → 다음 날(일) A조 봉사 시작
+REFERENCE_SATURDAY = date(2026, 4, 18)
 
 RECIPIENT = "smlim@jbnu.ac.kr"
 
@@ -56,7 +54,9 @@ def build_message(team: dict, sunday: date) -> tuple[str, str]:
     members_str = ", ".join(team["members"])
     subject = f"[식당봉사 알림] {sunday.strftime('%m/%d')}"
     body = (
-        f"이번주 식당봉사는 {team['name']} ({team['leader']} 조장, {members_str}) 입니다."
+        f"이번주 식당봉사는 {team['name']}입니다.\n"
+        f"정조장: {team['leader']} / 부조장: {team['vice_leader']}\n"
+        f"조원: {members_str}"
     )
     return subject, body
 
