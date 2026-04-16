@@ -1,0 +1,19 @@
+{
+  "name": "나노입자 피하기",
+  "short_name": "나노피하기",
+  "description": "나노입자를 피하는 캐주얼 아케이드 게임",
+  "start_url": "./nanoparticle.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#222222",
+  "theme_color": "#007BFF",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

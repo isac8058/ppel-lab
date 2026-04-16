@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#007BFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="나노피하기">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <title>나노입자 피하기</title>
+  <style>
+    body { margin: 0; padding: 0; overflow: hidden; background-color: #222; touch-action: none; }
+    canvas { display: block; width: 100vw; height: 100vh; background-color: #f4f4f9; }
+    #score {
+      position: absolute; top: calc(env(safe-area-inset-top, 0px) + 20px); left: 20px;
+      font-size: 24px; font-weight: bold; font-family: sans-serif;
+      color: #333;
+      pointer-events: none;
+    }
+    .toolbar {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 0px) + 16px);
+      right: 16px;
+      display: flex; gap: 8px;
+      font-family: sans-serif;
+      z-index: 10;
+    }
+    .toolbar button {
+      border: none; border-radius: 8px; padding: 8px 12px;
+      background: #007BFF; color: white; font-weight: bold; font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: pointer;
+    }
+    .toolbar button[hidden] { display: none; }
+    #iosHint {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      max-width: 320px; background: white; color: #222; padding: 18px 20px;
+      border-radius: 12px; font-family: sans-serif; font-size: 14px; line-height: 1.5;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 20;
+    }
+    #iosHint h3 { margin: 0 0 8px; font-size: 16px; }
+    #iosHint button {
+      margin-top: 12px; border: none; background: #007BFF; color: white;
+      border-radius: 6px; padding: 6px 12px; font-weight: bold; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">점수: 0</div>
+  <div class="toolbar">
+    <button id="installBtn" hidden>앱 설치</button>
+    <button id="downloadBtn">다운로드</button>
+  </div>
+  <canvas id="gameCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // BUG FIX: player.x must follow canvas width on resize
+      if (player) player.x = canvas.width * 0.2;
+    }
+
+    let score = 0;
+    let gameFrame = 0;
+    let gameOver = false;
+    let animationId = null; // BUG FIX: track RAF id to prevent duplicate loops
+
+    const player = {
+      x: 0,
+      y: 0,
+      radius: 15,
+      dy: 0,
+      gravity: 0.5,
+      jumpPower: -8,
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#007BFF';
+        ctx.fill();
+        ctx.closePath();
+      },
+      update() {
+        this.dy += this.gravity;
+        this.y += this.dy;
+        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+          gameOver = true;
+        }
+        this.draw();
+      },
+      jump() { this.dy = this.jumpPower; }
+    };
+
+    const obstacles = [];
+    const obstacleWidth = 60;
+    const gap = 200;
+
+    function handleObstacles() {
+      // BUG FIX: skip spawning at frame 0 so player has reaction time on (re)start
+      if (gameFrame > 0 && gameFrame % 120 === 0) {
+        const topHeight = Math.random() * (canvas.height - gap - 100) + 50;
+        obstacles.push({
+          x: canvas.width,
+          top: topHeight,
+          bottom: canvas.height - topHeight - gap,
+          passed: false
+        });
+      }
+      for (let i = 0; i < obstacles.length; i++) {
+        const obs = obstacles[i];
+        obs.x -= 3;
+        ctx.fillStyle = '#555';
+        ctx.fillRect(obs.x, 0, obstacleWidth, obs.top);
+        ctx.fillRect(obs.x, canvas.height - obs.bottom, obstacleWidth, obs.bottom);
+
+        if (player.x + player.radius > obs.x &&
+            player.x - player.radius < obs.x + obstacleWidth) {
+          if (player.y - player.radius < obs.top ||
+              player.y + player.radius > canvas.height - obs.bottom) {
+            gameOver = true;
+          }
+        }
+        if (obs.x + obstacleWidth < player.x && !obs.passed) {
+          score++;
+          obs.passed = true;
+          scoreEl.innerText = '점수: ' + score;
+        }
+      }
+      while (obstacles.length > 0 && obstacles[0].x < -obstacleWidth) {
+        obstacles.shift();
+      }
+    }
+
+    function drawGameOver() {
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 40px sans-serif';
+      ctx.fillText('게임 오버', canvas.width / 2, canvas.height / 2 - 40);
+      // BUG FIX: show final score on game over screen
+      ctx.font = 'bold 28px sans-serif';
+      ctx.fillText('점수: ' + score, canvas.width / 2, canvas.height / 2 + 5);
+      ctx.font = '20px sans-serif';
+      ctx.fillText('화면 터치로 재시작', canvas.width / 2, canvas.height / 2 + 50);
+    }
+
+    function animate() {
+      animationId = null;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      player.update();
+      // BUG FIX: stop processing obstacles in the death frame so no extra
+      // obstacle spawns or score increments after gameOver flips to true
+      if (!gameOver) {
+        handleObstacles();
+        gameFrame++;
+      } else {
+        // still draw existing obstacles for context, but don't move/score them
+        ctx.fillStyle = '#555';
+        for (const obs of obstacles) {
+          ctx.fillRect(obs.x, 0, obstacleWidth, obs.top);
+          ctx.fillRect(obs.x, canvas.height - obs.bottom, obstacleWidth, obs.bottom);
+        }
+        drawGameOver();
+        return;
+      }
+      animationId = requestAnimationFrame(animate);
+    }
+
+    function resetGame() {
+      // BUG FIX: cancel any pending frame so we never have two animate loops
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+      player.x = canvas.width * 0.2;
+      player.y = canvas.height / 2;
+      player.dy = 0;
+      obstacles.length = 0;
+      score = 0;
+      gameFrame = 0;
+      gameOver = false;
+      scoreEl.innerText = '점수: 0';
+      animate();
+    }
+
+    // BUG FIX: debounce input so a single tap doesn't fire both touchstart
+    // and the synthesized mousedown event (double jump / double reset)
+    let lastInputAt = 0;
+    function handleInput() {
+      const now = performance.now();
+      if (now - lastInputAt < 100) return;
+      lastInputAt = now;
+      if (gameOver) resetGame();
+      else player.jump();
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', resize);
+    window.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      handleInput();
+    }, { passive: false });
+    window.addEventListener('mousedown', handleInput);
+
+    resize();
+    player.y = canvas.height / 2;
+    animate();
+
+    // ---- PWA: install / download / offline ----
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    let deferredInstall = null;
+    const installBtn = document.getElementById('installBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstall = e;
+      installBtn.hidden = false;
+    });
+
+    installBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!deferredInstall) return;
+      deferredInstall.prompt();
+      await deferredInstall.userChoice;
+      deferredInstall = null;
+      installBtn.hidden = true;
+    });
+
+    // iOS Safari has no beforeinstallprompt — show a one-time hint.
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+    if (isIOS && !isStandalone && !localStorage.getItem('iosHintShown')) {
+      const hint = document.createElement('div');
+      hint.id = 'iosHint';
+      hint.innerHTML =
+        '<h3>홈 화면에 추가하기</h3>' +
+        '하단 공유 버튼 → "홈 화면에 추가"를 눌러 앱처럼 사용할 수 있어요.' +
+        '<br><button id="iosHintClose">확인</button>';
+      document.body.appendChild(hint);
+      document.getElementById('iosHintClose').addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.setItem('iosHintShown', '1');
+        hint.remove();
+      });
+    }
+
+    // Save the page itself (with manifest + sw inlined references) as a
+    // standalone HTML so it can run offline by just opening the file.
+    downloadBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      try {
+        const html = document.documentElement.outerHTML;
+        const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'nanoparticle.html';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch (err) {
+        alert('다운로드에 실패했어요: ' + err.message);
+      }
+    });
+
+    // Toolbar buttons must not trigger jump/restart.
+    const toolbarEl = document.querySelector('.toolbar');
+    toolbarEl.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    toolbarEl.addEventListener('mousedown',  (e) => e.stopPropagation());
+  </script>
+</body>
+</html>
