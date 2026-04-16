@@ -2,21 +2,57 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#007BFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="나노피하기">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
   <title>나노입자 피하기</title>
   <style>
     body { margin: 0; padding: 0; overflow: hidden; background-color: #222; touch-action: none; }
     canvas { display: block; width: 100vw; height: 100vh; background-color: #f4f4f9; }
     #score {
-      position: absolute; top: 20px; left: 20px;
+      position: absolute; top: calc(env(safe-area-inset-top, 0px) + 20px); left: 20px;
       font-size: 24px; font-weight: bold; font-family: sans-serif;
       color: #333;
       pointer-events: none;
+    }
+    .toolbar {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 0px) + 16px);
+      right: 16px;
+      display: flex; gap: 8px;
+      font-family: sans-serif;
+      z-index: 10;
+    }
+    .toolbar button {
+      border: none; border-radius: 8px; padding: 8px 12px;
+      background: #007BFF; color: white; font-weight: bold; font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: pointer;
+    }
+    .toolbar button[hidden] { display: none; }
+    #iosHint {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      max-width: 320px; background: white; color: #222; padding: 18px 20px;
+      border-radius: 12px; font-family: sans-serif; font-size: 14px; line-height: 1.5;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 20;
+    }
+    #iosHint h3 { margin: 0 0 8px; font-size: 16px; }
+    #iosHint button {
+      margin-top: 12px; border: none; background: #007BFF; color: white;
+      border-radius: 6px; padding: 6px 12px; font-weight: bold; cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div id="score">점수: 0</div>
+  <div class="toolbar">
+    <button id="installBtn" hidden>앱 설치</button>
+    <button id="downloadBtn">다운로드</button>
+  </div>
   <canvas id="gameCanvas"></canvas>
   <script>
     const canvas = document.getElementById('gameCanvas');
@@ -175,6 +211,76 @@
     resize();
     player.y = canvas.height / 2;
     animate();
+
+    // ---- PWA: install / download / offline ----
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    let deferredInstall = null;
+    const installBtn = document.getElementById('installBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstall = e;
+      installBtn.hidden = false;
+    });
+
+    installBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!deferredInstall) return;
+      deferredInstall.prompt();
+      await deferredInstall.userChoice;
+      deferredInstall = null;
+      installBtn.hidden = true;
+    });
+
+    // iOS Safari has no beforeinstallprompt — show a one-time hint.
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+    if (isIOS && !isStandalone && !localStorage.getItem('iosHintShown')) {
+      const hint = document.createElement('div');
+      hint.id = 'iosHint';
+      hint.innerHTML =
+        '<h3>홈 화면에 추가하기</h3>' +
+        '하단 공유 버튼 → "홈 화면에 추가"를 눌러 앱처럼 사용할 수 있어요.' +
+        '<br><button id="iosHintClose">확인</button>';
+      document.body.appendChild(hint);
+      document.getElementById('iosHintClose').addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.setItem('iosHintShown', '1');
+        hint.remove();
+      });
+    }
+
+    // Save the page itself (with manifest + sw inlined references) as a
+    // standalone HTML so it can run offline by just opening the file.
+    downloadBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      try {
+        const html = document.documentElement.outerHTML;
+        const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'nanoparticle.html';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch (err) {
+        alert('다운로드에 실패했어요: ' + err.message);
+      }
+    });
+
+    // Toolbar buttons must not trigger jump/restart.
+    const toolbarEl = document.querySelector('.toolbar');
+    toolbarEl.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    toolbarEl.addEventListener('mousedown',  (e) => e.stopPropagation());
   </script>
 </body>
 </html>
