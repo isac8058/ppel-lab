@@ -21,6 +21,12 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PPEL - Printability for Printed Electronics Lab+">
     <meta name="twitter:description" content="Leading research in printed electronics, flexible devices, energy storage, and biomedical sensors.">
+
+    <!-- Fonts: display (Space Grotesk) + body (Inter) + Korean (Pretendard) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -33,38 +39,42 @@
             width: 100%;
         }
 
-        /* Light Mode Variables (Default) */
+        /* Light Mode Variables (Default) — "Ink & Circuit" palette */
         :root {
-            --primary-bg: #ffffff;
-            --secondary-bg: #f8f9fa;
-            --accent-blue: #0066cc;
-            --accent-purple: #6b28d9;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666666;
+            --primary-bg: #fafafb;
+            --secondary-bg: #f4f5f8;
+            --accent-blue: #0891b2;
+            --accent-purple: #6d28d9;
+            --accent-copper: #e8743b;
+            --text-primary: #0f1020;
+            --text-secondary: #5b5d72;
             --card-bg: #ffffff;
-            --border-color: #e0e0e0;
-            --gradient-1: linear-gradient(135deg, #0066cc 0%, #6b28d9 100%);
-            --gradient-2: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
-            --gradient-3: linear-gradient(135deg, #06ffa5 0%, #0099ff 100%);
+            --border-color: #e7e8ef;
+            --gradient-1: linear-gradient(120deg, #6d28d9 0%, #7c3aed 40%, #06b6d4 100%);
+            --gradient-2: linear-gradient(135deg, #e8743b 0%, #7c3aed 100%);
+            --gradient-3: linear-gradient(135deg, #06b6d4 0%, #6d28d9 100%);
             --section-padding: 60px 30px;
-            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 1px 2px rgba(16, 16, 32, 0.04), 0 8px 24px rgba(16, 16, 32, 0.06);
+            --font-display: "Space Grotesk", "Pretendard", -apple-system, sans-serif;
+            --font-body: "Inter", "Pretendard", -apple-system, sans-serif;
         }
 
         /* Dark Mode Variables */
         body.dark-mode {
-            --primary-bg: #0a0a0a;
-            --secondary-bg: #1a1a2e;
-            --accent-blue: #00d4ff;
-            --accent-purple: #7c3aed;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
+            --primary-bg: #0b0b12;
+            --secondary-bg: #15151f;
+            --accent-blue: #22d3ee;
+            --accent-purple: #a78bfa;
+            --accent-copper: #f59264;
+            --text-primary: #f4f4fa;
+            --text-secondary: #9da0b8;
             --card-bg: rgba(255, 255, 255, 0.05);
             --border-color: rgba(255, 255, 255, 0.1);
-            --card-shadow: 0 2px 8px rgba(0, 212, 255, 0.1);
+            --card-shadow: 0 2px 8px rgba(124, 58, 237, 0.12);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--primary-bg);
             color: var(--text-primary);
             overflow-x: hidden;
@@ -73,6 +83,14 @@
             font-size: 16px;
             line-height: 1.7;
             transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Display typeface for headings */
+        h1, h2, h3, h4,
+        .hero-title, .section-title, .publication-title,
+        .impact-card-header h3, .member-name {
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
         }
 
         /* Prevent horizontal scroll on all sections */
@@ -214,8 +232,56 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: radial-gradient(ellipse at center bottom, rgba(0, 212, 255, 0.15) 0%, transparent 70%),
-                        radial-gradient(ellipse at center top, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+            background:
+                radial-gradient(40% 60% at 15% 20%, rgba(109, 40, 217, 0.28), transparent 60%),
+                radial-gradient(45% 55% at 85% 25%, rgba(6, 182, 212, 0.24), transparent 60%),
+                radial-gradient(45% 55% at 60% 95%, rgba(232, 116, 59, 0.16), transparent 60%);
+        }
+
+        /* Circuit-grid overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 46px 46px;
+            opacity: 0.5;
+            -webkit-mask-image: radial-gradient(circle at 50% 42%, #000, transparent 75%);
+            mask-image: radial-gradient(circle at 50% 42%, #000, transparent 75%);
+        }
+
+        /* Hero KPI stats */
+        .hero-kpis {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 38px;
+        }
+        .hero-kpi {
+            background: color-mix(in srgb, var(--card-bg) 75%, transparent);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 22px;
+            min-width: 120px;
+            backdrop-filter: blur(6px);
+        }
+        .hero-kpi .v {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-kpi .l {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.03em;
         }
 
         /* Animated Background Elements */
@@ -833,14 +899,34 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             position: relative;
         }
 
+        .impact-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1.5px;
+            background: var(--gradient-1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 3;
+        }
+
         .impact-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(0, 102, 204, 0.15);
-            border-color: var(--accent-blue);
+            box-shadow: 0 20px 50px rgba(109, 40, 217, 0.18);
+            border-color: transparent;
+        }
+
+        .impact-card:hover::after {
+            opacity: 1;
         }
 
         body.dark-mode .impact-card:hover {
-            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
+            box-shadow: 0 24px 60px rgba(124, 58, 237, 0.25);
         }
 
         
@@ -2924,6 +3010,7 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         .publication-item {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
+            border-left: 4px solid transparent;
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 20px;
@@ -2949,8 +3036,9 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
         }
 
         .publication-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+            transform: translateX(4px) translateY(-3px);
+            border-left-color: var(--accent-purple);
+            box-shadow: 0 20px 40px rgba(109, 40, 217, 0.15);
         }
 
         .publication-item:hover::before {
@@ -3256,6 +3344,12 @@ background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));  
             <a href="#impact" class="hero-cta" data-ko="연구 분야 탐색" data-en="Explore Our Research">
                 Explore Our Research
             </a>
+            <div class="hero-kpis">
+                <div class="hero-kpi"><div class="v">100+</div><div class="l" data-ko="논문" data-en="Publications">Publications</div></div>
+                <div class="hero-kpi"><div class="v">21.8</div><div class="l" data-ko="최고 저널 IF" data-en="Top journal IF">Top journal IF</div></div>
+                <div class="hero-kpi"><div class="v">2,400+</div><div class="l" data-ko="피인용" data-en="Citations">Citations</div></div>
+                <div class="hero-kpi"><div class="v">6</div><div class="l" data-ko="특허" data-en="Patents">Patents</div></div>
+            </div>
         </div>
     </section>
 
