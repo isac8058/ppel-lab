@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PPEL — 이미지 중심 리디자인 미리보기 v2</title>
+<title>PPEL — 디자인 리디자인 미리보기</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 :root{
+  /* ===== 제안 팔레트: "Ink & Circuit" ===== */
   --bg:#fafafb; --surface:#ffffff; --surface-2:#f4f5f8;
   --ink:#0f1020; --muted:#5b5d72; --line:#e7e8ef;
   --violet:#6d28d9; --cyan:#06b6d4; --copper:#e8743b;
@@ -32,118 +33,136 @@ body.dark{
 body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.7;
   transition:background .4s,color .4s;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4,.disp{font-family:var(--font-display);letter-spacing:-.02em;line-height:1.1}
-img{display:block;max-width:100%}
-.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 .section{padding:64px 0;border-top:1px solid var(--line)}
-.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:12px}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--violet);margin-bottom:14px}
 body.dark .eyebrow{color:#a78bfa}
-.lead{color:var(--muted);font-size:1.05rem;max-width:62ch}
+.lead{color:var(--muted);font-size:1.05rem;max-width:60ch}
+
+/* ===== top bar ===== */
 .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
   padding:14px 24px;background:color-mix(in srgb,var(--surface) 80%,transparent);
   backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--line)}
 .bar b{font-family:var(--font-display);font-size:1.05rem}
 .bar .tag{font-size:.72rem;color:var(--muted);margin-left:8px}
-.toggle{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;
-  padding:8px 16px;font:inherit;font-size:.85rem;cursor:pointer;font-weight:600}
+.toggle{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+  border-radius:999px;padding:8px 16px;font:inherit;font-size:.85rem;cursor:pointer;font-weight:600}
 .toggle:hover{border-color:var(--violet)}
-.note{display:flex;gap:12px;align-items:flex-start;background:var(--grad-soft);border:1px solid var(--line);
-  border-radius:14px;padding:14px 16px;margin-top:18px;font-size:.92rem}
+
+/* ===== annotation callout ===== */
+.note{display:flex;gap:12px;align-items:flex-start;background:var(--grad-soft);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:18px;font-size:.92rem}
 .note b{color:var(--violet)} body.dark .note b{color:#c4b5fd}
-.note .n{flex:0 0 26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--grad);
-  color:#fff;font-weight:700;font-size:.85rem;font-family:var(--font-display)}
+.note .n{flex:0 0 26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  background:var(--grad);color:#fff;font-weight:700;font-size:.85rem;font-family:var(--font-display)}
 
-/* ===== IMAGE HERO ===== */
-.hero{position:relative;height:560px;border-radius:28px;overflow:hidden;margin-top:32px;box-shadow:var(--shadow-lg)}
-.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  filter:saturate(1.05) contrast(1.03);transform:scale(1.05)}
-.hero .veil{position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(8,8,18,.35) 0%,rgba(8,8,18,.55) 55%,rgba(8,8,18,.85) 100%)}
-.hero .tint{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.45;
-  background:linear-gradient(120deg,#3b1d8f,#0b6b86)}
-.hero .in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
-  padding:44px 44px 40px;color:#fff}
-.hero .logo{font-family:var(--font-display);font-weight:700;font-size:clamp(3rem,9vw,6rem);letter-spacing:-.04em;line-height:1}
-.hero .logo .plus{color:var(--copper)}
-.hero .sub{font-size:1.15rem;font-weight:600;margin-top:8px}
-.hero .uni{color:rgba(255,255,255,.78);font-size:.95rem}
-.hero .kpis{display:flex;gap:24px;flex-wrap:wrap;margin-top:22px}
-.hero .kpi .v{font-family:var(--font-display);font-size:1.7rem;font-weight:700}
-.hero .kpi .l{font-size:.76rem;color:rgba(255,255,255,.72);letter-spacing:.03em}
-.hero .badge{position:absolute;top:24px;left:24px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.74rem;font-weight:600;padding:7px 14px;border-radius:999px}
+/* ===== HERO redesign ===== */
+.hero{position:relative;overflow:hidden;border-radius:28px;margin-top:40px;
+  background:var(--surface);box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+.hero-mesh{position:absolute;inset:0;opacity:.9;
+  background:
+    radial-gradient(40% 60% at 15% 20%,rgba(109,40,217,.35),transparent 60%),
+    radial-gradient(45% 55% at 85% 30%,rgba(6,182,212,.30),transparent 60%),
+    radial-gradient(40% 50% at 60% 90%,rgba(232,116,59,.22),transparent 60%)}
+.hero-grid{position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(circle at 50% 40%,#000,transparent 75%)}
+.hero-in{position:relative;padding:84px 40px 72px;text-align:center}
+.logo{font-family:var(--font-display);font-weight:700;font-size:clamp(3.5rem,11vw,7rem);
+  letter-spacing:-.04em;display:inline-flex;align-items:baseline}
+.logo .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo .plus{color:var(--copper);font-size:.55em;margin-left:.05em}
+.hero-sub{margin-top:6px;font-size:1.15rem;font-weight:600}
+.hero-uni{color:var(--muted);font-size:.98rem;margin-top:2px}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:30px;padding:14px 28px;border-radius:999px;
+  background:var(--grad);color:#fff;font-weight:600;text-decoration:none;font-size:.98rem;
+  box-shadow:0 10px 26px rgba(109,40,217,.32);transition:transform .25s,box-shadow .25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(109,40,217,.42)}
+.kpis{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:38px}
+.kpi{background:color-mix(in srgb,var(--surface) 70%,transparent);border:1px solid var(--line);
+  border-radius:14px;padding:14px 22px;min-width:120px;backdrop-filter:blur(6px)}
+.kpi .v{font-family:var(--font-display);font-size:1.7rem;font-weight:700;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kpi .l{font-size:.78rem;color:var(--muted);letter-spacing:.03em}
 
-/* ===== RESEARCH GALLERY (magazine grid) ===== */
-.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:16px;margin-top:24px}
-.tile{position:relative;border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow)}
-.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease;
-  filter:saturate(1.05)}
-.tile:hover img{transform:scale(1.08)}
-.tile .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,8,18,.82));
-  display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#fff}
-.tile .ov .k{font-size:.72rem;font-weight:600;letter-spacing:.06em;color:#d6c8ff;margin-bottom:4px}
-.tile .ov h3{font-size:1.1rem}
-.tile.big{grid-column:span 2;grid-row:span 2}
-.tile.wide{grid-column:span 2}
-@media(max-width:760px){.gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}.tile.big{grid-column:span 2;grid-row:span 2}.tile.wide{grid-column:span 2}}
+/* ===== design tokens ===== */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:8px}
+.sw{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.sw .chip{height:64px} .sw .meta{padding:10px 12px;font-size:.8rem}
+.sw .meta b{display:block;font-family:var(--font-display);font-size:.9rem}
+.sw .meta span{color:var(--muted)}
+.type-row{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;padding:12px 0;border-bottom:1px dashed var(--line)}
+.type-row:last-child{border:0}
+.type-row .lbl{flex:0 0 130px;color:var(--muted);font-size:.8rem}
 
-/* ===== MEMBERS ===== */
-.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;margin-top:24px}
-.mc{border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
-  transition:transform .3s,box-shadow .3s}
-.mc:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-.mc .ph{position:relative;aspect-ratio:1/1;overflow:hidden}
-.mc .ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.02);transition:filter .4s,transform .5s}
-.mc:hover .ph img{filter:none;transform:scale(1.05)}
-.mc .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(109,40,217,.0),rgba(6,182,212,.0));
-  transition:background .4s}
-.mc:hover .ph::after{background:linear-gradient(120deg,rgba(109,40,217,.12),rgba(6,182,212,.10))}
-.mc .meta{padding:12px 14px}
-.mc .meta b{font-family:var(--font-display);font-size:.95rem;display:block}
-.mc .meta span{font-size:.78rem;color:var(--muted)}
+/* ===== research impact card redesign ===== */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.rcard{position:relative;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+  box-shadow:var(--shadow);overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s}
+.rcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+.rcard::before{content:"";position:absolute;inset:0;border-radius:var(--r);padding:1px;opacity:0;
+  background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;transition:opacity .3s;pointer-events:none}
+.rcard:hover::before{opacity:1}
+.rcard .top{padding:22px 22px 0;display:flex;align-items:center;gap:14px}
+.rcard .ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;
+  background:var(--grad-soft);border:1px solid var(--line)}
+.rcard h3{font-size:1.18rem}
+.rcard .hook{padding:14px 22px 0;color:var(--violet);font-weight:600;font-size:.95rem}
+body.dark .rcard .hook{color:#c4b5fd}
+.rcard .body{padding:8px 22px 16px;color:var(--muted);font-size:.94rem}
+.rcard .tags{display:flex;gap:8px;flex-wrap:wrap;padding:0 22px 18px}
+.tg{font-size:.74rem;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--surface-2);
+  border:1px solid var(--line);color:var(--muted)}
+.rcard .papers{border-top:1px solid var(--line);background:var(--surface-2);padding:16px 22px}
+.rcard .papers h4{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.pitem{display:block;text-decoration:none;color:inherit;padding:10px 12px;border-radius:12px;
+  border:1px solid transparent;transition:background .2s,border-color .2s}
+.pitem:hover{background:var(--surface);border-color:var(--line)}
+.pitem .t{font-size:.9rem;font-weight:600;line-height:1.4}
+.pitem .m{font-size:.78rem;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.if{font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.new{font-size:.66rem;font-weight:700;letter-spacing:.04em;color:#fff;background:var(--copper);
+  padding:2px 8px;border-radius:999px}
 
-/* ===== PAPER w/ graphical abstract ===== */
-.paper{display:grid;grid-template-columns:200px 1fr;gap:20px;border:1px solid var(--line);border-radius:18px;
-  background:var(--surface);overflow:hidden;box-shadow:var(--shadow);margin-top:16px}
-@media(max-width:620px){.paper{grid-template-columns:1fr}}
-.paper .ga{position:relative;min-height:150px;overflow:hidden}
-.paper .ga img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.paper .ga .lab{position:absolute;top:10px;left:10px;background:var(--copper);color:#fff;font-size:.66rem;
-  font-weight:700;padding:3px 9px;border-radius:999px}
-.paper .txt{padding:18px 20px 18px 0}
-@media(max-width:620px){.paper .txt{padding:0 18px 18px}}
-.paper .q{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--grad-soft);
-  color:var(--violet);border:1px solid var(--line);display:inline-block;margin-bottom:8px}
-body.dark .paper .q{color:#c4b5fd}
-.paper h3{font-size:1.05rem;line-height:1.4;margin-bottom:6px}
-.paper .au,.paper .jr{font-size:.84rem;color:var(--muted)}
-.paper .if{font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-
-/* principles */
-.princ{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
-.pr{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:18px;box-shadow:var(--shadow)}
-.pr .i{font-size:1.4rem}.pr b{font-family:var(--font-display);display:block;margin:8px 0 4px}
-.pr span{font-size:.88rem;color:var(--muted)}
+/* ===== publication list redesign ===== */
+.pub{position:relative;border:1px solid var(--line);border-left:4px solid transparent;border-radius:14px;
+  background:var(--surface);padding:20px 22px;margin-top:14px;box-shadow:var(--shadow);
+  transition:border-left-color .25s,transform .25s}
+.pub:hover{transform:translateX(4px);border-left-color:var(--violet)}
+.pub .badges{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.pub .q{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:999px;
+  background:var(--grad-soft);color:var(--violet);border:1px solid var(--line)}
+body.dark .pub .q{color:#c4b5fd}
+.pub h3{font-size:1.05rem;line-height:1.4;margin-bottom:6px}
+.pub .au{font-size:.86rem;color:var(--muted)}
+.pub .jr{font-size:.86rem;color:var(--muted);margin-top:2px}
+.pub .doi{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:.82rem;
+  color:var(--cyan);text-decoration:none;font-weight:600}
+body.dark .pub .doi{color:#22d3ee}
 .foot{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.85rem}
 </style>
 </head>
 <body>
 
 <div class="bar">
-  <div><b>PPEL<span style="color:var(--copper)">+</span></b><span class="tag">이미지 중심 리디자인 미리보기 · v2</span></div>
+  <div><b>PPEL<span style="color:var(--copper)">+</span></b><span class="tag">디자인 리디자인 미리보기 · 시안</span></div>
   <button class="toggle" onclick="document.body.classList.toggle('dark')">🌗 라이트 / 다크</button>
 </div>
 
 <div class="wrap">
 
-  <!-- IMAGE HERO -->
+  <!-- HERO -->
   <div class="hero">
-    <img class="bg" src="image/all_opt.jpg" alt="PPEL Research Team">
-    <div class="tint"></div><div class="veil"></div>
-    <div class="badge">Jeonbuk National University · 유연인쇄전자학과</div>
-    <div class="in">
-      <div class="logo">PPEL<span class="plus">+</span></div>
-      <div class="sub">Printability for Printed Electronics Lab</div>
-      <div class="uni">종이 위에 회로를, 피부 위에 센서를 — 인쇄로 만드는 전자소자의 미래</div>
+    <div class="hero-mesh"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-in">
+      <div class="logo"><span class="g">PPEL</span><span class="plus">+</span></div>
+      <div class="hero-sub">Printability for Printed Electronics Lab</div>
+      <div class="hero-uni">전북대학교 유연인쇄전자학과 · Jeonbuk National University</div>
+      <a class="cta" href="#">연구 분야 탐색 <span>→</span></a>
       <div class="kpis">
         <div class="kpi"><div class="v">100+</div><div class="l">Publications</div></div>
         <div class="kpi"><div class="v">21.8</div><div class="l">Top journal IF</div></div>
@@ -152,79 +171,89 @@ body.dark .paper .q{color:#c4b5fd}
       </div>
     </div>
   </div>
-  <div class="note"><span class="n">1</span><div><b>풀블리드 이미지 히어로:</b> 단색 배경 → <b>팀 단체사진을 전면 배경</b>으로. 위에 다크 그라데이션 + 브랜드 틴트(violet→cyan)를 얹어 어떤 사진이든 톤이 통일되고 글자 가독성이 확보됩니다. 첫 화면에서 "사람 + 연구"가 즉시 전달돼 주목도가 가장 큽니다.</div></div>
+  <div class="note"><span class="n">1</span><div><b>히어로:</b> 단색 배경 대신 <b>그라데이션 메시 + 회로 그리드</b>로 "인쇄 전자" 정체성을 시각화. 로고에 디스플레이 서체(Space Grotesk)와 동(copper) 컬러 <b>+</b> 포인트. 핵심 지표(KPI)를 한눈에 보여 신뢰도↑.</div></div>
 
-  <!-- RESEARCH GALLERY -->
+  <!-- DESIGN SYSTEM -->
   <div class="section">
-    <div class="eyebrow">Research · Visual Showcase</div>
-    <h2 style="font-size:1.9rem;margin-bottom:8px">연구 분야를 '이미지 갤러리'로</h2>
-    <p class="lead">텍스트 카드 대신 <b>매거진형 이미지 그리드</b>. 큰 타일 1개 + 작은 타일들로 리듬을 만들고, 호버 시 줌인 + 제목 오버레이.</p>
-    <div class="gal">
-      <div class="tile big"><img src="image/research/piezo.jpg" alt=""><div class="ov"><div class="k">ENERGY HARVESTING</div><h3>압전 · 마찰전기 나노발전기</h3></div></div>
-      <div class="tile"><img src="image/research/biosensor.jpg" alt=""><div class="ov"><div class="k">HEALTHCARE</div><h3>바이오센서</h3></div></div>
-      <div class="tile"><img src="image/research/energy.jpg" alt=""><div class="ov"><div class="k">STORAGE</div><h3>슈퍼캐패시터</h3></div></div>
-      <div class="tile wide"><img src="image/research/ai-electronics.jpg" alt=""><div class="ov"><div class="k">AI × PRINTING</div><h3>AI 기반 프린티드 일렉트로닉스</h3></div></div>
-      <div class="tile"><img src="image/research/memory.jpg" alt=""><div class="ov"><div class="k">DEVICES</div><h3>프린티드 메모리</h3></div></div>
+    <div class="eyebrow">Design System</div>
+    <h2 style="font-size:1.9rem;margin-bottom:8px">색·서체 체계 정리</h2>
+    <p class="lead">현재는 블루·퍼플·핑크·그린 그라데이션이 여러 개 섞여 산만합니다. <b>시그니처 그라데이션 1개(violet→cyan)</b>로 통일하고, 강조는 동(copper) 한 가지로 절제.</p>
+    <div class="swatches" style="margin-top:22px">
+      <div class="sw"><div class="chip" style="background:var(--grad)"></div><div class="meta"><b>Signature</b><span>violet → cyan</span></div></div>
+      <div class="sw"><div class="chip" style="background:#6d28d9"></div><div class="meta"><b>Violet</b><span>#6d28d9</span></div></div>
+      <div class="sw"><div class="chip" style="background:#06b6d4"></div><div class="meta"><b>Cyan</b><span>#06b6d4</span></div></div>
+      <div class="sw"><div class="chip" style="background:#e8743b"></div><div class="meta"><b>Copper 강조</b><span>#e8743b</span></div></div>
+      <div class="sw"><div class="chip" style="background:#0f1020"></div><div class="meta"><b>Ink</b><span>#0f1020</span></div></div>
+      <div class="sw"><div class="chip" style="background:#f4f5f8"></div><div class="meta"><b>Surface 2</b><span>#f4f5f8</span></div></div>
     </div>
-    <div class="note"><span class="n">2</span><div><b>비대칭 매거진 그리드:</b> 모든 타일을 같은 크기로 두면 밋밋합니다. 대표 분야 하나를 <b>2×2 대형 타일</b>로 키워 시선의 진입점을 만들고 나머지를 작게 배치 → 갤러리처럼 "보는 재미".</div></div>
+    <div style="margin-top:26px">
+      <div class="type-row"><span class="lbl">Display / H1</span><span class="disp" style="font-size:2.2rem;font-weight:700">Space Grotesk</span></div>
+      <div class="type-row"><span class="lbl">Heading / H3</span><span class="disp" style="font-size:1.3rem;font-weight:600">연구가 바꾸는 세상</span></div>
+      <div class="type-row"><span class="lbl">Body</span><span style="font-size:1rem">Inter · Pretendard — 본문은 가독성 높은 산세리프로 통일합니다.</span></div>
+    </div>
+    <div class="note"><span class="n">2</span><div><b>타이포그래피:</b> 시스템 폰트만 쓰면 "기본값" 느낌. 제목은 <b>Space Grotesk</b>(기하학적·테크), 본문/국문은 <b>Inter + Pretendard</b>로 위계를 분명히. 큰 제목엔 음수 자간으로 밀도감 부여.</div></div>
   </div>
 
-  <!-- MEMBERS -->
+  <!-- RESEARCH IMPACT CARDS -->
   <div class="section">
-    <div class="eyebrow">People</div>
-    <h2 style="font-size:1.9rem;margin-bottom:8px">구성원 사진을 전면에</h2>
-    <p class="lead">레포에 학생 사진 12장+이 있는데 활용도가 낮습니다. <b>균일한 정사각 포토 그리드</b>로 통일(기본 살짝 흑백 → 호버 시 컬러+줌)하면 "사람이 보이는" 따뜻한 연구실 인상을 줍니다.</p>
-    <div class="team">
-      <div class="mc"><div class="ph"><img src="image/STUDENTS%20PICTURES/ALI%20SHAN_opt.jpg" alt=""></div><div class="meta"><b>Ali Shan</b><span>Ph.D. · Supercapacitors</span></div></div>
-      <div class="mc"><div class="ph"><img src="image/STUDENTS%20PICTURES/HABIBULLA%20IMRAN_opt.jpg" alt=""></div><div class="meta"><b>Habibulla Imran</b><span>Ph.D. · Biosensors</span></div></div>
-      <div class="mc"><div class="ph"><img src="image/STUDENTS%20PICTURES/PAWAR%20OMKAR_opt.jpg" alt=""></div><div class="meta"><b>Omkar Pawar</b><span>Ph.D. · Piezoelectrics</span></div></div>
-      <div class="mc"><div class="ph"><img src="image/STUDENTS%20PICTURES/MUHEEB%20RAFIQ_opt.jpg" alt=""></div><div class="meta"><b>Muheeb Rafiq</b><span>Ph.D. · MXene / DFT</span></div></div>
-      <div class="mc"><div class="ph"><img src="image/STUDENTS%20PICTURES/JOSHI%20SWARALI%20KIRAN_opt.jpg" alt=""></div><div class="meta"><b>Swarali Joshi</b><span>M.S. · Printed Devices</span></div></div>
-      <div class="mc"><div class="ph"><img src="image/STUDENTS%20PICTURES/AQILA%20BINTI%20CHE%20AB%20RAHMAN_opt.jpg" alt=""></div><div class="meta"><b>Aqila Che Ab Rahman</b><span>Ph.D. · Microneedles</span></div></div>
+    <div class="eyebrow">Research Impact</div>
+    <h2 style="font-size:1.9rem;margin-bottom:8px">리서치 카드 리디자인</h2>
+    <p class="lead">호버 시 <b>그라데이션 테두리 + 부드러운 리프트</b>, 논문 영역은 카드 하단에 구분 패널로 정돈. IF 뱃지는 그라데이션 텍스트, 최신 논문엔 <b>NEW</b> 뱃지.</p>
+    <div class="grid2" style="margin-top:22px">
+      <div class="rcard">
+        <div class="top"><div class="ico">⚡</div><h3>Printed Supercapacitors</h3></div>
+        <div class="hook">"신문처럼 찍어내는 배터리?"</div>
+        <div class="body">종이처럼 얇고 유연한 에너지 저장 소자를 대량 생산. IoT·웨어러블 전원을 혁신적으로 저렴하게.</div>
+        <div class="tags"><span class="tg">Supercapacitor</span><span class="tg">MXene</span><span class="tg">3D Printing</span></div>
+        <div class="papers">
+          <h4>Selected Papers · IF ≥ 10</h4>
+          <a class="pitem" href="#"><div class="t">Oxygen-scavenging MnO₂ MXene inks for 3D-printed flexible asymmetric supercapacitors</div>
+            <div class="m"><span>Adv. Composites & Hybrid Materials, 2026</span>·<span class="if">IF 21.8</span><span class="new">NEW</span></div></a>
+          <a class="pitem" href="#"><div class="t">Ultrahigh-energy-density supercapacitors based on binary metal sulfide–MXene composites</div>
+            <div class="m"><span>J. Mater. Chem. A, 2024</span>·<span class="if">IF 11.1</span></div></a>
+        </div>
+      </div>
+      <div class="rcard">
+        <div class="top"><div class="ico">🔋</div><h3>Piezo & Triboelectric</h3></div>
+        <div class="hook">"걸을 때마다 충전되는 신발?"</div>
+        <div class="body">일상의 작은 움직임에서 전기를 만드는 기술. 배터리 교체 없는 자가발전 센서의 핵심.</div>
+        <div class="tags"><span class="tg">Nanogenerator</span><span class="tg">Self-powered</span><span class="tg">IoT</span></div>
+        <div class="papers">
+          <h4>Selected Papers · IF ≥ 10</h4>
+          <a class="pitem" href="#"><div class="t">Sulfated Cellulose Nanocrystals into Piezoelectricity for Energy Harvesting & Strain Sensing</div>
+            <div class="m"><span>Adv. Composites & Hybrid Materials, 2026</span>·<span class="if">IF 21.8</span><span class="new">NEW</span></div></a>
+          <a class="pitem" href="#"><div class="t">Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators</div>
+            <div class="m"><span>Adv. Functional Materials, 2025</span>·<span class="if">IF 19.0</span></div></a>
+        </div>
+      </div>
     </div>
-    <div class="note"><span class="n">3</span><div><b>일관된 사진 처리가 핵심:</b> 사진마다 배경·색감이 제각각이면 지저분해 보입니다. <b>정사각 비율 + 통일된 필터(살짝 그레이스케일→호버 컬러)</b>로 묶으면 출처가 다른 사진도 한 세트처럼 보입니다.</div></div>
+    <div class="note"><span class="n">3</span><div><b>카드:</b> 단순 그림자 대신 <b>마스크 그라데이션 보더</b>로 호버 강조(프리미엄 SaaS 느낌). 논문 리스트를 카드 안에 항상 정돈된 패널로 두어 펼치기 전에도 가치가 보이게.</div></div>
   </div>
 
-  <!-- PAPER with graphical abstract -->
+  <!-- PUBLICATIONS -->
   <div class="section">
     <div class="eyebrow">Publications</div>
-    <h2 style="font-size:1.9rem;margin-bottom:8px">논문에도 '그래피컬 애브스트랙트' 썸네일</h2>
-    <p class="lead">텍스트만 있는 논문 리스트는 잘 안 읽힙니다. 각 논문의 <b>대표 이미지(그래피컬 애브스트랙트)</b>를 왼쪽 썸네일로 붙이면 시선이 머뭅니다.</p>
-    <div class="paper">
-      <div class="ga"><img src="image/research/energy.jpg" alt=""><span class="lab">NEW 2026</span></div>
-      <div class="txt" style="padding-top:18px">
-        <span class="q">Composites · JCR Q1</span>
-        <h3>Oxygen-scavenging MnO₂ MXene inks for 3D-printed flexible asymmetric supercapacitors</h3>
-        <div class="au">A Shan, H Imran, … <b>S Lim</b></div>
-        <div class="jr">Advanced Composites and Hybrid Materials, 2026 · <span class="if">IF 21.8</span></div>
-      </div>
+    <h2 style="font-size:1.9rem;margin-bottom:8px">논문 리스트 리디자인</h2>
+    <p class="lead">좌측 <b>컬러 액센트 바</b> + 호버 슬라이드로 스캔성↑. 저널 등급(Q1)·IF·NEW를 뱃지로 구조화.</p>
+    <div class="pub">
+      <div class="badges"><span class="q">Composites · JCR Q1</span><span class="new">NEW 2026</span></div>
+      <h3>Oxygen-scavenging MnO₂ nanoparticles enabled MXene inks for 3D-printed flexible asymmetric supercapacitors</h3>
+      <div class="au">A Shan, H Imran, N Nawaz, C Cong, … <b>S Lim</b></div>
+      <div class="jr">Advanced Composites and Hybrid Materials, 2026 · <span class="if">IF 21.8</span></div>
+      <a class="doi" href="#">🔗 DOI: 10.1007/s42114-026-01862-z</a>
     </div>
-    <div class="paper">
-      <div class="ga"><img src="image/research/piezo.jpg" alt=""><span class="lab">NEW 2026</span></div>
-      <div class="txt" style="padding-top:18px">
-        <span class="q">Composites · JCR Q1</span>
-        <h3>Sulfated Cellulose Nanocrystals into Piezoelectricity for Energy Harvesting &amp; Strain Sensing</h3>
-        <div class="au">S Lal, OY Pawar, … <b>S Lim</b>, B Hwang</div>
-        <div class="jr">Advanced Composites and Hybrid Materials, 2026 · <span class="if">IF 21.8</span></div>
-      </div>
+    <div class="pub">
+      <div class="badges"><span class="q">Composites · JCR Q1</span><span class="new">NEW 2026</span></div>
+      <h3>Sulfated Cellulose Nanocrystals into Piezoelectricity: Energy Harvesting & Smart Strain Sensing</h3>
+      <div class="au">S Lal, OY Pawar, A Lund, E Wang, <b>S Lim</b>, B Hwang</div>
+      <div class="jr">Advanced Composites and Hybrid Materials, 2026 · <span class="if">IF 21.8</span></div>
+      <a class="doi" href="#">🔗 DOI: 10.1007/s42114-026-01819-2</a>
     </div>
-    <div class="note"><span class="n">4</span><div><b>썸네일 한 장의 힘:</b> 논문마다 저널 표지/그래피컬 애브스트랙트를 넣으면 리스트가 "포트폴리오"처럼 보입니다. (지금은 연구 이미지로 대체 — 실제로는 각 논문 TOC 이미지를 권장)</div></div>
+    <div class="note"><span class="n">4</span><div><b>논문 항목:</b> 동일 높이의 밋밋한 박스 대신 <b>좌측 액센트 바 + 호버 슬라이드</b>로 리듬을 만들고, 저널 임팩트를 뱃지로 즉시 인지되게 정리.</div></div>
   </div>
 
-  <!-- PRINCIPLES -->
-  <div class="section">
-    <div class="eyebrow">Image Guidelines</div>
-    <h2 style="font-size:1.9rem;margin-bottom:8px">"많이"보다 "제대로" — 이미지 4원칙</h2>
-    <div class="princ">
-      <div class="pr"><div class="i">🎨</div><b>톤 통일</b><span>오버레이·필터로 출처가 다른 사진도 한 세트처럼. 색 튀는 사진 방지.</span></div>
-      <div class="pr"><div class="i">⚡</div><b>성능</b><span>WebP/AVIF 변환 + width/height 지정 + lazy-load로 화질은↑ 로딩은↓ (현재 sooman.png 3.5MB 등 최적화 여지).</span></div>
-      <div class="pr"><div class="i">📐</div><b>비율 고정</b><span>정사각·16:9 등 비율을 고정해 레이아웃 흔들림(CLS) 방지.</span></div>
-      <div class="pr"><div class="i">🔬</div><b>진짜 연구 사진</b><span>스톡 대신 실제 소자·SEM·실험 장면이 신뢰와 주목을 동시에.</span></div>
-    </div>
-    <div class="note"><span class="n">5</span><div><b>주의:</b> 이미지를 늘릴수록 <b>용량 최적화</b>가 중요합니다. 현재 <code>image/sooman.png</code>(3.5MB), <code>Sooman Lim.png</code>(604KB) 등은 WebP로 바꾸면 80~90%↓. 이미지 중심으로 가되 성능은 지키는 게 핵심입니다.</div></div>
-  </div>
-
-  <div class="foot">PPEL+ 이미지 중심 리디자인 컨셉 v2 · 실제 레포 사진 사용 · 우측 상단 버튼으로 라이트/다크 비교</div>
+  <div class="foot">PPEL+ 디자인 컨셉 시안 · 우측 상단 버튼으로 라이트/다크 비교 · 실제 사이트(index.html)에 점진 적용 가능</div>
 </div>
+
 </body>
 </html>
