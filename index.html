@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
 <style>
@@ -471,6 +472,78 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   .pub .side{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
   .foot-grid{grid-template-columns:1fr;gap:30px}
 }
+
+/* ============================================================
+   WATERCOLOR THEME  (soft serif/handwritten type + washes)
+   Applied last so it tints the existing light design.
+   ============================================================ */
+:root{
+  --conductive:#6B7FE3;
+  --current:#3FBDB6;
+  --amber:#E79A63;
+  --substrate:#FAF7F1;
+  --surface:#FFFFFF;
+  --surface-2:#F1EEFA;
+  --line:#E6E0F0;
+  --ink:#2B2840;
+  --ink-soft:#5A5570;
+  --trace:#8E88A4;
+}
+/* warm paper + big watercolor blobs (light mode) */
+html[data-theme="light"] body{
+  background:
+    radial-gradient(46% 34% at 8% 4%, rgba(107,127,227,.20), transparent 60%),
+    radial-gradient(42% 32% at 92% 12%, rgba(63,189,182,.20), transparent 60%),
+    radial-gradient(46% 38% at 86% 86%, rgba(176,150,224,.18), transparent 62%),
+    radial-gradient(36% 30% at 14% 84%, rgba(231,154,99,.15), transparent 60%),
+    var(--substrate);
+  background-attachment:fixed;
+}
+/* fine paper grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+/* headings -> soft ink serif */
+.sec-head h2,.rcard h3,.prof-name,.mcard .info .nm,.cnode .nm,
+.foot-brand,.ppanel h4,.pub .main .pt,.intro-card h3,.tl-title{
+  font-family:"Gowun Batang",serif;letter-spacing:0;
+}
+.sec-head h2{font-weight:700;position:relative;display:inline-block}
+.sec-head h2::after{ /* hand-painted underline wash */
+  content:"";position:absolute;left:-6px;right:-6px;bottom:.08em;height:.42em;z-index:-1;
+  background:linear-gradient(90deg,rgba(107,127,227,.38),rgba(63,189,182,.38));
+  border-radius:40% 60% 55% 45%/60% 50% 60% 40%;filter:blur(2px);
+}
+/* accent / label text -> handwritten brush */
+.eyebrow,.hero-tag,.rcard .quote,.mgroup-label,.prof-role,.tl-year{
+  font-family:"Nanum Pen Script","Caveat",cursive;
+  text-transform:none;letter-spacing:.01em;font-size:1.7em;font-weight:400;
+}
+.eyebrow::before{display:none}
+/* watercolor cards: rounded, translucent, inner wash, soft colored shadow */
+.rcard,.mcard,.pub,.cnode,.pat,.intro-card{
+  border-radius:30px;border:1.5px solid rgba(107,127,227,.20);
+  background:linear-gradient(180deg,rgba(107,127,227,.06),rgba(63,189,182,.05)),rgba(255,255,255,.66);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  box-shadow:0 24px 50px -22px rgba(107,127,227,.50);
+}
+.prof-photo,.intro-photo{border-radius:30px;border:1.5px solid rgba(107,127,227,.20);box-shadow:0 24px 50px -22px rgba(107,127,227,.50)}
+.rcard:hover,.mcard:hover,.pub:hover,.cnode:hover{box-shadow:0 30px 64px -20px rgba(63,189,182,.55)}
+.rcard .ico{border-radius:50% 50% 52% 48%/55% 50% 50% 45%}
+/* pills + watercolor buttons */
+.btn,.tag,.chip,.if-badge,.fbtn,.ptab,.doi-link{border-radius:999px}
+.btn-primary{background:linear-gradient(120deg,#6B7FE3,#3FBDB6);box-shadow:0 18px 34px -12px rgba(107,127,227,.6)}
+.tag{background:rgba(107,127,227,.12);border-color:rgba(107,127,227,.26);color:#5B6BD0}
+.chip{background:rgba(63,189,182,.12);border-color:rgba(63,189,182,.26)}
+.fbtn.active,.ptab.active{background:linear-gradient(120deg,#6B7FE3,#3FBDB6);border-color:transparent;color:#fff}
+/* dark strips -> deep watercolor wash */
+.stats{background:linear-gradient(135deg,#3D4488 0%,#2C7B83 55%,#5B4F94 100%)}
+.stats::before{opacity:.2}
+footer{background:linear-gradient(135deg,#323873 0%,#255A70 100%)}
+footer::before{opacity:.2}
+/* let washes breathe between sections */
+.prof,.patents{border-top:none;border-bottom:none;background:rgba(255,255,255,.4)}
 </style>
 </head>
 <body>
