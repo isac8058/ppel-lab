@@ -72,6 +72,15 @@ body{
   overflow-x:hidden;
   transition:background .4s ease, color .4s ease;
 }
+/* soft watercolor wash across the page in light (default) mode */
+html[data-theme="light"] body{
+  background:
+    radial-gradient(38% 30% at 88% -2%, rgba(95,201,196,.07), transparent 60%),
+    radial-gradient(34% 32% at -4% 22%, rgba(123,143,224,.07), transparent 60%),
+    radial-gradient(30% 28% at 70% 108%, rgba(185,166,224,.06), transparent 60%),
+    var(--substrate);
+  background-attachment:fixed;
+}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
@@ -185,6 +194,55 @@ header.scrolled{border-bottom-color:var(--line)}
 }
 .scroll-hint .ln{width:1px;height:34px;background:linear-gradient(var(--hero-node),transparent);animation:drop 1.8s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---- bright full-bleed cover hero (watercolor artwork on the right) ---- */
+.hero--cover{
+  color:var(--ink);
+  background:
+    radial-gradient(60% 60% at 12% 50%, rgba(123,143,224,.10), transparent 62%),
+    var(--surface);
+}
+.hero--cover canvas{opacity:0}            /* keep element for JS, hide behind artwork */
+.hero--cover::after{display:none}         /* drop the dark dot-grid on the light cover */
+.hero-cover-bg{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center right;
+  background-size:cover;
+}
+.hero-cover-bg::after{ /* left-to-right white scrim so the headline stays legible */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,#fff 0%,#fff 26%,rgba(255,255,255,.9) 42%,rgba(255,255,255,.35) 58%,rgba(255,255,255,0) 76%);
+}
+.hero--cover .hero-tag{color:var(--conductive)}
+.hero--cover h1{-webkit-text-fill-color:initial;color:var(--ink)}
+.hero--cover h1 .plus{color:var(--conductive);-webkit-text-fill-color:var(--conductive)}
+.hero--cover .hero-sub{color:var(--ink-soft)}
+.hero--cover .hero-sub b{color:var(--ink)}
+.hero--cover .hero-meta{color:var(--trace)}
+.hero--cover .btn-ghost{color:var(--ink);border-color:rgba(10,15,30,.18)}
+.hero--cover .btn-ghost:hover{border-color:var(--conductive);color:var(--conductive)}
+.hero--cover .scroll-hint{color:var(--trace)}
+.hero--cover .scroll-hint .ln{background:linear-gradient(var(--conductive),transparent)}
+/* dark theme: keep the artwork on the right, switch the scrim + ink to dark */
+html[data-theme="dark"] .hero--cover{background:var(--hero-bg);color:#EAF0FF}
+html[data-theme="dark"] .hero--cover .hero-cover-bg::after{
+  background:linear-gradient(100deg,#070B16 0%,#070B16 26%,rgba(7,11,22,.86) 44%,rgba(7,11,22,.25) 62%,rgba(7,11,22,0) 80%);
+}
+html[data-theme="dark"] .hero--cover h1{color:#EAF0FF}
+html[data-theme="dark"] .hero--cover .hero-sub{color:#B9C6E8}
+html[data-theme="dark"] .hero--cover .hero-sub b{color:#fff}
+html[data-theme="dark"] .hero--cover .hero-meta{color:#8597C2}
+html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(150,170,230,.35)}
+@media (max-width:760px){
+  /* stack: artwork reads at the bottom, text protected by a vertical scrim */
+  .hero-cover-bg{background-position:center bottom;background-size:auto 60%}
+  .hero-cover-bg::after{
+    background:linear-gradient(180deg,#fff 0%,#fff 32%,rgba(255,255,255,.78) 52%,rgba(255,255,255,.12) 80%,rgba(255,255,255,0) 100%);
+  }
+  html[data-theme="dark"] .hero-cover-bg::after{
+    background:linear-gradient(180deg,#070B16 0%,#070B16 32%,rgba(7,11,22,.78) 52%,rgba(7,11,22,.12) 80%,rgba(7,11,22,0) 100%);
+  }
+}
 
 /* =================== WELCOME / INTRO =================== */
 .intro{padding:96px 0 30px}
@@ -443,13 +501,14 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="home">
+<section class="hero hero--cover" id="home" style="--hero-img:url('image/hero-cover.png')">
   <canvas id="circuit"></canvas>
+  <div class="hero-cover-bg" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="wrap">
       <div class="hero-tag"><span class="dot"></span><span data-en="Jeonbuk National University · Printed Electronics" data-ko="전북대학교 · 인쇄전자공학">Jeonbuk National University · Printed Electronics</span></div>
       <h1>PPEL<span class="plus">+</span></h1>
-      <p class="hero-sub" data-en="<b>Printability for Printed Electronics Lab.</b> Printing circuits on paper, sensors on skin, batteries on cloth — manufactured like a newspaper." data-ko="<b>Printability for Printed Electronics Lab.</b> 종이 위 회로, 피부 위 센서, 옷 위 배터리를 신문 인쇄처럼 대량 생산하는 미래를 연구합니다."><b>Printability for Printed Electronics Lab.</b> Printing circuits on paper, sensors on skin, batteries on cloth, manufactured like a newspaper.</p>
+      <p class="hero-sub" data-en="<b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet." data-ko="<b>인쇄전자와 지능형 로봇을 잇는 계면(界面).</b> 인쇄된 유연 회로가 인간과 로봇이 맞닿는 피부이자 감각, 그리고 에너지가 됩니다."><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
       <div class="hero-meta">
         <span data-en="Flexible Devices" data-ko="유연 소자">Flexible Devices</span>
         <span data-en="Energy Storage" data-ko="에너지 저장">Energy Storage</span>
@@ -889,8 +948,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <script>
 /* ===== Theme toggle ===== */
 const html=document.documentElement, themeBtn=document.getElementById("themeBtn");
-const prefersDark=window.matchMedia("(prefers-color-scheme:dark)").matches;
-html.setAttribute("data-theme", prefersDark?"dark":"light");
+html.setAttribute("data-theme", "light"); // always start in light (watercolor) mode
 themeBtn.addEventListener("click",()=>{
   const next = html.getAttribute("data-theme")==="dark"?"light":"dark";
   html.setAttribute("data-theme", next);
