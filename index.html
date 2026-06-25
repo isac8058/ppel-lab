@@ -187,37 +187,47 @@ header.scrolled{border-bottom-color:var(--line)}
 .scroll-hint .ln{width:1px;height:34px;background:linear-gradient(var(--hero-node),transparent);animation:drop 1.8s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* ---- centered hero: text centered on top, artwork centered below ---- */
-.hero--cover{
-  color:var(--ink);background:#FFFFFF;
-  min-height:auto;display:block;padding:112px 0 36px;overflow:visible;text-align:center;
-}
-.hero--cover canvas{display:none}         /* artwork replaces the circuit animation */
+/* ---- cover hero: artwork banner with overlaid text (image centered) ---- */
+.hero--cover{color:var(--ink);background:#FFFFFF;min-height:88vh}
+.hero--cover canvas{opacity:0}            /* keep element for JS, hide behind artwork */
 .hero--cover::after{display:none}
-.hero--cover .wrap{display:flex;flex-direction:column;align-items:center;gap:28px}
-.hero-copy{max-width:760px;margin:0 auto}
-.hero--cover .hero-tag{justify-content:center;color:var(--conductive)}
-.hero--cover h1{-webkit-text-fill-color:initial;color:var(--ink);font-size:clamp(58px,9vw,118px);line-height:.95}
+.hero--cover .wrap{display:grid;gap:24px}
+.hero-cover-bg{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center center;
+  background-size:cover;            /* same banner format as before, just centered */
+}
+.hero-cover-bg::after{ /* left white scrim so the headline stays legible */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,#fff 0%,#fff 24%,rgba(255,255,255,.88) 42%,rgba(255,255,255,.3) 58%,rgba(255,255,255,0) 76%);
+}
+.hero--cover .hero-tag{color:var(--conductive)}
+.hero--cover h1{-webkit-text-fill-color:initial;color:var(--ink)}
 .hero--cover h1 .plus{color:var(--conductive);-webkit-text-fill-color:var(--conductive)}
-.hero--cover .hero-sub{color:var(--ink-soft);margin:16px auto 0;max-width:600px}
+.hero--cover .hero-sub{color:var(--ink-soft)}
 .hero--cover .hero-sub b{color:var(--ink)}
-.hero--cover .hero-meta{color:var(--trace);justify-content:center;margin-top:18px}
-.hero--cover .hero-cta{justify-content:center;margin-top:18px}
+.hero--cover .hero-meta{color:var(--trace)}
 .hero--cover .btn-ghost{color:var(--ink);border-color:rgba(10,15,30,.18)}
 .hero--cover .btn-ghost:hover{border-color:var(--conductive);color:var(--conductive)}
 .hero--cover .scroll-hint{display:none}   /* no divider line under the hero */
-/* the artwork itself, centered on the page */
-.hero-art{display:block;width:100%;max-width:1040px;margin:4px auto 0}
 /* dark theme */
-html[data-theme="dark"] .hero--cover{background:var(--substrate)}
+html[data-theme="dark"] .hero--cover{background:var(--hero-bg);color:#EAF0FF}
+html[data-theme="dark"] .hero-cover-bg::after{
+  background:linear-gradient(100deg,#070B16 0%,#070B16 24%,rgba(7,11,22,.86) 42%,rgba(7,11,22,.25) 60%,rgba(7,11,22,0) 78%);
+}
 html[data-theme="dark"] .hero--cover h1{color:#EAF0FF}
 html[data-theme="dark"] .hero--cover .hero-sub{color:#B9C6E8}
 html[data-theme="dark"] .hero--cover .hero-sub b{color:#fff}
 html[data-theme="dark"] .hero--cover .hero-meta{color:#8597C2}
 html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(150,170,230,.35)}
 @media (max-width:760px){
-  .hero--cover{padding:92px 0 24px}
-  .hero--cover h1{font-size:clamp(52px,15vw,84px)}
+  .hero-cover-bg{background-position:center bottom;background-size:auto 58%}
+  .hero-cover-bg::after{
+    background:linear-gradient(180deg,#fff 0%,#fff 34%,rgba(255,255,255,.78) 54%,rgba(255,255,255,.1) 82%,rgba(255,255,255,0) 100%);
+  }
+  html[data-theme="dark"] .hero-cover-bg::after{
+    background:linear-gradient(180deg,#070B16 0%,#070B16 34%,rgba(7,11,22,.78) 54%,rgba(7,11,22,.1) 82%,rgba(7,11,22,0) 100%);
+  }
 }
 
 /* =================== WELCOME / INTRO =================== */
@@ -581,10 +591,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero hero--cover" id="home">
+<section class="hero hero--cover" id="home" style="--hero-img:url('image/hero-cover.png')">
   <canvas id="circuit"></canvas>
-  <div class="wrap">
-    <div class="hero-copy">
+  <div class="hero-cover-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="wrap">
       <div class="hero-tag"><span class="dot"></span><span data-en="Jeonbuk National University · Printed Electronics" data-ko="전북대학교 · 인쇄전자공학">Jeonbuk National University · Printed Electronics</span></div>
       <h1>PPEL<span class="plus">+</span></h1>
       <p class="hero-sub" data-en="<b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet." data-ko="<b>인쇄전자와 지능형 로봇을 잇는 계면(界面).</b> 인쇄된 유연 회로가 인간과 로봇이 맞닿는 피부이자 감각, 그리고 에너지가 됩니다."><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
@@ -599,7 +610,6 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <a href="#members" class="btn btn-ghost" data-en="Meet the Team" data-ko="구성원 보기">Meet the Team</a>
       </div>
     </div>
-    <img class="hero-art" src="image/hero-cover.png" alt="Watercolor illustration: printed circuits, flexible sensors and an AI figure flowing together" />
   </div>
 </section>
 
