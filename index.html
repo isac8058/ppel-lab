@@ -196,8 +196,8 @@ header.scrolled{border-bottom-color:var(--line)}
 .hero--cover::after{display:none}         /* drop the dark dot-grid on the light cover */
 .hero-cover-bg{
   position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center right;
-  background-size:cover;
+  background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center center;
+  background-size:contain;          /* whole artwork, centered (not cropped to one side) */
 }
 .hero-cover-bg::after{ /* left-to-right white scrim so the headline stays legible */
   content:"";position:absolute;inset:0;
@@ -211,8 +211,7 @@ header.scrolled{border-bottom-color:var(--line)}
 .hero--cover .hero-meta{color:var(--trace)}
 .hero--cover .btn-ghost{color:var(--ink);border-color:rgba(10,15,30,.18)}
 .hero--cover .btn-ghost:hover{border-color:var(--conductive);color:var(--conductive)}
-.hero--cover .scroll-hint{color:var(--trace)}
-.hero--cover .scroll-hint .ln{background:linear-gradient(var(--conductive),transparent)}
+.hero--cover .scroll-hint{display:none}   /* no divider line under the hero */
 /* dark theme: keep the artwork on the right, switch the scrim + ink to dark */
 html[data-theme="dark"] .hero--cover{background:var(--hero-bg);color:#EAF0FF}
 html[data-theme="dark"] .hero--cover .hero-cover-bg::after{
@@ -225,7 +224,7 @@ html[data-theme="dark"] .hero--cover .hero-meta{color:#8597C2}
 html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(150,170,230,.35)}
 @media (max-width:760px){
   /* stack: artwork reads at the bottom, text protected by a vertical scrim */
-  .hero-cover-bg{background-position:center bottom;background-size:auto 60%}
+  .hero-cover-bg{background-position:center bottom;background-size:contain}
   .hero-cover-bg::after{
     background:linear-gradient(180deg,#fff 0%,#fff 32%,rgba(255,255,255,.78) 52%,rgba(255,255,255,.12) 80%,rgba(255,255,255,0) 100%);
   }
@@ -236,8 +235,8 @@ html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(
 
 /* =================== WELCOME / INTRO =================== */
 .intro{padding:96px 0 30px}
-.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
-.intro-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:34px;box-shadow:var(--shadow)}
+.intro-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
+.intro-card{background:transparent;border:none;border-radius:0;padding:6px 4px;box-shadow:none}
 .intro-card h3{font-family:var(--font-display);font-size:22px;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .intro-card p{color:var(--ink-soft);font-size:16px}
 .intro-card .recruit-cta{margin-top:20px;display:inline-flex;align-items:center;gap:9px;color:var(--conductive);font-weight:600;font-family:var(--font-mono);font-size:14px}
@@ -291,10 +290,10 @@ html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(
 
 /* =================== PROFESSOR =================== */
 .prof{padding:90px 0;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.prof-grid{display:grid;grid-template-columns:330px 1fr;gap:48px;align-items:start}
+.prof-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
 .prof-card{position:sticky;top:90px}
 .prof-photo{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg);position:relative}
-.prof-photo img{width:100%;aspect-ratio:3/3.4;object-fit:cover}
+.prof-photo img{width:100%;height:clamp(380px,40vw,520px);object-fit:cover;object-position:center top}
 .prof-photo .corner{position:absolute;width:18px;height:18px;border:2px solid var(--current)}
 .prof-photo .c1{top:12px;left:12px;border-right:none;border-bottom:none}
 .prof-photo .c2{top:12px;right:12px;border-left:none;border-bottom:none}
@@ -537,13 +536,26 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .prof-name{font-size:30px;margin-top:22px}
 .prof-aff{font-size:15px;margin-top:12px}
 
-/* ---- research cards: show the title only, hide the rest ---- */
-.rcard .quote,
-.rcard .desc,
-.rcard .tags,
-.rcard .papers{display:none}
-.rcard .body{padding:26px 30px;justify-content:center;min-height:96px}
-.rcard h3{font-size:23px;line-height:1.3;margin:0}
+/* ---- research cards: title + tagline (2 lines); reveal details on click ---- */
+.rcard{cursor:pointer}
+.rcard .body{padding:24px 30px 26px;position:relative}
+.rcard h3{font-size:22px;line-height:1.3;margin:0;padding-right:30px}
+.rcard .quote{display:block;margin:8px 0 0}
+.rcard .desc,.rcard .tags,.rcard .papers{display:none;margin-top:18px}
+.rcard.open .desc{display:block}
+.rcard.open .tags{display:flex}
+.rcard.open .papers{display:block}
+.rcard .body::after{ /* expand chevron */
+  content:"";position:absolute;top:30px;right:28px;width:11px;height:11px;
+  border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);
+  transform:rotate(45deg);opacity:.55;transition:transform .25s,opacity .2s;
+}
+.rcard:hover .body::after{opacity:.9}
+.rcard.open .body::after{transform:rotate(-135deg)}
+/* readable papers when expanded (title above journal/IF, never jammed) */
+.rcard .papers .paper>span:last-child{display:flex;flex-direction:column;gap:6px}
+.rcard .paper .pt{display:block;font-size:15px;line-height:1.5}
+.rcard .paper .pmeta{display:block;font-size:12.5px;color:var(--trace)}
 
 /* ---- publications: clearer, more readable hierarchy ---- */
 .pub{padding:30px 32px;gap:26px;align-items:start}
@@ -1178,6 +1190,19 @@ buildCircuit();
 if(!window.matchMedia("(prefers-reduced-motion:reduce)").matches){ draw(); }
 else { draw(); cancelAnimationFrame(raf); } // single static frame
 addEventListener("resize",()=>{cancelAnimationFrame(raf);buildCircuit();if(!window.matchMedia("(prefers-reduced-motion:reduce)").matches)draw();});
+
+/* ===== Research cards: click to reveal details / papers ===== */
+document.querySelectorAll(".rcard").forEach(card=>{
+  card.setAttribute("role","button");
+  card.setAttribute("tabindex","0");
+  card.setAttribute("aria-expanded","false");
+  const toggle=()=>{
+    const open=card.classList.toggle("open");
+    card.setAttribute("aria-expanded", open?"true":"false");
+  };
+  card.addEventListener("click",e=>{ if(e.target.closest("a")) return; toggle(); });
+  card.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); } });
+});
 
 /* init */
 applyLang();
