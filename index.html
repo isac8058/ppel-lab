@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
 <style>
@@ -38,7 +38,7 @@
   --shadow:0 1px 2px rgba(10,15,30,.05), 0 12px 32px -16px rgba(10,15,30,.18);
   --shadow-lg:0 2px 8px rgba(10,15,30,.06), 0 30px 60px -28px rgba(10,15,30,.28);
 
-  --font-display:"Space Grotesk", system-ui, sans-serif;
+  --font-display:"Inter","Pretendard", system-ui, sans-serif;
   --font-body:"Inter","Pretendard", system-ui, sans-serif;
   --font-mono:"IBM Plex Mono", ui-monospace, monospace;
 }
@@ -468,9 +468,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
    ============================================================ */
 :root{ --r:20px; --r-sm:13px; }
 
-/* section intros a touch larger */
-.sec-head{margin-bottom:54px}
-.sec-head p{font-size:18px;line-height:1.7;margin-top:16px}
+/* section intros: wider + balanced so titles don't break awkwardly */
+.sec-head{margin-bottom:54px;max-width:960px}
+.sec-head h2{text-wrap:balance}
+.sec-head p{font-size:18px;line-height:1.7;margin-top:16px;max-width:680px;text-wrap:pretty}
+.rcard h3,.pub .main .pt,.pat .ko{text-wrap:balance}
 
 /* ---- research cards ---- */
 .research-grid{gap:34px}
@@ -534,6 +536,22 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .ptab{font-size:13.5px;padding:10px 18px}
 .prof-name{font-size:30px;margin-top:22px}
 .prof-aff{font-size:15px;margin-top:12px}
+
+/* ---- research cards: show the title only, hide the rest ---- */
+.rcard .quote,
+.rcard .desc,
+.rcard .tags,
+.rcard .papers{display:none}
+.rcard .body{padding:26px 30px;justify-content:center;min-height:96px}
+.rcard h3{font-size:23px;line-height:1.3;margin:0}
+
+/* ---- publications: clearer, more readable hierarchy ---- */
+.pub{padding:30px 32px;gap:26px;align-items:start}
+.pub .main .pt{font-size:18.5px;line-height:1.5;margin-bottom:4px}
+.pub .main .au{font-size:14.5px;line-height:1.6;margin-top:9px}
+.pub .main .jr{font-size:13.5px;margin-top:8px;letter-spacing:.01em}
+.pub .main .jr b{color:var(--current)}
+.if-badge{font-size:13px;padding:8px 13px}
 </style>
 </head>
 <body>
