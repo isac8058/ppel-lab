@@ -186,6 +186,54 @@ header.scrolled{border-bottom-color:var(--line)}
 .scroll-hint .ln{width:1px;height:34px;background:linear-gradient(var(--hero-node),transparent);animation:drop 1.8s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
+/* ---- bright full-bleed cover hero (watercolor artwork) ---- */
+.hero--cover{background:#fff;color:var(--ink)}
+.hero--cover canvas{opacity:0}            /* keep element for JS, hide behind artwork */
+.hero--cover::after{display:none}         /* drop dark dot-grid on light cover */
+.hero-cover-bg{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center right;
+  background-size:cover;
+}
+.hero-cover-bg::after{ /* left-to-right white scrim so the headline stays legible */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,#fff 0%,#fff 26%,rgba(255,255,255,.9) 42%,rgba(255,255,255,.35) 58%,rgba(255,255,255,0) 76%);
+}
+.hero--cover .hero-tag{color:var(--conductive)}
+.hero--cover h1{-webkit-text-fill-color:initial;color:var(--ink)}
+.hero--cover h1 .plus{color:var(--conductive);-webkit-text-fill-color:var(--conductive)}
+.hero--cover h1 .grad{
+  background:linear-gradient(100deg,var(--conductive),var(--current));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero--cover .hero-sub{color:var(--ink-soft)}
+.hero--cover .hero-sub b{color:var(--ink)}
+.hero--cover .hero-meta{color:var(--trace)}
+.hero--cover .btn-ghost{color:var(--ink);border-color:rgba(10,15,30,.18)}
+.hero--cover .btn-ghost:hover{border-color:var(--conductive);color:var(--conductive)}
+.hero--cover .scroll-hint{color:var(--trace)}
+.hero--cover .scroll-hint .ln{background:linear-gradient(var(--conductive),transparent)}
+/* dark theme: keep the artwork on the right, switch the scrim + ink to dark */
+html[data-theme="dark"] .hero--cover{background:var(--hero-bg);color:#EAF0FF}
+html[data-theme="dark"] .hero--cover .hero-cover-bg::after{
+  background:linear-gradient(100deg,#070B16 0%,#070B16 26%,rgba(7,11,22,.86) 44%,rgba(7,11,22,.25) 62%,rgba(7,11,22,0) 80%);
+}
+html[data-theme="dark"] .hero--cover h1{color:#EAF0FF}
+html[data-theme="dark"] .hero--cover .hero-sub{color:#B9C6E8}
+html[data-theme="dark"] .hero--cover .hero-sub b{color:#fff}
+html[data-theme="dark"] .hero--cover .hero-meta{color:#8597C2}
+html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(150,170,230,.35)}
+@media (max-width:760px){
+  /* stack: artwork reads at the bottom, text protected by a vertical scrim */
+  .hero-cover-bg{background-position:center bottom;background-size:auto 62%}
+  .hero-cover-bg::after{
+    background:linear-gradient(180deg,#fff 0%,#fff 30%,rgba(255,255,255,.78) 50%,rgba(255,255,255,.15) 78%,rgba(255,255,255,0) 100%);
+  }
+  html[data-theme="dark"] .hero-cover-bg::after{
+    background:linear-gradient(180deg,#070B16 0%,#070B16 30%,rgba(7,11,22,.78) 50%,rgba(7,11,22,.15) 78%,rgba(7,11,22,0) 100%);
+  }
+}
+
 /* =================== WELCOME / INTRO =================== */
 .intro{padding:96px 0 30px}
 .intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
@@ -443,13 +491,16 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="home">
+<!-- Cover artwork: set --hero-img to the watercolor URL, e.g. style="--hero-img:url('image/hero-cover.png')".
+     Until a URL is provided, a brand-colored gradient is shown as a graceful fallback. -->
+<section class="hero hero--cover" id="home">
   <canvas id="circuit"></canvas>
+  <div class="hero-cover-bg" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="wrap">
       <div class="hero-tag"><span class="dot"></span><span data-en="Jeonbuk National University · Printed Electronics" data-ko="전북대학교 · 인쇄전자공학">Jeonbuk National University · Printed Electronics</span></div>
       <h1>PPEL<span class="plus">+</span></h1>
-      <p class="hero-sub" data-en="<b>Printability for Printed Electronics Lab.</b> Printing circuits on paper, sensors on skin, batteries on cloth — manufactured like a newspaper." data-ko="<b>Printability for Printed Electronics Lab.</b> 종이 위 회로, 피부 위 센서, 옷 위 배터리를 신문 인쇄처럼 대량 생산하는 미래를 연구합니다."><b>Printability for Printed Electronics Lab.</b> Printing circuits on paper, sensors on skin, batteries on cloth, manufactured like a newspaper.</p>
+      <p class="hero-sub" data-en="<b>Where printed electronics flow into intelligence.</b> Circuits on paper, sensors on skin, energy on cloth — manufactured like a newspaper." data-ko="<b>인쇄전자가 지능과 만나는 곳.</b> 종이 위 회로, 피부 위 센서, 옷 위 에너지를 신문 인쇄처럼 대량 생산하는 미래를 연구합니다."><b>Where printed electronics flow into intelligence.</b> Circuits on paper, sensors on skin, energy on cloth — manufactured like a newspaper.</p>
       <div class="hero-meta">
         <span data-en="Flexible Devices" data-ko="유연 소자">Flexible Devices</span>
         <span data-en="Energy Storage" data-ko="에너지 저장">Energy Storage</span>
