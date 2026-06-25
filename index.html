@@ -195,62 +195,53 @@ header.scrolled{border-bottom-color:var(--line)}
 .scroll-hint .ln{width:1px;height:34px;background:linear-gradient(var(--hero-node),transparent);animation:drop 1.8s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* ---- watercolor full-bleed cover hero (full artwork, never cropped) ---- */
+/* ---- bright full-bleed cover hero (watercolor artwork on the right) ---- */
 .hero--cover{
   color:var(--ink);
-  min-height:auto;display:block;padding:94px 0 24px;overflow:hidden;
   background:
-    radial-gradient(66% 52% at 84% 4%, rgba(95,201,196,.18), transparent 60%),
-    radial-gradient(58% 60% at 8% 96%, rgba(123,143,224,.18), transparent 62%),
-    radial-gradient(50% 52% at 62% 106%, rgba(185,166,224,.15), transparent 60%),
+    radial-gradient(60% 60% at 12% 50%, rgba(123,143,224,.10), transparent 62%),
     var(--surface);
 }
-.hero--cover canvas{display:none}         /* artwork replaces the circuit animation */
+.hero--cover canvas{opacity:0}            /* keep element for JS, hide behind artwork */
 .hero--cover::after{display:none}         /* drop the dark dot-grid on the light cover */
-.hero--cover .hero-inner{position:relative;z-index:3;width:100%}
-.hero--cover .wrap{display:block;text-align:center;max-width:920px}
-.hero--cover .hero-tag{color:var(--conductive);justify-content:center;margin-bottom:16px}
-.hero--cover h1{
-  -webkit-text-fill-color:initial;color:var(--ink);
-  font-size:clamp(52px,9.4vw,116px);line-height:.94;
+.hero-cover-bg{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center right;
+  background-size:cover;
 }
+.hero-cover-bg::after{ /* left-to-right white scrim so the headline stays legible */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,#fff 0%,#fff 26%,rgba(255,255,255,.9) 42%,rgba(255,255,255,.35) 58%,rgba(255,255,255,0) 76%);
+}
+.hero--cover .hero-tag{color:var(--conductive)}
+.hero--cover h1{-webkit-text-fill-color:initial;color:var(--ink)}
 .hero--cover h1 .plus{color:var(--conductive);-webkit-text-fill-color:var(--conductive)}
-.hero--cover .hero-sub{color:var(--ink-soft);margin:14px auto 0;max-width:620px}
+.hero--cover .hero-sub{color:var(--ink-soft)}
 .hero--cover .hero-sub b{color:var(--ink)}
-.hero--cover .hero-meta{color:var(--trace);justify-content:center;margin-top:18px}
-.hero--cover .hero-cta{justify-content:center;margin-top:16px}
+.hero--cover .hero-meta{color:var(--trace)}
 .hero--cover .btn-ghost{color:var(--ink);border-color:rgba(10,15,30,.18)}
 .hero--cover .btn-ghost:hover{border-color:var(--conductive);color:var(--conductive)}
 .hero--cover .scroll-hint{color:var(--trace)}
 .hero--cover .scroll-hint .ln{background:linear-gradient(var(--conductive),transparent)}
-/* full panoramic artwork shown in its entirety, centered, no crop */
-.hero-art{margin:20px auto 0;width:100%}
-.hero-art img{
-  width:100%;max-height:56vh;object-fit:contain;object-position:center;display:block;
-  filter:drop-shadow(0 22px 46px rgba(95,120,200,.14));
-}
-/* dark theme cover */
-html[data-theme="dark"] .hero--cover{
-  color:#EAF0FF;
-  background:
-    radial-gradient(68% 52% at 82% 6%, rgba(35,224,192,.10), transparent 60%),
-    radial-gradient(58% 60% at 10% 100%, rgba(90,120,255,.13), transparent 62%),
-    var(--hero-bg);
+/* dark theme: keep the artwork on the right, switch the scrim + ink to dark */
+html[data-theme="dark"] .hero--cover{background:var(--hero-bg);color:#EAF0FF}
+html[data-theme="dark"] .hero--cover .hero-cover-bg::after{
+  background:linear-gradient(100deg,#070B16 0%,#070B16 26%,rgba(7,11,22,.86) 44%,rgba(7,11,22,.25) 62%,rgba(7,11,22,0) 80%);
 }
 html[data-theme="dark"] .hero--cover h1{color:#EAF0FF}
 html[data-theme="dark"] .hero--cover .hero-sub{color:#B9C6E8}
 html[data-theme="dark"] .hero--cover .hero-sub b{color:#fff}
 html[data-theme="dark"] .hero--cover .hero-meta{color:#8597C2}
 html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(150,170,230,.35)}
-html[data-theme="dark"] .hero-art img{
-  background:rgba(255,255,255,.96);border-radius:14px;
-  filter:drop-shadow(0 22px 46px rgba(0,0,0,.5));
-}
 @media (max-width:760px){
-  .hero--cover{padding:102px 0 18px}
-  .hero--cover h1{font-size:clamp(52px,17vw,84px)}
-  .hero-art{margin-top:22px}
-  .hero-art img{max-height:none}   /* show the whole panorama full-width on phones */
+  /* stack: artwork reads at the bottom, text protected by a vertical scrim */
+  .hero-cover-bg{background-position:center bottom;background-size:auto 60%}
+  .hero-cover-bg::after{
+    background:linear-gradient(180deg,#fff 0%,#fff 32%,rgba(255,255,255,.78) 52%,rgba(255,255,255,.12) 80%,rgba(255,255,255,0) 100%);
+  }
+  html[data-theme="dark"] .hero-cover-bg::after{
+    background:linear-gradient(180deg,#070B16 0%,#070B16 32%,rgba(7,11,22,.78) 52%,rgba(7,11,22,.12) 80%,rgba(7,11,22,0) 100%);
+  }
 }
 
 /* =================== WELCOME / INTRO =================== */
@@ -510,13 +501,14 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero hero--cover" id="home">
+<section class="hero hero--cover" id="home" style="--hero-img:url('image/hero-cover.png')">
   <canvas id="circuit"></canvas>
+  <div class="hero-cover-bg" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="wrap">
       <div class="hero-tag"><span class="dot"></span><span data-en="Jeonbuk National University · Printed Electronics" data-ko="전북대학교 · 인쇄전자공학">Jeonbuk National University · Printed Electronics</span></div>
       <h1>PPEL<span class="plus">+</span></h1>
-      <p class="hero-sub" data-en="<b>Where printed electronics flow into intelligence.</b> Circuits on paper, sensors on skin, energy on cloth — manufactured like a newspaper." data-ko="<b>인쇄전자가 지능과 만나는 곳.</b> 종이 위 회로, 피부 위 센서, 옷 위 에너지를 신문 인쇄처럼 대량 생산하는 미래를 연구합니다."><b>Where printed electronics flow into intelligence.</b> Circuits on paper, sensors on skin, energy on cloth — manufactured like a newspaper.</p>
+      <p class="hero-sub" data-en="<b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet." data-ko="<b>인쇄전자와 지능형 로봇을 잇는 계면(界面).</b> 인쇄된 유연 회로가 인간과 로봇이 맞닿는 피부이자 감각, 그리고 에너지가 됩니다."><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
       <div class="hero-meta">
         <span data-en="Flexible Devices" data-ko="유연 소자">Flexible Devices</span>
         <span data-en="Energy Storage" data-ko="에너지 저장">Energy Storage</span>
@@ -528,9 +520,6 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <a href="#members" class="btn btn-ghost" data-en="Meet the Team" data-ko="구성원 보기">Meet the Team</a>
       </div>
     </div>
-    <figure class="hero-art">
-      <img src="image/hero-cover.png" alt="Watercolor illustration: printed circuits, flexible sensors and an AI figure flowing together" />
-    </figure>
   </div>
   <div class="scroll-hint"><span class="ln"></span>SCROLL</div>
 </section>
