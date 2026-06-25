@@ -461,6 +461,79 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   .pub .side{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
   .foot-grid{grid-template-columns:1fr;gap:30px}
 }
+
+/* ============================================================
+   AIRY CARDS  — larger type, more breathing room, softer cards
+   (white base; section accent colors kept for variety)
+   ============================================================ */
+:root{ --r:20px; --r-sm:13px; }
+
+/* section intros a touch larger */
+.sec-head{margin-bottom:54px}
+.sec-head p{font-size:18px;line-height:1.7;margin-top:16px}
+
+/* ---- research cards ---- */
+.research-grid{gap:34px}
+.rcard{border-radius:22px}
+.rcard .media{aspect-ratio:16/7.5}
+.rcard .body{padding:34px}
+.rcard h3{font-size:24px;line-height:1.28}
+.rcard .quote{font-size:16.5px;margin:11px 0 14px}
+.rcard .desc{font-size:16.5px;line-height:1.72;margin-bottom:22px}
+.tags{gap:9px;margin-bottom:24px}
+.tag{font-size:12.5px;padding:7px 14px;letter-spacing:.02em}
+.papers{padding-top:22px}
+.papers .pl{font-size:12px;letter-spacing:.16em;margin-bottom:15px}
+.paper{padding:14px 0;gap:15px}
+.paper .pno{font-size:12.5px;width:20px;margin-top:2px}
+.paper .pt{font-size:15px;line-height:1.5}
+.paper .pmeta{font-size:12.5px;margin-top:6px}
+
+/* ---- members ---- */
+.mgrid{grid-template-columns:repeat(auto-fill,minmax(208px,1fr));gap:26px}
+.mcard{border-radius:22px}
+.mcard .info{padding:22px 16px}
+.mcard .info .nm{font-size:18px}
+.mcard .info .rl{font-size:12px;margin-top:6px;letter-spacing:.04em}
+.mgroup-label{font-size:13px;letter-spacing:.2em;margin:46px 0 24px}
+
+/* ---- publications ---- */
+.publist{gap:18px}
+.pub{padding:28px 32px;gap:28px;border-radius:20px}
+.pub .main .pt{font-size:18.5px;line-height:1.45}
+.pub .main .au{font-size:14.5px;margin-top:10px;line-height:1.55}
+.pub .main .jr{font-size:13.5px;margin-top:8px}
+.if-badge{font-size:12.5px;padding:7px 13px}
+.doi-link{font-size:13px}
+.pub .field{font-size:12px;letter-spacing:.1em}
+
+/* ---- patents ---- */
+.pat-grid{gap:24px}
+.pat{padding:30px;border-radius:20px}
+.pat .no{font-size:12.5px}
+.pat .ko{font-size:17.5px;margin-top:13px;line-height:1.5}
+.pat .en{font-size:14.5px;margin-top:9px}
+
+/* ---- collaborations ---- */
+.collab-grid{gap:24px}
+.cnode{padding:32px 28px;gap:22px;border-radius:20px}
+.cnode .flag{font-size:42px}
+.cnode .nm{font-size:19px}
+.cnode .co{font-size:12.5px;margin-top:5px}
+
+/* ---- intro + professor panels ---- */
+.intro-card{padding:40px;border-radius:22px}
+.intro-card h3{font-size:23px;margin-bottom:16px}
+.intro-card p{font-size:16.5px;line-height:1.75}
+.ppanel h4{font-size:19px;margin:30px 0 15px}
+.chips{gap:10px}
+.chip{font-size:14px;padding:9px 16px}
+.kv{font-size:15px;line-height:2.1}
+.achv{gap:13px}
+.achv li{font-size:16px;line-height:1.6}
+.ptab{font-size:13.5px;padding:10px 18px}
+.prof-name{font-size:30px;margin-top:22px}
+.prof-aff{font-size:15px;margin-top:12px}
 </style>
 </head>
 <body>
