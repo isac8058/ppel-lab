@@ -305,12 +305,6 @@ html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(
 .rcard .media{position:relative;aspect-ratio:16/8;overflow:hidden;background:var(--surface-2)}
 .rcard .media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .rcard:hover .media img{transform:scale(1.05)}
-.rcard .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(7,11,22,.55))}
-.rcard .ico{
-  position:absolute;top:16px;left:16px;width:48px;height:48px;border-radius:12px;z-index:2;
-  display:grid;place-items:center;font-size:24px;backdrop-filter:blur(6px);
-  background:color-mix(in srgb,var(--accent) 90%, #000 0%);box-shadow:0 8px 22px -8px var(--accent);
-}
 .rcard .body{padding:26px;display:flex;flex-direction:column;flex:1}
 .rcard h3{font-family:var(--font-display);font-size:21px;font-weight:600;letter-spacing:-.01em}
 .rcard .quote{color:var(--accent);font-weight:600;font-size:15px;margin:8px 0 10px}
@@ -703,7 +697,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
       <!-- AI -->
       <article class="rcard reveal" style="--accent:#1E3AFF">
-        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/ai-electronics.jpg" alt="AI Printed Electronics" loading="lazy"/><div class="ico">🤖</div></div>
+        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/ai-electronics.jpg" alt="AI Printed Electronics" loading="lazy"/></div>
         <div class="body">
           <h3 data-en="AI-Powered Printed Electronics" data-ko="AI 기반 인쇄전자">AI-Powered Printed Electronics</h3>
           <div class="quote" data-en="Who designs a machine's nervous system?" data-ko="기계의 신경망은 누가 설계하는가?">Who designs a machine's nervous system?</div>
@@ -719,7 +713,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
       <!-- Bio -->
       <article class="rcard reveal" style="--accent:#00B79C">
-        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/biosensor.jpg" alt="Bioprinting & Biosensors" loading="lazy"/><div class="ico">🧬</div></div>
+        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/biosensor.jpg" alt="Bioprinting & Biosensors" loading="lazy"/></div>
         <div class="body">
           <h3 data-en="Bioprinting & Biosensors" data-ko="바이오프린팅과 바이오센서">Bioprinting & Biosensors</h3>
           <div class="quote" data-en="Where a machine touches a person?" data-ko="기계가 사람과 맞닿는 곳은?">Where a machine touches a person?</div>
@@ -735,7 +729,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
       <!-- Memory -->
       <article class="rcard reveal" style="--accent:#7A52FF">
-        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/memory.jpg" alt="Printed Memory Devices" loading="lazy"/><div class="ico">💾</div></div>
+        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/memory.jpg" alt="Printed Memory Devices" loading="lazy"/></div>
         <div class="body">
           <h3 data-en="Printed Memory Devices" data-ko="인쇄형 메모리 소자">Printed Memory Devices</h3>
           <div class="quote" data-en="Where does a soft machine keep its memory?" data-ko="부드러운 기계는 기억을 어디에 두는가?">Where does a soft machine keep its memory?</div>
@@ -750,7 +744,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
       <!-- Energy storage -->
       <article class="rcard reveal" style="--accent:#FF8A00">
-        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/energy.jpg" alt="Printed Energy Storage" loading="lazy"/><div class="ico">⚡</div></div>
+        <div class="media"><img src="https://isac8058.github.io/ppel-lab/image/research/energy.jpg" alt="Printed Energy Storage" loading="lazy"/></div>
         <div class="body">
           <h3 data-en="Printed Supercapacitors & Batteries" data-ko="인쇄형 슈퍼커패시터와 배터리">Printed Supercapacitors & Batteries</h3>
           <div class="quote" data-en="What keeps a machine alive off the cord?" data-ko="전선 없이 기계를 살아 있게 하는 것은?">What keeps a machine alive off the cord?</div>
@@ -767,7 +761,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
       <!-- Piezo (full width) -->
       <article class="rcard reveal" style="--accent:#00B79C;grid-column:1 / -1">
-        <div class="media" style="aspect-ratio:16/5"><img src="https://isac8058.github.io/ppel-lab/image/research/piezo.jpg" alt="Piezo & Triboelectric" loading="lazy"/><div class="ico">🔋</div></div>
+        <div class="media" style="aspect-ratio:16/5"><img src="https://isac8058.github.io/ppel-lab/image/research/piezo.jpg" alt="Piezo & Triboelectric" loading="lazy"/></div>
         <div class="body">
           <h3 data-en="Piezo & Triboelectric Energy Harvesting" data-ko="압전과 마찰전기 에너지 하베스팅">Piezo & Triboelectric Energy Harvesting</h3>
           <div class="quote" data-en="What if a touch could both power and command a machine?" data-ko="닿는 것만으로 기계에 전력과 명령을 동시에 준다면?">What if a touch could both power and command a machine?</div>
