@@ -399,7 +399,7 @@ html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(
 /* =================== STATS strip =================== */
 .stats{padding:60px 0;background:var(--ink);color:var(--substrate);position:relative;overflow:hidden}
 .stats::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.10) 1px,transparent 1px);background-size:26px 26px;opacity:.6}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;position:relative;z-index:2;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;position:relative;z-index:2;text-align:center}
 .stat .num{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,64px);letter-spacing:-.02em;background:linear-gradient(120deg,#fff,var(--hero-node));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .stat .lbl{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8597C2;margin-top:6px}
 
@@ -444,6 +444,16 @@ html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(
 .pat .no .g{color:var(--conductive)}
 .pat .ko{font-weight:600;font-size:16px;margin-top:10px;line-height:1.4}
 .pat .en{color:var(--ink-soft);font-size:13.5px;margin-top:6px;font-style:italic}
+.pat .dt{font-family:var(--font-mono);font-size:11.5px;color:var(--trace);margin-top:12px;letter-spacing:.02em;line-height:1.6}
+.pat .st{margin-left:auto;font-size:10.5px;padding:3px 10px;border-radius:999px;letter-spacing:.06em;font-weight:600;white-space:nowrap}
+.pat .st-granted{color:var(--conductive);border:1px solid currentColor}
+.pat .st-filed{color:var(--trace);border:1px solid var(--line)}
+.pat .st-transfer{color:var(--current);border:1px solid currentColor}
+.pat.transfer{border-left:3px solid var(--current)}
+.pat-summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.pat-summary .chip{font-family:var(--font-mono);font-size:12.5px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--substrate);color:var(--ink-soft)}
+.pat-summary .chip b{color:var(--conductive);font-weight:700;margin-right:2px}
+.pat-summary .chip.tr b{color:var(--current)}
 .pat-note{font-family:var(--font-mono);font-size:12px;color:var(--trace);margin-top:22px;display:flex;align-items:center;gap:8px}
 .pat-note .sw{width:18px;height:12px;border-left:3px solid var(--conductive);background:var(--substrate);border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
 
@@ -488,6 +498,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 @media (max-width:980px){
   .intro-grid{grid-template-columns:1fr}
   .research-grid,.pat-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
   .prof-grid{grid-template-columns:1fr;gap:34px}
   .prof-photo{flex:none;min-height:0}
   .prof-photo img{height:auto;aspect-ratio:3/3.4}
@@ -828,7 +839,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <ul class="achv">
             <li data-en="100+ publications in peer-reviewed journals" data-ko="동료 심사 저널 100편 이상 게재">100+ publications in peer-reviewed journals</li>
             <li data-en="2,733+ citations with an h-index of 30" data-ko="피인용 2,733회 이상, h-index 30">2,733+ citations with an h-index of 30</li>
-            <li data-en="6 patents granted in the printed electronics field" data-ko="인쇄전자 분야 등록 특허 6건">6 patents granted in the printed electronics field</li>
+            <li data-en="17 patents filed in the printed electronics field, 10 granted" data-ko="인쇄전자 분야 특허 17건 출원, 10건 등록">17 patents filed in the printed electronics field, 10 granted</li>
             <li data-en="Selected for NRF Mid-Career Researcher Program (2024)" data-ko="NRF 중견연구자 지원사업 선정 (2024)">Selected for NRF Mid-Career Researcher Program (2024)</li>
           </ul>
         </div>
@@ -889,7 +900,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <ul class="achv">
             <li data-en="2025: Published in ACS Nano (IF 15.8) on ultra-sensitive DNA detection" data-ko="2025: 초고감도 DNA 검출 연구 ACS Nano (IF 15.8) 게재">2025: Published in ACS Nano (IF 15.8) on ultra-sensitive DNA detection</li>
             <li data-en="2024: Selected for NRF Mid-Career Researcher Program" data-ko="2024: NRF 중견연구자 지원사업 선정">2024: Selected for NRF Mid-Career Researcher Program</li>
-            <li data-en="2024: 6 patents granted in the printed electronics field" data-ko="2024: 인쇄전자 분야 특허 6건 등록">2024: 6 patents granted in the printed electronics field</li>
+            <li data-en="10 patents granted and 1 technology transfer in the printed electronics field" data-ko="인쇄전자 분야 등록 특허 10건, 기술이전 1건">10 patents granted and 1 technology transfer in the printed electronics field</li>
             <li data-en="2023: Best Paper Award, International Conference on Printed Electronics" data-ko="2023: 국제 인쇄전자 학술대회 최우수 논문상">2023: Best Paper Award, International Conference on Printed Electronics</li>
           </ul>
         </div>
@@ -936,6 +947,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <div class="stat reveal"><div class="num" data-count="2733" data-suffix="+">0</div><div class="lbl" data-en="Total Citations" data-ko="총 피인용">Total Citations</div></div>
     <div class="stat reveal"><div class="num" data-count="100" data-suffix="+">0</div><div class="lbl" data-en="Publications" data-ko="발표 논문">Publications</div></div>
     <div class="stat reveal"><div class="num" data-prefix="h-" data-count="30">0</div><div class="lbl" data-en="h-index" data-ko="h-지수">h-index</div></div>
+    <div class="stat reveal"><div class="num" data-count="17">0</div><div class="lbl" data-en="Patents" data-ko="특허">Patents</div></div>
   </div>
 </section>
 
@@ -1035,16 +1047,34 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <div class="sec-head reveal">
       <div class="eyebrow" data-en="Intellectual Property" data-ko="지식재산">Intellectual Property</div>
       <h2 data-en="Patents" data-ko="특허">Patents</h2>
+      <p data-en="Korean patents filed and granted through the JBNU Industry-Academic Cooperation Foundation." data-ko="전북대학교 산학협력단을 통해 출원·등록된 국내 특허입니다.">Korean patents filed and granted through the JBNU Industry-Academic Cooperation Foundation.</p>
+    </div>
+    <div class="pat-summary reveal">
+      <span class="chip" data-en="<b>17</b> Total" data-ko="<b>17</b> 전체"><b>17</b> Total</span>
+      <span class="chip" data-en="<b>10</b> Granted" data-ko="<b>10</b> 등록"><b>10</b> Granted</span>
+      <span class="chip" data-en="<b>6</b> Pending" data-ko="<b>6</b> 출원 중"><b>6</b> Pending</span>
+      <span class="chip tr" data-en="<b>1</b> Tech Transferred" data-ko="<b>1</b> 기술이전"><b>1</b> Tech Transferred</span>
     </div>
     <div class="pat-grid">
-      <div class="pat reveal"><div class="no">KR 10-2024-0044354</div><div class="ko">압전 나노발전기용 압전 필름 및 그 제조 방법</div><div class="en">Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div></div>
-      <div class="pat reveal"><div class="no">KR 10-2024-0020580</div><div class="ko">정전도장용 스프레이 페인트, 그 제조 방법 및 피도물 코팅 방법</div><div class="en">Spray Paint for Electrostatic Coating, Manufacturing Method and Coating Method Thereof</div></div>
-      <div class="pat granted reveal"><div class="no">KR 10-2756747 <span class="g">🏆 Granted</span></div><div class="ko">3차원 다공성 압전 소자 및 압전 나노발전기</div><div class="en">Three-Dimensional Porous Piezoelectric Device and Piezoelectric Nanogenerator</div></div>
-      <div class="pat granted reveal"><div class="no">KR 10-2610162 <span class="g">🏆 Granted</span></div><div class="ko">압전물질 복합체, 이의 필름과 제조방법</div><div class="en">Piezoelectric Material Composite, Film and Manufacturing Method Thereof</div></div>
-      <div class="pat granted reveal"><div class="no">KR 10-2595641 <span class="g">🏆 Granted</span></div><div class="ko">압전 소자의 프린팅용 조성물 및 프린터</div><div class="en">Printing Composition and Printer for Piezoelectric Devices</div></div>
-      <div class="pat granted reveal"><div class="no">KR 10-2399776 <span class="g">🏆 Granted</span></div><div class="ko">한지 기반 그래핀 스트레인 센서의 제조방법</div><div class="en">Manufacturing Method of Hanji-Based Graphene Strain Sensor</div></div>
+      <div class="pat reveal"><div class="no">KR 10-2026-0083129 <span class="st st-filed" data-en="Provisional" data-ko="가출원">Provisional</span></div><div class="ko">기공 제어된 뽕나무 종이 기반 고성능 마찰전기 나노발전기 및 이를 이용한 AI헬스케어 모니터링 시스템</div><div class="en">Pore-Controlled Mulberry-Paper-Based High-Performance Triboelectric Nanogenerator and AI Healthcare Monitoring System Using the Same</div><div class="dt" data-en="Filed 2026.05.08" data-ko="출원 2026.05.08">Filed 2026.05.08</div></div>
+      <div class="pat reveal"><div class="no">KR 10-2025-0122407 <span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span></div><div class="ko">리보플라빈의 현장 검출용 전기화학 센서 장치</div><div class="en">Electrochemical Sensor Device for On-Site Detection of Riboflavin</div><div class="dt" data-en="Filed 2025.08.29" data-ko="출원 2025.08.29">Filed 2025.08.29</div></div>
+      <div class="pat reveal"><div class="no">KR 10-2025-0068289 <span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span></div><div class="ko">전기화학적 방법을 통한 퀘르세틴 검출용 스크린 인쇄 전극 및 그 제조 방법</div><div class="en">Screen-Printed Electrode for Electrochemical Detection of Quercetin and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2025.05.26 · Co-filed with Korea Food Research Institute" data-ko="출원 2025.05.26 · 한국식품연구원 공동출원">Filed 2025.05.26 · Co-filed with Korea Food Research Institute</div></div>
+      <div class="pat reveal"><div class="no">KR 10-2025-0050988 <span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span></div><div class="ko">PMMA를 포함하는 DLP 인쇄용 조성물</div><div class="en">DLP Printing Composition Containing PMMA</div><div class="dt" data-en="Filed 2025.04.18" data-ko="출원 2025.04.18">Filed 2025.04.18</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2024-0044354 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">압전 나노발전기용 압전 필름 및 그 제조 방법</div><div class="en">Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2024.04.01 · Reg. 10-2943900 (2026.03.20)" data-ko="출원 2024.04.01 · 등록 제10-2943900호 (2026.03.20)">Filed 2024.04.01 · Reg. 10-2943900 (2026.03.20)</div></div>
+      <div class="pat reveal"><div class="no">KR 10-2024-0020580 <span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span></div><div class="ko">정전도장용 스프레이 페인트, 그 제조 방법 및 이를 이용한 피도물 코팅 방법</div><div class="en">Spray Paint for Electrostatic Coating, Manufacturing Method and Coating Method Using the Same</div><div class="dt" data-en="Filed 2024.02.13" data-ko="출원 2024.02.13">Filed 2024.02.13</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2023-0195512 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">정전 도장에 적용 가능한 친환경 컬러 세라믹 도료 조성물 및 그 제조방법</div><div class="en">Eco-Friendly Color Ceramic Paint Composition for Electrostatic Coating and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2023.12.28 · Reg. 10-2928995 (2026.02.12) · Co-filed with INIX Co., Ltd." data-ko="출원 2023.12.28 · 등록 제10-2928995호 (2026.02.12) · ㈜인익스 공동출원">Filed 2023.12.28 · Reg. 10-2928995 (2026.02.12) · Co-filed with INIX Co., Ltd.</div></div>
+      <div class="pat transfer reveal"><div class="no">KR 10-2023-0161484 <span class="st st-transfer" data-en="Tech Transferred" data-ko="기술이전">Tech Transferred</span></div><div class="ko">캡사이신 검출용 스크린 인쇄 탄소전극 및 이의 제조방법</div><div class="en">Screen-Printed Carbon Electrode for Capsaicin Detection and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2023.11.20 · Licensed to industry" data-ko="출원 2023.11.20 · 기업 기술이전 완료">Filed 2023.11.20 · Licensed to industry</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2023-0139801 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">압전 나노발전기용 3차원 고분자-나노입체-액체 삼원복합체 및 이의 제조방법</div><div class="en">Three-Dimensional Polymer–Nanostructure–Liquid Ternary Composite for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2023.10.18 · Reg. 10-2828808 (2025.06.30)" data-ko="출원 2023.10.18 · 등록 제10-2828808호 (2025.06.30)">Filed 2023.10.18 · Reg. 10-2828808 (2025.06.30)</div></div>
+      <div class="pat reveal"><div class="no">KR 10-2023-0129371 <span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span></div><div class="ko">5-하이드록시메틸시토신 감지용 질화탄소 개질 금 변환기 기반 전기 화학 센서 및 그 제조 방법</div><div class="en">Electrochemical Sensor Based on Carbon-Nitride-Modified Gold Transducer for 5-Hydroxymethylcytosine Detection and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2023.09.26" data-ko="출원 2023.09.26">Filed 2023.09.26</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2023-0123266 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">초고에너지 밀도 플렉시블 비대칭 슈퍼커패시터 및 이의 제조방법</div><div class="en">Ultrahigh-Energy-Density Flexible Asymmetric Supercapacitor and Manufacturing Method Thereof</div><div class="dt" data-en="Filed 2023.09.15 · Reg. 10-2827900 (2025.06.26)" data-ko="출원 2023.09.15 · 등록 제10-2827900호 (2025.06.26)">Filed 2023.09.15 · Reg. 10-2827900 (2025.06.26)</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2023-0010884 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">3차원 다공성 압전 소자 및 이의 제조 방법, 이를 포함하는 압전 나노발전기</div><div class="en">Three-Dimensional Porous Piezoelectric Device, Manufacturing Method Thereof, and Piezoelectric Nanogenerator Including the Same</div><div class="dt" data-en="Filed 2023.01.27 · Reg. 10-2756747 (2025.01.14)" data-ko="출원 2023.01.27 · 등록 제10-2756747호 (2025.01.14)">Filed 2023.01.27 · Reg. 10-2756747 (2025.01.14)</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2022-0045597 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">고분자-나노 액적 복합체, 그 제조방법, 그를 포함하는 SL-PENG 및 이를 포함하는 전자 장치</div><div class="en">Polymer–Nanodroplet Composite, Manufacturing Method Thereof, SL-PENG Including the Same, and Electronic Device Comprising It</div><div class="dt" data-en="Filed 2022.04.13 · Reg. 10-2812949 (2025.05.21)" data-ko="출원 2022.04.13 · 등록 제10-2812949호 (2025.05.21)">Filed 2022.04.13 · Reg. 10-2812949 (2025.05.21)</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2021-0104866 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">압전 소자의 프린팅용 조성물, 이의 제조 방법 및 이를 이용한 압전 소자용 프린터</div><div class="en">Printing Composition for Piezoelectric Devices, Manufacturing Method Thereof, and Printer for Piezoelectric Devices Using the Same</div><div class="dt" data-en="Filed 2021.08.09 · Reg. 10-2595641 (2023.10.25)" data-ko="출원 2021.08.09 · 등록 제10-2595641호 (2023.10.25)">Filed 2021.08.09 · Reg. 10-2595641 (2023.10.25)</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2020-0149629 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">압전물질 복합체, 이의 필름과 제조방법, 및 이 필름을 이용한 센서</div><div class="en">Piezoelectric Material Composite, Film and Manufacturing Method Thereof, and Sensor Using the Film</div><div class="dt" data-en="Filed 2020.11.10 · Reg. 10-2610162 (2023.11.30)" data-ko="출원 2020.11.10 · 등록 제10-2610162호 (2023.11.30)">Filed 2020.11.10 · Reg. 10-2610162 (2023.11.30)</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2020-0064711 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">한지 기반 그래핀 스트레인 센서의 제조방법 및 이에 의한 스트레인센서</div><div class="en">Manufacturing Method of Hanji-Based Graphene Strain Sensor and Strain Sensor Produced Thereby</div><div class="dt" data-en="Filed 2020.05.29 · Reg. 10-2400602 (2022.05.17)" data-ko="출원 2020.05.29 · 등록 제10-2400602호 (2022.05.17)">Filed 2020.05.29 · Reg. 10-2400602 (2022.05.17)</div></div>
+      <div class="pat granted reveal"><div class="no">KR 10-2019-0059812 <span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span></div><div class="ko">스트레인 게이지, 그를 포함하는 스트레인 센서 및 이를 이용한 스트레인 측정 방법</div><div class="en">Strain Gauge, Strain Sensor Including the Same, and Strain Measurement Method Using the Same</div><div class="dt" data-en="Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)" data-ko="출원 2019.05.22 · 등록 제10-2151766호 (2020.08.28)">Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)</div></div>
     </div>
-    <div class="pat-note reveal"><span class="sw"></span><span data-en="Granted patents are marked with a blue left border" data-ko="등록 특허는 좌측 파란색 테두리로 표시됩니다">Granted patents are marked with a blue left border</span></div>
+    <div class="pat-note reveal"><span class="sw"></span><span data-en="Granted patents are marked with a blue left border · tech-transferred with a green border" data-ko="등록 특허는 좌측 파란색, 기술이전 특허는 초록색 테두리로 표시됩니다">Granted patents are marked with a blue left border · tech-transferred with a green border</span></div>
   </div>
 </section>
 
