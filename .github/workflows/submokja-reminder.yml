@@ -1,15 +1,14 @@
 name: 부목자 월간 모임 알림
 
 on:
-  # 매주 금요일 오전 9시 KST (UTC 00:00 금요일) 실행
-  # 스크립트 내부에서 "이번 주 일요일이 마지막 주 일요일"인 경우만 발송
+  # 매주 월요일 09:30 KST (00:30 UTC) 실행, 넷째 주 주일 주간에만 발송
   schedule:
-    - cron: '0 0 * * 5'
+    - cron: '30 0 * * 1'
   # 수동 테스트용
   workflow_dispatch:
 
 jobs:
-  send-monthly-reminder:
+  send:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -22,8 +21,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Send monthly meeting reminder email
+      - name: Send submokja meeting reminder email
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python volunteer-reminder/monthly_meeting_reminder.py
+        run: python volunteer-reminder/submokja_reminder.py
