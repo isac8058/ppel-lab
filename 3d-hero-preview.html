@@ -72,6 +72,31 @@
   .cap .hint{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--cyan)}
   @media (max-width:760px){.cap{left:22px;max-width:none;bottom:14px}.copy{justify-content:flex-end;padding-bottom:190px}}
   @media (prefers-reduced-motion: reduce){.tag .dot{animation:none}}
+
+  /* ---- variant D: light stage that keeps the watercolor robot artwork ---- */
+  #stage-d{background:#fff}
+  #stage-d .tilt{position:absolute;inset:0;will-change:transform}
+  #stage-d .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  #stage-d .scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:linear-gradient(90deg,#fff 20%,rgba(255,255,255,.88) 36%,rgba(255,255,255,0) 58%)}
+  #stage-d .tag{color:var(--blue)}
+  #stage-d .tag .dot{background:var(--blue);box-shadow:0 0 12px rgba(30,58,255,.55)}
+  #stage-d h1{color:#0A0F1E}
+  #stage-d h1 .grad{background:none;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:initial;color:#0A0F1E}
+  #stage-d h1 .plus{color:var(--blue)}
+  #stage-d .sub{color:#3A4358}
+  #stage-d .sub b{color:#0A0F1E}
+  #stage-d .btn-g{border-color:#C9D3E4;color:#3A4358}
+  #stage-d .btn-g:hover{border-color:var(--blue);color:#0A0F1E}
+  #stage-d .cap{background:rgba(255,255,255,.92);border-color:#DCE3ED}
+  #stage-d .cap h2{color:#0A0F1E}
+  #stage-d .cap p{color:#5B6478}
+  #stage-d .cap .hint{color:#0B8F7E}
+  body.light .bar{background:linear-gradient(rgba(255,255,255,.94),rgba(255,255,255,.78) 70%,transparent)}
+  body.light .bar .brand{color:#0A0F1E}
+  body.light .tab{background:rgba(255,255,255,.85);border-color:#DCE3ED;color:#5B6478}
+  body.light .tab:hover{color:#0A0F1E}
+  body.light .tab[aria-selected="true"]{color:#0A0F1E;border-color:var(--blue);background:rgba(30,58,255,.08)}
 </style>
 
 <div class="bar" role="tablist" aria-label="3D hero 시안">
@@ -79,6 +104,7 @@
   <button class="tab" role="tab" aria-selected="true" data-v="a">A · 잉크 파티클 모프</button>
   <button class="tab" role="tab" aria-selected="false" data-v="b">B · 유연 기판 웨이브</button>
   <button class="tab" role="tab" aria-selected="false" data-v="c">C · 인터페이스 네트워크</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="d">D · 로봇 일러스트 융합</button>
 </div>
 
 <!-- ================= A. PARTICLE MORPH ================= -->
@@ -129,6 +155,27 @@
     <h2>인간–기계 인터페이스 네트워크</h2>
     <p>노드와 시냅스 같은 연결선으로 이루어진 3D 구(球)가 회전하며, 신호 펄스가 연결선을 타고 이동합니다. "인간과 지능형 기계를 잇는 계면"이라는 랩 슬로건을 가장 직접적으로 형상화한 안.</p>
     <div class="hint">드래그 = 회전 / 마우스 = 시차</div>
+  </div>
+</section>
+
+<!-- ================= D. ARTWORK FUSION ================= -->
+<section class="stage" id="stage-d">
+  <div class="tilt" id="tilt-d">
+    <img class="art" id="art-d" src="image/hero-cover.png" alt="" />
+    <canvas id="cv-d"></canvas>
+  </div>
+  <div class="scrim"></div>
+  <div class="copy">
+    <div class="tag"><span class="dot"></span>Jeonbuk National University · Printed Electronics</div>
+    <h1><span class="grad">PPEL</span><span class="plus">+</span></h1>
+    <p class="sub"><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
+    <div class="cta"><a class="btn btn-p" href="#">Explore Our Research</a><a class="btn btn-g" href="#">Meet the Team</a></div>
+  </div>
+  <div class="cap">
+    <div class="k">Variant D — 기존 그림 융합</div>
+    <h2>수채화 로봇 그림이 살아나는 3D 레이어</h2>
+    <p>지금 쓰고 있는 로봇 일러스트를 그대로 두고, 인쇄 필름 리본을 따라 잉크 파티클이 흐르고 잉크 방울에서 로봇 손으로 입자가 피어오릅니다. 마우스에 따라 그림 전체가 미세하게 기울어 깊이감이 생깁니다.</p>
+    <div class="hint">마우스 이동 = 기울기 + 파티클 시차</div>
   </div>
 </section>
 
@@ -433,14 +480,120 @@ const C = (() => {
   return {cv, frame, refit: () => ctx = fit(cv)};
 })();
 
+/* ---------------- D: artwork fusion (light) ---------------- */
+const D = (() => {
+  const cv = document.getElementById('cv-d');
+  const img = document.getElementById('art-d');
+  const tiltEl = document.getElementById('tilt-d');
+  let ctx = fit(cv);
+
+  // anchors in image-fraction coordinates (measured on hero-cover.png)
+  const DROP = [.468, .81], HAND = [.543, .79];
+  const PATH = [[.02,.50],[.10,.42],[.22,.55],[.33,.61],[.42,.55],[.52,.56],[.63,.61],[.74,.57],[.83,.46],[.90,.36]];
+
+  const flow = Array.from({length: 330}, () => ({
+    s: Math.random(), v: .0005 + Math.random() * .0011,
+    off: (Math.random() - .5) * 64, z: (Math.random() - .5) * 130,
+    r: .8 + Math.random() * 2.1, c: Math.random()
+  }));
+  const rise = Array.from({length: 60}, () => ({
+    f: Math.random(), v: .0035 + Math.random() * .005, j: (Math.random() - .5) * 30
+  }));
+  const rips = [];
+  let lastRip = 0;
+
+  function imgRect(){
+    const w = innerWidth, h = innerHeight;
+    const iw = img.naturalWidth || 1916, ih = img.naturalHeight || 821;
+    const sc = Math.max(w / iw, h / ih);
+    const dw = iw * sc, dh = ih * sc;
+    return {x: (w - dw) / 2, y: (h - dh) / 2, w: dw, h: dh};
+  }
+  function pathPoint(s){
+    const n = PATH.length - 1, t = Math.min(.9999, s) * n, i = t | 0, f = t - i;
+    const g = f * f * (3 - 2 * f);
+    const p0 = PATH[i], p1 = PATH[i + 1];
+    return [p0[0] + (p1[0] - p0[0]) * g, p0[1] + (p1[1] - p0[1]) * g,
+            p1[0] - p0[0], p1[1] - p0[1]];
+  }
+  const COLS3 = ['96,124,224', '35,170,160', '158,138,220']; // soft blue / teal / lilac
+
+  function frame(t){
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const R = imgRect();
+
+    tiltEl.style.transform = reduced ? '' :
+      `perspective(1300px) rotateY(${mouse.x * 3.5}deg) rotateX(${-mouse.y * 2.5}deg) scale(1.04)`;
+
+    // ink particles drifting along the printed-film ribbon
+    for (const p of flow){
+      if (!reduced){ p.s += p.v; if (p.s > 1) p.s -= 1; }
+      const [fx, fy, dx, dy] = pathPoint(p.s);
+      let px = R.x + fx * R.w, py = R.y + fy * R.h;
+      const tx = dx * R.w, ty = dy * R.h;
+      const len = Math.hypot(tx, ty) || 1;
+      const sway = Math.sin(t * .001 + p.s * 14) * 7;
+      px += (-ty / len) * (p.off + sway);
+      py += ( tx / len) * (p.off + sway);
+      px += p.z * mouse.x * .55; py += p.z * mouse.y * .35; // depth parallax
+      const a = (.2 + .42 * Math.sin(Math.PI * p.s)) * (1 + p.z / 400);
+      const rr2 = p.r * (1 + p.z / 260);
+      const col = COLS3[(p.c * 3) | 0];
+      if (p.c > .92){ // a few soft glow orbs for depth
+        const g = ctx.createRadialGradient(px, py, 0, px, py, rr2 * 5);
+        g.addColorStop(0, `rgba(${col},${Math.max(.08, a) * .8})`);
+        g.addColorStop(1, `rgba(${col},0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(px, py, rr2 * 5, 0, 7); ctx.fill();
+      }
+      ctx.fillStyle = `rgba(${col},${Math.max(.08, a)})`;
+      ctx.beginPath();
+      ctx.arc(px, py, rr2, 0, 7);
+      ctx.fill();
+    }
+    // ripple rings spreading from the ink droplet
+    const dropX = R.x + DROP[0] * R.w, dropY = R.y + DROP[1] * R.h;
+    if (!reduced && t - lastRip > 1600){ rips.push({r: 6}); lastRip = t; }
+    for (let i = rips.length - 1; i >= 0; i--){
+      const ring = rips[i];
+      ring.r += .9;
+      const a = Math.max(0, .5 * (1 - ring.r / 130));
+      if (a <= 0){ rips.splice(i, 1); continue; }
+      ctx.strokeStyle = `rgba(20,150,140,${a})`;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(dropX, dropY, ring.r, ring.r * .3, 0, 0, 7);
+      ctx.stroke();
+    }
+    // particles rising from the droplet into the robot's hand
+    const hx = R.x + HAND[0] * R.w, hy = R.y + HAND[1] * R.h;
+    const cx2 = (dropX + hx) / 2, cy2 = Math.min(dropY, hy) - R.h * .09;
+    for (const p of rise){
+      if (!reduced){ p.f += p.v; if (p.f > 1) p.f = 0; }
+      const f = p.f, mf = 1 - f;
+      const px = mf * mf * dropX + 2 * mf * f * cx2 + f * f * hx + p.j * Math.sin(f * Math.PI);
+      const py = mf * mf * dropY + 2 * mf * f * cy2 + f * f * hy;
+      const a = Math.sin(Math.PI * f) * .8;
+      ctx.fillStyle = `rgba(16,150,140,${a})`;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.1 + Math.sin(f * 20 + t * .004) * .7, 0, 7);
+      ctx.fill();
+    }
+  }
+  return {cv, frame, refit: () => ctx = fit(cv)};
+})();
+
 /* ---------------- switcher + loop ---------------- */
-const variants = {a: A, b: B, c: C};
+const variants = {a: A, b: B, c: C, d: D};
 let active = 'a';
 document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', () => {
     active = btn.dataset.v;
     document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b === btn));
     document.querySelectorAll('.stage').forEach(s => s.classList.toggle('active', s.id === 'stage-' + active));
+    document.body.classList.toggle('light', active === 'd');
     variants[active].refit();
   });
 });
