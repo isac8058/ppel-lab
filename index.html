@@ -8,7 +8,7 @@
 <meta name="description" content="PPEL (Printability for Printed Electronics Lab+) at Jeonbuk National University. Printing the interface between humans and intelligent machines — the skin, senses, memory, and energy of soft machines, built from printed electronics, flexible energy, and biosensors." />
 <meta name="keywords" content="printed electronics, human-machine interface, electronic skin, soft robotics, flexible electronics, energy storage, biosensors, PPEL, Jeonbuk National University, Dr. Sooman Lim" />
 <link rel="canonical" href="https://isac8058.github.io/ppel-lab/" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070B16'/%3E%3Cpath d='M14 44V20h12a8 8 0 0 1 0 16h-6' fill='none' stroke='%231E3AFF' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M40 32h12M46 26v12' stroke='%2300E6C6' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070B16'/%3E%3Cpath d='M20 52V14h15a11 11 0 0 1 0 22H20' fill='none' stroke='%231E3AFF' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='52' r='4.5' fill='%2300E6C6'/%3E%3Cpath d='M45 13h14M52 6v14' stroke='%2300E6C6' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
 
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website" />
@@ -157,14 +157,13 @@ header{
 header.scrolled{border-bottom-color:var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
 .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.01em}
-.brand .mk{
-  width:30px;height:30px;border-radius:8px;position:relative;flex:none;
-  background:linear-gradient(135deg,var(--conductive),var(--current));
-  display:grid;place-items:center;
-}
-.brand .mk::after{content:"";width:12px;height:12px;border:1.5px solid #fff;border-radius:50%}
-.brand .mk::before{content:"";position:absolute;width:22px;height:1.5px;background:#fff;box-shadow:0 0 0 0 #fff}
+.brand .mk{width:30px;height:30px;flex:none;display:block;filter:drop-shadow(0 2px 8px rgba(30,58,255,.28))}
 .brand span.plus{color:var(--conductive)}
+/* superscript plus: the + sits raised beside the L, like an exponent */
+.brand .plus, .hero h1 .plus, .foot-brand .plus{
+  display:inline-block;font-size:.5em;font-weight:800;
+  transform:translateY(-.8em);margin-left:.03em;
+}
 .navlinks{display:flex;gap:4px;align-items:center}
 .navlinks a{
   font-size:14px;font-weight:500;color:var(--ink-soft);padding:8px 13px;border-radius:8px;
@@ -237,16 +236,16 @@ header.scrolled{border-bottom-color:var(--line)}
 
 /* ---- cover hero: artwork banner with overlaid text (image centered) ---- */
 .hero--cover{color:var(--ink);background:#FFFFFF;min-height:88vh}
-.hero--cover canvas{opacity:0}            /* keep element for JS, hide behind artwork */
 .hero--cover::after{display:none}
+.hero-tilt{position:absolute;inset:0;z-index:1;pointer-events:none;will-change:transform}
 .hero--cover .wrap{display:grid;gap:24px}
 .hero-cover-bg{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center center;
   background-size:cover;            /* same banner format as before, just centered */
 }
-.hero-cover-bg::after{ /* left white scrim so the headline stays legible */
-  content:"";position:absolute;inset:0;
+.hero-scrim{ /* left white scrim so the headline stays legible; sits above the tilting artwork */
+  position:absolute;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(100deg,#fff 0%,#fff 24%,rgba(255,255,255,.88) 42%,rgba(255,255,255,.3) 58%,rgba(255,255,255,0) 76%);
 }
 .hero--cover .hero-tag{color:var(--conductive)}
@@ -260,7 +259,7 @@ header.scrolled{border-bottom-color:var(--line)}
 .hero--cover .scroll-hint{display:none}   /* no divider line under the hero */
 /* dark theme */
 html[data-theme="dark"] .hero--cover{background:var(--hero-bg);color:#EAF0FF}
-html[data-theme="dark"] .hero-cover-bg::after{
+html[data-theme="dark"] .hero-scrim{
   background:linear-gradient(100deg,#070B16 0%,#070B16 24%,rgba(7,11,22,.86) 42%,rgba(7,11,22,.25) 60%,rgba(7,11,22,0) 78%);
 }
 html[data-theme="dark"] .hero--cover h1{color:#EAF0FF}
@@ -270,10 +269,10 @@ html[data-theme="dark"] .hero--cover .hero-meta{color:#8597C2}
 html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(150,170,230,.35)}
 @media (max-width:760px){
   .hero-cover-bg{background-position:center bottom;background-size:auto 58%}
-  .hero-cover-bg::after{
+  .hero-scrim{
     background:linear-gradient(180deg,#fff 0%,#fff 34%,rgba(255,255,255,.78) 54%,rgba(255,255,255,.1) 82%,rgba(255,255,255,0) 100%);
   }
-  html[data-theme="dark"] .hero-cover-bg::after{
+  html[data-theme="dark"] .hero-scrim{
     background:linear-gradient(180deg,#070B16 0%,#070B16 34%,rgba(7,11,22,.78) 54%,rgba(7,11,22,.1) 82%,rgba(7,11,22,0) 100%);
   }
 }
@@ -632,7 +631,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <!-- ============ NAV ============ -->
 <header id="hdr">
   <div class="wrap nav">
-    <a href="#home" class="brand"><span class="mk"></span>PPEL<span class="plus">+</span></a>
+    <a href="#home" class="brand"><svg class="mk" viewBox="0 0 34 34" fill="none" aria-hidden="true"><defs><linearGradient id="mkg1" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3AFF"/><stop offset="1" stop-color="#00E6C6"/></linearGradient></defs><path d="M9 30V7h9.5a6.5 6.5 0 0 1 0 13H9" stroke="url(#mkg1)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="30" r="2.6" fill="#00E6C6"/><path d="M24.5 6.5h8M28.5 2.5v8" stroke="#00E6C6" stroke-width="2.6" stroke-linecap="round"/></svg>PPEL<span class="plus">+</span></a>
     <nav class="navlinks" id="navlinks">
       <a href="#home" data-en="Home" data-ko="홈">Home</a>
       <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
@@ -656,8 +655,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
 <!-- ============ HERO ============ -->
 <section class="hero hero--cover" id="home" style="--hero-img:url('image/hero-cover.png')">
-  <canvas id="circuit"></canvas>
-  <div class="hero-cover-bg" aria-hidden="true"></div>
+  <div class="hero-tilt" id="heroTilt" aria-hidden="true">
+    <div class="hero-cover-bg"></div>
+    <canvas id="inkflow"></canvas>
+  </div>
+  <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="wrap">
       <div class="hero-tag"><span class="dot"></span><span data-en="Jeonbuk National University · Printed Electronics" data-ko="전북대학교 · 인쇄전자공학">Jeonbuk National University · Printed Electronics</span></div>
@@ -1102,7 +1104,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-brand"><span class="mk" style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--conductive),var(--current));display:grid;place-items:center;position:relative"></span>PPEL<span class="plus">+</span></div>
+        <div class="foot-brand"><svg class="mk" viewBox="0 0 34 34" fill="none" aria-hidden="true" style="width:30px;height:30px;flex:none"><defs><linearGradient id="mkg2" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3AFF"/><stop offset="1" stop-color="#00E6C6"/></linearGradient></defs><path d="M9 30V7h9.5a6.5 6.5 0 0 1 0 13H9" stroke="url(#mkg2)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="30" r="2.6" fill="#00E6C6"/><path d="M24.5 6.5h8M28.5 2.5v8" stroke="#00E6C6" stroke-width="2.6" stroke-linecap="round"/></svg>PPEL<span class="plus">+</span></div>
         <p class="foot-desc" data-en="Printability for Printed Electronics Lab. Printing the skin, senses, memory, and energy that let humans and intelligent machines meet — at Jeonbuk National University." data-ko="Printability for Printed Electronics Lab. 전북대학교에서 인간과 지능형 기계가 맞닿게 하는 피부·감각·기억·에너지를 인쇄합니다.">Printability for Printed Electronics Lab. Printing the skin, senses, memory, and energy that let humans and intelligent machines meet — at Jeonbuk National University.</p>
       </div>
       <div class="foot-col">
@@ -1135,7 +1137,6 @@ html.setAttribute("data-theme", "light"); // always start in light (watercolor) 
 themeBtn.addEventListener("click",()=>{
   const next = html.getAttribute("data-theme")==="dark"?"light":"dark";
   html.setAttribute("data-theme", next);
-  buildCircuit(); // recolor canvas
 });
 
 /* ===== Language toggle ===== */
@@ -1207,79 +1208,108 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
 }),{threshold:.5});
 document.querySelectorAll(".num").forEach(el=>cio.observe(el));
 
-/* ===== Hero circuit animation (conductive traces + current pulses) ===== */
-const cv=document.getElementById("circuit"), ctx=cv.getContext("2d");
-let W,H,traces=[],pulses=[],raf;
-function css(v){return getComputedStyle(html).getPropertyValue(v).trim();}
-function resize(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;}
-function buildCircuit(){
-  resize();
-  traces=[]; pulses=[];
-  const grid=70*devicePixelRatio;
-  const cols=Math.ceil(W/grid)+1, rows=Math.ceil(H/grid)+1;
-  // generate orthogonal traces on a grid with random turns
-  const count=Math.min(26, Math.floor((cols*rows)/14));
-  for(let i=0;i<count;i++){
-    let x=Math.floor(Math.random()*cols)*grid;
-    let y=Math.floor(Math.random()*rows)*grid;
-    const pts=[{x,y}];
-    const segs=2+Math.floor(Math.random()*4);
-    let dir=Math.random()<.5?0:1;
-    for(let s=0;s<segs;s++){
-      const len=(1+Math.floor(Math.random()*3))*grid;
-      if(dir===0) x+=Math.random()<.5?len:-len; else y+=Math.random()<.5?len:-len;
-      x=Math.max(0,Math.min(W,x)); y=Math.max(0,Math.min(H,y));
-      pts.push({x,y});
-      dir=1-dir;
+/* ===== Hero: living artwork (ink particles + droplet-to-hand stream + 3D tilt) ===== */
+const heroEl=document.getElementById("home");
+const tiltEl=document.getElementById("heroTilt");
+const cv=document.getElementById("inkflow"), ctx=cv.getContext("2d");
+const DPR=Math.min(devicePixelRatio||1,2);
+const REDUCED=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+const FINE=window.matchMedia("(pointer:fine)").matches;
+const IW=1916, IH=821; // hero-cover.png natural size
+const DROP=[.468,.81], HAND=[.543,.79]; // ink droplet / robot palm, image fractions
+const FLOWPATH=[[.02,.50],[.10,.42],[.22,.55],[.33,.61],[.42,.55],[.52,.56],[.63,.61],[.74,.57],[.83,.46],[.90,.36]];
+const INKCOLS=["96,124,224","35,170,160","158,138,220"]; // watercolor blue / teal / lilac
+let W2,H2,flow=[],rise=[],rips=[],lastRip=0,raf=0,heroVisible=true;
+const ptr={x:0,y:0,tx:0,ty:0};
+function heroResize(){
+  W2=cv.offsetWidth; H2=cv.offsetHeight;
+  cv.width=W2*DPR; cv.height=H2*DPR;
+  const density=Math.min(1, W2/900); // fewer particles on small screens
+  flow=Array.from({length:Math.round(330*density)},()=>({s:Math.random(),v:.0005+Math.random()*.0011,off:(Math.random()-.5)*64,z:(Math.random()-.5)*130,r:.8+Math.random()*2.1,c:Math.random()}));
+  rise=Array.from({length:Math.round(60*density)},()=>({f:Math.random(),v:.0035+Math.random()*.005,j:(Math.random()-.5)*30}));
+  rips=[];
+}
+function imgRect(){ // displayed rect of the artwork inside the hero
+  if(window.matchMedia("(max-width:760px)").matches){
+    const dh=H2*.58, sc=dh/IH, dw=IW*sc;      // matches .hero-cover-bg mobile sizing
+    return {x:(W2-dw)/2, y:H2-dh, w:dw, h:dh};
+  }
+  const sc=Math.max(W2/IW,H2/IH), dw=IW*sc, dh=IH*sc; // cover, centered
+  return {x:(W2-dw)/2, y:(H2-dh)/2, w:dw, h:dh};
+}
+function flowPoint(s){
+  const n=FLOWPATH.length-1, t=Math.min(.9999,s)*n, i=t|0, f=t-i;
+  const g=f*f*(3-2*f);
+  const p0=FLOWPATH[i], p1=FLOWPATH[i+1];
+  return [p0[0]+(p1[0]-p0[0])*g, p0[1]+(p1[1]-p0[1])*g, p1[0]-p0[0], p1[1]-p0[1]];
+}
+function drawInk(t){
+  t=t||0;
+  ptr.x+=(ptr.tx-ptr.x)*.06; ptr.y+=(ptr.ty-ptr.y)*.06;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  const R=imgRect();
+  tiltEl.style.transform=(FINE&&!REDUCED)?
+    `perspective(1300px) rotateY(${ptr.x*3.5}deg) rotateX(${-ptr.y*2.5}deg) scale(1.04)`:"";
+  // ink particles drifting along the printed-film ribbon
+  for(const p of flow){
+    if(!REDUCED){p.s+=p.v; if(p.s>1)p.s-=1;}
+    const [fx,fy,dx,dy]=flowPoint(p.s);
+    let px=R.x+fx*R.w, py=R.y+fy*R.h;
+    const tx=dx*R.w, ty=dy*R.h, len=Math.hypot(tx,ty)||1;
+    const sway=Math.sin(t*.001+p.s*14)*7;
+    px+=(-ty/len)*(p.off+sway); py+=(tx/len)*(p.off+sway);
+    px+=p.z*ptr.x*.55; py+=p.z*ptr.y*.35; // depth parallax
+    const a=(.2+.42*Math.sin(Math.PI*p.s))*(1+p.z/400);
+    const rr=p.r*(1+p.z/260), col=INKCOLS[(p.c*3)|0];
+    if(p.c>.92){ // a few soft glow orbs for depth
+      const g=ctx.createRadialGradient(px,py,0,px,py,rr*5);
+      g.addColorStop(0,`rgba(${col},${Math.max(.08,a)*.8})`);
+      g.addColorStop(1,`rgba(${col},0)`);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(px,py,rr*5,0,7); ctx.fill();
     }
-    traces.push({pts, nodes:pts});
+    ctx.fillStyle=`rgba(${col},${Math.max(.08,a)})`;
+    ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
   }
-  // current pulses traveling along some traces
-  for(let i=0;i<10;i++){
-    const t=traces[Math.floor(Math.random()*traces.length)];
-    pulses.push({trace:t, seg:0, t:Math.random(), speed:.004+Math.random()*.006});
+  // ripple rings spreading from the ink droplet
+  const dropX=R.x+DROP[0]*R.w, dropY=R.y+DROP[1]*R.h;
+  if(!REDUCED&&t-lastRip>1600){rips.push({r:6}); lastRip=t;}
+  for(let i=rips.length-1;i>=0;i--){
+    const ring=rips[i];
+    ring.r+=.9;
+    const a=Math.max(0,.5*(1-ring.r/130));
+    if(a<=0){rips.splice(i,1); continue;}
+    ctx.strokeStyle=`rgba(20,150,140,${a})`;
+    ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.ellipse(dropX,dropY,ring.r,ring.r*.3,0,0,7); ctx.stroke();
   }
+  // particles rising from the droplet into the robot's hand
+  const hx=R.x+HAND[0]*R.w, hy=R.y+HAND[1]*R.h;
+  const bx=(dropX+hx)/2, by=Math.min(dropY,hy)-R.h*.09;
+  for(const p of rise){
+    if(!REDUCED){p.f+=p.v; if(p.f>1)p.f=0;}
+    const f=p.f, mf=1-f;
+    const px=mf*mf*dropX+2*mf*f*bx+f*f*hx+p.j*Math.sin(f*Math.PI);
+    const py=mf*mf*dropY+2*mf*f*by+f*f*hy;
+    ctx.fillStyle=`rgba(16,150,140,${Math.sin(Math.PI*f)*.8})`;
+    ctx.beginPath(); ctx.arc(px,py,2.1+Math.sin(f*20+t*.004)*.7,0,7); ctx.fill();
+  }
+  if(heroVisible&&!REDUCED) raf=requestAnimationFrame(drawInk);
 }
-function lerp(a,b,t){return a+(b-a)*t;}
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  const trace=css("--hero-trace")||"#1E3AFF";
-  const node=css("--hero-node")||"#00E6C6";
-  // base traces
-  ctx.lineWidth=1.2*devicePixelRatio;
-  traces.forEach(tr=>{
-    ctx.strokeStyle="rgba(90,120,255,.16)";
-    ctx.beginPath();
-    tr.pts.forEach((p,i)=> i? ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
-    ctx.stroke();
-    // nodes (vias/electrodes)
-    tr.pts.forEach(p=>{
-      ctx.beginPath();ctx.arc(p.x,p.y,2.2*devicePixelRatio,0,7);
-      ctx.fillStyle="rgba(90,120,255,.35)";ctx.fill();
-    });
-  });
-  // pulses
-  pulses.forEach(pl=>{
-    const pts=pl.trace.pts;
-    if(pts.length<2)return;
-    pl.t+=pl.speed;
-    if(pl.t>=1){pl.t=0; pl.seg=(pl.seg+1)%(pts.length-1);}
-    const a=pts[pl.seg], b=pts[pl.seg+1];
-    const x=lerp(a.x,b.x,pl.t), y=lerp(a.y,b.y,pl.t);
-    const g=ctx.createRadialGradient(x,y,0,x,y,16*devicePixelRatio);
-    g.addColorStop(0,node); g.addColorStop(1,"rgba(0,230,198,0)");
-    ctx.fillStyle=g; ctx.beginPath();ctx.arc(x,y,16*devicePixelRatio,0,7);ctx.fill();
-    ctx.fillStyle=node;ctx.beginPath();ctx.arc(x,y,2.6*devicePixelRatio,0,7);ctx.fill();
-    // glowing trailing segment
-    ctx.strokeStyle="rgba(0,230,198,.5)";ctx.lineWidth=1.6*devicePixelRatio;
-    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(x,y);ctx.stroke();
-  });
-  raf=requestAnimationFrame(draw);
-}
-buildCircuit();
-if(!window.matchMedia("(prefers-reduced-motion:reduce)").matches){ draw(); }
-else { draw(); cancelAnimationFrame(raf); } // single static frame
-addEventListener("resize",()=>{cancelAnimationFrame(raf);buildCircuit();if(!window.matchMedia("(prefers-reduced-motion:reduce)").matches)draw();});
+heroEl.addEventListener("pointermove",e=>{
+  const r=heroEl.getBoundingClientRect();
+  ptr.tx=(e.clientX-r.left)/r.width-.5;
+  ptr.ty=(e.clientY-r.top)/r.height-.5;
+});
+new IntersectionObserver(es=>{
+  heroVisible=es[0].isIntersecting;
+  cancelAnimationFrame(raf);
+  if(heroVisible&&!REDUCED) raf=requestAnimationFrame(drawInk);
+},{threshold:.05}).observe(heroEl);
+heroResize();
+drawInk(0); // reduced motion: this single static frame is all that renders
+addEventListener("resize",()=>{cancelAnimationFrame(raf);heroResize();drawInk(0);});
 
 /* ===== Research cards: click to reveal details / papers ===== */
 document.querySelectorAll(".rcard").forEach(card=>{
