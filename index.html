@@ -238,6 +238,7 @@ header.scrolled{border-bottom-color:var(--line)}
 .hero--cover{color:var(--ink);background:#FFFFFF;min-height:88vh}
 .hero--cover::after{display:none}
 .hero-tilt{position:absolute;inset:0;z-index:1;pointer-events:none;will-change:transform}
+.hero-tilt canvas{z-index:2} /* paint the ink overlay above the artwork (which carries z-index:1) */
 .hero--cover .wrap{display:grid;gap:24px}
 .hero-cover-bg{
   position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -1219,7 +1220,8 @@ const IW=1916, IH=821; // hero-cover.png natural size
 const DROP=[.468,.81], HAND=[.543,.79]; // ink droplet / robot palm, image fractions
 const FLOWPATH=[[.02,.50],[.10,.42],[.22,.55],[.33,.61],[.42,.55],[.52,.56],[.63,.61],[.74,.57],[.83,.46],[.90,.36]];
 const INKCOLS=["96,124,224","35,170,160","158,138,220"]; // watercolor blue / teal / lilac
-let W2,H2,flow=[],rise=[],rips=[],lastRip=0,raf=0,heroVisible=true;
+const LANES=[-46,-18,8,34,58]; // trace-line offsets across the ribbon, px
+let W2,H2,flow=[],rise=[],rips=[],pulses=[],lastRip=0,raf=0,heroVisible=true;
 const ptr={x:0,y:0,tx:0,ty:0};
 function heroResize(){
   W2=cv.offsetWidth; H2=cv.offsetHeight;
@@ -1227,6 +1229,10 @@ function heroResize(){
   const density=Math.min(1, W2/900); // fewer particles on small screens
   flow=Array.from({length:Math.round(390*density)},()=>({s:Math.random(),v:.0006+Math.random()*.0013,off:(Math.random()-.5)*70,z:(Math.random()-.5)*150,r:1+Math.random()*2.4,c:Math.random()}));
   rise=Array.from({length:Math.round(70*density)},()=>({f:Math.random(),v:.0035+Math.random()*.005,j:(Math.random()-.5)*30}));
+  pulses=LANES.flatMap((_,i)=>[
+    {s:Math.random(),v:.0012+Math.random()*.001,lane:i},
+    {s:Math.random(),v:.0012+Math.random()*.001,lane:i}
+  ]);
   rips=[];
 }
 function imgRect(){ // displayed rect of the artwork inside the hero
@@ -1242,6 +1248,13 @@ function flowPoint(s){
   const g=f*f*(3-2*f);
   const p0=FLOWPATH[i], p1=FLOWPATH[i+1];
   return [p0[0]+(p1[0]-p0[0])*g, p0[1]+(p1[1]-p0[1])*g, p1[0]-p0[0], p1[1]-p0[1]];
+}
+function ribbonXY(R,s,off){ // point on the ribbon, offset perpendicular by `off` px
+  const [fx,fy,dx,dy]=flowPoint(s);
+  let px=R.x+fx*R.w, py=R.y+fy*R.h;
+  const tx=dx*R.w, ty=dy*R.h, len=Math.hypot(tx,ty)||1;
+  px+=(-ty/len)*off; py+=(tx/len)*off;
+  return [px,py];
 }
 function drawInk(t){
   t=t||0;
@@ -1264,9 +1277,9 @@ function drawInk(t){
     const sway=Math.sin(t*.001+p.s*14)*7;
     px+=(-ty/len)*(p.off+sway); py+=(tx/len)*(p.off+sway);
     px+=p.z*(ptr.x*.8+Math.sin(t*.0004)*.3); py+=p.z*(ptr.y*.55+Math.cos(t*.00047)*.2); // depth parallax
-    const a=(.24+.48*Math.sin(Math.PI*p.s))*(1+p.z/400);
+    const a=(.35+.6*Math.sin(Math.PI*p.s))*(1+p.z/400);
     const rr=p.r*(1+p.z/260), col=INKCOLS[(p.c*3)|0];
-    if(p.c>.86){ // a few soft glow orbs for depth
+    if(p.c>.8){ // soft glow orbs for depth
       const g=ctx.createRadialGradient(px,py,0,px,py,rr*5);
       g.addColorStop(0,`rgba(${col},${Math.max(.08,a)*.8})`);
       g.addColorStop(1,`rgba(${col},0)`);
@@ -1274,6 +1287,32 @@ function drawInk(t){
     }
     ctx.fillStyle=`rgba(${col},${Math.max(.08,a)})`;
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
+  }
+  // conductive trace curves along the ribbon + traveling signal pulses
+  for(let li=0;li<LANES.length;li++){
+    ctx.beginPath();
+    for(let k=0;k<=60;k++){
+      const s=k/60;
+      const off=LANES[li]+Math.sin(t*.0008+li*2+s*6)*6;
+      const [px,py]=ribbonXY(R,s,off);
+      k?ctx.lineTo(px,py):ctx.moveTo(px,py);
+    }
+    ctx.strokeStyle=li%2?"rgba(30,58,255,.32)":"rgba(20,150,140,.34)";
+    ctx.lineWidth=1.7;
+    ctx.stroke();
+  }
+  for(const pl of pulses){
+    if(!REDUCED){pl.s+=pl.v; if(pl.s>1)pl.s=0;}
+    const off=LANES[pl.lane]+Math.sin(t*.0008+pl.lane*2+pl.s*6)*6;
+    const [px,py]=ribbonXY(R,pl.s,off);
+    const g=ctx.createRadialGradient(px,py,0,px,py,18);
+    g.addColorStop(0,"rgba(0,190,165,.9)");
+    g.addColorStop(.4,"rgba(0,190,165,.35)");
+    g.addColorStop(1,"rgba(0,190,165,0)");
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.arc(px,py,18,0,7); ctx.fill();
+    ctx.fillStyle="rgba(0,150,132,.95)";
+    ctx.beginPath(); ctx.arc(px,py,2.6,0,7); ctx.fill();
   }
   // ripple rings spreading from the ink droplet
   const dropX=R.x+DROP[0]*R.w, dropY=R.y+DROP[1]*R.h;
