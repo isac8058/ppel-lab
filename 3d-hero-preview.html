@@ -1,0 +1,607 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPEL+ 3D Hero — 시안 비교</title>
+<style>
+  :root{
+    --bg:#070B16; --panel:#0E1525; --line:#1E293E;
+    --ink:#EAF0FF; --ink-soft:#8597C2;
+    --blue:#1E3AFF; --cyan:#00E6C6; --amber:#FF8A00;
+    --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans:"Inter","Pretendard", system-ui, -apple-system, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+
+  /* ---- top switcher ---- */
+  .bar{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    padding:12px 18px;
+    background:linear-gradient(rgba(7,11,22,.92),rgba(7,11,22,.78) 70%,transparent);
+  }
+  .bar .brand{font-weight:800;font-size:15px;letter-spacing:.02em;margin-right:10px}
+  .bar .brand .plus{color:var(--cyan)}
+  .tab{
+    font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+    color:var(--ink-soft);background:rgba(14,21,37,.8);border:1px solid var(--line);
+    border-radius:999px;padding:8px 16px;cursor:pointer;transition:.18s;
+  }
+  .tab:hover{color:var(--ink);border-color:var(--blue)}
+  .tab[aria-selected="true"]{color:#fff;border-color:var(--cyan);background:rgba(30,58,255,.22)}
+  .tab:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+  /* ---- stage ---- */
+  .stage{position:fixed;inset:0;display:none}
+  .stage.active{display:block}
+  .stage canvas{position:absolute;inset:0;width:100%;height:100%}
+
+  /* hero copy overlay — same copy as the real site so the pick is realistic */
+  .copy{
+    position:absolute;z-index:5;left:0;right:0;bottom:0;top:0;
+    display:flex;flex-direction:column;justify-content:center;gap:18px;
+    max-width:1180px;margin:0 auto;padding:0 28px;pointer-events:none;
+  }
+  .tag{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cyan);display:flex;align-items:center;gap:10px;
+  }
+  .tag .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  h1{font-size:clamp(56px,9vw,120px);font-weight:800;letter-spacing:-.03em;line-height:1}
+  h1 .plus{color:var(--cyan)}
+  h1 .grad{background:linear-gradient(100deg,#fff 10%,#8FA8FF 60%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:clamp(16px,2.2vw,23px);color:#B9C6E8;max-width:620px;line-height:1.45}
+  .sub b{color:#fff}
+  .cta{display:flex;gap:14px;margin-top:8px;pointer-events:auto}
+  .btn{font-size:14.5px;font-weight:600;text-decoration:none;border-radius:10px;padding:13px 22px;transition:.18s}
+  .btn-p{background:var(--blue);color:#fff}
+  .btn-p:hover{filter:brightness(1.15)}
+  .btn-g{border:1px solid #2A3654;color:#B9C6E8}
+  .btn-g:hover{border-color:var(--cyan);color:#fff}
+
+  /* per-variant caption card */
+  .cap{
+    position:absolute;z-index:6;right:22px;bottom:22px;max-width:340px;
+    background:rgba(14,21,37,.86);border:1px solid var(--line);border-radius:14px;
+    padding:16px 18px;backdrop-filter:blur(8px);
+  }
+  .cap .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--amber);text-transform:uppercase;margin-bottom:6px}
+  .cap h2{font-size:16px;margin-bottom:6px}
+  .cap p{font-size:13px;color:var(--ink-soft);line-height:1.55}
+  .cap .hint{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--cyan)}
+  @media (max-width:760px){.cap{left:22px;max-width:none;bottom:14px}.copy{justify-content:flex-end;padding-bottom:190px}}
+  @media (prefers-reduced-motion: reduce){.tag .dot{animation:none}}
+
+  /* ---- variant D: light stage that keeps the watercolor robot artwork ---- */
+  #stage-d{background:#fff}
+  #stage-d .tilt{position:absolute;inset:0;will-change:transform}
+  #stage-d .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  #stage-d .scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:linear-gradient(90deg,#fff 20%,rgba(255,255,255,.88) 36%,rgba(255,255,255,0) 58%)}
+  #stage-d .tag{color:var(--blue)}
+  #stage-d .tag .dot{background:var(--blue);box-shadow:0 0 12px rgba(30,58,255,.55)}
+  #stage-d h1{color:#0A0F1E}
+  #stage-d h1 .grad{background:none;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:initial;color:#0A0F1E}
+  #stage-d h1 .plus{color:var(--blue)}
+  #stage-d .sub{color:#3A4358}
+  #stage-d .sub b{color:#0A0F1E}
+  #stage-d .btn-g{border-color:#C9D3E4;color:#3A4358}
+  #stage-d .btn-g:hover{border-color:var(--blue);color:#0A0F1E}
+  #stage-d .cap{background:rgba(255,255,255,.92);border-color:#DCE3ED}
+  #stage-d .cap h2{color:#0A0F1E}
+  #stage-d .cap p{color:#5B6478}
+  #stage-d .cap .hint{color:#0B8F7E}
+  body.light .bar{background:linear-gradient(rgba(255,255,255,.94),rgba(255,255,255,.78) 70%,transparent)}
+  body.light .bar .brand{color:#0A0F1E}
+  body.light .tab{background:rgba(255,255,255,.85);border-color:#DCE3ED;color:#5B6478}
+  body.light .tab:hover{color:#0A0F1E}
+  body.light .tab[aria-selected="true"]{color:#0A0F1E;border-color:var(--blue);background:rgba(30,58,255,.08)}
+</style>
+
+<div class="bar" role="tablist" aria-label="3D hero 시안">
+  <span class="brand">PPEL<span class="plus">+</span> 3D HERO 시안</span>
+  <button class="tab" role="tab" aria-selected="true" data-v="a">A · 잉크 파티클 모프</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="b">B · 유연 기판 웨이브</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="c">C · 인터페이스 네트워크</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="d">D · 로봇 일러스트 융합</button>
+</div>
+
+<!-- ================= A. PARTICLE MORPH ================= -->
+<section class="stage active" id="stage-a">
+  <canvas id="cv-a"></canvas>
+  <div class="copy">
+    <div class="tag"><span class="dot"></span>Jeonbuk National University · Printed Electronics</div>
+    <h1><span class="grad">PPEL</span><span class="plus">+</span></h1>
+    <p class="sub"><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
+    <div class="cta"><a class="btn btn-p" href="#">Explore Our Research</a><a class="btn btn-g" href="#">Meet the Team</a></div>
+  </div>
+  <div class="cap">
+    <div class="k">Variant A — 추천 1순위</div>
+    <h2>잉크 → 회로 → 유연필름 파티클 모프</h2>
+    <p>수천 개의 "잉크 방울" 파티클이 잉크 액적 → 인쇄 회로 패턴 → 휘어지는 유연 필름으로 변신하며 순환합니다. 연구실의 공정 스토리(인쇄 → 회로 → 유연소자)를 그대로 3D로 서사화한 안.</p>
+    <div class="hint">마우스 이동 = 시점 / 클릭 = 다음 형상</div>
+  </div>
+</section>
+
+<!-- ================= B. FLEX SUBSTRATE WAVE ================= -->
+<section class="stage" id="stage-b">
+  <canvas id="cv-b"></canvas>
+  <div class="copy">
+    <div class="tag"><span class="dot"></span>Jeonbuk National University · Printed Electronics</div>
+    <h1><span class="grad">PPEL</span><span class="plus">+</span></h1>
+    <p class="sub"><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
+    <div class="cta"><a class="btn btn-p" href="#">Explore Our Research</a><a class="btn btn-g" href="#">Meet the Team</a></div>
+  </div>
+  <div class="cap">
+    <div class="k">Variant B — 가장 우아함</div>
+    <h2>휘어지는 인쇄 기판 웨이브</h2>
+    <p>유연 기판(flexible substrate)이 물결치듯 휘어지는 3D 메시 위로, 전류 펄스가 회로 트레이스를 따라 흐릅니다. 차분하고 고급스러워 텍스트 가독성이 가장 좋고, 성능 부담도 가장 적은 안.</p>
+    <div class="hint">마우스 이동 = 카메라 틸트</div>
+  </div>
+</section>
+
+<!-- ================= C. INTERFACE NETWORK ================= -->
+<section class="stage" id="stage-c">
+  <canvas id="cv-c"></canvas>
+  <div class="copy">
+    <div class="tag"><span class="dot"></span>Jeonbuk National University · Printed Electronics</div>
+    <h1><span class="grad">PPEL</span><span class="plus">+</span></h1>
+    <p class="sub"><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
+    <div class="cta"><a class="btn btn-p" href="#">Explore Our Research</a><a class="btn btn-g" href="#">Meet the Team</a></div>
+  </div>
+  <div class="cap">
+    <div class="k">Variant C — 임팩트형</div>
+    <h2>인간–기계 인터페이스 네트워크</h2>
+    <p>노드와 시냅스 같은 연결선으로 이루어진 3D 구(球)가 회전하며, 신호 펄스가 연결선을 타고 이동합니다. "인간과 지능형 기계를 잇는 계면"이라는 랩 슬로건을 가장 직접적으로 형상화한 안.</p>
+    <div class="hint">드래그 = 회전 / 마우스 = 시차</div>
+  </div>
+</section>
+
+<!-- ================= D. ARTWORK FUSION ================= -->
+<section class="stage" id="stage-d">
+  <div class="tilt" id="tilt-d">
+    <img class="art" id="art-d" src="image/hero-cover.png" alt="" />
+    <canvas id="cv-d"></canvas>
+  </div>
+  <div class="scrim"></div>
+  <div class="copy">
+    <div class="tag"><span class="dot"></span>Jeonbuk National University · Printed Electronics</div>
+    <h1><span class="grad">PPEL</span><span class="plus">+</span></h1>
+    <p class="sub"><b>The interface between printed electronics and intelligent machines.</b> Soft, printed circuits become the skin, senses, and energy that let humans and robots meet.</p>
+    <div class="cta"><a class="btn btn-p" href="#">Explore Our Research</a><a class="btn btn-g" href="#">Meet the Team</a></div>
+  </div>
+  <div class="cap">
+    <div class="k">Variant D — 기존 그림 융합</div>
+    <h2>수채화 로봇 그림이 살아나는 3D 레이어</h2>
+    <p>지금 쓰고 있는 로봇 일러스트를 그대로 두고, 인쇄 필름 리본을 따라 잉크 파티클이 흐르고 잉크 방울에서 로봇 손으로 입자가 피어오릅니다. 마우스에 따라 그림 전체가 미세하게 기울어 깊이감이 생깁니다.</p>
+    <div class="hint">마우스 이동 = 기울기 + 파티클 시차</div>
+  </div>
+</section>
+
+<script>
+(() => {
+'use strict';
+const DPR = Math.min(devicePixelRatio || 1, 2);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mouse = {x: 0, y: 0};
+addEventListener('pointermove', e => {
+  mouse.x = e.clientX / innerWidth - .5;
+  mouse.y = e.clientY / innerHeight - .5;
+});
+
+function fit(cv){
+  const w = innerWidth, h = innerHeight;
+  cv.width = w * DPR; cv.height = h * DPR;
+  return cv.getContext('2d');
+}
+
+/* ---------------- A: particle morph ---------------- */
+const A = (() => {
+  const cv = document.getElementById('cv-a');
+  let ctx = fit(cv);
+  const N = 2600;
+  const P = [];           // current positions
+  const targets = [[], [], []]; // droplet, circuit, film
+
+  // shape 0 — ink droplet: dense core + concentrated shell so it reads as a drop
+  for (let i = 0; i < N; i++){
+    const th = 2 * Math.PI * Math.random(), ph = Math.acos(2 * Math.random() - 1);
+    const r = Math.random() < .55 ? 132 * (0.92 + Math.random() * .08)   // shell
+                                  : 132 * Math.cbrt(Math.random());     // core
+    const y = r * Math.cos(ph);
+    const squeeze = 1 - Math.max(0, y / 132) * .4; // narrower on top → teardrop
+    targets[0].push([r * Math.sin(ph) * Math.cos(th) * squeeze,
+                     y * 1.2 - 15,
+                     r * Math.sin(ph) * Math.sin(th) * squeeze]);
+  }
+  // shape 1 — printed circuit: connected manhattan traces (PCB routing) + pads
+  {
+    const pts = [];
+    const W = 520, D = 380;          // board size in world units
+    const ROWS2 = 14, STEP = 9;      // trace rows, point spacing along x
+    for (let tr = 0; tr < ROWS2; tr++){
+      let z = (tr / (ROWS2 - 1) - .5) * D;
+      let x = -W / 2;
+      // start pad
+      for (let k = 0; k < 10; k++){
+        const a = Math.random() * Math.PI * 2, rr = Math.random() * 9;
+        pts.push([x + Math.cos(a) * rr, 0, z + Math.sin(a) * rr]);
+      }
+      while (x < W / 2){
+        pts.push([x, 0, z]);
+        x += STEP;
+        // occasional 90° jog in z, drawn as connected points
+        if (Math.random() < .06 && x < W / 2 - 40){
+          const dz = (Math.random() < .5 ? 1 : -1) * (D / (ROWS2 - 1)) * (1 + (Math.random() * 2 | 0)) * .5;
+          const steps = Math.max(2, Math.abs(dz) / STEP | 0);
+          for (let k = 1; k <= steps; k++) pts.push([x, 0, z + dz * k / steps]);
+          z = Math.max(-D / 2, Math.min(D / 2, z + dz));
+          // via pad at the corner
+          for (let k = 0; k < 8; k++){
+            const a = Math.random() * Math.PI * 2, rr = Math.random() * 7;
+            pts.push([x + Math.cos(a) * rr, 0, z + Math.sin(a) * rr]);
+          }
+        }
+      }
+      // end pad
+      for (let k = 0; k < 10; k++){
+        const a = Math.random() * Math.PI * 2, rr = Math.random() * 9;
+        pts.push([W / 2 + Math.cos(a) * rr, 0, z + Math.sin(a) * rr]);
+      }
+    }
+    // central "chip": dense square of pads
+    for (let gx = -2; gx <= 2; gx++) for (let gz = -2; gz <= 2; gz++)
+      for (let k = 0; k < 6; k++)
+        pts.push([gx * 22 + (Math.random() - .5) * 8, 0, gz * 22 + (Math.random() - .5) * 8]);
+    for (let i = 0; i < N; i++) targets[1].push(pts[i % pts.length].slice());
+  }
+  // shape 2 — flexible film sheet (wave applied at runtime)
+  for (let i = 0; i < N; i++){
+    const gx = (i % 65) / 64 - .5, gz = ((i / 65 | 0) % 40) / 39 - .5;
+    targets[2].push([gx * 640, 0, gz * 420]);
+  }
+
+  for (let i = 0; i < N; i++) P.push(targets[0][i].slice());
+
+  let shape = 0, morph = 1, lastSwitch = 0, curRx = -.42, spin = 0;
+  cv.parentElement.addEventListener('click', e => {
+    if (e.target.closest('.btn')) return;
+    shape = (shape + 1) % 3; morph = 0; lastSwitch = performance.now();
+  });
+
+  function frame(t){
+    if (!reduced && t - lastSwitch > 6000){ shape = (shape + 1) % 3; morph = 0; lastSwitch = t; }
+    morph = Math.min(1, morph + .022);
+    const e = 1 - Math.pow(1 - morph, 3); // easeOutCubic
+
+    const w = cv.width, h = cv.height;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const cx = w * .68, cy = h * .52, F = 900 * DPR;
+    // flat shapes read best from above; droplet from the side — ease between
+    curRx += ((shape === 0 ? -.42 : -.95) - curRx) * .02;
+    if (shape === 0) spin += .0016;
+    else { // flat shapes: settle near an axis-aligned angle, keep a slow sway
+      const snap = Math.round(spin / (Math.PI / 2)) * (Math.PI / 2);
+      spin += (snap - spin) * .03 + Math.sin(t * .0005) * .0006;
+    }
+    const ry = spin + mouse.x * (shape === 0 ? .9 : .25), rx = curRx + mouse.y * .35;
+    const sy = Math.sin(ry), cyw = Math.cos(ry), sx = Math.sin(rx), cxw = Math.cos(rx);
+
+    for (let i = 0; i < N; i++){
+      const tg = targets[shape][i], p = P[i];
+      let ty = tg[1];
+      if (shape === 2) ty += Math.sin(tg[0] * .012 + t * .0016) * 46 + Math.cos(tg[2] * .015 + t * .0012) * 26;
+      if (shape === 1) ty += Math.sin(t * .002 + i) * 2;
+      p[0] += (tg[0] - p[0]) * .06 * e + (shape !== 2 ? 0 : 0);
+      p[1] += (ty    - p[1]) * .06 * e;
+      p[2] += (tg[2] - p[2]) * .06 * e;
+
+      // rotate
+      let x = p[0] * cyw - p[2] * sy, z = p[0] * sy + p[2] * cyw, y = p[1];
+      let y2 = y * cxw - z * sx, z2 = y * sx + z * cxw;
+      z2 += 700;
+      if (z2 < 80) continue;
+      const s = F / z2;
+      const px = cx + x * s, py = cy + y2 * s;
+      const depth = Math.max(0, Math.min(1, 1 - (z2 - 350) / 800));
+      const sz = Math.max(.6, 2.6 * s / DPR) * DPR;
+      // blue→cyan by depth, a few amber sparks
+      if (i % 97 === 0) ctx.fillStyle = `rgba(255,138,0,${.5 + .5 * depth})`;
+      else if (i % 3 === 0) ctx.fillStyle = `rgba(0,230,198,${.25 + .6 * depth})`;
+      else ctx.fillStyle = `rgba(94,120,255,${.22 + .55 * depth})`;
+      ctx.fillRect(px - sz / 2, py - sz / 2, sz, sz);
+    }
+  }
+  return {cv, frame, refit: () => ctx = fit(cv)};
+})();
+
+/* ---------------- B: flexible substrate wave ---------------- */
+const B = (() => {
+  const cv = document.getElementById('cv-b');
+  let ctx = fit(cv);
+  const COLS = 70, ROWS = 34;
+  // a few long traces that run along the sheet, each carrying a pulse
+  const traces = Array.from({length: 6}, (_, i) => ({
+    row: 4 + (i * 5.2 | 0),
+    phase: Math.random() * 1000,
+    speed: .00012 + Math.random() * .0001
+  }));
+
+  function surfY(gx, gz, t){
+    return Math.sin(gx * 2.4 + t * .0009) * 42
+         + Math.sin(gz * 3.1 - t * .0006) * 30
+         + Math.sin((gx + gz) * 5 + t * .0011) * 12;
+  }
+  function frame(t){
+    if (reduced) t = 0;
+    const w = cv.width, h = cv.height;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const cx = w * .5, cy = h * .60, F = 950 * DPR;
+    const tiltX = -.62 + mouse.y * .22, panX = mouse.x * 120;
+    const sx = Math.sin(tiltX), cxw = Math.cos(tiltX);
+
+    const proj = (gx, gz) => {
+      const X = (gx - .5) * 1750 - panX;
+      const Z = (gz - .5) * 1150;
+      const Y = surfY(gx, gz, t);
+      const y2 = Y * cxw - Z * sx, z2 = Y * sx + Z * cxw + 1250;
+      const s = F / z2;
+      return [cx + X * s, cy + y2 * s, s, z2];
+    };
+
+    // sheet wireframe
+    ctx.lineWidth = 1 * DPR;
+    for (let r = 0; r < ROWS; r++){
+      ctx.beginPath();
+      for (let c = 0; c <= COLS; c++){
+        const [px, py] = proj(c / COLS, r / (ROWS - 1));
+        c ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      const fade = .05 + .16 * (r / ROWS);
+      ctx.strokeStyle = `rgba(94,120,255,${fade})`;
+      ctx.stroke();
+    }
+    for (let c = 0; c <= COLS; c += 2){
+      ctx.beginPath();
+      for (let r = 0; r < ROWS; r++){
+        const [px, py] = proj(c / COLS, r / (ROWS - 1));
+        r ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.strokeStyle = 'rgba(94,120,255,.06)';
+      ctx.stroke();
+    }
+    // glowing traces + travelling pulses
+    for (const tr of traces){
+      const gz = tr.row / (ROWS - 1);
+      ctx.beginPath();
+      for (let c = 0; c <= COLS; c++){
+        const [px, py] = proj(c / COLS, gz);
+        c ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.strokeStyle = 'rgba(0,230,198,.30)';
+      ctx.lineWidth = 1.6 * DPR;
+      ctx.stroke();
+      ctx.lineWidth = 1 * DPR;
+      const f = ((t + tr.phase * 4000) * tr.speed) % 1;
+      const [px, py, s] = proj(f, gz);
+      const rr = 26 * s;
+      const g = ctx.createRadialGradient(px, py, 0, px, py, rr);
+      g.addColorStop(0, 'rgba(0,230,198,.95)');
+      g.addColorStop(.35, 'rgba(0,230,198,.35)');
+      g.addColorStop(1, 'rgba(0,230,198,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(px, py, rr, 0, 7); ctx.fill();
+    }
+  }
+  return {cv, frame, refit: () => ctx = fit(cv)};
+})();
+
+/* ---------------- C: interface network sphere ---------------- */
+const C = (() => {
+  const cv = document.getElementById('cv-c');
+  let ctx = fit(cv);
+  const N = 220, R = 300;
+  const nodes = [];
+  const GA = Math.PI * (3 - Math.sqrt(5)); // fibonacci sphere
+  for (let i = 0; i < N; i++){
+    const y = 1 - (i / (N - 1)) * 2;
+    const rad = Math.sqrt(1 - y * y);
+    const th = GA * i;
+    nodes.push([Math.cos(th) * rad * R, y * R, Math.sin(th) * rad * R]);
+  }
+  const edges = [];
+  for (let i = 0; i < N; i++){
+    for (let j = i + 1; j < N; j++){
+      const dx = nodes[i][0] - nodes[j][0], dy = nodes[i][1] - nodes[j][1], dz = nodes[i][2] - nodes[j][2];
+      if (dx * dx + dy * dy + dz * dz < 75 * 75) edges.push([i, j]);
+    }
+  }
+  const pulses = Array.from({length: 26}, () => ({
+    e: edges[Math.random() * edges.length | 0], f: Math.random(), v: .006 + Math.random() * .012
+  }));
+  let drag = null, ryo = 0, rxo = -.15;
+  cv.parentElement.addEventListener('pointerdown', e => { if (!e.target.closest('.btn')) drag = [e.clientX, e.clientY, ryo, rxo]; });
+  addEventListener('pointerup', () => drag = null);
+  addEventListener('pointermove', e => {
+    if (!drag) return;
+    ryo = drag[2] + (e.clientX - drag[0]) * .006;
+    rxo = Math.max(-1.2, Math.min(1.2, drag[3] + (e.clientY - drag[1]) * .006));
+  });
+
+  function frame(t){
+    const w = cv.width, h = cv.height;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const cx = w * .70, cy = h * .5, F = 900 * DPR;
+    const ry = (reduced ? 0 : t * .00016) + ryo + mouse.x * .35;
+    const rx = rxo + mouse.y * .3;
+    const sy = Math.sin(ry), cyw = Math.cos(ry), sxr = Math.sin(rx), cxw = Math.cos(rx);
+    const pr = [];
+    for (let i = 0; i < N; i++){
+      const p = nodes[i];
+      let x = p[0] * cyw - p[2] * sy, z = p[0] * sy + p[2] * cyw, y = p[1];
+      let y2 = y * cxw - z * sxr, z2 = y * sxr + z * cxw + 780;
+      const s = F / z2;
+      pr.push([cx + x * s, cy + y2 * s, s, z2]);
+    }
+    // edges
+    ctx.lineWidth = 1 * DPR;
+    for (const [i, j] of edges){
+      const a = pr[i], b = pr[j];
+      const depth = Math.max(0, 1 - ((a[3] + b[3]) / 2 - 480) / 620);
+      ctx.strokeStyle = `rgba(94,120,255,${.04 + .3 * depth * depth})`;
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    // nodes
+    for (let i = 0; i < N; i++){
+      const [px, py, s, z2] = pr[i];
+      const depth = Math.max(0, 1 - (z2 - 480) / 620);
+      const sz = Math.max(1, 3.2 * s / DPR) * DPR;
+      ctx.fillStyle = i % 13 === 0 ? `rgba(255,138,0,${.35 + .6 * depth})` : `rgba(140,160,255,${.25 + .65 * depth})`;
+      ctx.beginPath(); ctx.arc(px, py, sz, 0, 7); ctx.fill();
+    }
+    // pulses along edges
+    for (const p of pulses){
+      p.f += reduced ? 0 : p.v;
+      if (p.f > 1){ p.f = 0; p.e = edges[Math.random() * edges.length | 0]; }
+      const a = pr[p.e[0]], b = pr[p.e[1]];
+      const px = a[0] + (b[0] - a[0]) * p.f, py = a[1] + (b[1] - a[1]) * p.f;
+      const rr = 7 * DPR;
+      const g = ctx.createRadialGradient(px, py, 0, px, py, rr);
+      g.addColorStop(0, 'rgba(0,230,198,.9)');
+      g.addColorStop(1, 'rgba(0,230,198,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(px, py, rr, 0, 7); ctx.fill();
+    }
+  }
+  return {cv, frame, refit: () => ctx = fit(cv)};
+})();
+
+/* ---------------- D: artwork fusion (light) ---------------- */
+const D = (() => {
+  const cv = document.getElementById('cv-d');
+  const img = document.getElementById('art-d');
+  const tiltEl = document.getElementById('tilt-d');
+  let ctx = fit(cv);
+
+  // anchors in image-fraction coordinates (measured on hero-cover.png)
+  const DROP = [.468, .81], HAND = [.543, .79];
+  const PATH = [[.02,.50],[.10,.42],[.22,.55],[.33,.61],[.42,.55],[.52,.56],[.63,.61],[.74,.57],[.83,.46],[.90,.36]];
+
+  const flow = Array.from({length: 330}, () => ({
+    s: Math.random(), v: .0005 + Math.random() * .0011,
+    off: (Math.random() - .5) * 64, z: (Math.random() - .5) * 130,
+    r: .8 + Math.random() * 2.1, c: Math.random()
+  }));
+  const rise = Array.from({length: 60}, () => ({
+    f: Math.random(), v: .0035 + Math.random() * .005, j: (Math.random() - .5) * 30
+  }));
+  const rips = [];
+  let lastRip = 0;
+
+  function imgRect(){
+    const w = innerWidth, h = innerHeight;
+    const iw = img.naturalWidth || 1916, ih = img.naturalHeight || 821;
+    const sc = Math.max(w / iw, h / ih);
+    const dw = iw * sc, dh = ih * sc;
+    return {x: (w - dw) / 2, y: (h - dh) / 2, w: dw, h: dh};
+  }
+  function pathPoint(s){
+    const n = PATH.length - 1, t = Math.min(.9999, s) * n, i = t | 0, f = t - i;
+    const g = f * f * (3 - 2 * f);
+    const p0 = PATH[i], p1 = PATH[i + 1];
+    return [p0[0] + (p1[0] - p0[0]) * g, p0[1] + (p1[1] - p0[1]) * g,
+            p1[0] - p0[0], p1[1] - p0[1]];
+  }
+  const COLS3 = ['96,124,224', '35,170,160', '158,138,220']; // soft blue / teal / lilac
+
+  function frame(t){
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const R = imgRect();
+
+    tiltEl.style.transform = reduced ? '' :
+      `perspective(1300px) rotateY(${mouse.x * 3.5}deg) rotateX(${-mouse.y * 2.5}deg) scale(1.04)`;
+
+    // ink particles drifting along the printed-film ribbon
+    for (const p of flow){
+      if (!reduced){ p.s += p.v; if (p.s > 1) p.s -= 1; }
+      const [fx, fy, dx, dy] = pathPoint(p.s);
+      let px = R.x + fx * R.w, py = R.y + fy * R.h;
+      const tx = dx * R.w, ty = dy * R.h;
+      const len = Math.hypot(tx, ty) || 1;
+      const sway = Math.sin(t * .001 + p.s * 14) * 7;
+      px += (-ty / len) * (p.off + sway);
+      py += ( tx / len) * (p.off + sway);
+      px += p.z * mouse.x * .55; py += p.z * mouse.y * .35; // depth parallax
+      const a = (.2 + .42 * Math.sin(Math.PI * p.s)) * (1 + p.z / 400);
+      const rr2 = p.r * (1 + p.z / 260);
+      const col = COLS3[(p.c * 3) | 0];
+      if (p.c > .92){ // a few soft glow orbs for depth
+        const g = ctx.createRadialGradient(px, py, 0, px, py, rr2 * 5);
+        g.addColorStop(0, `rgba(${col},${Math.max(.08, a) * .8})`);
+        g.addColorStop(1, `rgba(${col},0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(px, py, rr2 * 5, 0, 7); ctx.fill();
+      }
+      ctx.fillStyle = `rgba(${col},${Math.max(.08, a)})`;
+      ctx.beginPath();
+      ctx.arc(px, py, rr2, 0, 7);
+      ctx.fill();
+    }
+    // ripple rings spreading from the ink droplet
+    const dropX = R.x + DROP[0] * R.w, dropY = R.y + DROP[1] * R.h;
+    if (!reduced && t - lastRip > 1600){ rips.push({r: 6}); lastRip = t; }
+    for (let i = rips.length - 1; i >= 0; i--){
+      const ring = rips[i];
+      ring.r += .9;
+      const a = Math.max(0, .5 * (1 - ring.r / 130));
+      if (a <= 0){ rips.splice(i, 1); continue; }
+      ctx.strokeStyle = `rgba(20,150,140,${a})`;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(dropX, dropY, ring.r, ring.r * .3, 0, 0, 7);
+      ctx.stroke();
+    }
+    // particles rising from the droplet into the robot's hand
+    const hx = R.x + HAND[0] * R.w, hy = R.y + HAND[1] * R.h;
+    const cx2 = (dropX + hx) / 2, cy2 = Math.min(dropY, hy) - R.h * .09;
+    for (const p of rise){
+      if (!reduced){ p.f += p.v; if (p.f > 1) p.f = 0; }
+      const f = p.f, mf = 1 - f;
+      const px = mf * mf * dropX + 2 * mf * f * cx2 + f * f * hx + p.j * Math.sin(f * Math.PI);
+      const py = mf * mf * dropY + 2 * mf * f * cy2 + f * f * hy;
+      const a = Math.sin(Math.PI * f) * .8;
+      ctx.fillStyle = `rgba(16,150,140,${a})`;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.1 + Math.sin(f * 20 + t * .004) * .7, 0, 7);
+      ctx.fill();
+    }
+  }
+  return {cv, frame, refit: () => ctx = fit(cv)};
+})();
+
+/* ---------------- switcher + loop ---------------- */
+const variants = {a: A, b: B, c: C, d: D};
+let active = 'a';
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    active = btn.dataset.v;
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b === btn));
+    document.querySelectorAll('.stage').forEach(s => s.classList.toggle('active', s.id === 'stage-' + active));
+    document.body.classList.toggle('light', active === 'd');
+    variants[active].refit();
+  });
+});
+addEventListener('resize', () => variants[active].refit());
+function loop(t){
+  variants[active].frame(t);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+</script>
