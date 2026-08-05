@@ -235,16 +235,27 @@ header.scrolled{border-bottom-color:var(--line)}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 /* ---- cover hero: artwork banner with overlaid text (image centered) ---- */
-.hero--cover{color:var(--ink);background:#FFFFFF;min-height:88vh}
+.hero--cover{color:var(--ink);background:#FFFFFF;min-height:88vh;perspective:1100px}
 .hero--cover::after{display:none}
-.hero-tilt{position:absolute;inset:0;z-index:1;pointer-events:none;will-change:transform}
+.hero-tilt{position:absolute;inset:0;z-index:1;pointer-events:none;will-change:transform;transform-style:preserve-3d}
 .hero-tilt canvas{z-index:2} /* paint the ink overlay above the artwork (which carries z-index:1) */
 .hero--cover .wrap{display:grid;gap:24px}
 .hero-cover-bg{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background:var(--hero-img,linear-gradient(120deg,#EAF0FF,#D8F5EE)) no-repeat center center;
   background-size:cover;            /* same banner format as before, just centered */
+  /* pushed back in Z so it parallaxes against the ink canvas while tilting;
+     scale(1.0545) cancels the perspective shrink (1100/1160) so it sits pixel-true at rest */
+  transform:translateZ(-60px) scale(1.0545);
 }
+.hero-gloss{ /* light sheet floating in front of the artwork — sweeps across as the stack tilts */
+  position:absolute;inset:-14%;z-index:3;pointer-events:none;
+  transform:translateZ(70px);
+  background:
+    radial-gradient(48% 38% at 66% 32%, rgba(255,255,255,.26), rgba(255,255,255,0) 72%),
+    linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.17) 51%, rgba(160,190,255,.10) 56%, rgba(255,255,255,0) 64%);
+}
+html[data-theme="dark"] .hero-gloss{opacity:.5}
 .hero-scrim{ /* left white scrim so the headline stays legible; sits above the tilting artwork */
   position:absolute;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(100deg,#fff 0%,#fff 24%,rgba(255,255,255,.88) 42%,rgba(255,255,255,.3) 58%,rgba(255,255,255,0) 76%);
@@ -659,6 +670,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   <div class="hero-tilt" id="heroTilt" aria-hidden="true">
     <div class="hero-cover-bg"></div>
     <canvas id="inkflow"></canvas>
+    <div class="hero-gloss" id="heroGloss"></div>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-inner">
@@ -1232,6 +1244,7 @@ document.querySelectorAll(".num").forEach(el=>cio.observe(el));
 /* ===== Hero: living artwork (ink particles + droplet-to-hand stream + 3D tilt) ===== */
 const heroEl=document.getElementById("home");
 const tiltEl=document.getElementById("heroTilt");
+const glossEl=document.getElementById("heroGloss");
 const cv=document.getElementById("inkflow"), ctx=cv.getContext("2d");
 const DPR=Math.min(devicePixelRatio||1,2);
 const REDUCED=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -1280,10 +1293,11 @@ function drawInk(t){
   ctx.clearRect(0,0,cv.width,cv.height);
   ctx.setTransform(DPR,0,0,DPR,0,0);
   const R=imgRect();
-  if(!REDUCED){ // always-on floating sway + pointer-driven tilt (pointer adds nothing on touch)
-    const ry=Math.sin(t*.0004)*1.7+(FINE?ptr.x*6:0);
-    const rx=Math.cos(t*.00047)*1.3-(FINE?ptr.y*4.5:0);
-    tiltEl.style.transform=`perspective(1200px) rotateY(${ry}deg) rotateX(${rx}deg) scale(1.08)`;
+  if(!REDUCED){ // always-on floating sway + pointer-driven tilt (touch gets a bigger ambient sway instead)
+    const ry=Math.sin(t*.0009)*(FINE?2.6:3.8)+(FINE?ptr.x*9:0);
+    const rx=Math.cos(t*.0011)*(FINE?1.9:2.7)-(FINE?ptr.y*7:0);
+    tiltEl.style.transform=`rotateY(${ry}deg) rotateX(${rx}deg) scale(1.16)`; // perspective comes from .hero--cover
+    glossEl.style.transform=`translateZ(70px) translate3d(${ry*-13}px,${rx*10}px,0)`; // counter-sweep sells the depth
   }
   // ink particles drifting along the printed-film ribbon
   for(const p of flow){
