@@ -1170,7 +1170,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.08.05-4</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.08.05-5</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
@@ -1263,6 +1263,7 @@ const glossEl=document.getElementById("heroGloss");
 const cv=document.getElementById("inkflow"), ctx=cv.getContext("2d");
 const DPR=Math.min(devicePixelRatio||1,2);
 const REDUCED=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+let ANIM=!REDUCED; // flipped back on by the sway self-heal below, so ink flows whenever the cover moves
 const FINE=window.matchMedia("(pointer:fine)").matches;
 const IW=1916, IH=821; // hero-cover.png natural size
 const DROP=[.468,.81], HAND=[.543,.79]; // ink droplet / robot palm, image fractions
@@ -1275,9 +1276,9 @@ function heroResize(){
   W2=cv.offsetWidth; H2=cv.offsetHeight;
   cv.width=W2*DPR; cv.height=H2*DPR;
   const density=Math.min(1, W2/900); // fewer particles on small screens
-  flow=Array.from({length:Math.round(330*density)},()=>({s:Math.random(),v:.0003+Math.random()*.0006,off:(Math.random()-.5)*70,z:(Math.random()-.5)*150,r:1+Math.random()*2.2,c:Math.random()}));
-  rise=Array.from({length:Math.round(60*density)},()=>({f:Math.random(),v:.0018+Math.random()*.0025,j:(Math.random()-.5)*30}));
-  pulses=LANES.map((_,i)=>({s:Math.random(),v:.0004+Math.random()*.0003,lane:i}));
+  flow=Array.from({length:Math.round(360*density)},()=>({s:Math.random(),v:.0005+Math.random()*.001,off:(Math.random()-.5)*70,z:(Math.random()-.5)*150,r:1+Math.random()*2.2,c:Math.random()}));
+  rise=Array.from({length:Math.round(60*density)},()=>({f:Math.random(),v:.003+Math.random()*.004,j:(Math.random()-.5)*30}));
+  pulses=LANES.map((_,i)=>({s:Math.random(),v:.0007+Math.random()*.0005,lane:i}));
   rips=[];
 }
 function imgRect(){ // displayed rect of the artwork inside the hero
@@ -1308,21 +1309,21 @@ function drawInk(t){
   ctx.clearRect(0,0,cv.width,cv.height);
   ctx.setTransform(DPR,0,0,DPR,0,0);
   const R=imgRect();
-  if(!REDUCED&&FINE){ // pointer-driven tilt only — the ambient sway is the .hero-sway CSS animation
+  if(ANIM&&FINE){ // pointer-driven tilt only — the ambient sway is the .hero-sway CSS animation
     const ry=ptr.x*8, rx=-ptr.y*6;
     tiltEl.style.transform=`rotateY(${ry}deg) rotateX(${rx}deg) scale(1.08)`; // perspective comes from .hero--cover
     glossEl.style.transform=`translateZ(70px) translate3d(${ry*-13}px,${rx*10}px,0)`; // counter-sweep sells the depth
   }
   // ink particles drifting along the printed-film ribbon
   for(const p of flow){
-    if(!REDUCED){p.s+=p.v; if(p.s>1)p.s-=1;}
+    if(ANIM){p.s+=p.v; if(p.s>1)p.s-=1;}
     const [fx,fy,dx,dy]=flowPoint(p.s);
     let px=R.x+fx*R.w, py=R.y+fy*R.h;
     const tx=dx*R.w, ty=dy*R.h, len=Math.hypot(tx,ty)||1;
     const sway=Math.sin(t*.001+p.s*14)*7;
     px+=(-ty/len)*(p.off+sway); py+=(tx/len)*(p.off+sway);
     px+=p.z*(ptr.x*.8+Math.sin(t*.0004)*.3); py+=p.z*(ptr.y*.55+Math.cos(t*.00047)*.2); // depth parallax
-    const a=(.18+.32*Math.sin(Math.PI*p.s))*(1+p.z/400);
+    const a=(.22+.4*Math.sin(Math.PI*p.s))*(1+p.z/400);
     const rr=p.r*(1+p.z/260), col=INKCOLS[(p.c*3)|0];
     if(p.c>.88){ // soft glow orbs for depth
       const g=ctx.createRadialGradient(px,py,0,px,py,rr*5);
@@ -1342,30 +1343,30 @@ function drawInk(t){
       const [px,py]=ribbonXY(R,s,off);
       k?ctx.lineTo(px,py):ctx.moveTo(px,py);
     }
-    ctx.strokeStyle=li%2?"rgba(30,58,255,.14)":"rgba(20,150,140,.16)";
+    ctx.strokeStyle=li%2?"rgba(30,58,255,.18)":"rgba(20,150,140,.20)";
     ctx.lineWidth=1.3;
     ctx.stroke();
   }
   for(const pl of pulses){
-    if(!REDUCED){pl.s+=pl.v; if(pl.s>1)pl.s=0;}
+    if(ANIM){pl.s+=pl.v; if(pl.s>1)pl.s=0;}
     const off=LANES[pl.lane]+Math.sin(t*.0008+pl.lane*2+pl.s*6)*6;
     const [px,py]=ribbonXY(R,pl.s,off);
     const g=ctx.createRadialGradient(px,py,0,px,py,14);
-    g.addColorStop(0,"rgba(0,190,165,.55)");
-    g.addColorStop(.4,"rgba(0,190,165,.2)");
+    g.addColorStop(0,"rgba(0,190,165,.65)");
+    g.addColorStop(.4,"rgba(0,190,165,.25)");
     g.addColorStop(1,"rgba(0,190,165,0)");
     ctx.fillStyle=g;
     ctx.beginPath(); ctx.arc(px,py,14,0,7); ctx.fill();
-    ctx.fillStyle="rgba(0,150,132,.6)";
+    ctx.fillStyle="rgba(0,150,132,.7)";
     ctx.beginPath(); ctx.arc(px,py,2.2,0,7); ctx.fill();
   }
   // ripple rings spreading from the ink droplet
   const dropX=R.x+DROP[0]*R.w, dropY=R.y+DROP[1]*R.h;
-  if(!REDUCED&&t-lastRip>2400){rips.push({r:6}); lastRip=t;}
+  if(ANIM&&t-lastRip>2400){rips.push({r:6}); lastRip=t;}
   for(let i=rips.length-1;i>=0;i--){
     const ring=rips[i];
     ring.r+=.55;
-    const a=Math.max(0,.38*(1-ring.r/130));
+    const a=Math.max(0,.45*(1-ring.r/130));
     if(a<=0){rips.splice(i,1); continue;}
     ctx.strokeStyle=`rgba(20,150,140,${a})`;
     ctx.lineWidth=1.6;
@@ -1375,14 +1376,14 @@ function drawInk(t){
   const hx=R.x+HAND[0]*R.w, hy=R.y+HAND[1]*R.h;
   const bx=(dropX+hx)/2, by=Math.min(dropY,hy)-R.h*.09;
   for(const p of rise){
-    if(!REDUCED){p.f+=p.v; if(p.f>1)p.f=0;}
+    if(ANIM){p.f+=p.v; if(p.f>1)p.f=0;}
     const f=p.f, mf=1-f;
     const px=mf*mf*dropX+2*mf*f*bx+f*f*hx+p.j*Math.sin(f*Math.PI);
     const py=mf*mf*dropY+2*mf*f*by+f*f*hy;
-    ctx.fillStyle=`rgba(16,150,140,${Math.sin(Math.PI*f)*.55})`;
+    ctx.fillStyle=`rgba(16,150,140,${Math.sin(Math.PI*f)*.65})`;
     ctx.beginPath(); ctx.arc(px,py,2+Math.sin(f*20+t*.002)*.6,0,7); ctx.fill();
   }
-  if(heroVisible&&!REDUCED) raf=requestAnimationFrame(drawInk);
+  if(heroVisible&&ANIM) raf=requestAnimationFrame(drawInk);
 }
 heroEl.addEventListener("pointermove",e=>{
   const r=heroEl.getBoundingClientRect();
@@ -1392,7 +1393,7 @@ heroEl.addEventListener("pointermove",e=>{
 new IntersectionObserver(es=>{
   heroVisible=es[0].isIntersecting;
   cancelAnimationFrame(raf);
-  if(heroVisible&&!REDUCED) raf=requestAnimationFrame(drawInk);
+  if(heroVisible&&ANIM) raf=requestAnimationFrame(drawInk);
 },{threshold:.05}).observe(heroEl);
 heroResize();
 drawInk(0); // reduced motion: this single static frame is all that renders
@@ -1413,6 +1414,11 @@ setTimeout(()=>{
       const dx=Math.sin(t*.00045)*12, dy=Math.cos(t*.00058)*8;
       swayEl.style.transform=`translate3d(${dx}px,${dy}px,0) rotateY(${ry}deg) rotateX(${rx}deg) scale(1.12)`;
     },33);
+    if(!ANIM){ // the freeze came from a reduced-motion signal — revive the ink overlay too
+      ANIM=true;
+      cancelAnimationFrame(raf);
+      if(heroVisible) raf=requestAnimationFrame(drawInk);
+    }
   },450);
 },600);
 
