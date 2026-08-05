@@ -238,6 +238,19 @@ header.scrolled{border-bottom-color:var(--line)}
 .hero--cover{color:var(--ink);background:#FFFFFF;min-height:88vh;perspective:1100px}
 .hero--cover::after{display:none}
 .hero-tilt{position:absolute;inset:0;z-index:1;pointer-events:none;will-change:transform;transform-style:preserve-3d}
+.hero-sway{ /* ambient wander runs as a compositor CSS animation so rAF throttling (battery saver,
+               background tabs) can never freeze it; JS adds only the pointer-driven tilt on top */
+  position:absolute;inset:0;transform-style:preserve-3d;will-change:transform;
+  animation:heroSway 12s ease-in-out infinite;
+}
+@keyframes heroSway{
+  0%  {transform:rotateY(-3.2deg) rotateX(1.4deg)  scale(1.08)}
+  25% {transform:rotateY(1.8deg)  rotateX(2.2deg)  scale(1.08)}
+  50% {transform:rotateY(3.2deg)  rotateX(-1.2deg) scale(1.08)}
+  75% {transform:rotateY(-1.6deg) rotateX(-2.4deg) scale(1.08)}
+  100%{transform:rotateY(-3.2deg) rotateX(1.4deg)  scale(1.08)}
+}
+@media (prefers-reduced-motion:reduce){.hero-sway{animation:none}}
 .hero-tilt canvas{z-index:2} /* paint the ink overlay above the artwork (which carries z-index:1) */
 .hero--cover .wrap{display:grid;gap:24px}
 .hero-cover-bg{
@@ -668,9 +681,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <!-- ============ HERO ============ -->
 <section class="hero hero--cover" id="home" style="--hero-img:url('image/hero-cover.png')">
   <div class="hero-tilt" id="heroTilt" aria-hidden="true">
-    <div class="hero-cover-bg"></div>
-    <canvas id="inkflow"></canvas>
-    <div class="hero-gloss" id="heroGloss"></div>
+    <div class="hero-sway">
+      <div class="hero-cover-bg"></div>
+      <canvas id="inkflow"></canvas>
+      <div class="hero-gloss" id="heroGloss"></div>
+    </div>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-inner">
@@ -1293,10 +1308,9 @@ function drawInk(t){
   ctx.clearRect(0,0,cv.width,cv.height);
   ctx.setTransform(DPR,0,0,DPR,0,0);
   const R=imgRect();
-  if(!REDUCED){ // always-on floating sway + pointer-driven tilt (touch gets a bigger ambient sway instead)
-    const ry=Math.sin(t*.0009)*(FINE?2.6:3.8)+(FINE?ptr.x*9:0);
-    const rx=Math.cos(t*.0011)*(FINE?1.9:2.7)-(FINE?ptr.y*7:0);
-    tiltEl.style.transform=`rotateY(${ry}deg) rotateX(${rx}deg) scale(1.16)`; // perspective comes from .hero--cover
+  if(!REDUCED&&FINE){ // pointer-driven tilt only — the ambient sway is the .hero-sway CSS animation
+    const ry=ptr.x*8, rx=-ptr.y*6;
+    tiltEl.style.transform=`rotateY(${ry}deg) rotateX(${rx}deg) scale(1.08)`; // perspective comes from .hero--cover
     glossEl.style.transform=`translateZ(70px) translate3d(${ry*-13}px,${rx*10}px,0)`; // counter-sweep sells the depth
   }
   // ink particles drifting along the printed-film ribbon
