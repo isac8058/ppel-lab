@@ -1170,7 +1170,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.08.05-3</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.08.05-4</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
@@ -1397,6 +1397,24 @@ new IntersectionObserver(es=>{
 heroResize();
 drawInk(0); // reduced motion: this single static frame is all that renders
 addEventListener("resize",()=>{cancelAnimationFrame(raf);heroResize();drawInk(0);});
+// Self-healing sway: some Windows setups report reduced-motion (OS "show animations" off,
+// often unknowingly), which freezes the CSS sway. Detect a frozen animation and take over
+// with a gentle interval-driven sway so the cover never reads as a still image.
+const swayEl=document.querySelector(".hero-sway");
+setTimeout(()=>{
+  const m1=getComputedStyle(swayEl).transform;
+  setTimeout(()=>{
+    if(getComputedStyle(swayEl).transform!==m1) return; // CSS animation is alive — nothing to do
+    swayEl.style.animation="none";
+    const t0=performance.now();
+    setInterval(()=>{
+      const t=performance.now()-t0;
+      const ry=Math.sin(t*.00063)*5, rx=Math.cos(t*.00077)*3;
+      const dx=Math.sin(t*.00045)*12, dy=Math.cos(t*.00058)*8;
+      swayEl.style.transform=`translate3d(${dx}px,${dy}px,0) rotateY(${ry}deg) rotateX(${rx}deg) scale(1.12)`;
+    },33);
+  },450);
+},600);
 
 /* ===== Research cards: click to reveal details / papers ===== */
 document.querySelectorAll(".rcard").forEach(card=>{
