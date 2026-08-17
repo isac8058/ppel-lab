@@ -1,69 +1,35 @@
 """파서 단위 테스트. 실제 사이트 접근 없이 로직만 검증함.
 
-샘플 HTML은 2026-08-14 시점 IRIS 목록 화면의 텍스트 구조를 재현한 것이며,
-DOM 형태를 두 가지(href 방식, onclick 방식)로 나누어 폴백 경로까지 확인함.
+픽스처는 2026-08-17 GitHub Actions 실행이 저장한 IRIS·NTIS 원본 HTML에서
+목록 항목만 발췌한 것이라 실제 DOM과 동일함(tests/fixtures/).
+IRIS는 JSON API가 1차 경로이므로 API 응답 파싱도 함께 검증함.
 """
+
+import json
+import pathlib
 
 from crawlers import iris, ntis
 from crawlers.common import find_dates, period_from_text
 from pipeline import normalize
 
-SAMPLE_HREF = """
-<ul class="board-list">
-  <li>
-    <span class="dept">우주항공청 &gt; 우주항공청</span>
-    <strong><a href="/contents/retrieveBsnsAncmView.do?ancmId=023610&amp;ancmPrg=ancmIng">
-      2026년도 신규프로젝트 탐색연구 재공고(다중 궤도 위성 기반 우주환경 상시 감시체계 구축 기획연구)</a></strong>
-    <div class="info"><em>공고번호 :</em>우주항공청 공고 제2026-0095호
-      <em>공고일자 :</em>2026-08-07 <em>공고상태 :</em> 공고접수중 <em>공모유형 :</em>지정공모</div>
-    <span class="state">접수중</span>
-  </li>
-  <li>
-    <span class="dept">산업통상부 &gt; 한국산업기술기획평가원</span>
-    <strong><a href="/contents/retrieveBsnsAncmView.do?ancmId=023398&amp;ancmPrg=ancmIng">
-      AI 응용제품 신속 상용화 지원사업 2차 신규지원 대상과제 공고</a></strong>
-    <div class="info"><em>공고번호 :</em>산업통상부 공고 제2026-536호
-      <em>공고일자 :</em>2026-08-04 <em>공고상태 :</em> 공고접수중 <em>공모유형 :</em>품목지정공모</div>
-    <span class="state">접수중</span>
-  </li>
-  <li>
-    <span class="dept">과학기술정보통신부 &gt; 한국과학기술기획평가원</span>
-    <strong><a href="/contents/retrieveBsnsAncmView.do?ancmId=099999&amp;ancmPrg=ancmIng">
-      (TEST) KISTEP 통합공고 테스트 입니다.</a></strong>
-    <div class="info"><em>공고번호 :</em>IT_2026_001
-      <em>공고일자 :</em>2026-07-27 <em>공고상태 :</em> 공고접수중 <em>공모유형 :</em>자유공모</div>
-    <span class="state">접수중</span>
-  </li>
-</ul>
-"""
+FIXTURES = pathlib.Path(__file__).resolve().parent / "tests" / "fixtures"
+IRIS_SHELL = (FIXTURES / "iris_list_shell.html").read_text(encoding="utf-8")
+NTIS_LIST = (FIXTURES / "ntis_list.html").read_text(encoding="utf-8")
 
-SAMPLE_ONCLICK = """
-<ul class="board-list">
-  <li>
-    <span class="dept">기후에너지환경부 &gt; 한국에너지기술평가원</span>
-    <strong><a href="javascript:void(0);" onclick="fn_view('023450');">
-      2026년도 2차 에너지수요관리핵심기술개발사업 신규지원대상 연구개발과제 공고</a></strong>
-    <div class="info"><em>공고번호 :</em>기후에너지환경부 공고 제2026-719호
-      <em>공고일자 :</em>2026-07-24 <em>공고상태 :</em> 공고접수중 <em>공모유형 :</em>품목지정공모</div>
-    <span class="state">접수중</span>
-  </li>
-</ul>
-"""
-
-SAMPLE_NTIS = """
-<table class="tbl"><tbody>
-<tr>
-  <td>1</td><td>산업통상부</td>
-  <td><a href="/rndgate/eg/un/ra/view.do?roRndUid=1204730">2026년도 첨단소재공정고도화 및 기술역량확보기술개발사업 신규지원 대상과제 공고</a></td>
-  <td>2026-08-05</td><td>2026-09-04</td>
-</tr>
-<tr>
-  <td>2</td><td>과학기술정보통신부</td>
-  <td><a href="/rndgate/eg/un/ra/view.do?roRndUid=1204731">2026년 한-중국 에너지국제공동RD 신규지원 대상과제 공고</a></td>
-  <td>2026-08-01</td><td>2026-08-29</td>
-</tr>
-</tbody></table>
-"""
+# 실제 API 응답 형태(키 이름은 셸의 jsrender 템플릿에서 확인)
+IRIS_API_JSON = json.dumps({
+    "paginationInfo": {"currentPageNo": 1, "totalPageCount": 3, "totalRecordCount": 22},
+    "listBsnsAncmBtinSitu": [
+        {"ancmId": "023457", "ancmTl": "2026년도 신규프로젝트 탐색연구 재공고",
+         "blngGovdSeNm": "우주항공청", "sorgnNm": "우주항공청",
+         "ancmNo": "우주항공청 공고 제2026-0095호", "ancmDe": "2026-08-07",
+         "rcveSttSeNmLst": "공고접수중", "pbofrTpSeNmLst": "지정공모"},
+        {"ancmId": "017852", "ancmTl": "(TEST) KISTEP 통합공고 테스트 입니다.",
+         "blngGovdSeNm": "과학기술정보통신부", "sorgnNm": "한국과학기술기획평가원",
+         "ancmNo": "IT_2026_001", "ancmDe": "2026-07-27",
+         "rcveSttSeNmLst": "공고접수중", "pbofrTpSeNmLst": "자유공모"},
+    ],
+}, ensure_ascii=False)
 
 DETAIL_BODY = """
 사업공고 상세 2026년도 신규프로젝트 탐색연구 재공고
@@ -83,28 +49,43 @@ def run():
         if not cond:
             fails.append(label)
 
-    print("\n== IRIS 목록 파싱 (href 방식) ==")
-    recs = iris.parse_list(SAMPLE_HREF)
-    for r in recs:
+    print("\n== IRIS JSON API 파싱 ==")
+    api_recs = iris.parse_api_json(json.loads(IRIS_API_JSON))
+    for r in api_recs:
         print("   %s | %s / %s | %s" % (r["ancm_id"], r["ministry"], r["agency"], r["title"][:44]))
-    check("항목 2건 추출, TEST 공고 제외", len(recs) == 2, "-> %d건" % len(recs))
-    check("ancmId 정확", [r["ancm_id"] for r in recs] == ["023610", "023398"])
-    check("부처/전문기관 분리", recs[1]["ministry"] == "산업통상부" and recs[1]["agency"] == "한국산업기술기획평가원")
-    check("공고일자 파싱", recs[0]["posted"] == "2026-08-07", "-> %s" % recs[0]["posted"])
-    check("상세 URL 생성", recs[0]["source"].endswith("ancmId=023610&ancmPrg=ancmIng"))
+    check("TEST 공고 제외하고 1건", len(api_recs) == 1, "-> %d건" % len(api_recs))
+    check("ancmId 추출", api_recs and api_recs[0]["ancm_id"] == "023457")
+    check("부처/전문기관 분리", api_recs and api_recs[0]["ministry"] == "우주항공청"
+          and api_recs[0]["agency"] == "우주항공청")
+    check("공고번호 원문 유지", api_recs and api_recs[0]["ancm_no"] == "우주항공청 공고 제2026-0095호")
+    check("공고일자 정규화", api_recs and api_recs[0]["posted"] == "2026-08-07",
+          "-> %s" % (api_recs[0]["posted"] if api_recs else None))
+    check("상세 URL 생성", api_recs and api_recs[0]["source"].endswith("ancmId=023457&ancmPrg=ancmIng"))
 
-    print("\n== IRIS 목록 파싱 (onclick 폴백) ==")
-    recs2 = iris.parse_list(SAMPLE_ONCLICK)
-    for r in recs2:
-        print("   %s | %s" % (r["ancm_id"], r["title"][:50]))
-    check("onclick에서 ID 회수", len(recs2) == 1 and recs2[0]["ancm_id"] == "023450")
+    print("\n== IRIS 셸 HTML 폴백 파싱 (실제 DOM) ==")
+    recs = iris.parse_list(IRIS_SHELL)
+    for r in recs:
+        print("   %s | %s / %s | %s" % (r["ancm_id"], r["ministry"], r["agency"], r["title"][:40]))
+    check("실제 목록에서 항목 추출", len(recs) >= 3, "-> %d건" % len(recs))
+    check("onclick에서 ancmId 회수", recs and all(r["ancm_id"].isdigit() for r in recs))
+    check("TEST 공고 제외", all("TEST" not in r["title"] for r in recs))
+    check("부처 > 전문기관 분리", recs and recs[0]["ministry"] and recs[0]["agency"],
+          "-> %s / %s" % (recs[0]["ministry"], recs[0]["agency"]) if recs else "")
+    check("공고번호 파싱", recs and recs[0]["ancm_no"], "-> %r" % (recs[0]["ancm_no"] if recs else None))
+    check("공고일자 파싱", recs and recs[0]["posted"].startswith("2026-"),
+          "-> %s" % (recs[0]["posted"] if recs else None))
 
-    print("\n== NTIS 목록 파싱 ==")
-    nrecs = ntis.parse_list(SAMPLE_NTIS)
+    print("\n== NTIS 목록 파싱 (실제 DOM) ==")
+    nrecs = ntis.parse_list(NTIS_LIST)
     for r in nrecs:
-        print("   %s | %s" % (r["ancm_id"], r["title"][:50]))
-    check("행 2건 추출", len(nrecs) == 2)
-    check("id 접두어", nrecs[0]["ancm_id"] == "n1204730")
+        print("   %s | %s | %s ~ %s | %s" % (r["ancm_id"], r["ministry"],
+              r["start"] or "?", r["deadline"] or "?", r["title"][:36]))
+    check("fn_view 링크에서 행 추출", len(nrecs) >= 3, "-> %d건" % len(nrecs))
+    check("id 접두어", nrecs and nrecs[0]["ancm_id"].startswith("n"))
+    check("부처명 셀 파싱", nrecs and nrecs[0]["ministry"] == "산업통상부",
+          "-> %r" % (nrecs[0]["ministry"] if nrecs else None))
+    check("접수일/마감일 파싱", nrecs and nrecs[0]["start"] and nrecs[0]["deadline"],
+          "-> %s ~ %s" % (nrecs[0]["start"], nrecs[0]["deadline"]) if nrecs else "")
 
     print("\n== 접수기간 추출 ==")
     start, deadline = period_from_text(DETAIL_BODY)
@@ -112,8 +93,8 @@ def run():
           "-> %s ~ %s" % (start, deadline))
     check("날짜 정규화", find_dates("2026. 08. 11.")[0] == "2026-08-11")
     check("날짜 중복 제거", find_dates("2026.08.11 ~ 2026.08.11") == ["2026-08-11"])
-    check("공고번호에 부처명 접두 허용", recs[0]["ancm_no"] == "우주항공청 공고 제2026-0095호",
-          "-> %r" % recs[0]["ancm_no"])
+    check("공고번호에 부처명 접두 허용",
+          iris.ANCM_NO.search("공고번호 :우주항공청 공고 제2026-0095호 공고일자") is not None)
 
     print("\n== 사전 필터 ==")
     energy = {"title": "2026년도 2차 에너지수요관리핵심기술개발사업", "body": "에너지저장 소재 개발"}
@@ -122,7 +103,11 @@ def run():
     check("무관 공고 차단", not normalize.passes_prefilter(forest))
 
     print("\n== 정규화와 중복 제거 ==")
-    a = dict(recs[1], body="AI 응용제품 센서 상용화", deadline="2026-09-03", start="2026-08-11")
+    a = dict(api_recs[0], ancm_id="023398",
+             title="AI 응용제품 신속 상용화 지원사업 2차 신규지원 대상과제 공고",
+             ministry="산업통상부", agency="한국산업기술기획평가원",
+             source="https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=023398",
+             body="AI 응용제품 센서 상용화", deadline="2026-09-03", start="2026-08-11")
     b = {"src": "ntis", "ancm_id": "n999", "title": "AI 응용제품 신속 상용화 지원사업 2차 신규지원 대상과제 공고",
          "ministry": "산업통상부", "agency": "", "ancm_no": "", "posted": "2026-08-04",
          "kind": "", "source": "x", "body": "센서", "deadline": "2026-09-03", "start": "2026-08-11"}
@@ -142,8 +127,6 @@ def run():
 
     print("\n== 레거시 수기 항목 병합 ==")
     import copy
-    import json
-    import pathlib
     import tempfile
 
     from pipeline import build

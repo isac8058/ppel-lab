@@ -22,12 +22,12 @@ def make_session():
     return s
 
 
-def get(session, url, params=None, tries=3, pause=1.2, timeout=25):
+def get(session, url, params=None, tries=3, pause=1.2, timeout=25, headers=None):
     """GET 후 텍스트 반환. 실패 시 None."""
     last = None
     for attempt in range(tries):
         try:
-            r = session.get(url, params=params, timeout=timeout)
+            r = session.get(url, params=params, timeout=timeout, headers=headers)
             if r.status_code == 200 and r.text:
                 r.encoding = r.apparent_encoding or "utf-8"
                 return r.text
@@ -39,11 +39,11 @@ def get(session, url, params=None, tries=3, pause=1.2, timeout=25):
     return None
 
 
-def post(session, url, data=None, tries=3, pause=1.2, timeout=25):
+def post(session, url, data=None, tries=3, pause=1.2, timeout=25, headers=None):
     last = None
     for attempt in range(tries):
         try:
-            r = session.post(url, data=data or {}, timeout=timeout)
+            r = session.post(url, data=data or {}, timeout=timeout, headers=headers)
             if r.status_code == 200 and r.text:
                 r.encoding = r.apparent_encoding or "utf-8"
                 return r.text
