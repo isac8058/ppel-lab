@@ -14,11 +14,26 @@ ancmId 또는 제목으로 매칭해 수기 판단값(fit, action 등)을 물려
 레거시 항목을 흡수하므로 중복 노출되지 않고, 물려받은 값은 `_meta.curated`
 로 고정되어 이후 LLM 채점이 덮지 않음.
 
-## 첫 실행 전에 반드시 할 것
+## 확인된 실제 구조 (2026-08-17)
 
-정부 사이트의 실제 태그 구조는 개편이 잦아 셀렉터를 미리 확정할 수 없음.
-그래서 파서는 URL 패턴과 텍스트 라벨에만 의존하도록 짜여 있고,
-첫 실행은 반드시 진단 모드로 돌려서 구조를 확인해야 함.
+GitHub Actions 진단 실행이 저장한 원본 HTML로 확정한 구조.
+`tests/fixtures/` 에 실제 목록 발췌를 넣어 회귀 테스트로 고정함.
+
+**IRIS** — 목록 화면은 검색 폼 + 1페이지 서버 렌더링을 담은 셸이고,
+목록 데이터는 별도 JSON API가 제공함.
+
+- 목록 API: `POST /contents/retrieveBsnsAncmBtinSituList.do` (폼 필드 그대로 전송)
+- 응답 키: `listBsnsAncmBtinSitu[]` 안에 `ancmId`, `ancmTl`, `blngGovdSeNm`,
+  `sorgnNm`, `ancmNo`, `ancmDe`, `pbofrTpSeNmLst`, 페이징은 `paginationInfo`
+- 셸의 상세 링크: `f_bsnsAncmBtinSituListForm_view('023457','ancmIng')`
+- 크롤러는 API를 1차 경로로 쓰고, 실패하면 셸 HTML 파싱으로 폴백함
+
+**NTIS** — 목록은 서버 렌더링 표이고 셀에 `data-title` 이 붙음
+(순번/현황/공고명/부처명/접수일/마감일/D-day). 상세 링크는
+`fn_view('1268336')` onclick으로만 uid를 넘기며, 상세는 폼 POST로 열림.
+목록에 접수일·마감일이 있어 상세 조회는 채점용 본문 확보 용도임.
+
+구조가 또 바뀌면 진단 모드로 원본을 받아 확인함.
 
 ```bash
 cd radar
@@ -26,14 +41,9 @@ pip install -r requirements.txt
 python run.py --probe
 ```
 
-출력에서 아래 세 가지를 확인함.
-
-1. `ancmId 발견: N개` 가 0이 아닌지
-2. `항목 블록 후보: N개` 가 목록 건수와 비슷한지
-3. `a href=... onclick=...` 이 어떤 형태인지
-
-셋 중 하나라도 어긋나면 `data/raw/` 에 저장된 원본 HTML을 열어
-실제 구조를 확인한 뒤 `crawlers/iris.py` 의 정규식을 조정함.
+출력에서 `[iris probe] API 총 N건`과 `수집 레코드: N건`이 0이 아닌지 확인함.
+0이면 `data/raw/`(Actions 아티팩트)에 저장된 원본 HTML을 열어 실제 구조를
+확인한 뒤 `crawlers/iris.py` 의 API 키 이름이나 폴백 셀렉터를 조정함.
 
 진단이 정상이면 채점 없이 한 번 더 돌려 수집 품질을 봄.
 
@@ -55,8 +65,8 @@ python run.py
 ```
 run.py                    엔트리포인트
 crawlers/common.py        HTTP 세션, 재시도, 날짜 파싱, KST 기준일
-crawlers/iris.py          IRIS 사업공고 목록과 상세
-crawlers/ntis.py          NTIS 국가R&D통합공고
+crawlers/iris.py          IRIS 목록 JSON API + 셸 폴백, 상세
+crawlers/ntis.py          NTIS 국가R&D통합공고 표 파싱, 상세
 pipeline/normalize.py     스키마 정규화, 사전 필터, 중복 제거
 pipeline/score.py         Claude API 6축 채점, 캐시
 pipeline/build.py         수기 조정 병합, 아카이브, HTML 빌드
@@ -124,8 +134,9 @@ IRIS 접수중 20건대에서 관련 공고는 보통 5건 내외이며,
 python test_parsers.py
 ```
 
-네트워크 없이 파서 로직만 검증함. 목록 파싱 두 방식, 접수기간 추출,
-사전 필터, 중복 제거, 마감일 폴백을 확인함.
+네트워크 없이 파서 로직만 검증함. 실제 원본 HTML 발췌(tests/fixtures/)로
+IRIS JSON API 파싱, IRIS 셸 폴백 파싱, NTIS 표 파싱, 접수기간 추출,
+사전 필터, 중복 제거, 레거시 수기 항목 병합, 마감일 폴백을 확인함.
 
 ## 아직 붙지 않은 소스
 
