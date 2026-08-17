@@ -1,0 +1,9 @@
+{
+  "_사용법": "공고 id를 키로 두고 손으로 고칠 필드만 적으면 크롤러가 덮지 않음. 실제 id는 data/opportunities.json에서 확인",
+  "iris-023398": {
+    "fit": 82,
+    "role": "공동연구기관",
+    "internalDeadline": "2026-08-27",
+    "action": "주관 가능 기업 1곳 선별"
+  }
+}
