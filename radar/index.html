@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="유연·인쇄전자, 센서, 웨어러블, 의료기기, 로봇, 국제공동연구 중심의 개인용 정부 R&D 공고 비교 대시보드">
+  <meta name="author" content="Sooman Lim Research Lab">
+  <meta name="data-date" content="2026-08-18">
+  <title>정부 R&amp;D 공고 레이더 v2</title>
+  <style>
+    :root {
+      --ink: #17201b;
+      --muted: #657168;
+      --line: #dce4dd;
+      --paper: #f7f8f5;
+      --white: #ffffff;
+      --green: #175c3b;
+      --green-soft: #e6f0e9;
+      --amber: #9a5e12;
+      --amber-soft: #f6ecd9;
+      --red: #8c3128;
+      --red-soft: #f6e3e0;
+      --blue: #315f78;
+      --blue-soft: #e4eef2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      text-rendering: optimizeLegibility;
+    }
+    button, input, select { font: inherit; }
+    button, a, input, select { outline-color: var(--green); outline-offset: 3px; }
+    .site-header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 24px 28px;
+    }
+    .brand { align-items: center; display: flex; font-size: 14px; font-weight: 760; gap: 10px; }
+    .brand-mark {
+      align-items: center;
+      background: var(--ink);
+      border-radius: 8px;
+      color: white;
+      display: flex;
+      font-size: 10px;
+      height: 30px;
+      justify-content: center;
+      letter-spacing: .06em;
+      width: 30px;
+    }
+    .header-meta { align-items: center; color: var(--muted); display: flex; font-size: 12px; gap: 12px; }
+    .private-badge { background: var(--green-soft); border-radius: 100px; color: var(--green); font-weight: 720; padding: 6px 10px; }
+    .hero {
+      display: grid;
+      gap: 54px;
+      grid-template-columns: 1.5fr 1fr;
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 68px 28px 78px;
+    }
+    .eyebrow { color: var(--green); font-size: 12px; font-weight: 780; letter-spacing: .11em; margin: 0 0 18px; }
+    .hero h1 { font-size: clamp(50px, 7vw, 90px); font-weight: 680; letter-spacing: -.075em; line-height: .96; margin: 0; }
+    .hero-description { color: var(--muted); font-size: 16px; line-height: 1.8; margin: 30px 0 0; max-width: 680px; }
+    .hero-stats { align-self: end; border-left: 1px solid var(--line); display: grid; }
+    .hero-stats div { align-items: baseline; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; padding: 21px 0 21px 28px; }
+    .hero-stats strong { font-size: 36px; font-weight: 560; letter-spacing: -.06em; }
+    .hero-stats span { color: var(--muted); font-size: 13px; }
+    .workspace { background: var(--white); border-radius: 34px 34px 0 0; min-height: 700px; padding: 52px max(28px, calc((100vw - 1184px) / 2)) 84px; }
+    .section-heading, .comparison-heading { align-items: flex-end; display: flex; justify-content: space-between; margin-bottom: 26px; }
+    .section-heading .eyebrow, .comparison-heading .eyebrow { margin-bottom: 10px; }
+    h2 { font-size: 38px; letter-spacing: -.055em; margin: 0; }
+    .sort-control { align-items: center; display: flex; gap: 10px; }
+    .sort-control label, .field-title { color: var(--muted); font-size: 12px; font-weight: 650; }
+    select, input[type="search"] { background: white; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); height: 42px; padding: 0 13px; }
+    .sort-control select { cursor: pointer; height: auto; padding: 10px 34px 10px 12px; }
+    .filters {
+      align-items: end;
+      background: #f3f6f2;
+      border: 1px solid #e4eae3;
+      border-radius: 18px;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1.15fr 2fr .9fr auto;
+      margin-bottom: 26px;
+      padding: 16px;
+    }
+    .filter-field { display: flex; flex-direction: column; gap: 9px; }
+    .filter-field input[type="search"] { width: 100%; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { background: white; border: 1px solid var(--line); border-radius: 100px; color: var(--muted); cursor: pointer; font-size: 12px; padding: 7px 10px; }
+    .chip.active { background: var(--ink); border-color: var(--ink); color: white; }
+    .range-value { color: var(--green); font-weight: 760; margin-left: 4px; }
+    input[type="range"], input[type="checkbox"] { accent-color: var(--green); cursor: pointer; }
+    .closed-toggle { align-items: center; background: white; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; display: flex; font-size: 12px; gap: 8px; height: 42px; padding: 0 12px; white-space: nowrap; }
+    .opportunity-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .opportunity-card { border: 1px solid var(--line); border-radius: 18px; display: flex; flex-direction: column; padding: 22px; transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+    .opportunity-card:hover { border-color: #aebdb2; box-shadow: 0 14px 34px rgba(25, 48, 33, .07); transform: translateY(-2px); }
+    .opportunity-card.selected { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+    .card-topline { align-items: center; display: flex; gap: 10px; justify-content: space-between; }
+    .status { border-radius: 100px; font-size: 11px; font-weight: 760; padding: 6px 9px; white-space: nowrap; }
+    .status-active { background: var(--green-soft); color: var(--green); }
+    .status-urgent { background: var(--amber-soft); color: var(--amber); }
+    .status-upcoming { background: var(--blue-soft); color: var(--blue); }
+    .status-closed { background: #eceeec; color: #727b74; }
+    .deadline { color: var(--muted); font-size: 11px; text-align: right; }
+    .deadline b { color: var(--ink); font-weight: 700; }
+    .card-main { display: grid; gap: 18px; grid-template-columns: 82px 1fr; margin-top: 22px; }
+    .score-block { background: var(--green-soft); border-radius: 13px; display: flex; flex-direction: column; height: 94px; justify-content: center; padding: 11px; }
+    .score-block span, .score-block small { color: var(--green); font-size: 9px; font-weight: 690; }
+    .score-block strong { color: var(--green); font-size: 31px; font-weight: 600; letter-spacing: -.05em; line-height: 1.15; }
+    .card-category { color: var(--green); font-size: 11px; font-weight: 740; margin: 2px 0 8px; }
+    .opportunity-card h3 { font-size: 20px; letter-spacing: -.035em; line-height: 1.38; margin: 0; }
+    .agency { color: var(--muted); font-size: 11px; line-height: 1.5; margin: 8px 0 0; }
+    .flags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 14px; }
+    .flag { background: var(--red-soft); border-radius: 6px; color: var(--red); font-size: 10px; font-weight: 700; padding: 4px 7px; }
+    .flag.info { background: var(--blue-soft); color: var(--blue); }
+    .summary { color: #4f5b53; font-size: 13px; line-height: 1.65; margin: 16px 0; }
+    .axis-block { border-top: 1px solid var(--line); padding-top: 14px; }
+    .axis-title { color: var(--muted); font-size: 10px; font-weight: 660; margin: 0 0 10px; }
+    .axis-row { align-items: center; display: grid; gap: 9px; grid-template-columns: 78px 1fr 22px; margin-bottom: 5px; }
+    .axis-row span { color: var(--muted); font-size: 10px; }
+    .axis-track { background: #eef2ee; border-radius: 100px; height: 6px; overflow: hidden; }
+    .axis-fill { background: var(--green); border-radius: 100px; height: 100%; }
+    .axis-row b { color: var(--ink); font-size: 10px; font-weight: 700; text-align: right; }
+    .card-details { border-top: 1px solid var(--line); margin: 16px 0 0; }
+    .card-details div { border-bottom: 1px solid var(--line); display: grid; gap: 12px; grid-template-columns: 70px 1fr; padding: 11px 0; }
+    .card-details dt { color: var(--muted); font-size: 10px; font-weight: 660; }
+    .card-details dd { font-size: 12px; line-height: 1.55; margin: 0; }
+    .card-details .today-action dd { color: var(--amber); font-weight: 670; }
+    .card-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 16px; }
+    .compare-button { background: var(--ink); border: 1px solid var(--ink); border-radius: 9px; color: white; cursor: pointer; font-size: 11px; font-weight: 720; padding: 9px 11px; }
+    .compare-button.active { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+    .compare-button:disabled { cursor: not-allowed; opacity: .35; }
+    .track-select { border: 1px solid var(--line); border-radius: 9px; font-size: 11px; height: 34px; padding: 0 8px; }
+    .source-link { border-bottom: 1px solid var(--ink); color: var(--ink); font-size: 12px; font-weight: 720; padding: 4px 0; text-decoration: none; }
+    .empty-state, .comparison-empty { background: #f3f6f2; border-radius: 18px; color: var(--muted); padding: 44px; text-align: center; }
+    .empty-state[hidden] { display: none; }
+    .comparison { border-top: 1px solid var(--line); margin-top: 76px; padding-top: 48px; }
+    .comparison-heading h2 { font-size: 32px; }
+    .comparison-meta { align-items: center; color: var(--muted); display: flex; font-size: 11px; gap: 12px; }
+    .comparison-meta button { background: transparent; border: 0; border-bottom: 1px solid var(--ink); color: var(--ink); cursor: pointer; font-size: 11px; padding: 2px 0; }
+    .comparison-table-wrap { border: 1px solid var(--line); border-radius: 18px; overflow-x: auto; }
+    .comparison-table { border-collapse: collapse; min-width: 760px; table-layout: fixed; width: 100%; }
+    .comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); line-height: 1.55; padding: 15px 16px; text-align: left; vertical-align: top; }
+    .comparison-table tr:last-child th, .comparison-table tr:last-child td { border-bottom: 0; }
+    .comparison-table th:last-child, .comparison-table td:last-child { border-right: 0; }
+    .comparison-table thead th { background: #f3f6f2; font-size: 12px; }
+    .comparison-table thead th:first-child, .comparison-table tbody th { color: var(--muted); font-size: 10px; width: 110px; }
+    .comparison-table tbody th { background: #fafbf9; }
+    .comparison-table tbody td { font-size: 12px; }
+    .table-score { color: var(--green); font-size: 20px; margin-right: 4px; }
+    .comparison-action-row td { color: var(--amber); font-weight: 670; }
+    .sources { border-top: 1px solid var(--line); margin-top: 76px; padding-top: 48px; }
+    .sources-note { color: var(--muted); font-size: 13px; line-height: 1.75; margin: 0 0 26px; max-width: 760px; }
+    .source-table-wrap { border: 1px solid var(--line); border-radius: 18px; overflow-x: auto; }
+    .source-table { border-collapse: collapse; min-width: 880px; width: 100%; }
+    .source-table th, .source-table td { border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.55; padding: 13px 15px; text-align: left; vertical-align: top; }
+    .source-table thead th { background: #f3f6f2; color: var(--muted); font-size: 10px; font-weight: 680; }
+    .source-table tbody tr:last-child td { border-bottom: 0; }
+    .source-table td a { color: var(--ink); }
+    .prio { border-radius: 6px; font-size: 10px; font-weight: 720; padding: 4px 7px; white-space: nowrap; }
+    .prio-1 { background: var(--green-soft); color: var(--green); }
+    .prio-2 { background: var(--blue-soft); color: var(--blue); }
+    .prio-3 { background: #eceeec; color: #727b74; }
+    .source-group-row td { background: #fafbf9; color: var(--muted); font-size: 10px; font-weight: 720; letter-spacing: .08em; padding: 10px 15px; }
+    footer { background: var(--ink); color: #c8d0ca; display: flex; font-size: 11px; justify-content: space-between; line-height: 1.6; padding: 30px max(28px, calc((100vw - 1184px) / 2)); }
+    footer p { margin: 0; }
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-stats { border-left: 0; grid-template-columns: repeat(4, 1fr); }
+      .hero-stats div { border-bottom: 0; border-right: 1px solid var(--line); flex-direction: column; padding: 18px; }
+      .filters { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      .site-header { padding: 18px 20px; }
+      .header-meta span:last-child { display: none; }
+      .hero { gap: 38px; padding: 48px 20px 58px; }
+      .hero h1 { font-size: clamp(48px, 15vw, 68px); }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .workspace { border-radius: 24px 24px 0 0; padding: 38px 16px 60px; }
+      .section-heading, .comparison-heading { align-items: flex-start; gap: 18px; }
+      h2 { font-size: 31px; }
+      .sort-control { align-items: flex-start; flex-direction: column; gap: 5px; }
+      .filters, .opportunity-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 8px; padding: 26px 20px; }
+    }
+    @media print {
+      .filters, .sort-control, .compare-button, .comparison-meta, .private-badge, .track-select { display: none; }
+      .hero { padding-bottom: 35px; }
+      .workspace { padding-top: 30px; }
+      .opportunity-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><span class="brand-mark">LR</span><span>Lab Radar</span></div>
+    <div class="header-meta"><span class="private-badge">개인용</span><span id="todayLabel"></span></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">정부 R&amp;D 공고 탐색</p>
+        <h1>지원할 과제만<br>빠르게 남기기</h1>
+        <p class="hero-description">유연·인쇄전자, 센서, 웨어러블, 의료기기, 로봇, 국제공동연구를 기준으로 선별함. 적합도는 6개 역량 축의 가중 평균이며, 마감은 대외 마감과 교내 접수 마감을 함께 표시함.</p>
+      </div>
+      <div class="hero-stats" aria-label="공고 현황">
+        <div><strong id="activeCount">0</strong><span>확인 대상</span></div>
+        <div><strong id="urgentCount">0</strong><span>교내 마감 7일 이내</span></div>
+        <div><strong id="topFit">0</strong><span>최고 적합도</span></div>
+        <div><strong id="trackedCount">0</strong><span>준비·지원 진행</span></div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="section-heading">
+        <div><p class="eyebrow">선별 결과</p><h2 id="resultCount">공고 0건</h2></div>
+        <div class="sort-control"><label for="sortBy">정렬</label><select id="sortBy">
+          <option value="fit">적합도 높은 순</option>
+          <option value="internal">교내 마감 빠른 순</option>
+          <option value="deadline">대외 마감 빠른 순</option>
+        </select></div>
+      </div>
+
+      <div class="filters" aria-label="공고 필터">
+        <label class="filter-field"><span class="field-title">검색</span><input id="search" type="search" placeholder="의료기기, 전북, 국제공동연구 등"></label>
+        <div class="filter-field"><span class="field-title">분야</span><div class="chips" id="categoryChips"></div></div>
+        <label class="filter-field"><span class="field-title">최소 적합도 <strong class="range-value" id="fitValue">55</strong></span><input id="minFit" type="range" min="50" max="95" step="5" value="55"></label>
+        <label class="closed-toggle"><input id="includeClosed" type="checkbox"><span>종료 공고 포함</span></label>
+      </div>
+
+      <div class="opportunity-grid" id="opportunityGrid"></div>
+      <div class="empty-state" id="emptyState" hidden><strong>조건에 맞는 공고가 없음</strong><p>적합도 기준을 낮추거나 종료 공고를 포함해 확인 필요함.</p></div>
+
+      <section class="comparison" aria-labelledby="comparisonTitle">
+        <div class="comparison-heading">
+          <div><p class="eyebrow">직접 비교</p><h2 id="comparisonTitle">선택한 공고 0건</h2></div>
+          <div class="comparison-meta"><span>최대 3건</span><button id="clearCompare" type="button" hidden>선택 초기화</button></div>
+        </div>
+        <div id="comparisonContent" class="comparison-empty"><strong>비교할 공고를 선택해 주세요.</strong><p>각 카드의 비교 선택 버튼을 누르면 마감일, 적합도, 추천 역할, 오늘 할 일을 한 화면에서 확인 가능함.</p></div>
+      </section>
+
+      <section class="sources" aria-labelledby="sourcesTitle">
+        <div class="comparison-heading">
+          <div><p class="eyebrow">수집 대상</p><h2 id="sourcesTitle">소스 레지스트리</h2></div>
+          <div class="comparison-meta"><span id="sourceCount"></span></div>
+        </div>
+        <p class="sources-note">현재 공고 데이터는 수기 입력임. 아래는 정기 확인이 필요한 출처 목록이며, 자동 수집 단계에서 그대로 수집 대상 정의로 사용 가능함. 전북대 R&amp;D공고 페이지는 NTIS 통합공고를 미러링하므로 IRIS·NTIS를 이미 보고 있으면 중복이며, 실제 가치는 교내 마감 공지와 지역 기관 공고에 있음.</p>
+        <div class="source-table-wrap">
+          <table class="source-table">
+            <thead><tr>
+              <th scope="col">우선</th><th scope="col">출처</th><th scope="col">담는 내용</th><th scope="col">수집 방식</th><th scope="col">확인 주기</th>
+            </tr></thead>
+            <tbody id="sourceBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer><p>공고문과 접수 상태는 제출 직전 원문 재확인 필요함.</p><p>적합도와 축별 점수는 현재 연구 포트폴리오 기준의 우선순위 판단이며 확정값이 아님.</p></footer>
+
+  <script id="opportunityData" type="application/json">
+  [
+    {
+      "id": "ntis-n1275888",
+      "title": "2026년도 NRF 인터내셔널 모빌리티 신규과제 공모_(2026)2026년도 NRF 인터내셔널 모빌리티 신규과제 공모",
+      "ministry": "과학기술정보통신부",
+      "agency": "미상",
+      "category": "국제공동연구",
+      "start": "2026-08-19",
+      "deadline": "2026-09-15",
+      "fit": 91,
+      "role": "연구책임자",
+      "axes": {
+        "전기화학센서": 85,
+        "인쇄전자": 90,
+        "에너지하베스팅": 80,
+        "소재·계산": 75,
+        "표준화": 60,
+        "사업화": 45
+      },
+      "flags": [
+        "해외 수용기관 확정 필요"
+      ],
+      "summary": "국제협력 네트워크 구축과 공동연구 추진 기반을 위한 연구자 이동 지원",
+      "rationale": "인쇄전자·센서·디지털헬스 분야의 해외 공동연구 확장에 직접 활용 가능함",
+      "action": "후보 해외기관 2곳과 교류 주제 1쪽 정리",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275888"
+    },
+    {
+      "id": "nrf-jsps",
+      "title": "2027년도 한·일 JSPS 협력연구 및 공동세미나",
+      "ministry": "과학기술정보통신부",
+      "agency": "한국연구재단",
+      "category": "국제공동연구",
+      "start": "2026-07-10",
+      "deadline": "2026-09-04",
+      "fit": 88,
+      "role": "연구책임자",
+      "axes": {
+        "전기화학센서": 85,
+        "인쇄전자": 92,
+        "에너지하베스팅": 78,
+        "소재·계산": 70,
+        "표준화": 55,
+        "사업화": 40
+      },
+      "flags": [
+        "일본 측 카운터파트 필수",
+        "JSPS 동시 신청 필요"
+      ],
+      "summary": "한·일 연구자 간 협력연구 또는 공동세미나 신규과제 공모",
+      "rationale": "일본의 유연소자·바이오센서 연구진과 소규모 공동연구를 시작하기 적합함",
+      "action": "일본 공동연구자 의향 확인과 국·영문 주제 확정",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=022534"
+    },
+    {
+      "id": "ai-commercialization",
+      "title": "AI 응용제품 신속 상용화 지원사업 2차",
+      "ministry": "산업통상부",
+      "agency": "한국산업기술기획평가원",
+      "category": "산업기술",
+      "start": "2026-08-11",
+      "deadline": "2026-09-03",
+      "fit": 76,
+      "role": "공동연구기관",
+      "axes": {
+        "전기화학센서": 70,
+        "인쇄전자": 75,
+        "에너지하베스팅": 45,
+        "소재·계산": 60,
+        "표준화": 50,
+        "사업화": 90
+      },
+      "flags": [
+        "기업 주관 필요",
+        "컨소시엄 구성 필수"
+      ],
+      "summary": "AI 응용제품의 신속한 개발과 상용화를 지원하는 2차 신규과제",
+      "rationale": "스마트드레싱·센서 판독·제조 AI와 연결 가능하나 기업 주도 컨소시엄이 유리함",
+      "action": "보유 기업 파트너 중 주관 가능 기업 1곳 선별",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=023398"
+    },
+    {
+      "id": "global-talent",
+      "title": "산업혁신인재성장지원 최고급 해외인재유치 추가공고",
+      "ministry": "산업통상부",
+      "agency": "한국산업기술진흥원",
+      "category": "인력·인프라",
+      "start": "2026-06-30",
+      "deadline": "2026-08-27",
+      "fit": 68,
+      "role": "주관기관 책임자",
+      "axes": {
+        "전기화학센서": 55,
+        "인쇄전자": 65,
+        "에너지하베스팅": 50,
+        "소재·계산": 60,
+        "표준화": 45,
+        "사업화": 55
+      },
+      "flags": [
+        "기관 고용계획 승인 필요",
+        "유치 후보 사전 확보 필요"
+      ],
+      "summary": "산업기술 분야 최고급 해외인재 유치와 국내 연구개발 활동 지원",
+      "rationale": "랩의 국제화에는 유효하나 구체적 유치후보와 기관 차원의 고용계획이 필요함",
+      "action": "실제 유치 가능한 해외연구자와 자격요건 우선 확인",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=022695"
+    },
+    {
+      "id": "iris-022515",
+      "title": "2026년 한-캐나다 이공계 대학원생 연수프로그램 공모",
+      "ministry": "과학기술정보통신부",
+      "agency": "한국연구재단",
+      "category": "인력·인프라",
+      "start": "2026-06-22",
+      "deadline": "2026-08-20",
+      "fit": 64,
+      "role": "학생 추천·지도",
+      "axes": {
+        "전기화학센서": 50,
+        "인쇄전자": 55,
+        "에너지하베스팅": 45,
+        "소재·계산": 50,
+        "표준화": 35,
+        "사업화": 30
+      },
+      "flags": [
+        "연구비 과제 아님",
+        "캐나다 수용연구실 필요"
+      ],
+      "summary": "한·캐나다 간 이공계 대학원생 연구 연수와 인력교류 지원",
+      "rationale": "학생 국제연수에는 적합하나 교수 직접 연구비 과제는 아님",
+      "action": "지원 가능한 학생과 캐나다 수용연구실 보유 여부 확인",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=022515&ancmPrg=ancmIng"
+    },
+    {
+      "id": "jbnu-medtech",
+      "title": "혁신의료기기 물리·화학적 시험평가인증 지원",
+      "ministry": "전북특별자치도",
+      "agency": "전북대학교산학협력단",
+      "category": "의료기기",
+      "start": "2026-03-09",
+      "deadline": "2026-12-31",
+      "fit": 61,
+      "role": "기업 연계 지원",
+      "axes": {
+        "전기화학센서": 70,
+        "인쇄전자": 60,
+        "에너지하베스팅": 30,
+        "소재·계산": 35,
+        "표준화": 75,
+        "사업화": 65
+      },
+      "flags": [
+        "R&D 과제 아님",
+        "기업 수요 필요",
+        "예산 소진 시 조기 마감"
+      ],
+      "summary": "의료기기 전·후방 중소·중견기업의 시험분석과 인증 비용 지원",
+      "rationale": "직접 R&D 과제는 아니지만 스마트드레싱·센서 기업의 검증 단계에 활용 가능함",
+      "action": "협력기업의 시험평가 수요와 잔여예산 확인",
+      "source": "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000119126"
+    },
+    {
+      "id": "ntis-n1274910",
+      "title": "2027년도 글로벌탄소규제대응수요연계형기술개발사업 기술수요조사 공고",
+      "ministry": "산업통상부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-04",
+      "deadline": "2026-08-18",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1274910"
+    },
+    {
+      "id": "ntis-n1275440",
+      "title": "2026년 핵심인재 글로벌 브릿지 연수 프로그램 (중개연구 사업화 트랙) 연수생 모집 공고",
+      "ministry": "보건복지부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-05",
+      "deadline": "2026-08-25",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275440"
+    },
+    {
+      "id": "ntis-n1275817",
+      "title": "첨단나노상용화기술개발사업(가칭) 기술수요조사 공고",
+      "ministry": "산업통상부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-12",
+      "deadline": "2026-08-27",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275817"
+    },
+    {
+      "id": "ntis-n1275813",
+      "title": "피지컬 AI 적용 나노소재·공정기술 부품화 실증 사업(가칭) 기술수요조사 공고",
+      "ministry": "산업통상부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-12",
+      "deadline": "2026-08-27",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275813"
+    },
+    {
+      "id": "iris-023077",
+      "title": "표준공정 기반 공정최적화 기술개발사업(공정최적화R&D) 시행계획 공고",
+      "ministry": "중소벤처기업부",
+      "agency": "중소기업기술정보진흥원",
+      "category": "미분류",
+      "start": "2026-08-10",
+      "deadline": "2026-08-28",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=023077&ancmPrg=ancmIng"
+    },
+    {
+      "id": "ntis-n1275675",
+      "title": "표준공정 기반 공정최적화 기술개발사업(공정최적화RD) 시행계획 공고",
+      "ministry": "중소벤처기업부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-10",
+      "deadline": "2026-08-28",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275675"
+    },
+    {
+      "id": "iris-022957",
+      "title": "2026년도 임무수요기반 성층권 드론 실증 플랫폼 개발 사업 2단계 신규과제 공고",
+      "ministry": "우주항공청",
+      "agency": "우주항공청",
+      "category": "미분류",
+      "start": "2026-08-03",
+      "deadline": "2026-08-31",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=022957&ancmPrg=ancmIng"
+    },
+    {
+      "id": "iris-023018",
+      "title": "2026년도 국제공동연구 신속지원사업(미국 제네시스 미션과의 협력을 위한 탐색연구) 신규과제 공모",
+      "ministry": "과학기술정보통신부",
+      "agency": "한국연구재단",
+      "category": "미분류",
+      "start": "2026-07-08",
+      "deadline": "2026-08-31",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=023018&ancmPrg=ancmIng"
+    },
+    {
+      "id": "ntis-n1275894",
+      "title": "AI활용시멘트제조공정탄소배출저감기술개발사업 기술수요조사 공고",
+      "ministry": "산업통상부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-12",
+      "deadline": "2026-08-31",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275894"
+    },
+    {
+      "id": "iris-023319",
+      "title": "2026년도 반도체첨단산업기술개발 신규 지원대상 연구개발과제 추가 공고",
+      "ministry": "산업통상부",
+      "agency": "한국산업기술기획평가원",
+      "category": "미분류",
+      "start": "2026-08-17",
+      "deadline": "2026-09-01",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=023319&ancmPrg=ancmIng"
+    },
+    {
+      "id": "iris-023457",
+      "title": "2026년도 신규프로젝트 탐색연구 재공고(다중 궤도 위성 기반 우주환경 상시 감시체계 구축 기획연구)",
+      "ministry": "우주항공청",
+      "agency": "우주항공청",
+      "category": "미분류",
+      "start": "2026-08-07",
+      "deadline": "2026-09-07",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=023457&ancmPrg=ancmIng"
+    },
+    {
+      "id": "iris-018951",
+      "title": "2026년도 신규프로젝트 탐색연구 2차 공고",
+      "ministry": "우주항공청",
+      "agency": "우주항공청",
+      "category": "미분류",
+      "start": "2026-02-13",
+      "deadline": "2026-09-07",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.iris.go.kr/contents/retrieveBsnsAncmView.do?ancmId=018951&ancmPrg=ancmIng"
+    },
+    {
+      "id": "ntis-n1275603",
+      "title": "2026년도 신규프로젝트 탐색연구 재공고(다중 궤도 위성 기반 우주환경 상시 감시체계 구축 기획연구)2차 공고",
+      "ministry": "우주항공청",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-07",
+      "deadline": "2026-09-07",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275603"
+    },
+    {
+      "id": "ntis-n1275821",
+      "title": "2026년도 한-독 2+2 국제공동기술개발사업 공고",
+      "ministry": "산업통상부",
+      "agency": "미상",
+      "category": "미분류",
+      "start": "2026-08-11",
+      "deadline": "2026-11-04",
+      "fit": 0,
+      "role": "미정",
+      "axes": {},
+      "flags": [],
+      "summary": "",
+      "rationale": "",
+      "action": "",
+      "source": "https://www.ntis.go.kr/rndgate/eg/un/ra/view.do?roRndUid=1275821"
+    }
+  ]
+  </script>
+
+  <script id="sourceData" type="application/json">
+  [
+    { "group": "범부처 기본", "priority": 1, "name": "IRIS 사업공고 접수중", "url": "https://www.iris.go.kr/contents/retrieveBsnsAncmBtinSituListView.do", "content": "실제 접수가 열려 있는 범부처 신규과제 전체", "method": "서버 렌더링, HTML 파싱 가능", "cycle": "주 2회" },
+    { "group": "범부처 기본", "priority": 1, "name": "NTIS 국가R&D통합공고", "url": "https://www.ntis.go.kr/rndgate/eg/un/ra/mng.do", "content": "부처별 통합공고와 사전예고 포함, IRIS보다 상류", "method": "서버 렌더링, HTML 파싱 가능", "cycle": "주 1회" },
+    { "group": "범부처 기본", "priority": 2, "name": "기업마당 bizinfo", "url": "https://www.bizinfo.go.kr", "content": "지자체·기관 기업지원 사업, 기업 연계 과제 탐색용", "method": "공공데이터포털 API 제공", "cycle": "주 1회" },
+
+    { "group": "전북·교내", "priority": 1, "name": "전북대 산학협력단 공지사항", "url": "", "content": "교내 접수 마감, 내부 서류 마감, 간접비·매칭 규정 변경", "method": "URL 확인 필요, 게시판 구조 미확인", "cycle": "주 2회" },
+    { "group": "전북·교내", "priority": 2, "name": "전북대 연구처", "url": "https://research.jbnu.ac.kr/main/", "content": "교내 학술지원연구, 국립대학육성지원사업 내부 공모", "method": "게시판 파싱", "cycle": "월 1회" },
+    { "group": "전북·교내", "priority": 3, "name": "전북대 산학협력단 R&D공고", "url": "https://if.jbnu.ac.kr/research/ntis", "content": "NTIS 통합공고 미러링, IRIS·NTIS 수집 시 대부분 중복", "method": "클라이언트 렌더링 SPA, XHR 역추적 또는 헤드리스 필요", "cycle": "보류" },
+    { "group": "전북·교내", "priority": 2, "name": "전북테크노파크", "url": "", "content": "전북 지역 R&D, 기업 매칭, 장비·시제품 지원", "method": "URL 확인 필요", "cycle": "주 1회" },
+    { "group": "전북·교내", "priority": 2, "name": "한국탄소산업진흥원", "url": "", "content": "탄소소재 R&D, 기수행 이력 있어 재지원 가능성 높음", "method": "URL 확인 필요", "cycle": "월 2회" },
+    { "group": "전북·교내", "priority": 3, "name": "전북국방벤처센터", "url": "", "content": "지자체 개발비 지원, 기업 주관 국방 연계 과제", "method": "URL 확인 필요", "cycle": "분기 1회" },
+
+    { "group": "분야 특화", "priority": 1, "name": "한국연구재단 NRF", "url": "", "content": "개인기초, 중견연구, 국제협력, 기초연구실 BRL", "method": "IRIS로 통합되었으나 사전예고는 별도", "cycle": "주 1회" },
+    { "group": "분야 특화", "priority": 1, "name": "KEIT 한국산업기술기획평가원", "url": "", "content": "첨단소재, 전자부품, 디스플레이, 소부장", "method": "IRIS 연동, 별도 사전공고 존재", "cycle": "주 1회" },
+    { "group": "분야 특화", "priority": 2, "name": "KETEP 에너지기술평가원", "url": "", "content": "에너지 하베스팅, 슈퍼커패시터, 수소·연료전지", "method": "IRIS 연동", "cycle": "월 2회" },
+    { "group": "분야 특화", "priority": 2, "name": "KHIDI 한국보건산업진흥원", "url": "https://www.khidi.or.kr", "content": "바이오센서, 마이크로니들, 의료기기 실증", "method": "게시판 파싱", "cycle": "주 1회" },
+    { "group": "분야 특화", "priority": 2, "name": "SMTECH 중소기업 기술개발", "url": "", "content": "산학연 협력, 구매조건부, 기업 주관 과제의 참여기관 역할", "method": "자체 시스템", "cycle": "월 2회" },
+    { "group": "분야 특화", "priority": 3, "name": "IPET 농림식품기술기획평가원", "url": "", "content": "발효식품, 장류 기능성, 기존 장기 과제 연계", "method": "IRIS 연동", "cycle": "월 1회" },
+    { "group": "분야 특화", "priority": 3, "name": "국가기술표준원 KATS", "url": "", "content": "국제표준화 활동 지원, IEC TC119 연계 과제", "method": "게시판 파싱", "cycle": "분기 1회" },
+    { "group": "분야 특화", "priority": 3, "name": "우주항공청 KASA", "url": "", "content": "우주 제조, 미소중력 소자, BRL 연계 후속", "method": "게시판 파싱", "cycle": "분기 1회" }
+  ]
+  </script>
+
+  <script>
+    "use strict";
+
+    var data = JSON.parse(document.getElementById("opportunityData").textContent);
+    var sources = JSON.parse(document.getElementById("sourceData").textContent);
+    var AXIS_ORDER = ["전기화학센서", "인쇄전자", "에너지하베스팅", "소재·계산", "표준화", "사업화"];
+    var TRACK_OPTIONS = ["미검토", "검토중", "준비중", "지원완료", "보류"];
+    var STORAGE_KEY = "labRadarTrack";
+
+    var state = { category: "전체", query: "", minFit: 55, includeClosed: false, sortBy: "fit", compareIds: [] };
+    var trackState = loadTrack();
+
+    /* ---------- 날짜: KST 고정, 오늘은 실시간 ---------- */
+    function kstNow() {
+      var now = new Date();
+      return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (9 * 3600000));
+    }
+    function kstMidnight() {
+      var k = kstNow();
+      return new Date(Date.UTC(k.getFullYear(), k.getMonth(), k.getDate()));
+    }
+    function toUtcDay(value) {
+      var p = value.split("-");
+      return new Date(Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2])));
+    }
+    function daysUntil(value) {
+      return Math.round((toUtcDay(value).getTime() - kstMidnight().getTime()) / 86400000);
+    }
+    function formatDate(value) {
+      var p = value.split("-");
+      return Number(p[1]) + "월 " + Number(p[2]) + "일";
+    }
+    function isoOf(dateObj) {
+      return dateObj.toISOString().slice(0, 10);
+    }
+
+    /* 교내 접수 마감: 대외 마감에서 영업일 5일 전 (주말 제외) */
+    function internalDeadline(item) {
+      if (item.internalDeadline) return item.internalDeadline;
+      var d = toUtcDay(item.deadline);
+      var stepped = 0;
+      while (stepped < 5) {
+        d = new Date(d.getTime() - 86400000);
+        var dow = d.getUTCDay();
+        if (dow !== 0 && dow !== 6) stepped++;
+      }
+      return isoOf(d);
+    }
+
+    /* 상태는 start/deadline에서 파생. 수동 status는 쓰지 않음 */
+    function derivedStatus(item) {
+      var toDeadline = daysUntil(item.deadline);
+      if (toDeadline < 0) return "closed";
+      if (daysUntil(item.start) > 0) return "upcoming";
+      if (daysUntil(internalDeadline(item)) <= 7) return "urgent";
+      return "active";
+    }
+    function statusLabel(item) {
+      var st = derivedStatus(item);
+      if (st === "closed") return "종료";
+      if (st === "upcoming") return "접수 " + daysUntil(item.start) + "일 후 시작";
+      var inDays = daysUntil(internalDeadline(item));
+      if (st === "urgent") return inDays < 0 ? "교내 마감 지남" : "교내 마감 D-" + inDays;
+      return "접수 중";
+    }
+    function fitLabel(score) {
+      if (score >= 85) return "매우 높음";
+      if (score >= 70) return "높음";
+      if (score >= 55) return "검토 가치";
+      return "낮음";
+    }
+
+    /* ---------- 트래킹 저장 ---------- */
+    function loadTrack() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+      catch (e) { return {}; }
+    }
+    function saveTrack() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(trackState)); }
+      catch (e) { /* 저장 불가 환경은 세션 내에서만 유지 */ }
+    }
+    function trackOf(id) { return trackState[id] || "미검토"; }
+
+    function escapeHtml(value) {
+      var el = document.createElement("div");
+      el.textContent = String(value);
+      return el.innerHTML;
+    }
+
+    /* ---------- 필터 ---------- */
+    function visibleItems() {
+      var q = state.query.toLowerCase();
+      var result = data.filter(function (item) {
+        var searchable = [item.title, item.ministry, item.agency, item.category,
+          item.summary, item.rationale, item.action, item.role,
+          (item.flags || []).join(" ")].join(" ").toLowerCase();
+        return (state.includeClosed || derivedStatus(item) !== "closed") &&
+          (state.category === "전체" || item.category === state.category) &&
+          item.fit >= state.minFit &&
+          searchable.indexOf(q) !== -1;
+      });
+      result.sort(function (a, b) {
+        if (state.sortBy === "deadline") return a.deadline.localeCompare(b.deadline);
+        if (state.sortBy === "internal") return internalDeadline(a).localeCompare(internalDeadline(b));
+        return b.fit - a.fit;
+      });
+      return result;
+    }
+
+    /* ---------- 렌더 ---------- */
+    function axisMarkup(item) {
+      if (!item.axes) return "";
+      var rows = AXIS_ORDER.filter(function (k) { return item.axes[k] !== undefined; }).map(function (k) {
+        var v = item.axes[k];
+        return '<div class="axis-row"><span>' + escapeHtml(k) + '</span>' +
+          '<div class="axis-track"><div class="axis-fill" style="width:' + v + '%"></div></div>' +
+          '<b>' + v + '</b></div>';
+      }).join("");
+      return '<div class="axis-block"><p class="axis-title">역량 축별 일치도</p>' + rows + '</div>';
+    }
+    function flagMarkup(item) {
+      var flags = item.flags || [];
+      if (!flags.length) return "";
+      return '<div class="flags">' + flags.map(function (f) {
+        var info = /추적|재도전/.test(f);
+        return '<span class="flag' + (info ? ' info' : '') + '">' + escapeHtml(f) + '</span>';
+      }).join("") + '</div>';
+    }
+    function cardTemplate(item) {
+      var selected = state.compareIds.indexOf(item.id) !== -1;
+      var disabled = !selected && state.compareIds.length >= 3;
+      var st = derivedStatus(item);
+      var inDl = internalDeadline(item);
+      var options = TRACK_OPTIONS.map(function (t) {
+        return '<option value="' + t + '"' + (trackOf(item.id) === t ? ' selected' : '') + '>' + t + '</option>';
+      }).join("");
+      return '<article class="opportunity-card' + (selected ? ' selected' : '') + '">' +
+        '<div class="card-topline">' +
+          '<span class="status status-' + st + '">' + escapeHtml(statusLabel(item)) + '</span>' +
+          '<span class="deadline">교내 <b>' + escapeHtml(formatDate(inDl)) + '</b> · 대외 ' + escapeHtml(formatDate(item.deadline)) + '</span>' +
+        '</div>' +
+        '<div class="card-main"><div class="score-block"><span>적합도</span><strong>' + item.fit + '</strong><small>' + escapeHtml(fitLabel(item.fit)) + '</small></div>' +
+        '<div><p class="card-category">' + escapeHtml(item.category) + '</p><h3>' + escapeHtml(item.title) + '</h3>' +
+        '<p class="agency">' + escapeHtml(item.ministry) + ' · ' + escapeHtml(item.agency) + ' · 접수 시작 ' + escapeHtml(formatDate(item.start)) + '</p></div></div>' +
+        flagMarkup(item) +
+        '<p class="summary">' + escapeHtml(item.summary) + '</p>' +
+        axisMarkup(item) +
+        '<dl class="card-details"><div><dt>추천 역할</dt><dd>' + escapeHtml(item.role) + '</dd></div>' +
+        '<div><dt>판단</dt><dd>' + escapeHtml(item.rationale) + '</dd></div>' +
+        '<div class="today-action"><dt>오늘 할 일</dt><dd>' + escapeHtml(item.action) + '</dd></div></dl>' +
+        '<div class="card-actions">' +
+        '<button class="compare-button' + (selected ? ' active' : '') + '" type="button" data-compare="' + escapeHtml(item.id) + '"' + (disabled ? ' disabled' : '') + '>' + (selected ? '비교 해제' : '비교 선택') + '</button>' +
+        '<select class="track-select" data-track="' + escapeHtml(item.id) + '" aria-label="진행 상태">' + options + '</select>' +
+        '<a class="source-link" href="' + escapeHtml(item.source) + '" target="_blank" rel="noreferrer">원문 공고 확인</a></div></article>';
+    }
+    function renderCards() {
+      var items = visibleItems();
+      document.getElementById("resultCount").textContent = "공고 " + items.length + "건";
+      document.getElementById("opportunityGrid").innerHTML = items.map(cardTemplate).join("");
+      document.getElementById("emptyState").hidden = items.length !== 0;
+      Array.prototype.forEach.call(document.querySelectorAll("[data-compare]"), function (b) {
+        b.addEventListener("click", function () { toggleCompare(b.getAttribute("data-compare")); });
+      });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-track]"), function (s) {
+        s.addEventListener("change", function () {
+          trackState[s.getAttribute("data-track")] = s.value;
+          saveTrack();
+          renderStats();
+        });
+      });
+    }
+    function toggleCompare(id) {
+      var pos = state.compareIds.indexOf(id);
+      if (pos !== -1) state.compareIds.splice(pos, 1);
+      else if (state.compareIds.length < 3) state.compareIds.push(id);
+      renderCards();
+      renderComparison();
+    }
+    function comparisonCell(item, field) {
+      if (field === "fit") return '<strong class="table-score">' + item.fit + '</strong> ' + escapeHtml(fitLabel(item.fit));
+      if (field === "internal") return escapeHtml(formatDate(internalDeadline(item)) + " · " + statusLabel(item));
+      if (field === "deadline") return escapeHtml(formatDate(item.deadline));
+      if (field === "flags") return escapeHtml((item.flags || []).join(", ") || "없음");
+      if (field === "track") return escapeHtml(trackOf(item.id));
+      return escapeHtml(item[field]);
+    }
+    function renderComparison() {
+      var compared = state.compareIds.map(function (id) {
+        return data.find(function (i) { return i.id === id; });
+      }).filter(Boolean);
+      document.getElementById("comparisonTitle").textContent = "선택한 공고 " + compared.length + "건";
+      document.getElementById("clearCompare").hidden = compared.length === 0;
+      var content = document.getElementById("comparisonContent");
+      if (compared.length === 0) {
+        content.className = "comparison-empty";
+        content.innerHTML = "<strong>비교할 공고를 선택해 주세요.</strong><p>각 카드의 비교 선택 버튼을 누르면 마감일, 적합도, 탈락 위험, 오늘 할 일을 한 화면에서 확인 가능함.</p>";
+        return;
+      }
+      var rows = [
+        ["적합도", "fit"], ["교내 마감", "internal"], ["대외 마감", "deadline"], ["분야", "category"],
+        ["탈락 위험", "flags"], ["추천 역할", "role"], ["진행 상태", "track"],
+        ["적합성 판단", "rationale"], ["오늘 할 일", "action"]
+      ];
+      var head = compared.map(function (i) { return '<th scope="col">' + escapeHtml(i.title) + "</th>"; }).join("");
+      var body = rows.map(function (row) {
+        var cells = compared.map(function (i) { return "<td>" + comparisonCell(i, row[1]) + "</td>"; }).join("");
+        return '<tr' + (row[1] === "action" ? ' class="comparison-action-row"' : '') + '><th scope="row">' + row[0] + '</th>' + cells + '</tr>';
+      }).join("");
+      content.className = "comparison-table-wrap";
+      content.innerHTML = '<table class="comparison-table"><thead><tr><th scope="col">비교 기준</th>' + head + '</tr></thead><tbody>' + body + '</tbody></table>';
+    }
+    function renderCategories() {
+      var derived = data.map(function (i) { return i.category; });
+      var unique = ["전체"];
+      derived.forEach(function (c) { if (unique.indexOf(c) === -1) unique.push(c); });
+      if (unique.indexOf(state.category) === -1) state.category = "전체";
+      document.getElementById("categoryChips").innerHTML = unique.map(function (c) {
+        return '<button class="chip' + (c === state.category ? ' active' : '') + '" type="button" data-category="' + escapeHtml(c) + '">' + escapeHtml(c) + '</button>';
+      }).join("");
+      Array.prototype.forEach.call(document.querySelectorAll("[data-category]"), function (b) {
+        b.addEventListener("click", function () {
+          state.category = b.getAttribute("data-category");
+          renderCategories();
+          renderCards();
+        });
+      });
+    }
+    function renderStats() {
+      var open = data.filter(function (i) { return derivedStatus(i) !== "closed"; });
+      var urgent = open.filter(function (i) {
+        var d = daysUntil(internalDeadline(i));
+        return d >= 0 && d <= 7;
+      });
+      var tracked = data.filter(function (i) {
+        var t = trackOf(i.id);
+        return t === "준비중" || t === "지원완료";
+      });
+      document.getElementById("activeCount").textContent = open.length;
+      document.getElementById("urgentCount").textContent = urgent.length;
+      document.getElementById("topFit").textContent = open.length ? Math.max.apply(null, open.map(function (i) { return i.fit; })) : 0;
+      document.getElementById("trackedCount").textContent = tracked.length;
+    }
+    function renderSources() {
+      var groups = [];
+      sources.forEach(function (s) { if (groups.indexOf(s.group) === -1) groups.push(s.group); });
+      var html = "";
+      groups.forEach(function (g) {
+        html += '<tr class="source-group-row"><td colspan="5">' + escapeHtml(g) + '</td></tr>';
+        sources.filter(function (s) { return s.group === g; }).forEach(function (s) {
+          var nameCell = s.url
+            ? '<a href="' + escapeHtml(s.url) + '" target="_blank" rel="noreferrer">' + escapeHtml(s.name) + '</a>'
+            : escapeHtml(s.name);
+          html += '<tr>' +
+            '<td><span class="prio prio-' + s.priority + '">' + (s.priority === 1 ? "높음" : s.priority === 2 ? "보통" : "낮음") + '</span></td>' +
+            '<td>' + nameCell + '</td>' +
+            '<td>' + escapeHtml(s.content) + '</td>' +
+            '<td>' + escapeHtml(s.method) + '</td>' +
+            '<td>' + escapeHtml(s.cycle) + '</td></tr>';
+        });
+      });
+      document.getElementById("sourceBody").innerHTML = html;
+      document.getElementById("sourceCount").textContent = "총 " + sources.length + "곳";
+    }
+    function renderToday() {
+      var k = kstNow();
+      document.getElementById("todayLabel").textContent =
+        k.getFullYear() + "." + String(k.getMonth() + 1).padStart(2, "0") + "." + String(k.getDate()).padStart(2, "0") + " 기준";
+    }
+
+    document.getElementById("search").addEventListener("input", function (e) { state.query = e.target.value.trim(); renderCards(); });
+    document.getElementById("minFit").addEventListener("input", function (e) {
+      state.minFit = Number(e.target.value);
+      document.getElementById("fitValue").textContent = state.minFit;
+      renderCards();
+    });
+    document.getElementById("includeClosed").addEventListener("change", function (e) { state.includeClosed = e.target.checked; renderCards(); });
+    document.getElementById("sortBy").addEventListener("change", function (e) { state.sortBy = e.target.value; renderCards(); });
+    document.getElementById("clearCompare").addEventListener("click", function () { state.compareIds = []; renderCards(); renderComparison(); });
+
+    renderToday();
+    renderCategories();
+    renderStats();
+    renderCards();
+    renderComparison();
+    renderSources();
+  </script>
+</body>
+</html>
