@@ -1,4 +1,4 @@
-// Headless smoke test for game.html (Ink Runner).
+// Headless smoke test for game.html (Ink Runner) and its embed on the homepage.
 // Usage:  node tests/game-smoke.mjs            (screenshots go to $OUT_DIR or the OS temp dir)
 // Needs Playwright: a local `playwright` package, or the global install under /opt/node22.
 import { createRequire } from 'node:module';
@@ -14,6 +14,7 @@ catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const URL = pathToFileURL(join(HERE, '..', 'game.html')).href;
+const INDEX = pathToFileURL(join(HERE, '..', 'index.html')).href;
 const OUT = process.env.OUT_DIR || join(tmpdir(), 'ink-runner-shots');
 mkdirSync(OUT, { recursive: true });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -57,6 +58,8 @@ const jump = px => `(() => { const G = window.__ink.G; G.dist += ${px}; G.spawnX
 
 async function run() {
   const browser = await chromium.launch();
+  // external requests (fonts, CDN CSS) are aborted so the pages never wait on the network; fallbacks render instead
+  const newCtx = async opts => { const c = await browser.newContext(opts); await c.route(/^https?:\/\//, r => r.abort()); return c; };
   const errors = [];
   const S = {};
   const hook = page => {
@@ -64,15 +67,14 @@ async function run() {
     page.on('pageerror', e => errors.push(`[pageerror] ${e.message}`));
   };
 
-  // ---------- desktop, Korean locale ----------
-  const A = await browser.newContext({ viewport: { width: 1280, height: 720 }, locale: 'ko-KR' });
+  // ---------- desktop, Korean locale (default must still be English) ----------
+  const A = await newCtx({ viewport: { width: 1280, height: 720 }, locale: 'ko-KR' });
   let page = await A.newPage(); hook(page);
   await page.goto(URL); await sleep(1000);
   S.defaultLang = await page.evaluate(() => document.documentElement.lang);
-  await page.screenshot({ path: `${OUT}/01-menu-ko.png` });
+  await page.screenshot({ path: `${OUT}/01-menu-en.png` });
   await page.click('#pMenu .jLang'); await sleep(150);
-  await page.screenshot({ path: `${OUT}/02-menu-en.png` });
-  await page.click('#pMenu .jLang'); await sleep(100);
+  await page.screenshot({ path: `${OUT}/02-menu-ko.png` });
 
   await page.click('#bStart'); await sleep(300);
   S.stateAfterStart = await page.evaluate(() => window.__ink.G.state);
@@ -127,13 +129,12 @@ async function run() {
   const printing = await page.evaluate(() => window.__ink.G.printing);
   await page.mouse.up(); await sleep(100);
   S.mouse = { yMouse, printingWhileHeld: printing, printingAfterRelease: await page.evaluate(() => window.__ink.G.printing) };
-  // HUD buttons usable during play
   await page.click('#bPause'); await sleep(150);
   S.hudPause = await page.evaluate(() => window.__ink.G.state);
   await A.close();
 
   // ---------- reduced motion (the owner's machine) ----------
-  const B = await browser.newContext({ viewport: { width: 1280, height: 720 }, reducedMotion: 'reduce' });
+  const B = await newCtx({ viewport: { width: 1280, height: 720 }, reducedMotion: 'reduce' });
   page = await B.newPage(); hook(page);
   await page.goto(URL); await sleep(700);
   const snap = () => page.evaluate(() => document.getElementById('game').toDataURL().slice(-80));
@@ -143,10 +144,10 @@ async function run() {
   await B.close();
 
   // ---------- phone, landscape (touch) ----------
-  const Cx = await browser.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: 'ko-KR' });
+  const Cx = await newCtx({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: 'ko-KR' });
   page = await Cx.newPage(); hook(page);
-  await page.goto(URL); await sleep(700);
-  S.phoneMenu = await page.evaluate(() => { const r = document.getElementById('pMenu').getBoundingClientRect(); const o = document.getElementById('overlay'); return { panelTop: Math.round(r.top), scrollable: o.scrollHeight > o.clientHeight }; });
+  await page.goto(URL + '?lang=ko'); await sleep(700);
+  S.phoneMenu = await page.evaluate(() => { const r = document.getElementById('pMenu').getBoundingClientRect(); const o = document.getElementById('overlay'); return { lang: document.documentElement.lang, panelTop: Math.round(r.top), scrollable: o.scrollHeight > o.clientHeight }; });
   await page.screenshot({ path: `${OUT}/08-phone-landscape-menu.png` });
   await page.tap('#bStart'); await sleep(300);
   const cdp = await Cx.newCDPSession(page);
@@ -161,19 +162,74 @@ async function run() {
   await Cx.close();
 
   // ---------- phone, portrait ----------
-  const D = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: 'ko-KR' });
+  const D = await newCtx({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
   page = await D.newPage(); hook(page);
   await page.goto(URL); await sleep(700);
   S.portrait = await page.evaluate(() => ({ hint: getComputedStyle(document.getElementById('rot')).display, panelTop: Math.round(document.getElementById('pMenu').getBoundingClientRect().top) }));
   await page.screenshot({ path: `${OUT}/10-phone-portrait-menu.png` });
   await D.close();
 
+  // ---------- homepage: Game tab, poster, embedded play ----------
+  const E = await newCtx({ viewport: { width: 1280, height: 800 } });
+  page = await E.newPage(); hook(page);
+  await page.goto(INDEX); await sleep(1200);
+  S.home = {};
+  S.home.navTab = await page.evaluate(() => { const a = document.querySelector('#navlinks a[href="#game"]'); return a ? a.textContent.trim() : null; });
+  S.home.links = await page.evaluate(() => [...document.querySelectorAll('.game-link')].map(a => a.getAttribute('href')));
+  await page.click('#navlinks a[href="#game"]'); await sleep(1200);
+  S.home.sectionTopAfterTab = await page.evaluate(() => Math.round(document.getElementById('game').getBoundingClientRect().top));
+  await page.evaluate(() => document.getElementById('arcadeFrame').scrollIntoView({ block: 'center' })); await sleep(1000);
+  await page.screenshot({ path: `${OUT}/11-home-game-poster.png` });
+  await page.click('#arcadePlay'); await sleep(1500);
+  const frame = page.frames().find(f => f.url().includes('game.html'));
+  S.home.iframeSrc = frame ? frame.url().split('/').pop() : null;
+  if (frame) {
+    await frame.waitForFunction(() => window.__ink && window.__ink.G.state === 'menu', null, { timeout: 8000 });
+    S.home.embed = await frame.evaluate(() => ({
+      lang: document.documentElement.lang,
+      embedClass: document.body.classList.contains('embed'),
+      homeLinksHidden: [...document.querySelectorAll('.foot a[data-i="home"]')].every(a => getComputedStyle(a).display === 'none'),
+      linksTop: [...document.querySelectorAll('a[href]')].every(a => a.target === '_top')
+    }));
+    await frame.click('#bStart'); await frame.evaluate(PILOT); await sleep(2500);
+    S.home.embedPlay = await frame.evaluate(() => ({ state: window.__ink.G.state, score: window.__ink.G.score, dist_m: Math.floor(window.__ink.G.dist / 100) }));
+    await page.screenshot({ path: `${OUT}/12-home-game-playing.png` });
+  }
+  S.home.barShown = await page.evaluate(() => document.getElementById('arcadeBar').classList.contains('on'));
+  await page.click('#langBtn'); await sleep(200);
+  S.home.ko = await page.evaluate(() => ({ navTab: document.querySelector('#navlinks a[href="#game"]').textContent.trim(), links: [...document.querySelectorAll('.game-link')].map(a => a.getAttribute('href')) }));
+  await E.close();
+
+  // phone homepage: Play navigates to the full game page
+  const F = await newCtx({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+  page = await F.newPage(); hook(page);
+  await page.goto(INDEX); await sleep(1000);
+  await page.evaluate(() => document.getElementById('arcadeFrame').scrollIntoView({ block: 'center' })); await sleep(1000);
+  await page.screenshot({ path: `${OUT}/13-home-game-phone.png` });
+  await page.tap('#arcadePlay'); await sleep(1500);
+  S.home.phoneNav = page.url().split('/').pop();
+  await F.close();
+
+  // ---------- language parameter ----------
+  const Gc = await newCtx({ viewport: { width: 1280, height: 720 }, locale: 'ko-KR' });
+  page = await Gc.newPage(); hook(page);
+  await page.goto(URL); await sleep(300); const l1 = await page.evaluate(() => document.documentElement.lang);
+  await page.goto(URL + '?lang=ko'); await sleep(300); const l2 = await page.evaluate(() => document.documentElement.lang);
+  await page.goto(URL + '?lang=en&embed=1'); await sleep(300); const l3 = await page.evaluate(() => document.documentElement.lang + '/' + document.body.classList.contains('embed'));
+  S.langParam = { noParamKoLocale: l1, ko: l2, enEmbed: l3 };
+  await Gc.close();
+
   await browser.close();
   console.log(JSON.stringify(S, null, 2));
   console.log('screenshots:', OUT);
   console.log('ERRORS:', errors.length ? errors : 'none');
-  const ok = S.stateAfterStart === 'playing' && S.late.score > 0 && S.overState === 'over' && S.reducedMotion.menuAnimates && S.reducedMotion.dist_m > 0
-    && S.keyboard.movedUp && S.mouse.printingWhileHeld && !S.mouse.printingAfterRelease && S.touch.hold.printing && !S.touch.released.printing && errors.length === 0;
+  const ok = S.defaultLang === 'en' && S.stateAfterStart === 'playing' && S.late.score > 0 && S.overState === 'over'
+    && S.reducedMotion.menuAnimates && S.reducedMotion.dist_m > 0
+    && S.keyboard.movedUp && S.mouse.printingWhileHeld && !S.mouse.printingAfterRelease && S.touch.hold.printing && !S.touch.released.printing
+    && S.home.navTab === 'Game' && S.home.embed && S.home.embed.embedClass && S.home.embed.homeLinksHidden && S.home.embedPlay && S.home.embedPlay.state === 'playing'
+    && S.home.barShown && S.home.ko.navTab === '게임' && S.home.ko.links.every(h => h === 'game.html?lang=ko')
+    && S.home.phoneNav === 'game.html?lang=en' && S.langParam.noParamKoLocale === 'en' && S.langParam.ko === 'ko' && S.langParam.enEmbed === 'en/true'
+    && errors.length === 0;
   console.log(ok ? 'SMOKE TEST PASSED' : 'SMOKE TEST FAILED');
   process.exit(ok ? 0 : 1);
 }
