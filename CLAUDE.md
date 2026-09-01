@@ -49,3 +49,18 @@ Rules that must survive future edits:
   computed-transform sampling over time, canvas `toDataURL()` deltas, pixel-diff between
   timed screenshots.
 - The owner communicates in Korean; reply in Korean.
+
+## game.html (Ink Runner arcade)
+
+- Standalone single-file canvas game linked from the footer `Navigate` column
+  (`/ppel-lab/game.html`). It shares nothing with `index.html` except the colour tokens
+  and the logo-mark SVG; editing it does not require the index build-stamp bump unless
+  `index.html` itself changes.
+- Its animation is a plain rAF loop that is **never gated on `prefers-reduced-motion`**
+  (the owner's machine reports reduced motion, see above) — keep it that way.
+- UI strings live in the `STR` table (ko/en); `localStorage` keys are prefixed
+  `ppel-ink-runner:` (best score, language, mute).
+- Smoke test: `node tests/game-smoke.mjs` (headless Chromium via Playwright; an in-page
+  autopilot plays through the `window.__ink` debug hook, checks normal + reduced-motion
+  contexts, touch, keyboard, mouse, pause, game over, and writes screenshots to
+  `$OUT_DIR`).
