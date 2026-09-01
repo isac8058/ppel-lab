@@ -52,10 +52,16 @@ Rules that must survive future edits:
 
 ## game.html (Ink Runner arcade)
 
-- Standalone single-file canvas game linked from the footer `Navigate` column
-  (`/ppel-lab/game.html`). It shares nothing with `index.html` except the colour tokens
-  and the logo-mark SVG; editing it does not require the index build-stamp bump unless
-  `index.html` itself changes.
+- Standalone single-file canvas game (`/ppel-lab/game.html`). It shares nothing with
+  `index.html` except the colour tokens and the logo-mark SVG; editing it does not
+  require the index build-stamp bump unless `index.html` itself changes.
+- On the homepage it is the `Game` nav tab → `#game` section (`.arcade`): an SVG poster
+  with a `Play here` button that injects an `<iframe src="game.html?lang=<site lang>&embed=1">`
+  (phones navigate to the full page instead), plus a footer `Navigate` link. All site
+  links to the game carry class `game-link`; `applyLang()` rewrites their `?lang=`.
+- Query params: `lang=ko|en` overrides the saved language (default is English, not the
+  browser locale); `embed=1` sets `body.embed` (links get `target=_top`, the
+  "back to PPEL+" links are hidden).
 - Its animation is a plain rAF loop that is **never gated on `prefers-reduced-motion`**
   (the owner's machine reports reduced motion, see above) — keep it that way.
 - UI strings live in the `STR` table (ko/en); `localStorage` keys are prefixed

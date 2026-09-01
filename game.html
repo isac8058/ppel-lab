@@ -101,6 +101,7 @@ button{font-family:inherit}
 #rot{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(14,21,37,.92);border:1px solid var(--line);color:var(--soft);
   font:500 12px var(--mono);padding:8px 14px;border-radius:99px;display:none;z-index:21;pointer-events:none;white-space:nowrap}
 body.portrait #rot{display:block}
+body.embed .foot a[data-i="home"]{display:none}
 
 @media (max-width:640px){
   #hud{gap:12px;padding:0 8px}
@@ -285,7 +286,10 @@ const STR = {
     share: s => `PPEL Ink Runner 🖨️ Score ${s.score} · Pads ${s.pads} · Max combo ${s.maxCombo} · Printed ${s.dist} m · Stage ${s.stage}`
   }
 };
-let lang = store.get('lang') || ((navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en');
+// Language: ?lang= from the site wins, then the saved toggle, then English (the site's default audience).
+const Q = new URLSearchParams(location.search);
+const EMBED = Q.get('embed') === '1';
+let lang = ['ko', 'en'].includes(Q.get('lang')) ? Q.get('lang') : (store.get('lang') || 'en');
 const T = k => STR[lang][k];
 
 /* ---------- constants ---------- */
@@ -999,6 +1003,11 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 
+if (EMBED){
+  // inside the homepage frame: links leave the frame, and the "back to site" links are redundant
+  document.body.classList.add('embed');
+  document.querySelectorAll('a[href]').forEach(a => { a.target = '_top'; });
+}
 resize(); applyLang(); drawLegend(); toMenu();
 requestAnimationFrame(frame);
 

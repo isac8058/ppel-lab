@@ -493,6 +493,41 @@ html[data-theme="dark"] .hero--cover .btn-ghost{color:#EAF0FF;border-color:rgba(
 .cnode .nm{font-family:var(--font-display);font-weight:600;font-size:18px}
 .cnode .co{font-family:var(--font-mono);font-size:12px;color:var(--trace);letter-spacing:.05em;margin-top:2px}
 
+/* =================== ARCADE (Ink Runner game) =================== */
+.arcade{padding:90px 0;background:var(--surface);border-top:1px solid var(--line)}
+.arcade-frame{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#070B16;border:1px solid rgba(120,150,255,.28);box-shadow:var(--shadow-lg)}
+.arcade-frame:fullscreen{border-radius:0;border:0}
+.arcade-poster{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#E9EEF8;
+  background-image:radial-gradient(rgba(120,150,255,.12) 1px,transparent 1px);background-size:28px 28px;
+}
+.arcade-poster .scene{position:absolute;inset:0;width:100%;height:100%;opacity:.75}
+.arcade-poster-inner{position:relative;z-index:2;padding:28px 40px;max-width:680px;background:radial-gradient(ellipse at center,rgba(7,11,22,.9) 0%,rgba(7,11,22,.7) 50%,rgba(7,11,22,0) 74%)}
+.arcade-title{
+  font-family:var(--font-display);font-weight:800;font-size:clamp(36px,6vw,66px);letter-spacing:-.03em;line-height:1;
+  background:linear-gradient(90deg,#6F8CFF,#00E6C6);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.arcade-sub{font-family:var(--font-mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8597C2;margin-top:12px}
+.arcade-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.arcade-keys{font-family:var(--font-mono);font-size:12px;color:#8597C2;margin-top:18px;line-height:1.6}
+.arcade-iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#070B16;display:block}
+.arcade-frame.live .arcade-poster{display:none}
+.arcade-bar{display:none;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;font-family:var(--font-mono);font-size:12px;color:var(--trace)}
+.arcade-bar.on{display:flex}
+.arcade-bar .acts{display:flex;gap:8px;flex-wrap:wrap}
+.arcade-bar button,.arcade-bar a{
+  font:600 12px var(--font-mono);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  padding:8px 12px;cursor:pointer;letter-spacing:.04em;transition:border-color .2s,color .2s;
+}
+.arcade-bar button:hover,.arcade-bar a:hover{border-color:var(--conductive);color:var(--conductive)}
+.arcade-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.alg{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--substrate)}
+.alg svg{width:32px;height:32px;flex:none}
+.alg b{display:block;font-size:14px;font-weight:600}
+.alg span{display:block;font-size:12.5px;color:var(--trace);margin-top:2px;line-height:1.4}
+@media (max-width:980px){.arcade-legend{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:720px){.arcade{padding:70px 0}.arcade-frame{aspect-ratio:auto;min-height:420px}.arcade-poster-inner{padding:24px 16px}.arcade-cta .game-link{display:none}.arcade-legend{grid-template-columns:1fr}}
+
 /* =================== FOOTER =================== */
 footer{background:var(--ink);color:#C3CEE6;padding:64px 0 34px;position:relative;overflow:hidden}
 footer::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.08) 1px,transparent 1px);background-size:28px 28px}
@@ -665,6 +700,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
       <a href="#patents" data-en="Patents" data-ko="특허">Patents</a>
       <a href="#collaborations" data-en="Collaborations" data-ko="협력">Collaborations</a>
+      <a href="#game" data-en="Game" data-ko="게임">Game</a>
     </nav>
     <div class="nav-tools">
       <button class="btn-ico" id="langBtn" title="Toggle language" aria-label="Toggle language">EN</button>
@@ -1147,6 +1183,67 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   </div>
 </section>
 
+<!-- ============ GAME (Ink Runner) ============ -->
+<section class="arcade" id="game">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow" data-en="Lab Arcade" data-ko="랩 아케이드">Lab Arcade</div>
+      <h2 data-en="Ink Runner: print a circuit on the fly" data-ko="Ink Runner: 달리는 필름 위에 회로를 인쇄하세요">Ink Runner: print a circuit on the fly</h2>
+      <p data-en="A one-minute arcade built from what we do every day. Steer the print head along a moving roll-to-roll film, lay a conductive trace across the pads, lift over dust, thread the cracks, and keep an eye on your ink." data-ko="우리가 매일 하는 일을 1분짜리 아케이드로 옮겼습니다. 롤투롤 필름 위에서 프린트 헤드를 조종해 패드 위로 전도성 잉크 선을 긋고, 먼지 위에서는 헤드를 들고, 크랙 사이를 통과하며 잉크 잔량을 살피세요.">A one-minute arcade built from what we do every day. Steer the print head along a moving roll-to-roll film, lay a conductive trace across the pads, lift over dust, thread the cracks, and keep an eye on your ink.</p>
+    </div>
+
+    <div class="arcade-frame reveal" id="arcadeFrame">
+      <div class="arcade-poster" id="arcadePoster">
+        <svg class="scene" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <defs>
+            <pattern id="arcSpk" width="44" height="540" patternUnits="userSpaceOnUse"><rect x="0" y="34" width="16" height="9" rx="2.5" fill="rgba(120,150,255,.2)"/><rect x="0" y="498" width="16" height="9" rx="2.5" fill="rgba(120,150,255,.2)"/></pattern>
+            <radialGradient id="arcDust"><stop offset="0" stop-color="#FF8A00" stop-opacity=".38"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/></radialGradient>
+            <linearGradient id="arcInk" x1="0" y1="-16" x2="0" y2="18" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7B93FF"/><stop offset="1" stop-color="#1E3AFF"/></linearGradient>
+          </defs>
+          <rect width="960" height="540" fill="url(#arcSpk)"/>
+          <rect x="0" y="52" width="960" height="1" fill="rgba(120,150,255,.2)"/><rect x="0" y="488" width="960" height="1" fill="rgba(120,150,255,.2)"/>
+          <line x1="560" y1="53" x2="560" y2="488" stroke="rgba(255,255,255,.06)" stroke-width="2"/>
+          <path d="M-20 430H120C200 430 220 330 300 330H420C500 330 520 410 560 410" fill="none" stroke="rgba(30,58,255,.32)" stroke-width="14" stroke-linecap="round"/>
+          <path d="M-20 430H120C200 430 220 330 300 330H420C500 330 520 410 560 410" fill="none" stroke="#2B49FF" stroke-width="5" stroke-linecap="round"/>
+          <path class="dash" d="M-20 430H120C200 430 220 330 300 330H420C500 330 520 410 560 410" fill="none" stroke="#00E6C6" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 22"/>
+          <g transform="translate(120 430)"><rect x="-18" y="-18" width="36" height="36" rx="7" fill="rgba(0,230,198,.16)" stroke="#00E6C6" stroke-width="2"/><rect x="-24" y="-3" width="6" height="6" fill="#00E6C6"/><rect x="18" y="-3" width="6" height="6" fill="#00E6C6"/><circle cx="-2" cy="1" r="5" fill="none" stroke="#C8FFF6" stroke-width="2"/><path d="M4 -4l4 -4M7 0l4 -2M3 -7l1 -4" stroke="#C8FFF6" stroke-width="2" stroke-linecap="round"/></g>
+          <g transform="translate(420 330)"><rect x="-18" y="-18" width="36" height="36" rx="7" fill="rgba(0,230,198,.16)" stroke="#00E6C6" stroke-width="2"/><rect x="-24" y="-3" width="6" height="6" fill="#00E6C6"/><rect x="18" y="-3" width="6" height="6" fill="#00E6C6"/><rect x="-6" y="-6" width="12" height="12" fill="none" stroke="#C8FFF6" stroke-width="2"/><path d="M-10 -3h4M-10 3h4M6 -3h4M6 3h4M-3 -10v4M3 -10v4M-3 6v4M3 6v4" stroke="#C8FFF6" stroke-width="2" stroke-linecap="round"/></g>
+          <g transform="translate(560 410)"><circle r="12" fill="none" stroke="#F4F7FF" stroke-width="3"/><circle r="4.2" fill="#00E6C6"/><path d="M15 0h5M-15 0h-5M0 15v5M0 -15v-5" stroke="rgba(244,247,255,.7)" stroke-width="2" stroke-linecap="round"/></g>
+          <g transform="translate(720 410)"><rect x="-18" y="-18" width="36" height="36" rx="7" fill="rgba(255,255,255,.05)" stroke="rgba(233,238,248,.6)" stroke-width="2"/><rect x="-24" y="-3" width="6" height="6" fill="rgba(233,238,248,.45)"/><rect x="18" y="-3" width="6" height="6" fill="rgba(233,238,248,.45)"/><path d="M-10 0Q-5 -7 0 0T10 0" fill="none" stroke="rgba(233,238,248,.8)" stroke-width="2" stroke-linecap="round"/></g>
+          <g transform="translate(800 300)"><circle r="24" fill="url(#arcDust)"/><circle cx="-3" cy="-2" r="6.5" fill="#FF8A00" opacity=".9"/><circle cx="4" cy="3" r="5" fill="#FF8A00" opacity=".8"/><circle cx="-1" cy="5" r="4" fill="#FF8A00" opacity=".7"/><circle cx="5" cy="-5" r="3" fill="#FF8A00" opacity=".75"/><circle cx="-10" cy="7" r="1.6" fill="#FF8A00" opacity=".7"/><circle cx="11" cy="-9" r="1.4" fill="#FF8A00" opacity=".6"/></g>
+          <polyline points="890,80 886,94 893,108 887,122 894,136 889,150 893,164 888,178 892,192 889,206 893,220 890,234" fill="none" stroke="rgba(255,77,77,.28)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="890,80 886,94 893,108 887,122 894,136 889,150 893,164 888,178 892,192 889,206 893,220 890,234" fill="none" stroke="#FF4D4D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="890,80 886,94 893,108 887,122 894,136 889,150 893,164 888,178 892,192 889,206 893,220 890,234" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          <g transform="translate(905 400)"><path d="M0 -16C9 -3 11 3 11 7A11 11 0 0 1 -11 7C-11 3 -9 -3 0 -16Z" fill="url(#arcInk)"/><ellipse cx="-4" cy="4" rx="2.2" ry="3.5" fill="rgba(255,255,255,.55)"/></g>
+        </svg>
+        <div class="arcade-poster-inner">
+          <div class="arcade-title">INK RUNNER</div>
+          <div class="arcade-sub" data-en="PPEL+ printed-electronics arcade" data-ko="PPEL+ 인쇄전자 아케이드">PPEL+ printed-electronics arcade</div>
+          <div class="arcade-cta">
+            <button class="btn btn-primary" id="arcadePlay" type="button" data-en="Play here" data-ko="여기서 플레이">Play here</button>
+            <a class="btn btn-ghost game-link" href="game.html" target="_blank" rel="noopener" data-en="Open full screen ↗" data-ko="전체 화면으로 열기 ↗">Open full screen ↗</a>
+          </div>
+          <div class="arcade-keys" data-en="Move: mouse, touch or ↑↓ · Print: hold click, touch or Space · P pause" data-ko="이동: 마우스, 터치 또는 ↑↓ · 인쇄: 클릭, 터치 또는 Space 유지 · P 일시정지">Move: mouse, touch or ↑↓ · Print: hold click, touch or Space · P pause</div>
+        </div>
+      </div>
+    </div>
+    <div class="arcade-bar" id="arcadeBar">
+      <span data-en="Click inside the frame if the keys stop responding. Best scores are saved in this browser." data-ko="키가 반응하지 않으면 프레임 안을 한 번 클릭하세요. 최고 기록은 이 브라우저에 저장됩니다.">Click inside the frame if the keys stop responding. Best scores are saved in this browser.</span>
+      <div class="acts">
+        <button type="button" id="arcadeFull" data-en="Full screen" data-ko="전체 화면">Full screen</button>
+        <a class="game-link" href="game.html" target="_blank" rel="noopener" data-en="Open in a new tab ↗" data-ko="새 탭에서 열기 ↗">Open in a new tab ↗</a>
+      </div>
+    </div>
+
+    <div class="arcade-legend">
+      <div class="alg reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="7" width="18" height="18" rx="5" fill="rgba(0,230,198,.16)" stroke="#00E6C6" stroke-width="2"/><rect x="2" y="14" width="5" height="4" fill="#00E6C6"/><rect x="25" y="14" width="5" height="4" fill="#00E6C6"/><circle cx="16" cy="16" r="3" fill="#00E6C6"/></svg><div><b data-en="Pad" data-ko="패드">Pad</b><span data-en="Print across it to connect. Combos multiply the score." data-ko="인쇄하며 지나가면 연결. 콤보가 점수 배율을 올립니다.">Print across it to connect. Combos multiply the score.</span></div></div>
+      <div class="alg reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="14" cy="14" r="6.5" fill="#FF8A00" opacity=".9"/><circle cx="21" cy="19" r="5" fill="#FF8A00" opacity=".8"/><circle cx="15" cy="22" r="4" fill="#FF8A00" opacity=".7"/><circle cx="22" cy="10" r="2.5" fill="#FF8A00" opacity=".75"/></svg><div><b data-en="Dust" data-ko="먼지">Dust</b><span data-en="Lift the head to pass. Ink on dust shorts the circuit." data-ko="헤드를 들고 통과. 잉크를 찍으면 단락입니다.">Lift the head to pass. Ink on dust shorts the circuit.</span></div></div>
+      <div class="alg reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><polyline points="16,3 13,9 18,14 13,19 18,24 15,29" fill="none" stroke="rgba(255,77,77,.3)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16,3 13,9 18,14 13,19 18,24 15,29" fill="none" stroke="#FF4D4D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b data-en="Crack" data-ko="크랙">Crack</b><span data-en="Fly through the gap. Contact costs a nozzle." data-ko="틈으로 통과. 닿으면 노즐 하나를 잃습니다.">Fly through the gap. Contact costs a nozzle.</span></div></div>
+      <div class="alg reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C23 12 25 17 25 20A9 9 0 0 1 7 20C7 17 9 12 16 3Z" fill="#3E5BFF"/><ellipse cx="12.5" cy="18" rx="1.8" ry="3" fill="rgba(255,255,255,.55)"/></svg><div><b data-en="Ink" data-ko="잉크">Ink</b><span data-en="Refills the tank. A gold flash sinters every pad on screen." data-ko="잉크 보충. 금색 플래시는 화면의 패드를 한 번에 소결합니다.">Refills the tank. A gold flash sinters every pad on screen.</span></div></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FOOTER ============ -->
 <footer>
   <div class="wrap">
@@ -1161,7 +1258,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
         <a href="#patents" data-en="Patents" data-ko="특허">Patents</a>
         <a href="#members" data-en="Members" data-ko="구성원">Members</a>
-        <a href="game.html" data-en="Ink Runner · game" data-ko="Ink Runner · 게임">Ink Runner · game</a>
+        <a href="game.html" class="game-link" data-en="Ink Runner · game" data-ko="Ink Runner · 게임">Ink Runner · game</a>
       </div>
       <div class="foot-col">
         <h5 data-en="Contact" data-ko="연락처">Contact</h5>
@@ -1171,7 +1268,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.01-1</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.01-2</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
@@ -1199,7 +1296,9 @@ function applyLang(){
   });
   html.setAttribute("lang", lang);
   langBtn.textContent = lang==="en"?"EN":"KO";
+  document.querySelectorAll(".game-link").forEach(a=>{ a.href="game.html?lang="+lang; });
 }
+document.querySelectorAll(".game-link").forEach(a=>{ a.href="game.html?lang="+lang; });
 langBtn.addEventListener("click",()=>{ lang = lang==="en"?"ko":"en"; applyLang(); });
 
 /* ===== Nav scroll + burger ===== */
@@ -1208,6 +1307,31 @@ addEventListener("scroll",()=>hdr.classList.toggle("scrolled", scrollY>20));
 const burger=document.getElementById("burger"), navlinks=document.getElementById("navlinks");
 burger.addEventListener("click",()=>navlinks.classList.toggle("open"));
 navlinks.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>navlinks.classList.remove("open")));
+
+/* ===== Lab Arcade: Ink Runner embed ===== */
+const arcadeFrame=document.getElementById("arcadeFrame"), arcadeBar=document.getElementById("arcadeBar");
+const arcadeDash=arcadeFrame.querySelector(".dash");
+let arcadeDashOff=0, arcadeDashTimer=null;
+// the poster's electron dashes are driven by a plain interval, not a CSS animation (reduced-motion machines freeze those)
+new IntersectionObserver(es=>{
+  const on=es[0].isIntersecting && !arcadeFrame.classList.contains("live");
+  if(on && !arcadeDashTimer) arcadeDashTimer=setInterval(()=>{ arcadeDashOff-=2.2; arcadeDash.setAttribute("stroke-dashoffset",arcadeDashOff); },33);
+  if(!on && arcadeDashTimer){ clearInterval(arcadeDashTimer); arcadeDashTimer=null; }
+},{threshold:.1}).observe(arcadeFrame);
+document.getElementById("arcadePlay").addEventListener("click",()=>{
+  if(matchMedia("(max-width:720px)").matches){ location.href="game.html?lang="+lang; return; }   // phones: the full page plays better than a small frame
+  if(arcadeFrame.querySelector("iframe")) return;
+  const f=document.createElement("iframe");
+  f.className="arcade-iframe"; f.src="game.html?lang="+lang+"&embed=1"; f.title="Ink Runner";
+  f.addEventListener("load",()=>f.focus());
+  arcadeFrame.appendChild(f); arcadeFrame.classList.add("live"); arcadeBar.classList.add("on");
+  if(arcadeDashTimer){ clearInterval(arcadeDashTimer); arcadeDashTimer=null; }
+});
+document.getElementById("arcadeFull").addEventListener("click",()=>{
+  const req=arcadeFrame.requestFullscreen||arcadeFrame.webkitRequestFullscreen;
+  if(req) req.call(arcadeFrame);
+  const f=arcadeFrame.querySelector("iframe"); if(f) f.focus();
+});
 
 /* ===== Professor tabs ===== */
 document.querySelectorAll(".ptab").forEach(tab=>{
