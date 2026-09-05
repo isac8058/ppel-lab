@@ -1,6 +1,6 @@
 # Research films v2 — adult anime comedy
 
-Status: scripts, a first-frame visual and the first **actual anime clip** are ready. **These are not five completed replacement videos.** The live homepage has the new below-picture subtitle panel; its existing v1 footage remains until replacements pass review.
+Status: **one completed 30-second anime film (cherry-blossom)**, five Claude-authored screenplays, and five exact paper end cards. The homepage's cherry-blossom section uses the new film; the other four sections still use their v1 footage. Captions are below the picture, including fullscreen.
 
 The owner rejected the cute material-character films and explicitly assigned screenwriting to Claude. Actual Claude Code wrote `CLAUDE_SCREENPLAY.md` on 2026-09-06, then authored `CLAUDE_PRODUCTION_LOCK.md` after editorial feedback on scientific fidelity, reading time and the pilot's romantic misdirection. The production lock overrides conflicting details in the first draft, including the incorrect furnace scene, absolute oxidation/retention claims and overly long captions.
 
@@ -26,8 +26,12 @@ Gemini's signed-in interface resumed generation after **2026-09-06 08:36 KST**. 
 - [Shared pilot video](https://share.gemini.google/OX0Xkk8bQ2S1)
 - Local original: `cherry-pilot.mp4` — 10.0078 seconds, 1280×720, 24fps H.264, stereo AAC. Gemini returned ten seconds despite the eight-second prompt.
 - Verified: moving adult characters, tweezers reveal, specimen bag, woman's disappointed reaction; no in-picture captions. This is actual generated footage, not a pan over a still.
-- The lab payoff scene was submitted in the same conversation as the next generation. The production adaptation makes the scientist physically embrace the scope to clarify Claude's joke about loving the trace instead of the date.
+- [Shared continuation](https://share.gemini.google/2AxKAsg6Vahv): `cherry-lab.mp4`, 20.01 seconds. Gemini included the prior ten-second opening followed by a new ten-second lab scene. The edit uses only the new segment, so the opening never repeats. The production adaptation makes the scientist physically embrace the scope to clarify Claude's joke about loving the trace instead of the date.
 
 No new subscription or paid credits were purchased.
 
-All five exact paper end cards have been exported as `*-endcard.png` using `scripts/render-anime-endcards.cjs`. Remaining scene generation/review, 30-second edits and replacement of all five homepage videos are still outstanding at this checkpoint.
+Final export: `cherry-blossom-30s.mp4`, exactly 30 seconds, 1280×720, constant 24fps H.264/AAC; corresponding JPEG poster and KO/EN WebVTT tracks. `scripts/assemble-cherry-anime.cjs` assembles 23 seconds of unique scene action, gently retimed, a five-second final-reaction hold for the science caption, and a two-second paper end card. It preserves Gemini's native mark and does not burn captions into the picture. All five exact paper end cards were exported using `scripts/render-anime-endcards.cjs`.
+
+Checks: complete FFmpeg decode without warnings; all five homepage players, duration, Korean/English captions, seeking, separate caption bounds, fullscreen, 390px mobile layout and normal/reduced-motion hero animation. The science caption was visually inspected on the new anime frame.
+
+**Still outstanding:** animated scenes, edits and replacement of the other four films. After the two new generations, Gemini explicitly reported no more video generation until **2026-09-06 13:36 KST**. The website does not imply those four replacements are complete. The owner watched the opening and said it was funny; the adult anime treatment is the accepted direction.
