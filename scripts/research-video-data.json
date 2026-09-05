@@ -1,0 +1,307 @@
+[
+  {
+    "id": "ai-paper",
+    "index": "01",
+    "color": "#3565DC",
+    "soft": "#DBE8F8",
+    "titleEn": "THE PAPER SAW EVERYTHING",
+    "titleKo": "한지가 다 봤다",
+    "scienceEn": "Paper makes a signal. AI finds a pattern.",
+    "scienceKo": "한지가 만든 신호에서 AI가 패턴을 찾습니다.",
+    "paperShort": "Mulberry-paper sensors + machine learning",
+    "journal": "Cellulose · 2025",
+    "doi": "10.1007/s10570-025-06542-7",
+    "paperTitle": "Effects of the properties of mulberry paper on high-performance triboelectric nanogenerators towards AI-based self-powered healthcare applications",
+    "source": "https://link.springer.com/article/10.1007/s10570-025-06542-7",
+    "noteEn": "A study of sensor signals and foot health classification.",
+    "noteKo": "센서 신호로 발의 건강 상태를 분류한 연구입니다.",
+    "captions": [
+      [
+        0,
+        4,
+        "Just a piece of paper?",
+        "그냥 종이인 줄 알았지?"
+      ],
+      [
+        4,
+        8,
+        "Your feet left a clue.",
+        "발이 단서를 남겼네."
+      ],
+      [
+        8,
+        13,
+        "Contact and separation create an electrical signal.",
+        "접촉과 분리가 전기 신호를 만듭니다."
+      ],
+      [
+        13,
+        19,
+        "Machine learning analyzes patterns in those signals.",
+        "머신러닝이 신호의 패턴을 분석합니다."
+      ],
+      [
+        19,
+        24,
+        "The study explored classification of foot health conditions.",
+        "연구에서는 발의 건강 상태 분류를 탐구했습니다."
+      ],
+      [
+        24,
+        28,
+        "Nothing gets past this paper.",
+        "이 종이, 눈치가 빠르다."
+      ],
+      [
+        28,
+        30,
+        "Read the paper · PPEL+",
+        "논문 보기 · PPEL+"
+      ]
+    ]
+  },
+  {
+    "id": "biosensor",
+    "index": "02",
+    "color": "#168A79",
+    "soft": "#D7EDE5",
+    "titleEn": "THE PENCIL CHANGED JOBS",
+    "titleKo": "연필의 이직",
+    "scienceEn": "Graphite. Graphene. A clue in DNA.",
+    "scienceKo": "흑연에서 그래핀으로, DNA의 단서까지.",
+    "paperShort": "Tree-like graphene for wireless 5hmC sensing",
+    "journal": "ACS Nano · 2025",
+    "doi": "10.1021/acsnano.4c18646",
+    "paperTitle": "Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene",
+    "source": "https://pubs.acs.org/doi/10.1021/acsnano.4c18646",
+    "noteEn": "Detecting a DNA marker with a portable wireless sensor.",
+    "noteKo": "휴대형 무선 센서로 DNA 표지를 검출한 연구입니다.",
+    "captions": [
+      [
+        0,
+        4,
+        "This pencil wants a new job.",
+        "이 연필은 이직을 꿈꿉니다."
+      ],
+      [
+        4,
+        8,
+        "From paperwork to detective work.",
+        "글씨 쓰기에서 단서 찾기로."
+      ],
+      [
+        8,
+        13,
+        "Pencil graphite is a source of tree-like graphene.",
+        "연필 흑연으로 나뭇가지 형태의 그래핀을 만듭니다."
+      ],
+      [
+        13,
+        19,
+        "The graphene helps an electrode detect 5hmC in DNA.",
+        "그래핀을 이용한 전극이 DNA의 5hmC를 검출합니다."
+      ],
+      [
+        19,
+        24,
+        "Measurements travel wirelessly to a mobile app.",
+        "측정값은 모바일 앱으로 무선 전달됩니다."
+      ],
+      [
+        24,
+        28,
+        "Same graphite. Different career.",
+        "같은 흑연, 다른 커리어."
+      ],
+      [
+        28,
+        30,
+        "Read the paper · PPEL+",
+        "논문 보기 · PPEL+"
+      ]
+    ]
+  },
+  {
+    "id": "memory",
+    "index": "03",
+    "color": "#7856BC",
+    "soft": "#E9E0F5",
+    "titleEn": "ELECTRONS TAKE A SHORTCUT",
+    "titleKo": "전자들의 지름길",
+    "scienceEn": "Different resistance. Stored information.",
+    "scienceKo": "저항의 차이에 정보를 담습니다.",
+    "paperShort": "Carbon-based resistive switching · a review",
+    "journal": "Carbon · 2024",
+    "doi": "10.1016/j.carbon.2024.119320",
+    "paperTitle": "Recent advancements in carbon-based materials for resistive switching applications",
+    "source": "https://www.sciencedirect.com/science/article/pii/S0008622324005396",
+    "noteEn": "A review of carbon materials for resistive-switching memory.",
+    "noteKo": "탄소 기반 저항변화 메모리의 연구 동향을 정리한 리뷰입니다.",
+    "captions": [
+      [
+        0,
+        4,
+        "Please use the designated route.",
+        "정해진 길로 다녀주세요."
+      ],
+      [
+        4,
+        8,
+        "The electrons have other plans.",
+        "전자들의 생각은 조금 다릅니다."
+      ],
+      [
+        8,
+        13,
+        "Like traffic, current flows more easily when resistance is lower.",
+        "길이 뚫리듯, 저항이 낮아지면 전류도 쉽게 흐릅니다."
+      ],
+      [
+        13,
+        19,
+        "Different resistance states can represent stored information.",
+        "서로 다른 저항 상태에 정보를 저장할 수 있습니다."
+      ],
+      [
+        19,
+        24,
+        "This review explores carbon materials for that memory.",
+        "이 리뷰는 탄소 소재를 이용한 메모리 연구를 소개합니다."
+      ],
+      [
+        24,
+        28,
+        "They remembered the shortcut.",
+        "지름길은 확실히 기억했네."
+      ],
+      [
+        28,
+        30,
+        "Read the review · PPEL+",
+        "리뷰 논문 보기 · PPEL+"
+      ]
+    ]
+  },
+  {
+    "id": "energy-storage",
+    "index": "04",
+    "color": "#C87435",
+    "soft": "#F5E4D3",
+    "titleEn": "NO OXYGEN ON THE GUEST LIST",
+    "titleKo": "산소 출입금지 클럽",
+    "scienceEn": "A little protection goes a long way.",
+    "scienceKo": "소재를 지키는 작은 경호원.",
+    "paperShort": "Oxidation-resistant MXene inks for supercapacitors",
+    "journal": "Adv. Composites & Hybrid Materials · 2026",
+    "doi": "10.1007/s42114-026-01862-z",
+    "paperTitle": "Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors",
+    "source": "https://link.springer.com/article/10.1007/s42114-026-01862-z",
+    "noteEn": "MnO₂ helps protect MXene ink from oxidation.",
+    "noteKo": "MnO₂가 MXene 잉크의 산화를 줄이는 데 도움을 줍니다.",
+    "captions": [
+      [
+        0,
+        4,
+        "Sorry. Oxygen is not on the list.",
+        "죄송한데, 산소는 명단에 없어요."
+      ],
+      [
+        4,
+        8,
+        "A moustache will not help.",
+        "콧수염을 붙여도 소용없어요."
+      ],
+      [
+        8,
+        13,
+        "MXene is useful for printed energy storage.",
+        "MXene은 인쇄형 에너지 저장에 유용한 소재입니다."
+      ],
+      [
+        13,
+        19,
+        "MnO₂ nanoparticles help reduce its oxidation.",
+        "MnO₂ 나노입자가 MXene의 산화를 완화합니다."
+      ],
+      [
+        19,
+        24,
+        "The ink becomes a printed flexible supercapacitor.",
+        "이 잉크로 유연한 슈퍼커패시터를 인쇄합니다."
+      ],
+      [
+        24,
+        28,
+        "The bouncer keeps the moustache.",
+        "콧수염은 경호원이 가져갑니다."
+      ],
+      [
+        28,
+        30,
+        "Read the paper · PPEL+",
+        "논문 보기 · PPEL+"
+      ]
+    ]
+  },
+  {
+    "id": "cherry-blossom",
+    "index": "05",
+    "color": "#C26386",
+    "soft": "#F4DFE7",
+    "titleEn": "THE CLEANER FOUND A BEAT",
+    "titleKo": "청소하다가 드러머",
+    "scienceEn": "A touch becomes an electrical signal.",
+    "scienceKo": "터치가 전기 신호가 됩니다.",
+    "paperShort": "Cherry-blossom triboelectric gesture sensing",
+    "journal": "Nano Energy · 2026",
+    "doi": "10.1016/j.nanoen.2025.111687",
+    "paperTitle": "Self-powered gesture recognition using a sustainable and thermally stable cherry blossom triboelectric nanogenerator",
+    "source": "https://www.sciencedirect.com/science/article/pii/S2211285525010468",
+    "noteEn": "Touch signals classified with machine learning.",
+    "noteKo": "터치로 생긴 신호를 머신러닝으로 분류한 연구입니다.",
+    "captions": [
+      [
+        0,
+        4,
+        "It was supposed to be cleaning time.",
+        "분명 청소 시간이었는데."
+      ],
+      [
+        4,
+        8,
+        "One tap. Two taps. A new obsession.",
+        "한 번, 두 번. 새로운 취미가 생겼다."
+      ],
+      [
+        8,
+        13,
+        "Cherry petals form a layer inside the fabricated device.",
+        "제작한 소자 안에 벚꽃잎을 재료로 사용합니다."
+      ],
+      [
+        13,
+        19,
+        "Contact and separation create electrical signals.",
+        "접촉과 분리가 전기 신호를 만듭니다."
+      ],
+      [
+        19,
+        24,
+        "Machine learning distinguishes single and double taps.",
+        "머신러닝으로 단일·이중 탭 신호를 구별합니다."
+      ],
+      [
+        24,
+        28,
+        "The broom has officially retired.",
+        "빗자루는 오늘부로 은퇴입니다."
+      ],
+      [
+        28,
+        30,
+        "Read the paper · PPEL+",
+        "논문 보기 · PPEL+"
+      ]
+    ]
+  }
+]
