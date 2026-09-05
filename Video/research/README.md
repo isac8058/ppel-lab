@@ -31,6 +31,10 @@ Use a film ID after `--native` to render only that film. `--frames` exports repr
 
 The homepage defers video sources until a visitor clicks play, pauses other films when one starts, synchronizes captions with the language switch, and provides a direct MP4 link if playback fails.
 
+Captions now render in a dedicated dark panel **below** the image. WebVTT tracks run in hidden mode, so their cues remain timed without covering the film. The panel's fullscreen button expands the video and caption panel together. The original MP4 files remain unchanged; an adult-character comedy rewrite is being produced separately.
+
+To check the player, serve the repository with HTTP byte-range support and run `node tests/research-captions.cjs` with Playwright installed. `TEST_URL` selects the server and `CHROME_PATH` optionally selects a local Chromium executable. This checks all five films, Korean/English cue changes, seeking, caption placement, fullscreen, mobile layout, and normal/reduced-motion hero behavior.
+
 ## Verification
 
 - All five exports decoded without errors: 720 frames each, exactly 30 seconds, 1080p/24 fps. Combined MP4 size is approximately 6.5 MB; posters are approximately 29–42 KB each.

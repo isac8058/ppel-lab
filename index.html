@@ -691,7 +691,17 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .rcard h3{padding-right:0}
 .rcard .body{padding-top:23px}
 .research-film{padding:10px 10px 0}
-.film-stage{position:relative;aspect-ratio:16/9;border-radius:15px;overflow:hidden;background:#223036}
+.film-viewer{overflow:hidden;border-radius:15px;background:#172226}
+.film-stage{position:relative;aspect-ratio:16/9;overflow:hidden;background:#223036}
+.film-subtitle-panel{display:flex;align-items:center;gap:12px;min-height:82px;padding:12px 16px;background:#172226;color:#fff}
+.film-subtitle-panel[hidden]{display:none}
+.film-subtitles{flex:1;margin:0;font-size:clamp(14px,1.25vw,18px);font-weight:500;line-height:1.5;text-align:center;white-space:pre-line;text-wrap:balance}
+.film-fullscreen{flex:none;border:1px solid #ffffff45;border-radius:6px;background:transparent;color:white;font:inherit;font-size:20px;width:34px;height:34px;cursor:pointer}
+.film-fullscreen:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.film-viewer:fullscreen{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:0;width:100%;height:100%;padding:0;background:#11191c}
+.film-viewer:fullscreen .film-stage{flex:none;width:min(100vw,calc((100dvh - 110px)*16/9))}
+.film-viewer:fullscreen .film-subtitle-panel{flex:none;width:min(100vw,calc((100dvh - 110px)*16/9));min-height:90px}
+.film-viewer:fullscreen .film-subtitles{font-size:clamp(16px,2.1vw,29px)}
 .film-stage video[hidden]{display:none}
 .film-stage video{display:block;width:100%;height:100%;object-fit:contain}
 .film-start{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;color:white;text-align:left;background:#223036}
@@ -803,18 +813,24 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <!-- AI -->
       <article class="rcard reveal" id="research-ai-paper" style="--accent:#3565DC">
         <div class="research-film" data-film="ai-paper">
-          <div class="film-stage">
-            <video hidden tabindex="0" id="film-ai-paper" controls playsinline preload="none" poster="Video/research/ai-paper.jpg" aria-label="THE PAPER SAW EVERYTHING" data-label-en="THE PAPER SAW EVERYTHING" data-label-ko="한지가 다 봤다">
-              <source data-src="Video/research/ai-paper.mp4" type="video/mp4"/>
-              <track kind="captions" srclang="en" label="English" src="Video/research/ai-paper.en.vtt"/>
-              <track kind="captions" srclang="ko" label="한국어" src="Video/research/ai-paper.ko.vtt"/>
-            </video>
-            <button class="film-start" type="button" aria-controls="film-ai-paper">
-              <img src="Video/research/ai-paper.jpg" alt="" loading="lazy" width="960" height="540"/>
-              <span class="film-play" aria-hidden="true">▶</span>
-              <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-              <span class="film-title" data-en="THE PAPER SAW EVERYTHING" data-ko="한지가 다 봤다">THE PAPER SAW EVERYTHING</span>
-            </button>
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-ai-paper" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/ai-paper.jpg" aria-label="THE PAPER SAW EVERYTHING" data-label-en="THE PAPER SAW EVERYTHING" data-label-ko="한지가 다 봤다">
+                <source data-src="Video/research/ai-paper.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/ai-paper.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/ai-paper.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-ai-paper">
+                <img src="Video/research/ai-paper.jpg" alt="" loading="lazy" width="960" height="540"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
+                <span class="film-title" data-en="THE PAPER SAW EVERYTHING" data-ko="한지가 다 봤다">THE PAPER SAW EVERYTHING</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-ai-paper" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
           </div>
           <div class="film-caption"><span class="film-note" data-en="A little comedy. A real paper." data-ko="작은 코미디, 실제 연구 한 편.">A little comedy. A real paper.</span><a href="https://doi.org/10.1007/s10570-025-06542-7" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
           <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/ai-paper.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
@@ -838,18 +854,24 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <!-- Bio -->
       <article class="rcard reveal" id="research-biosensor" style="--accent:#168A79">
         <div class="research-film" data-film="biosensor">
-          <div class="film-stage">
-            <video hidden tabindex="0" id="film-biosensor" controls playsinline preload="none" poster="Video/research/biosensor.jpg" aria-label="THE PENCIL CHANGED JOBS" data-label-en="THE PENCIL CHANGED JOBS" data-label-ko="연필의 이직">
-              <source data-src="Video/research/biosensor.mp4" type="video/mp4"/>
-              <track kind="captions" srclang="en" label="English" src="Video/research/biosensor.en.vtt"/>
-              <track kind="captions" srclang="ko" label="한국어" src="Video/research/biosensor.ko.vtt"/>
-            </video>
-            <button class="film-start" type="button" aria-controls="film-biosensor">
-              <img src="Video/research/biosensor.jpg" alt="" loading="lazy" width="960" height="540"/>
-              <span class="film-play" aria-hidden="true">▶</span>
-              <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-              <span class="film-title" data-en="THE PENCIL CHANGED JOBS" data-ko="연필의 이직">THE PENCIL CHANGED JOBS</span>
-            </button>
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-biosensor" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/biosensor.jpg" aria-label="THE PENCIL CHANGED JOBS" data-label-en="THE PENCIL CHANGED JOBS" data-label-ko="연필의 이직">
+                <source data-src="Video/research/biosensor.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/biosensor.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/biosensor.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-biosensor">
+                <img src="Video/research/biosensor.jpg" alt="" loading="lazy" width="960" height="540"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
+                <span class="film-title" data-en="THE PENCIL CHANGED JOBS" data-ko="연필의 이직">THE PENCIL CHANGED JOBS</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-biosensor" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
           </div>
           <div class="film-caption"><span class="film-note" data-en="A little comedy. A real paper." data-ko="작은 코미디, 실제 연구 한 편.">A little comedy. A real paper.</span><a href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
           <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/biosensor.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
@@ -872,18 +894,24 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <!-- Memory -->
       <article class="rcard reveal" id="research-memory" style="--accent:#7856BC">
         <div class="research-film" data-film="memory">
-          <div class="film-stage">
-            <video hidden tabindex="0" id="film-memory" controls playsinline preload="none" poster="Video/research/memory.jpg" aria-label="ELECTRONS TAKE A SHORTCUT" data-label-en="ELECTRONS TAKE A SHORTCUT" data-label-ko="전자들의 지름길">
-              <source data-src="Video/research/memory.mp4" type="video/mp4"/>
-              <track kind="captions" srclang="en" label="English" src="Video/research/memory.en.vtt"/>
-              <track kind="captions" srclang="ko" label="한국어" src="Video/research/memory.ko.vtt"/>
-            </video>
-            <button class="film-start" type="button" aria-controls="film-memory">
-              <img src="Video/research/memory.jpg" alt="" loading="lazy" width="960" height="540"/>
-              <span class="film-play" aria-hidden="true">▶</span>
-              <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-              <span class="film-title" data-en="ELECTRONS TAKE A SHORTCUT" data-ko="전자들의 지름길">ELECTRONS TAKE A SHORTCUT</span>
-            </button>
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-memory" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/memory.jpg" aria-label="ELECTRONS TAKE A SHORTCUT" data-label-en="ELECTRONS TAKE A SHORTCUT" data-label-ko="전자들의 지름길">
+                <source data-src="Video/research/memory.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/memory.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/memory.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-memory">
+                <img src="Video/research/memory.jpg" alt="" loading="lazy" width="960" height="540"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
+                <span class="film-title" data-en="ELECTRONS TAKE A SHORTCUT" data-ko="전자들의 지름길">ELECTRONS TAKE A SHORTCUT</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-memory" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
           </div>
           <div class="film-caption"><span class="film-note" data-en="A little comedy. A real paper." data-ko="작은 코미디, 실제 연구 한 편.">A little comedy. A real paper.</span><a href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
           <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/memory.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
@@ -905,18 +933,24 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <!-- Energy storage -->
       <article class="rcard reveal" id="research-energy-storage" style="--accent:#C87435">
         <div class="research-film" data-film="energy-storage">
-          <div class="film-stage">
-            <video hidden tabindex="0" id="film-energy-storage" controls playsinline preload="none" poster="Video/research/energy-storage.jpg" aria-label="NO OXYGEN ON THE GUEST LIST" data-label-en="NO OXYGEN ON THE GUEST LIST" data-label-ko="산소 출입금지 클럽">
-              <source data-src="Video/research/energy-storage.mp4" type="video/mp4"/>
-              <track kind="captions" srclang="en" label="English" src="Video/research/energy-storage.en.vtt"/>
-              <track kind="captions" srclang="ko" label="한국어" src="Video/research/energy-storage.ko.vtt"/>
-            </video>
-            <button class="film-start" type="button" aria-controls="film-energy-storage">
-              <img src="Video/research/energy-storage.jpg" alt="" loading="lazy" width="960" height="540"/>
-              <span class="film-play" aria-hidden="true">▶</span>
-              <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-              <span class="film-title" data-en="NO OXYGEN ON THE GUEST LIST" data-ko="산소 출입금지 클럽">NO OXYGEN ON THE GUEST LIST</span>
-            </button>
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-energy-storage" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/energy-storage.jpg" aria-label="NO OXYGEN ON THE GUEST LIST" data-label-en="NO OXYGEN ON THE GUEST LIST" data-label-ko="산소 출입금지 클럽">
+                <source data-src="Video/research/energy-storage.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/energy-storage.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/energy-storage.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-energy-storage">
+                <img src="Video/research/energy-storage.jpg" alt="" loading="lazy" width="960" height="540"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
+                <span class="film-title" data-en="NO OXYGEN ON THE GUEST LIST" data-ko="산소 출입금지 클럽">NO OXYGEN ON THE GUEST LIST</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-energy-storage" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
           </div>
           <div class="film-caption"><span class="film-note" data-en="A little comedy. A real paper." data-ko="작은 코미디, 실제 연구 한 편.">A little comedy. A real paper.</span><a href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
           <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/energy-storage.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
@@ -940,18 +974,24 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <!-- Piezo (full width) -->
       <article class="rcard reveal" id="research-cherry-blossom" style="--accent:#C26386">
         <div class="research-film" data-film="cherry-blossom">
-          <div class="film-stage">
-            <video hidden tabindex="0" id="film-cherry-blossom" controls playsinline preload="none" poster="Video/research/cherry-blossom.jpg" aria-label="THE CLEANER FOUND A BEAT" data-label-en="THE CLEANER FOUND A BEAT" data-label-ko="청소하다가 드러머">
-              <source data-src="Video/research/cherry-blossom.mp4" type="video/mp4"/>
-              <track kind="captions" srclang="en" label="English" src="Video/research/cherry-blossom.en.vtt"/>
-              <track kind="captions" srclang="ko" label="한국어" src="Video/research/cherry-blossom.ko.vtt"/>
-            </video>
-            <button class="film-start" type="button" aria-controls="film-cherry-blossom">
-              <img src="Video/research/cherry-blossom.jpg" alt="" loading="lazy" width="960" height="540"/>
-              <span class="film-play" aria-hidden="true">▶</span>
-              <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-              <span class="film-title" data-en="THE CLEANER FOUND A BEAT" data-ko="청소하다가 드러머">THE CLEANER FOUND A BEAT</span>
-            </button>
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-cherry-blossom" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/cherry-blossom.jpg" aria-label="THE CLEANER FOUND A BEAT" data-label-en="THE CLEANER FOUND A BEAT" data-label-ko="청소하다가 드러머">
+                <source data-src="Video/research/cherry-blossom.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/cherry-blossom.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/cherry-blossom.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-cherry-blossom">
+                <img src="Video/research/cherry-blossom.jpg" alt="" loading="lazy" width="960" height="540"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
+                <span class="film-title" data-en="THE CLEANER FOUND A BEAT" data-ko="청소하다가 드러머">THE CLEANER FOUND A BEAT</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-cherry-blossom" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
           </div>
           <div class="film-caption"><span class="film-note" data-en="A little comedy. A real paper." data-ko="작은 코미디, 실제 연구 한 편.">A little comedy. A real paper.</span><a href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
           <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/cherry-blossom.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
@@ -1387,7 +1427,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.06-1</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.06-2</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
@@ -1668,12 +1708,24 @@ setTimeout(()=>{
 },600);
 
 /* ===== Research films and accessible detail toggles ===== */
+function renderFilmSubtitles(video){
+  const film=video.closest('.research-film'),text=film.querySelector('.film-subtitles');
+  const track=Array.from(video.textTracks).find(track=>track.language===video.dataset.captionLanguage);
+  text.textContent=Array.from(track?.activeCues||[]).map(cue=>cue.getCueAsHTML().textContent).join('\n');
+}
 function syncFilmLanguage(currentVideo){
   const videos=currentVideo?[currentVideo]:document.querySelectorAll('.research-film video');
   videos.forEach(video=>{
     video.setAttribute('aria-label',video.dataset['label'+(lang==='ko'?'Ko':'En')]);
+    video.dataset.captionLanguage=lang;
+    const film=video.closest('.research-film'),full=film.querySelector('.film-fullscreen');
+    const fullLabel=document.fullscreenElement===film.querySelector('.film-viewer')?(lang==='ko'?'전체 화면 닫기':'Exit full screen'):(lang==='ko'?'자막과 함께 전체 화면':'Full screen with subtitles');
+    full.setAttribute('aria-label',fullLabel);full.title=fullLabel;
+    film.querySelector('.film-subtitles').setAttribute('aria-label',lang==='ko'?'자막':'Subtitles');
     if(!video.querySelector('source').getAttribute('src'))return;
-    Array.from(video.textTracks).forEach(track=>{track.mode=track.language===lang?'showing':'disabled';});
+    // Hidden tracks expose timed cues without drawing over the picture.
+    Array.from(video.textTracks).forEach(track=>{track.mode=track.language===lang?'hidden':'disabled';});
+    renderFilmSubtitles(video);
   });
 }
 document.querySelectorAll('.rcard').forEach(card=>{
@@ -1686,10 +1738,26 @@ document.querySelectorAll('.rcard').forEach(card=>{
 });
 document.querySelectorAll('.research-film').forEach(film=>{
   const video=film.querySelector('video'),start=film.querySelector('.film-start'),error=film.querySelector('.film-error');
+  const viewer=film.querySelector('.film-viewer'),panel=film.querySelector('.film-subtitle-panel'),full=film.querySelector('.film-fullscreen');
+  full.hidden=!document.fullscreenEnabled;
+  if(!document.fullscreenEnabled)video.removeAttribute('controlsList');
+  full.addEventListener('click',async()=>{
+    try{
+      if(document.fullscreenElement===viewer)await document.exitFullscreen();
+      else await viewer.requestFullscreen();
+    }catch{full.hidden=true;video.removeAttribute('controlsList');}
+  });
+  Array.from(video.textTracks).forEach(track=>track.addEventListener('cuechange',()=>renderFilmSubtitles(video)));
+  video.textTracks.addEventListener('change',()=>{
+    // A selection in the browser's CC menu still uses the separate subtitle panel.
+    const chosen=Array.from(video.textTracks).find(track=>track.mode==='showing');
+    if(chosen){video.dataset.captionLanguage=chosen.language;chosen.mode='hidden';}
+    renderFilmSubtitles(video);
+  });
   start.addEventListener('click',()=>{
     const source=video.querySelector('source');
     if(!source.getAttribute('src')){source.src=source.dataset.src;video.load();}
-    video.hidden=false;start.hidden=true;error.hidden=true;syncFilmLanguage(video);
+    video.hidden=false;start.hidden=true;panel.hidden=false;error.hidden=true;syncFilmLanguage(video);
     video.focus();
     video.play().catch(reason=>{if(reason.name!=='AbortError')error.hidden=false;});
   });
@@ -1697,7 +1765,9 @@ document.querySelectorAll('.research-film').forEach(film=>{
   video.addEventListener('error',()=>{error.hidden=false;});
   video.querySelector('source').addEventListener('error',()=>{error.hidden=false;});
   video.addEventListener('loadedmetadata',()=>syncFilmLanguage(video));
+  video.addEventListener('seeked',()=>renderFilmSubtitles(video));
 });
+document.addEventListener('fullscreenchange',()=>syncFilmLanguage());
 
 /* init */
 applyLang();
