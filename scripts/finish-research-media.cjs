@@ -16,6 +16,6 @@ function soundtrack(d,file){const sr=48000,n=sr*30,buf=Buffer.alloc(44+n*2),note
 for(const d of data){const movie=path.join(out,d.id+'.mp4');if(!fs.existsSync(movie))throw new Error('Render missing: '+d.id);
  const sound=path.join(work,'render',d.id,'sound.wav'),temp=path.join(work,'render',d.id,'finished.mp4');soundtrack(d,sound);
  const r=spawnSync(ffmpeg,['-hide_banner','-loglevel','error','-y','-i',movie,'-i',sound,'-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-b:a','128k','-t','30','-movflags','+faststart',temp],{stdio:'inherit'});if(r.status)throw new Error('Audio mix failed');fs.copyFileSync(temp,movie);
- for(const [lang,col] of [['en',2],['ko',3]]){let vtt='WEBVTT\n\n';d.captions.forEach((c,i)=>vtt+=`${i+1}\n${stamp(c[0])} --> ${stamp(c[1])} position:50% align:center size:92%\n${c[col]}\n\n`);fs.writeFileSync(path.join(out,`${d.id}.${lang}.vtt`),vtt)}
+ for(const [lang,col] of [['en',2],['ko',3]]){let vtt='WEBVTT\n\n';d.captions.forEach((c,i)=>vtt+=`${i+1}\n${stamp(c[0])} --> ${stamp(c[1])} position:50% align:center size:92%\n${c[col]}\n\n`);fs.writeFileSync(path.join(out,`${d.id}.${lang}.vtt`),vtt.trimEnd()+'\n')}
  console.log('Sound and captions finished: '+d.id);
 }

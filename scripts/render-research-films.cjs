@@ -102,10 +102,10 @@ async function build(d){
  const fc=`[0:v]trim=0:8,setpts=PTS-STARTPTS,${vf}[a];[1:v]setpts=PTS-STARTPTS[b];[0:v]trim=4:10,setpts=PTS-STARTPTS,${vf}[c];[2:v]setpts=PTS-STARTPTS[d];[a][b][c][d]concat=n=4:v=1:a=0[v];[0:a]atrim=0:8,asetpts=PTS-STARTPTS[a0];[3:a]atrim=8:22,asetpts=PTS-STARTPTS[a1];[0:a]atrim=4:10,asetpts=PTS-STARTPTS[a2];[3:a]atrim=28:30,asetpts=PTS-STARTPTS,afade=t=out:st=1:d=1[a3];[a0][a1][a2][a3]concat=n=4:v=0:a=1[audio]`;
  run(['-i',src,'-i',path.join(dir,'graphic.mp4'),'-i',path.join(dir,'end.mp4'),'-i',music,'-filter_complex',fc,'-map','[v]','-map','[audio]','-t','30','-c:v','libx264','-preset','slow','-crf','24','-maxrate','3500k','-bufsize','7000k','-c:a','aac','-b:a','128k','-pix_fmt','yuv420p','-movflags','+faststart',path.join(out,d.id+'.mp4')]);
  run(['-ss','1.8','-i',src,'-frames:v','1','-vf','scale=960:-2','-q:v','3',path.join(out,d.id+'.jpg')]);
- for(const [lang,col] of [['en',2],['ko',3]]){let vtt='WEBVTT\n\n';d.captions.forEach((c,i)=>{vtt+=`${i+1}\n${stamp(c[0])} --> ${stamp(c[1])}\n${c[col]}\n\n`});fs.writeFileSync(path.join(out,`${d.id}.${lang}.vtt`),vtt)}
+ for(const [lang,col] of [['en',2],['ko',3]]){let vtt='WEBVTT\n\n';d.captions.forEach((c,i)=>{vtt+=`${i+1}\n${stamp(c[0])} --> ${stamp(c[1])}\n${c[col]}\n\n`});fs.writeFileSync(path.join(out,`${d.id}.${lang}.vtt`),vtt.trimEnd()+'\n')}
  console.log('Completed: '+d.id);
 }
-function captions(d){for(const [lang,col] of [['en',2],['ko',3]]){let vtt='WEBVTT\n\n';d.captions.forEach((c,i)=>{vtt+=`${i+1}\n${stamp(c[0])} --> ${stamp(c[1])}\n${c[col]}\n\n`});fs.writeFileSync(path.join(out,`${d.id}.${lang}.vtt`),vtt)}}
+function captions(d){for(const [lang,col] of [['en',2],['ko',3]]){let vtt='WEBVTT\n\n';d.captions.forEach((c,i)=>{vtt+=`${i+1}\n${stamp(c[0])} --> ${stamp(c[1])}\n${c[col]}\n\n`});fs.writeFileSync(path.join(out,`${d.id}.${lang}.vtt`),vtt.trimEnd()+'\n')}}
 async function nativeBuild(d){
  const dir=path.join(work,'render',d.id);fs.mkdirSync(dir,{recursive:true});
  console.log('Rendering complete original film: '+d.id);
