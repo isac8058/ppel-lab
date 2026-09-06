@@ -1,0 +1,33 @@
+10-second 16:9 anime sequence, 1990s Japanese theatrical anime style, hand-drawn
+cel shading, subtle film grain, painterly backgrounds, adult characters with
+realistic proportions, no chibi. No written text anywhere in frame.
+The lab monitor shows only simple waveform traces, no badges or letters.
+
+CHARACTERS (keep consistent): DOYUN — Korean man, late 20s, messy black hair,
+round wire-frame glasses, brown cardigan under a white lab coat. SEONGMAN —
+Korean campus cleaner, 50s, stocky, gray uniform, olive vest, bucket hat, white
+towel around neck, carrying a long-handled dustpan. SETTING: university lab
+bench with a small flexible sensor patch wired by thin leads to a small benchtop
+readout instrument connected to a monitor. A separate visible mains cable powers
+the instrument and display. The sensor does not power the monitor or the room.
+
+CUT 1 (20.0–23.0s): Reverse angle from beside the monitor toward Doyun's face
+and hands. He taps the sensor TWICE; the monitor shows two waveform spikes.
+He pumps his fist and shouts a short joyful Korean "됐다!"
+("Dwaetda!" — "It works!").
+
+CUT 2 (23.0–26.5s): Cut to a WIDE VIEW of the whole laboratory. Carried away,
+Doyun does a tiny exuberant victory dance beside the bench, then tries to regain
+his serious scientist posture; a single pink petal drifts through the open window
+and lands on his head. The powered monitor remains ordinary, no animated music,
+no new gesture labels. Continuous character movement, no frozen poses.
+
+CUT 3 (26.5–28.0s): The lab door BANGS open — SEONGMAN stands there solemnly
+presenting his dustpan, now piled high with pristine pink cherry petals, offering
+it like a ceremonial gift. Doyun springs up and bows a deep formal 90-degree bow.
+
+CUT 4 (28.0–30.0s): Warm final shot — Doyun and Seongman sit side by side at the
+bench, both sorting petals with tweezers like colleagues, petals drifting past
+the window. Frame this action in the LEFT two-thirds, leaving the right third of
+the frame as clean negative space (a paper card will be composited there). Keep
+the characters moving until the last frame.
