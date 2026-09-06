@@ -1,0 +1,32 @@
+10-second 16:9 anime sequence, 1990s Japanese theatrical anime style, hand-drawn
+cel shading, subtle film grain, painterly backgrounds, adult characters with
+realistic proportions, no chibi. Absolutely no text, captions, or logos in frame
+(a plain signal waveform on a lab monitor is the only screen content allowed).
+
+CHARACTER (keep consistent): DOYUN — Korean man, late 20s, messy black hair,
+round wire-frame glasses, brown cardigan under a white lab coat. He chases a
+single pink cherry petal drifting on the wind. No dialogue in this segment.
+
+CUT 1 (10.0–13.0s): Fast lateral tracking shot — Doyun sprints down wide campus
+stone steps covered in cherry petals, dodging between students, eyes locked on
+one airborne petal. Dynamic anime speed lines, full-speed motion.
+
+CUT 2 (13.0–15.0s): Low-angle shot against the sky — Doyun vaults off a low wall
+and CATCHES the petal mid-air at full speed (no slow motion), then lands in a
+roll. The petal falls gently toward the camera.
+
+CUT 3 (15.0–18.0s): MATCH CUT — the falling petal becomes a petal being lowered
+by tweezers in an extreme MACRO shot inside a lab: gloved hands place the pink
+petal as a layer inside a small flexible sensor stack, then laminate a top layer
+over it. Precise, calm, clinical framing contrasting the chaos before.
+
+CUT 4 (18.0–20.0s): Crash zoom — Doyun, now gloved at the lab bench, taps the
+finished small sensor patch ONCE with a fingertip; a monitor beside him shows a
+single clean waveform spike. His eyes widen with anticipation.
+
+PRODUCTION REVIEW LOCK (Claude Fable 5.1, 2026-09-06):
+The finished sensor has thin signal leads to a small benchtop readout instrument
+connected to the monitor. A separate visible mains cable powers the instrument
+and display; the petal sensor does not power the screen. Show the fingertip tap
+in extreme macro, then a brief reverse angle toward Doyun's face and the monitor.
+Keep display content to clean waveform traces only, no letters or numbers.
