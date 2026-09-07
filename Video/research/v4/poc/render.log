@@ -1,0 +1,9 @@
+00:00.876  cycles           | WARNING CUEW initialization failed: Error opening the library
+03:54.885  render           | Saved: '/tmp/claude-0/-home-user-ppel-lab/fbbb4f6d-22e3-57c1-95b0-d24d48ed22ee/scratchpad/poc/petal-ground-poc.png'
+PoC 렌더 저장: /tmp/claude-0/-home-user-ppel-lab/fbbb4f6d-22e3-57c1-95b0-d24d48ed22ee/scratchpad/poc/petal-ground-poc.png
+real	3m55.156s
+user	15m11.048s
+sys	0m5.922s
+---
+machine: 4-core CPU container, no GPU, bpy 5.0.1 (pip), Cycles CPU, 1280x720, 128 samples, adaptive sampling + OpenImageDenoise
+command: python petal_ground_poc.py -- --out poc/petal-ground-poc.png --samples 128 --scale 100
