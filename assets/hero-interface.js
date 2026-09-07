@@ -19,8 +19,6 @@
     const ko = document.documentElement.lang === 'ko';
     motion.querySelector('.hero-motion-label').textContent = paused ? (ko ? '모션 켜기' : 'Enable motion') : (ko ? '모션 멈춤' : 'Pause motion');
     motion.querySelector('.hero-motion-icon').textContent = paused ? '▷' : 'Ⅱ';
-    motion.setAttribute('aria-pressed', String(!paused));
-    motion.setAttribute('aria-label', ko ? '메인 모션' : 'Hero motion');
     hero.querySelector('.hero-art').alt = ko ? '사람의 손과 로봇의 손이 유연한 인쇄전자막을 사이에 두고 마주하는 이미지. AI 생성 연구 콘셉트이며 실험 사진이 아닙니다.' : 'Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph.';
   }
   function paint() {
