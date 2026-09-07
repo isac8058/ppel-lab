@@ -70,3 +70,15 @@ Rules that must survive future edits:
   autopilot plays through the `window.__ink` debug hook, checks normal + reduced-motion
   contexts, touch, keyboard, mouse, pause, game over, and writes screenshots to
   `$OUT_DIR`).
+
+## Cross-verification with Astra (owner's rule)
+
+The owner works with a second agent, Astra (strong at computer use and Blender; it
+reviewed the v3 cherry cuts, see `Video/research/v3/edit-plan.json`). **Any new idea
+or concept for the research films (scripts, storyboards, production plans) must be
+cross-checked with Astra at the idea stage**, before it is presented to the owner as
+a finished proposal. Astra is not reachable from Claude sessions, so cross-checking
+goes through the repo: write a review request in the version folder (example:
+`Video/research/v4/ASTRA_REVIEW_REQUEST.md`), mark the concept as awaiting Astra's
+review, and fold the recorded answers (`ASTRA_REVIEW.md`) back into the plan. Where
+the two agents disagree, the owner decides.
