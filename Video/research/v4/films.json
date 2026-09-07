@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ai-paper",
+    "stem": "hanji-walk-naturally-30s",
+    "titleEn": "WALK NATURALLY",
+    "titleKo": "자연스럽게 걸으세요",
+    "duration": 30
+  },
+  {
+    "id": "biosensor",
+    "stem": "biosensor-pencil-career-30s",
+    "titleEn": "THE PENCIL CHANGED JOBS",
+    "titleKo": "연필의 이직",
+    "duration": 30
+  },
+  {
+    "id": "memory",
+    "stem": "memory-two-states-30s",
+    "titleEn": "THE BOSS HAS TWO STATES",
+    "titleKo": "부장님의 두 상태",
+    "duration": 30
+  },
+  {
+    "id": "energy-storage",
+    "stem": "ink-slept-well-26s",
+    "titleEn": "THE INK SLEPT WELL",
+    "titleKo": "잉크는 푹 잤다",
+    "duration": 26
+  }
+]
