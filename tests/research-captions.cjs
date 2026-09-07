@@ -23,10 +23,17 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion});
    const page=await context.newPage(),errors=[];page.setDefaultTimeout(15000);page.on('pageerror',error=>errors.push(error.message));
    await page.goto(url);await sleep(2000);
-   const motion=()=>page.evaluate(()=>({transform:getComputedStyle(document.querySelector('.hero-sway')).transform,ink:document.querySelector('#inkflow').toDataURL()}));
+   const motion=()=>page.evaluate(()=>({transform:getComputedStyle(document.querySelector('.hero-scene')).transform,ink:document.querySelector('.hero-signals').toDataURL()}));
    const before=await motion();await sleep(900);const after=await motion();
-   assert.notEqual(before.transform,after.transform,'Hero sway remains active');
-   assert.notEqual(before.ink,after.ink,'Hero ink remains active');
+   if(reducedMotion==='reduce'){
+    assert.deepEqual(before,after,'Reduced motion keeps the hero still');
+   }else{
+    assert.notEqual(before.transform,after.transform,'Hero depth motion is active');
+    assert.notEqual(before.ink,after.ink,'Hero signals are active');
+    await page.locator('.hero-motion').click();
+    const paused=await motion();await sleep(350);
+    assert.deepEqual(paused,await motion(),'Pause stops both perspective and signals');
+   }
    assert.equal(await page.locator('video source[src]').count(),0,'Media stays lazy before play');
    assert.equal(await page.locator('.film-error:not([hidden])').count(),0,'Unplayed lazy films must not report playback errors');
    await page.locator('#langBtn').click();
