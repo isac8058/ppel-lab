@@ -1,6 +1,6 @@
 # PPEL+ · Material Mischief
 
-Five 30-second research films for the PPEL+ homepage. **The cherry-blossom card now uses the adult anime film in [v2](v2/README.md)** (720p/24fps); the other four still use the original 1080p/24fps films. All have JPEG posters and English/Korean WebVTT captions. Original v1 files remain here for provenance; the renderer below is the legacy 2D pipeline and does not rebuild the new anime footage.
+Five 30-second research films for the PPEL+ homepage. **The cherry-blossom card now uses the action comedy short in [v3](v3/README.md)** (720p/24fps); the other four still use the original 1080p/24fps films. A Blender remake of the cherry film is at the concept stage in [v4](v4/README.md) (storyboard, shot list and a proof-of-concept render; no footage yet). All have JPEG posters and English/Korean WebVTT captions. Original v1 files remain here for provenance; the renderer below is the legacy 2D pipeline and does not rebuild the new anime footage.
 
 | Film | Featured paper |
 |---|---|
