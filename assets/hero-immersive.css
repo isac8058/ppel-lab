@@ -1,15 +1,16 @@
 /* Contained hero: the same content width as every other section. */
-.hero-interface{--signal-rgb:40,125,149;background:#fff;color:#152632;overflow:hidden;padding:100px 0 28px;scroll-margin-top:66px}
+.hero-interface{--signal-rgb:40,125,149;background:var(--substrate);color:var(--ink);overflow:hidden;padding:110px 0 28px;scroll-margin-top:66px}
 .hero-interface .hero-layout{position:relative;isolation:isolate}
-.hero-copy{position:absolute;z-index:3;top:32px;left:28px;right:28px;pointer-events:none}
-.hero-interface h1{max-width:49%;font-family:var(--font-display);font-size:clamp(36px,4.1vw,50px);font-weight:600;line-height:1.1;letter-spacing:-.05em;text-wrap:balance}
+.hero-copy{position:absolute;z-index:3;top:0;left:28px;right:28px;text-align:center;pointer-events:none}
+.hero-interface h1{font-family:var(--font-display);font-size:clamp(15px,3.9vw,46px);font-weight:600;line-height:1.2;letter-spacing:-.045em;white-space:nowrap}
 .hero-interface h1 span{color:#327a94}
-html[lang="ko"] .hero-interface h1{font-size:clamp(34px,3.8vw,46px);line-height:1.23;letter-spacing:-.045em;word-break:keep-all}
-.hero-figure{position:relative;margin:0}
+html[lang="ko"] .hero-interface h1{font-size:clamp(18px,5.7vw,46px);line-height:1.23;letter-spacing:-.045em}
+.hero-description{max-width:760px;margin:15px auto 0;color:var(--ink-soft);font-size:15px;line-height:1.8;text-wrap:balance;word-break:keep-all}
+.hero-figure{position:relative;margin:0;padding-top:30px}
 .hero-stage{position:relative;width:100%;aspect-ratio:3/2;perspective:1200px;isolation:isolate;touch-action:pan-y pinch-zoom}
 .hero-scene{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
 .hero-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transform:translateZ(-8px);pointer-events:none}
-.hero-art-dark{display:none;mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 88%,transparent)}
+.hero-art-dark{display:none;transform:translateZ(0);mix-blend-mode:lighten;mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 88%,transparent)}
 .hero-signals{position:absolute;inset:0;width:100%;height:100%;transform:translateZ(26px);pointer-events:none}
 .hero-film-depth{position:absolute;left:47%;top:27%;width:9%;height:33%;transform:rotateY(-28deg) rotateZ(7deg);transform-style:preserve-3d;pointer-events:none}
 .hero-film-depth i{position:absolute;inset:0;border:1px solid rgba(var(--signal-rgb),.13);border-radius:24% 5% 23% 7%;background:linear-gradient(135deg,rgba(210,233,238,.025),transparent,rgba(var(--signal-rgb),.035));transform:translateZ(var(--z))}
@@ -20,17 +21,16 @@ html[lang="ko"] .hero-interface h1{font-size:clamp(34px,3.8vw,46px);line-height:
 .hero-interface button:focus-visible,.welcome-section a:focus-visible{outline:2px solid #1e6482;outline-offset:5px}
 .hero-interface[data-motion="paused"] .hero-scene{will-change:auto}
 .rcard{scroll-margin-top:90px}
-@media(max-width:760px){
+@media(max-width:1024px){
   .hero-interface{padding:106px 0 30px}
-  .hero-copy{position:relative;inset:auto;margin-bottom:12px;text-align:center}
-  .hero-interface h1{max-width:100%;font-size:clamp(30px,5.8vw,42px);line-height:1.13}
-  .hero-interface h1 br:first-child{display:none}
-  html[lang="ko"] .hero-interface h1{font-size:clamp(29px,5.5vw,40px)}
-  html[lang="ko"] .hero-interface h1 br:first-child{display:block}
+  .hero-copy{position:relative;inset:auto}
+  .hero-figure{margin-top:-24px;padding-top:0}
+  .hero-description{max-width:650px;font-size:14px;line-height:1.75;margin-top:13px}
 }
+@media(max-width:480px){.hero-description{font-size:12px;line-height:1.8;margin-top:12px}.hero-figure{margin-top:0}}
 @media(prefers-reduced-motion:reduce){.hero-scene{will-change:auto}}
 @supports not (aspect-ratio:1){.hero-stage{padding-top:66.667%}}
-html[data-theme="dark"] .hero-interface{background:#050b14;color:#e7f0f6}
+html[data-theme="dark"] .hero-scene{background:var(--substrate)}
 html[data-theme="dark"] .hero-art-light{display:none}
 html[data-theme="dark"] .hero-art-dark{display:block}
 html[data-theme="dark"] .hero-interface h1 span{color:#96d5e7}
@@ -38,7 +38,7 @@ html[data-theme="dark"] .hero-motion{background:#0d1b2bd9;border-color:#2d4359;c
 html[data-theme="dark"] .hero-interface button:focus-visible,html[data-theme="dark"] .welcome-section a:focus-visible{outline-color:#a4dce8}
 
 /* The research vision leads into the people who will build it. */
-.welcome-section{background:#f4f7f6;color:#173440;padding:86px 0 92px;scroll-margin-top:66px}
+.welcome-section{background:var(--substrate);color:#173440;padding:86px 0 92px;scroll-margin-top:66px}
 .welcome-topline{display:flex;align-items:center;justify-content:space-between;gap:25px;padding-bottom:23px;border-bottom:1px solid #d6e1df;margin-bottom:46px;color:#51716f;font:500 11px/1.6 var(--font-mono);letter-spacing:.11em;text-transform:uppercase}
 .welcome-topline .welcome-plus{color:#467f83;font-size:25px;line-height:1}
 .welcome-grid{display:grid;grid-template-columns:1.04fr 1fr;gap:70px;align-items:center}
@@ -68,7 +68,7 @@ html[lang="ko"] .welcome-copy h2{line-height:1.24;word-break:keep-all;font-weigh
 @media(max-width:900px){.welcome-section{padding:58px 0 65px}.welcome-grid{gap:32px}.welcome-copy h2{font-size:30px}.welcome-copy>p{font-size:14px;margin-top:18px}.welcome-topline{margin-bottom:32px}.welcome-photo figcaption{flex-direction:column;gap:5px}.welcome-fields{margin:17px 0 22px}}
 @media(max-width:620px){.welcome-grid{grid-template-columns:1fr;gap:34px}.welcome-topline{font-size:10px;margin-bottom:27px}.welcome-copy{grid-row:1}.welcome-copy h2{font-size:36px}.welcome-copy>p{font-size:15px}.welcome-photo figcaption{flex-direction:row;gap:12px}.welcome-label{margin-bottom:17px}.welcome-fields{margin-bottom:25px}.welcome-photo img{border-radius:5px 28px 5px 5px}.welcome-copy{grid-column:1}.welcome-photo{grid-row:2}}
 @media(max-width:360px){.welcome-copy h2{font-size:31px}.welcome-photo figcaption{font-size:11px}}
-html[data-theme="dark"] .welcome-section{background:#0e1b26;color:#e4eeee}
+html[data-theme="dark"] .welcome-section{background:var(--substrate);color:#e4eeee}
 html[data-theme="dark"] .welcome-topline{border-color:#2a4048;color:#a3bbb9}
 html[data-theme="dark"] .welcome-topline .welcome-plus{color:#99c2c6}
 html[data-theme="dark"] .welcome-label{color:#a3cdc7}
