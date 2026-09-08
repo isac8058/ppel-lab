@@ -19,7 +19,11 @@
     const ko = document.documentElement.lang === 'ko';
     motion.querySelector('.hero-motion-label').textContent = paused ? (ko ? '모션 켜기' : 'Enable motion') : (ko ? '모션 멈춤' : 'Pause motion');
     motion.querySelector('.hero-motion-icon').textContent = paused ? '▷' : 'Ⅱ';
-    hero.querySelector('.hero-art').alt = ko ? '사람의 손과 로봇의 손이 유연한 인쇄전자막을 사이에 두고 마주하는 이미지. AI 생성 연구 콘셉트이며 실험 사진이 아닙니다.' : 'Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph.';
+    const teamPhoto=document.querySelector('.welcome-photo img');
+    if(teamPhoto)teamPhoto.alt=ko?'식사를 함께하는 PPEL 연구팀':'PPEL research team sharing a meal';
+    const fields=document.querySelector('.welcome-fields');
+    if(fields)fields.setAttribute('aria-label',ko?'연구 관심 분야':'Research interests');
+    hero.querySelectorAll('.hero-art').forEach(art => { art.alt = ko ? '사람의 손과 로봇의 손이 유연한 인쇄전자막을 사이에 두고 마주하는 이미지. AI 생성 연구 콘셉트이며 실험 사진이 아닙니다.' : 'Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph.'; });
   }
   function paint() {
     if (!ctx || !width || !height) return;
