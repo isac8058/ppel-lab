@@ -18,7 +18,6 @@
     const ko = document.documentElement.lang === 'ko';
     const motionLabel = paused ? (ko ? '모션 켜기' : 'Enable motion') : (ko ? '모션 멈춤' : 'Pause motion');
     motion.setAttribute('aria-label', motionLabel);
-    motion.title = motionLabel;
     motion.querySelector('.hero-motion-icon').textContent = paused ? '▷' : 'Ⅱ';
     const teamPhoto=document.querySelector('.welcome-photo img');
     if(teamPhoto)teamPhoto.alt=ko?'식사를 함께하는 PPEL 연구팀':'PPEL research team sharing a meal';
