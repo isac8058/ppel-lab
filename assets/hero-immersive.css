@@ -7,6 +7,8 @@
 html[lang="ko"] .hero-interface h1{font-size:clamp(18px,5.7vw,46px);line-height:1.23;letter-spacing:-.045em}
 .hero-description{max-width:760px;margin:15px auto 0;color:var(--ink-soft);font-size:15px;line-height:1.8;text-wrap:balance;word-break:keep-all}
 .hero-figure{position:relative;margin:0;padding-top:30px;overflow:hidden}
+/* Dissolve the cropped edges into the current theme, keeping the center crisp. */
+.hero-figure::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,var(--substrate),transparent 9%,transparent 91%,var(--substrate)),linear-gradient(0deg,var(--substrate),transparent 12%)}
 /* Trim only the artwork's empty lower 8%; keep the source image and its scale. */
 .hero-stage{position:relative;width:100%;aspect-ratio:3/2;margin-bottom:-5.333333%;perspective:1200px;isolation:isolate;touch-action:pan-y pinch-zoom}
 .hero-scene{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
