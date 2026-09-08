@@ -611,18 +611,18 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 @media(prefers-reduced-motion:reduce){.film-start img{transition:none}}
 @media(max-width:600px){.film-title{font-size:21px}.film-caption{font-size:10px}.film-play{width:43px;height:43px;left:17px;top:17px}.film-badge{top:20px;right:15px}.film-title{left:18px;bottom:18px}}
 </style>
-<link rel="stylesheet" href="assets/hero-immersive.css?v=20260908-3" />
+<link rel="stylesheet" href="assets/hero-immersive.css?v=20260908-4" />
 <script>
 (()=>{
   const prefix=document.documentElement.dataset.theme==='dark'?'image/hero-human-robot-dark-v1':'image/hero-human-robot-v2';
   const preload=document.createElement('link');
   preload.rel='preload';preload.as='image';preload.href=prefix+'-1536.webp';preload.fetchPriority='high';
   preload.imageSrcset=prefix+'-768.webp 768w, '+prefix+'-1536.webp 1536w';
-  preload.imageSizes='(max-width:620px) 132vw, (max-width:900px) 115vw, (max-width:1180px) 1180px, 100vw';
+  preload.imageSizes='(max-width:600px) calc(100vw - 40px), (max-width:1180px) calc(100vw - 56px), 1124px';
   document.head.append(preload);
 })();
 </script>
-<script src="assets/hero-interface.js?v=20260908-3" defer></script>
+<script src="assets/hero-interface.js?v=20260908-4" defer></script>
 </head>
 <body>
 
@@ -656,43 +656,22 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <section class="hero hero-interface" id="home" aria-labelledby="hero-heading">
   <div class="wrap hero-layout">
     <div class="hero-copy">
-      <p class="hero-kicker" data-en="PPEL+ · Jeonbuk National University" data-ko="PPEL+ · 전북대학교 인쇄전자 연구실">PPEL+ · Jeonbuk National University</p>
-      <h1 id="hero-heading" data-en="Printing the<br> <span>human–robot</span><br> connection." data-ko="사람과 로봇을<br><span>잇는 인쇄전자.</span>">Printing the<br> <span>human–robot</span><br> connection.</h1>
-      <p class="hero-sub" data-en="Sensing human signals. Storing information. Supplying energy. We study materials and devices for the interfaces that connect people and robots." data-ko="사람의 신호를 읽고, 정보를 담고, 에너지를 공급하는 소재와 소자. PPEL은 이 기술로 사람과 로봇을 연결할 인터페이스를 연구합니다.">Sensing human signals. Storing information. Supplying energy. We study materials and devices for the interfaces that connect people and robots.</p>
-      <div class="hero-cta">
-        <a href="#research" class="btn btn-primary"><span data-en="Explore our research" data-ko="연구 살펴보기">Explore our research</span><span aria-hidden="true">↗</span></a>
-        <a href="#members" class="hero-team-link" data-en="Meet the team" data-ko="연구팀 소개">Meet the team</a>
-      </div>
+      <h1 id="hero-heading" data-en="Printing the <span>human–robot</span> connection." data-ko="사람과 로봇을 <span>잇는 인쇄전자.</span>">Printing the <span>human–robot</span> connection.</h1>
+      <p class="hero-description" data-en="We print materials that sense touch, store information, and supply energy — building the foundations of flexible interfaces between people and robots." data-ko="접촉을 감지하고, 정보를 저장하고, 에너지를 공급하는 인쇄 소재와 소자를 연구합니다. 사람과 로봇을 잇는 유연한 인터페이스의 기반을 만듭니다.">We print materials that sense touch, store information, and supply energy — building the foundations of flexible interfaces between people and robots.</p>
     </div>
     <figure class="hero-figure">
-      <div class="hero-map" aria-hidden="true"><span class="human" data-en="Human" data-ko="사람">Human</span><span class="interface" data-en="PPEL · Interface concept" data-ko="PPEL · 인터페이스 콘셉트">PPEL · Interface concept</span><span class="robot" data-en="Robot" data-ko="로봇">Robot</span></div>
       <div class="hero-stage">
         <div class="hero-scene">
-          <img class="hero-art hero-art-light" src="image/hero-human-robot-v2-1536.webp" srcset="image/hero-human-robot-v2-768.webp 768w, image/hero-human-robot-v2-1536.webp 1536w" sizes="(max-width:620px) 132vw, (max-width:900px) 115vw, (max-width:1180px) 1180px, 100vw" width="1536" height="1024" fetchpriority="auto" alt="Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph." />
-          <img class="hero-art hero-art-dark" src="image/hero-human-robot-dark-v1-1536.webp" srcset="image/hero-human-robot-dark-v1-768.webp 768w, image/hero-human-robot-dark-v1-1536.webp 1536w" sizes="(max-width:620px) 132vw, (max-width:900px) 115vw, (max-width:1180px) 1180px, 100vw" width="1536" height="1024" fetchpriority="auto" alt="Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph." />
+          <img class="hero-art hero-art-light" src="image/hero-human-robot-v2-1536.webp" srcset="image/hero-human-robot-v2-768.webp 768w, image/hero-human-robot-v2-1536.webp 1536w" sizes="(max-width:600px) calc(100vw - 40px), (max-width:1180px) calc(100vw - 56px), 1124px" width="1536" height="1024" fetchpriority="auto" alt="Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph." />
+          <img class="hero-art hero-art-dark" src="image/hero-human-robot-dark-v1-1536.webp" srcset="image/hero-human-robot-dark-v1-768.webp 768w, image/hero-human-robot-dark-v1-1536.webp 1536w" sizes="(max-width:600px) calc(100vw - 40px), (max-width:1180px) calc(100vw - 56px), 1124px" width="1536" height="1024" fetchpriority="auto" alt="Human and robotic hands meeting across a flexible printed electronic film. AI-generated research concept, not an experimental photograph." />
           <div class="hero-film-depth" aria-hidden="true"><i></i><i></i><i></i></div>
           <canvas class="hero-signals" aria-hidden="true"></canvas>
         </div>
       </div>
       <div class="hero-figure-foot">
-        <button class="hero-motion" type="button" hidden><span class="hero-motion-icon" aria-hidden="true">Ⅱ</span><span class="hero-motion-label">Pause motion</span></button>
+        <button class="hero-motion" type="button" aria-label="Pause motion" hidden><span class="hero-motion-icon" aria-hidden="true">Ⅱ</span></button>
       </div>
-      <figcaption data-en="Research vision · AI-generated concept" data-ko="연구 비전 · AI 생성 콘셉트">Research vision · AI-generated concept</figcaption>
     </figure>
-  </div>
-  <div class="wrap">
-    <div class="hero-explore">
-      <div class="hero-selectors" role="group" aria-label="Interface research / 인터페이스 연구">
-        <button class="hero-mode" type="button" aria-pressed="true" aria-controls="hero-sense"><span class="mode-number" aria-hidden="true">01</span><span data-en="Sense" data-ko="신호 감지">Sense</span></button>
-        <button class="hero-mode" type="button" aria-pressed="false" aria-controls="hero-memory"><span class="mode-number" aria-hidden="true">02</span><span data-en="Store" data-ko="정보 저장">Store</span></button>
-        <button class="hero-mode" type="button" aria-pressed="false" aria-controls="hero-energy"><span class="mode-number" aria-hidden="true">03</span><span data-en="Power" data-ko="에너지 공급">Power</span></button>
-      </div>
-      <div class="hero-panels" aria-live="polite" aria-atomic="true">
-        <div class="hero-panel" id="hero-sense"><strong data-en="Start with a human signal." data-ko="연결의 시작은 사람의 신호입니다.">Start with a human signal.</strong><p data-en="Research into materials and sensors for movement, touch and biological signals." data-ko="움직임과 접촉, 생체 신호를 읽는 소재와 센서를 연구합니다.">Research into materials and sensors for movement, touch and biological signals.</p><a href="#research-ai-paper" data-en="Motion sensing ↗" data-ko="동작 센싱 ↗">Motion sensing ↗</a><a href="#research-biosensor" data-en="Biosensing ↗" data-ko="바이오센싱 ↗">Biosensing ↗</a></div>
-        <div class="hero-panel" id="hero-memory" hidden><strong data-en="A material can hold information." data-ko="정보를 담는 소재를 탐구합니다.">A material can hold information.</strong><p data-en="Exploring carbon materials and resistive switching through our memory research review." data-ko="탄소 소재와 저항 변화 기반 메모리의 가능성을 리뷰 연구로 살펴봅니다.">Exploring carbon materials and resistive switching through our memory research review.</p><a href="#research-memory" data-en="Memory review ↗" data-ko="메모리 리뷰 연구 ↗">Memory review ↗</a></div>
-        <div class="hero-panel" id="hero-energy" hidden><strong data-en="Energy for flexible interfaces." data-ko="유연한 연결을 위한 에너지입니다.">Energy for flexible interfaces.</strong><p data-en="Studying flexible energy storage and harvesting energy from movement and contact." data-ko="유연한 에너지 저장 소자와 움직임·접촉에서 에너지를 얻는 기술을 연구합니다.">Studying flexible energy storage and harvesting energy from movement and contact.</p><a href="#research-energy-storage" data-en="Energy storage ↗" data-ko="에너지 저장 ↗">Energy storage ↗</a><a href="#research-cherry-blossom" data-en="Energy harvesting ↗" data-ko="에너지 하베스팅 ↗">Energy harvesting ↗</a></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1328,7 +1307,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.08-3</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.08-4</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>

@@ -11,13 +11,13 @@
   const motion = hero.querySelector('.hero-motion');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(pointer: fine)');
-  const modes = [...hero.querySelectorAll('.hero-mode')];
-  const colors = [[40,125,149], [121,103,159], [151,116,55]];
-  let selected = 0, paused = reduced.matches, visible = false, frame = 0;
+  const color = [40,125,149];
+  let paused = reduced.matches, visible = false, frame = 0;
   let width = 0, height = 0, elapsed = 0, last = 0, x = 0, y = 0, tx = 0, ty = 0;
   function labels() {
     const ko = document.documentElement.lang === 'ko';
-    motion.querySelector('.hero-motion-label').textContent = paused ? (ko ? '모션 켜기' : 'Enable motion') : (ko ? '모션 멈춤' : 'Pause motion');
+    const motionLabel = paused ? (ko ? '모션 켜기' : 'Enable motion') : (ko ? '모션 멈춤' : 'Pause motion');
+    motion.setAttribute('aria-label', motionLabel);
     motion.querySelector('.hero-motion-icon').textContent = paused ? '▷' : 'Ⅱ';
     const teamPhoto=document.querySelector('.welcome-photo img');
     if(teamPhoto)teamPhoto.alt=ko?'식사를 함께하는 PPEL 연구팀':'PPEL research team sharing a meal';
@@ -28,7 +28,7 @@
   function paint() {
     if (!ctx || !width || !height) return;
     ctx.clearRect(0, 0, width, height);
-    const c = colors[selected];
+    const c = color;
     // Small depth-projected signals remain close to the painted interface.
     for (let i = 0; i < 42; i++) {
       const u = (i / 42 + elapsed * 0.000038) % 1;
@@ -66,13 +66,6 @@
     if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     paint();
   }
-  modes.forEach((button, index) => button.addEventListener('click', () => {
-    selected = index;
-    modes.forEach((item, i) => item.setAttribute('aria-pressed', String(i === index)));
-    hero.querySelectorAll('.hero-panel').forEach((panel, i) => { panel.hidden = i !== index; });
-    hero.style.setProperty('--signal-rgb', colors[index].join(','));
-    paint();
-  }));
   stage.addEventListener('pointermove', event => {
     if (paused || !fine.matches || event.pointerType === 'touch') return;
     const r = stage.getBoundingClientRect();
