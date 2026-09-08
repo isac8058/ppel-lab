@@ -82,3 +82,4 @@ html[data-theme="dark"] .welcome-contact .btn{background:#b1d5cb;color:#163d3e}
 html[data-theme="dark"] .welcome-contact .btn:hover{background:#c5e5dc}
 html[data-theme="dark"] .welcome-photo figcaption{color:#b2c5c6}
 html[data-theme="dark"] :is(.welcome-email,.welcome-photo figcaption a){color:#a7d1d4}
+
