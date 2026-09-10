@@ -73,7 +73,7 @@ try{
     const footerLink=page.locator('footer a[href="#equipment"]');
     assert.equal(await footerLink.textContent(),'장비');assert.equal(await footerLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#members');
     await footerLink.click();await page.waitForFunction(()=>Math.abs(document.getElementById('equipment').getBoundingClientRect().top-80)<5);
-    assert((await page.locator('footer').textContent()).includes('v2026.09.11-2'));
+    assert((await page.locator('footer').textContent()).includes('v2026.09.11-3'));
     const result={width,theme,reducedMotion,languages:['en','ko'],names:36,categories:6,imageReferences:0,photoRequests,errors,failed,httpErrors,passed:!errors.length&&!failed.length&&!httpErrors.length&&!photoRequests.length};
     results.push(result);console.log(JSON.stringify(result));await writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));await context.close();
   }
