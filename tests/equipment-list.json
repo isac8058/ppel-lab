@@ -1,0 +1,182 @@
+[
+ {
+  "no": 1,
+  "name_en": "Electrochemical workstation (potentiostat/galvanostat)",
+  "name_ko": "전기화학 워크스테이션 (정전위기/정전류기)"
+ },
+ {
+  "no": 2,
+  "name_en": "Electrochemical impedance spectroscopy (EIS) analyzer",
+  "name_ko": "전기화학 임피던스 분광(EIS) 분석기"
+ },
+ {
+  "no": 3,
+  "name_en": "Digital storage oscilloscope",
+  "name_ko": "디지털 저장 오실로스코프"
+ },
+ {
+  "no": 4,
+  "name_en": "Source Measure Unit (SMU)",
+  "name_ko": "소스 측정 장치 (SMU)"
+ },
+ {
+  "no": 5,
+  "name_en": "Impedance analyzer",
+  "name_ko": "임피던스 분석기"
+ },
+ {
+  "no": 6,
+  "name_en": "Piezoelectric d33 meter",
+  "name_ko": "압전 d33 측정기"
+ },
+ {
+  "no": 7,
+  "name_en": "Contact angle analyzer",
+  "name_ko": "접촉각 분석기"
+ },
+ {
+  "no": 8,
+  "name_en": "Motorized linear / reciprocating motion stage",
+  "name_ko": "전동 직선 / 왕복 운동 스테이지"
+ },
+ {
+  "no": 9,
+  "name_en": "Motorized cyclic compression testing setup",
+  "name_ko": "전동 반복 압축 시험 장치"
+ },
+ {
+  "no": 10,
+  "name_en": "Rotational viscometer / rheology measurement system",
+  "name_ko": "회전형 점도계 / 유변 물성 측정 시스템"
+ },
+ {
+  "no": 11,
+  "name_en": "Universal testing machine / tensile tester",
+  "name_ko": "만능 재료 시험기 / 인장 시험기"
+ },
+ {
+  "no": 12,
+  "name_en": "Laboratory screen-printing machine",
+  "name_ko": "실험실용 스크린 인쇄기"
+ },
+ {
+  "no": 13,
+  "name_en": "DLP 3D printer (polymer resin)",
+  "name_ko": "DLP 3D 프린터 (폴리머 레진)"
+ },
+ {
+  "no": 14,
+  "name_en": "DLP 3D printer (ceramic resin)",
+  "name_ko": "DLP 3D 프린터 (세라믹 레진)"
+ },
+ {
+  "no": 15,
+  "name_en": "DIW printer",
+  "name_ko": "DIW 프린터"
+ },
+ {
+  "no": 16,
+  "name_en": "Film coating machine",
+  "name_ko": "필름 코팅기"
+ },
+ {
+  "no": 17,
+  "name_en": "Laboratory gravure / roll-printing machine",
+  "name_ko": "실험실용 그라비어 / 롤 인쇄기"
+ },
+ {
+  "no": 18,
+  "name_en": "FDM 3D printer",
+  "name_ko": "FDM 3D 프린터"
+ },
+ {
+  "no": 19,
+  "name_en": "Optical microscope with digital camera",
+  "name_ko": "디지털 카메라 장착 광학 현미경"
+ },
+ {
+  "no": 20,
+  "name_en": "Semiconductor probe station with optical microscope",
+  "name_ko": "광학 현미경 장착 반도체 프로브 스테이션"
+ },
+ {
+  "no": 21,
+  "name_en": "Vacuum drying oven",
+  "name_ko": "진공 건조 오븐"
+ },
+ {
+  "no": 22,
+  "name_en": "Large vacuum oven",
+  "name_ko": "대형 진공 오븐"
+ },
+ {
+  "no": 23,
+  "name_en": "Vacuum drying oven",
+  "name_ko": "진공 건조 오븐"
+ },
+ {
+  "no": 24,
+  "name_en": "Hot-air drying oven",
+  "name_ko": "열풍 건조 오븐"
+ },
+ {
+  "no": 25,
+  "name_en": "Bench top Furnace",
+  "name_ko": "탁상형 전기로"
+ },
+ {
+  "no": 26,
+  "name_en": "Laboratory centrifuge",
+  "name_ko": "실험실용 원심분리기"
+ },
+ {
+  "no": 27,
+  "name_en": "Refrigerated laboratory centrifuge",
+  "name_ko": "냉장 원심분리기"
+ },
+ {
+  "no": 28,
+  "name_en": "Analytical balance",
+  "name_ko": "분석용 저울"
+ },
+ {
+  "no": 29,
+  "name_en": "Electrospinning apparatus with syringe pump",
+  "name_ko": "시린지 펌프 장착 전기방사 장치"
+ },
+ {
+  "no": 30,
+  "name_en": "Analytical / micro balance",
+  "name_ko": "분석용 / 미량 저울"
+ },
+ {
+  "no": 31,
+  "name_en": "Planetary centrifugal mixer",
+  "name_ko": "유성 원심 혼합기"
+ },
+ {
+  "no": 32,
+  "name_en": "Ultrasonic bath",
+  "name_ko": "초음파 수조"
+ },
+ {
+  "no": 33,
+  "name_en": "Ultrasonic Probe sonicator",
+  "name_ko": "프로브형 초음파 분산기"
+ },
+ {
+  "no": 34,
+  "name_en": "Six-position hot-plate magnetic stirrer",
+  "name_ko": "6구 가열판 자력 교반기"
+ },
+ {
+  "no": 35,
+  "name_en": "Vortex mixer",
+  "name_ko": "볼텍스 혼합기"
+ },
+ {
+  "no": 36,
+  "name_en": "Hot-plate magnetic stirrer",
+  "name_ko": "가열판 자력 교반기"
+ }
+]
