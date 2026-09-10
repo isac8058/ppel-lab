@@ -11,9 +11,9 @@ const out=path.resolve(process.env.EQUIPMENT_TEST_OUT||path.join(root,'.equipmen
 assert(out.startsWith(root+path.sep));
 const manifestPath=process.env.EQUIPMENT_MANIFEST||path.join(root,'tests/equipment-list.json');
 const manifest=JSON.parse((await readFile(manifestPath,'utf8')).replace(/^\uFEFF/,''));
-assert.equal(manifest.length,36);
+assert.equal(manifest.length,35);
 const expected=manifest.map(({no,name_en})=>({no,name_en})).sort((a,b)=>a.no-b.no);
-const categories=[[1,2,3,4,5,6],[7,8,9,10,11],[12,13,14,15,16,17,18],[19,20],[21,22,23,24,25],[26,27,28,29,30,31,32,33,34,35,36]];
+const categories=[[1,2,3,4,5,6],[7,8,9,10,11],[12,13,14,15,16,17,18],[19,20],[21,22,23,24],[25,26,27,28,29,30,31,32,33,34,35]];
 const markup=await readFile(path.join(root,'index.html'),'utf8');
 assert(!/image\/equipment\/|equipment-photo|equipment-lightbox/.test(markup),'Photo/lightbox code remains');
 await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
@@ -45,9 +45,9 @@ try{
     await page.goto(url,{waitUntil:'load',timeout:30000});
     assert.equal(await page.locator('html').getAttribute('data-theme'),theme);
     assert.equal(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),reducedMotion==='reduce');
-    assert.equal(await page.locator('.equipment-group').count(),6);assert.equal(await page.locator('.equipment-item').count(),36);
+    assert.equal(await page.locator('.equipment-group').count(),6);assert.equal(await page.locator('.equipment-item').count(),35);
     const rows=await page.locator('.equipment-item').evaluateAll(els=>els.map(el=>({no:Number(el.dataset.equipmentNo),name_en:el.querySelector('.equipment-en').textContent})));
-    assert.deepEqual(rows.sort((a,b)=>a.no-b.no),expected,'36 names must exactly match tests/equipment-list.json');
+    assert.deepEqual(rows.sort((a,b)=>a.no-b.no),expected,'35 names must exactly match tests/equipment-list.json');
     assert.deepEqual(await page.locator('.equipment-group').evaluateAll(gs=>gs.map(g=>[...g.querySelectorAll('.equipment-item')].map(el=>Number(el.dataset.equipmentNo)))),categories);
     assert.equal(await page.locator('#equipment img,#equipment picture,#equipment video,#equipment source,#equipment canvas,#equipment svg,#equipment [src],#equipment [srcset]').count(),0);
     assert.equal(await page.locator('#equipment').evaluate(el=>[el,...el.querySelectorAll('*')].filter(e=>[getComputedStyle(e),getComputedStyle(e,'::before'),getComputedStyle(e,'::after')].some(s=>s.backgroundImage!=='none')).length),0);
@@ -61,7 +61,7 @@ try{
       assert.equal(await page.locator('#equipment-heading').textContent(),language==='ko'?'장비':'Equipment');
       assert.equal(await topLink.textContent(),language==='ko'?'장비':'Equipment');
       assert(await page.locator('.equipment-group h3').evaluateAll(els=>els.every(el=>el.textContent===el.dataset[document.documentElement.lang])));
-      assert.equal(await page.locator('.equipment-ko').evaluateAll(els=>els.filter(el=>el.textContent.trim()&&el.lang==='ko').length),36);
+      assert.equal(await page.locator('.equipment-ko').evaluateAll(els=>els.filter(el=>el.textContent.trim()&&el.lang==='ko').length),35);
       const layout=await page.locator('#equipment').evaluate(section=>({opacity:getComputedStyle(section).opacity,
         hidden:[section,...section.querySelectorAll('.equipment-group,.equipment-item,.equipment-en,.equipment-ko')].some(el=>getComputedStyle(el).display==='none'||getComputedStyle(el).visibility==='hidden'||Number(getComputedStyle(el).opacity)===0),
         overflow:[section,...section.querySelectorAll('*')].some(el=>{const r=el.getBoundingClientRect();return r.left<0||r.right>innerWidth+.5||el.scrollWidth>el.clientWidth+1;}),
@@ -73,8 +73,8 @@ try{
     const footerLink=page.locator('footer a[href="#equipment"]');
     assert.equal(await footerLink.textContent(),'장비');assert.equal(await footerLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#members');
     await footerLink.click();await page.waitForFunction(()=>Math.abs(document.getElementById('equipment').getBoundingClientRect().top-80)<5);
-    assert((await page.locator('footer').textContent()).includes('v2026.09.11-2'));
-    const result={width,theme,reducedMotion,languages:['en','ko'],names:36,categories:6,imageReferences:0,photoRequests,errors,failed,httpErrors,passed:!errors.length&&!failed.length&&!httpErrors.length&&!photoRequests.length};
+    assert((await page.locator('footer').textContent()).includes('v2026.09.11-3'));
+    const result={width,theme,reducedMotion,languages:['en','ko'],names:35,categories:6,imageReferences:0,photoRequests,errors,failed,httpErrors,passed:!errors.length&&!failed.length&&!httpErrors.length&&!photoRequests.length};
     results.push(result);console.log(JSON.stringify(result));await writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));await context.close();
   }
 }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}
