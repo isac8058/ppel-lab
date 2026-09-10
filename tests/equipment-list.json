@@ -111,71 +111,66 @@
  },
  {
   "no": 23,
-  "name_en": "Vacuum drying oven",
-  "name_ko": "진공 건조 오븐"
- },
- {
-  "no": 24,
   "name_en": "Hot-air drying oven",
   "name_ko": "열풍 건조 오븐"
  },
  {
-  "no": 25,
+  "no": 24,
   "name_en": "Bench top Furnace",
   "name_ko": "탁상형 전기로"
  },
  {
-  "no": 26,
+  "no": 25,
   "name_en": "Laboratory centrifuge",
   "name_ko": "실험실용 원심분리기"
  },
  {
-  "no": 27,
+  "no": 26,
   "name_en": "Refrigerated laboratory centrifuge",
   "name_ko": "냉장 원심분리기"
  },
  {
-  "no": 28,
+  "no": 27,
   "name_en": "Analytical balance",
   "name_ko": "분석용 저울"
  },
  {
-  "no": 29,
+  "no": 28,
   "name_en": "Electrospinning apparatus with syringe pump",
   "name_ko": "시린지 펌프 장착 전기방사 장치"
  },
  {
-  "no": 30,
+  "no": 29,
   "name_en": "Analytical / micro balance",
   "name_ko": "분석용 / 미량 저울"
  },
  {
-  "no": 31,
+  "no": 30,
   "name_en": "Planetary centrifugal mixer",
   "name_ko": "유성 원심 혼합기"
  },
  {
-  "no": 32,
+  "no": 31,
   "name_en": "Ultrasonic bath",
   "name_ko": "초음파 수조"
  },
  {
-  "no": 33,
+  "no": 32,
   "name_en": "Ultrasonic Probe sonicator",
   "name_ko": "프로브형 초음파 분산기"
  },
  {
-  "no": 34,
+  "no": 33,
   "name_en": "Six-position hot-plate magnetic stirrer",
   "name_ko": "6구 가열판 자력 교반기"
  },
  {
-  "no": 35,
+  "no": 34,
   "name_en": "Vortex mixer",
   "name_ko": "볼텍스 혼합기"
  },
  {
-  "no": 36,
+  "no": 35,
   "name_en": "Hot-plate magnetic stirrer",
   "name_ko": "가열판 자력 교반기"
  }
