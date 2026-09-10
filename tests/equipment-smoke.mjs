@@ -9,11 +9,11 @@ const require=createRequire(import.meta.url);
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const out=path.resolve(process.env.EQUIPMENT_TEST_OUT||path.join(root,'.equipment-work/browser-list'));
 assert(out.startsWith(root+path.sep));
-const manifestPath=process.env.EQUIPMENT_MANIFEST||path.join(root,'../ppel-lab-equipment-input/manifest.json');
+const manifestPath=process.env.EQUIPMENT_MANIFEST||path.join(root,'tests/equipment-list.json');
 const manifest=JSON.parse((await readFile(manifestPath,'utf8')).replace(/^\uFEFF/,''));
 assert.equal(manifest.length,36);
 const expected=manifest.map(({no,name_en})=>({no,name_en})).sort((a,b)=>a.no-b.no);
-const categories=[[1,2,23,26,27,28],[4,22,24,29,30],[11,12,17,25,32,33,34],[5,31],[7,8,9,10,15],[3,6,13,14,16,18,19,20,21,35,36]];
+const categories=[[1,2,3,4,5,6],[7,8,9,10,11],[12,13,14,15,16,17,18],[19,20],[21,22,23,24,25],[26,27,28,29,30,31,32,33,34,35,36]];
 const markup=await readFile(path.join(root,'index.html'),'utf8');
 assert(!/image\/equipment\/|equipment-photo|equipment-lightbox/.test(markup),'Photo/lightbox code remains');
 await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
@@ -47,7 +47,7 @@ try{
     assert.equal(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),reducedMotion==='reduce');
     assert.equal(await page.locator('.equipment-group').count(),6);assert.equal(await page.locator('.equipment-item').count(),36);
     const rows=await page.locator('.equipment-item').evaluateAll(els=>els.map(el=>({no:Number(el.dataset.equipmentNo),name_en:el.querySelector('.equipment-en').textContent})));
-    assert.deepEqual(rows.sort((a,b)=>a.no-b.no),expected,'36 names must exactly match manifest, including duplicates');
+    assert.deepEqual(rows.sort((a,b)=>a.no-b.no),expected,'36 names must exactly match tests/equipment-list.json');
     assert.deepEqual(await page.locator('.equipment-group').evaluateAll(gs=>gs.map(g=>[...g.querySelectorAll('.equipment-item')].map(el=>Number(el.dataset.equipmentNo)))),categories);
     assert.equal(await page.locator('#equipment img,#equipment picture,#equipment video,#equipment source,#equipment canvas,#equipment svg,#equipment [src],#equipment [srcset]').count(),0);
     assert.equal(await page.locator('#equipment').evaluate(el=>[el,...el.querySelectorAll('*')].filter(e=>[getComputedStyle(e),getComputedStyle(e,'::before'),getComputedStyle(e,'::after')].some(s=>s.backgroundImage!=='none')).length),0);
@@ -73,7 +73,7 @@ try{
     const footerLink=page.locator('footer a[href="#equipment"]');
     assert.equal(await footerLink.textContent(),'장비');assert.equal(await footerLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#members');
     await footerLink.click();await page.waitForFunction(()=>Math.abs(document.getElementById('equipment').getBoundingClientRect().top-80)<5);
-    assert((await page.locator('footer').textContent()).includes('v2026.09.11-1'));
+    assert((await page.locator('footer').textContent()).includes('v2026.09.11-2'));
     const result={width,theme,reducedMotion,languages:['en','ko'],names:36,categories:6,imageReferences:0,photoRequests,errors,failed,httpErrors,passed:!errors.length&&!failed.length&&!httpErrors.length&&!photoRequests.length};
     results.push(result);console.log(JSON.stringify(result));await writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));await context.close();
   }
