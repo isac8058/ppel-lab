@@ -13,7 +13,7 @@ const manifestPath=process.env.EQUIPMENT_MANIFEST||path.join(root,'../ppel-lab-e
 const manifest=JSON.parse((await readFile(manifestPath,'utf8')).replace(/^\uFEFF/,''));
 assert.equal(manifest.length,36);
 const expected=manifest.map(({no,name_en})=>({no,name_en})).sort((a,b)=>a.no-b.no);
-const categories=[[1,2,23,26,27,28],[4,22,24,29,30],[5,31],[11,12,17,25,32,33,34],[7,8,9,10,15],[3,6,13,14,16,18,19,20,21,35,36]];
+const categories=[[1,2,23,26,27,28],[4,22,24,29,30],[11,12,17,25,32,33,34],[5,31],[7,8,9,10,15],[3,6,13,14,16,18,19,20,21,35,36]];
 const markup=await readFile(path.join(root,'index.html'),'utf8');
 assert(!/image\/equipment\/|equipment-photo|equipment-lightbox/.test(markup),'Photo/lightbox code remains');
 await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
@@ -55,7 +55,7 @@ try{
     if(await page.locator('#burger').isVisible())await page.locator('#burger').click();
     await topLink.click();
     await page.waitForFunction(()=>location.hash==='#equipment'&&Math.abs(document.getElementById('equipment').getBoundingClientRect().top-80)<5);
-    assert.equal(await topLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#research');
+    assert.equal(await topLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#collaborations');
     for(const language of ['en','ko']){
       if(language==='ko')await page.locator('#langBtn').click();
       assert.equal(await page.locator('#equipment-heading').textContent(),language==='ko'?'장비':'Equipment');
@@ -71,9 +71,9 @@ try{
       if(width===1920&&theme==='light'&&reducedMotion==='reduce'&&language==='ko')await page.locator('#equipment').screenshot({path:path.join(out,'section-desktop-ko.png')});
     }
     const footerLink=page.locator('footer a[href="#equipment"]');
-    assert.equal(await footerLink.textContent(),'장비');assert.equal(await footerLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#research');
+    assert.equal(await footerLink.textContent(),'장비');assert.equal(await footerLink.evaluate(el=>el.previousElementSibling.getAttribute('href')),'#members');
     await footerLink.click();await page.waitForFunction(()=>Math.abs(document.getElementById('equipment').getBoundingClientRect().top-80)<5);
-    assert((await page.locator('footer').textContent()).includes('v2026.09.08-5'));
+    assert((await page.locator('footer').textContent()).includes('v2026.09.11-1'));
     const result={width,theme,reducedMotion,languages:['en','ko'],names:36,categories:6,imageReferences:0,photoRequests,errors,failed,httpErrors,passed:!errors.length&&!failed.length&&!httpErrors.length&&!photoRequests.length};
     results.push(result);console.log(JSON.stringify(result));await writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));await context.close();
   }
