@@ -1,2 +1,3 @@
 .video-work/
 CLAUDE_VIDEO_REVIEW*.json
+node_modules/
