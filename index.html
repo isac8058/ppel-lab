@@ -311,8 +311,8 @@ header.scrolled{border-bottom-color:var(--line)}
 /* =================== STATS strip =================== */
 .stats{padding:60px 0;background:var(--ink);color:var(--substrate);position:relative;overflow:hidden}
 .stats::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.10) 1px,transparent 1px);background-size:26px 26px;opacity:.6}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;position:relative;z-index:2;text-align:center}
-.stat .num{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,6vw,64px);letter-spacing:-.02em;background:linear-gradient(120deg,#fff,var(--hero-node));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;position:relative;z-index:2;text-align:center}
+.stat .num{font-family:var(--font-display);font-weight:700;font-size:clamp(34px,4.6vw,52px);letter-spacing:-.02em;background:linear-gradient(120deg,#fff,var(--hero-node));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .stat .lbl{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8597C2;margin-top:6px}
 
 /* =================== PUBLICATIONS =================== */
@@ -445,7 +445,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 @media (max-width:980px){
   .intro-grid{grid-template-columns:1fr}
   .research-grid,.pat-grid{grid-template-columns:1fr}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
   .prof-grid{grid-template-columns:1fr;gap:34px}
   .prof-photo{flex:none;min-height:0}
   .prof-photo img{height:auto;aspect-ratio:3/3.4}
@@ -980,11 +980,18 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           </div>
           <h4 data-en="🏆 Academic Achievements" data-ko="🏆 학술 성과">🏆 Academic Achievements</h4>
           <ul class="achv">
-            <li data-en="100+ publications in peer-reviewed journals" data-ko="동료 심사 저널 100편 이상 게재">100+ publications in peer-reviewed journals</li>
+            <li data-en="127 peer-reviewed journal papers published since 2016" data-ko="2016년 이후 동료 심사 저널 논문 127편 게재">127 peer-reviewed journal papers published since 2016</li>
             <li data-en="3,049+ citations with an h-index of 30 and i10-index of 78" data-ko="피인용 3,049회 이상, h-index 30 · i10-index 78">3,049+ citations with an h-index of 30 and i10-index of 78</li>
-            <li data-en="17 patents filed in the printed electronics field, 10 granted" data-ko="인쇄전자 분야 특허 17건 출원, 10건 등록">17 patents filed in the printed electronics field, 10 granted</li>
-            <li data-en="Selected for NRF Mid-Career Researcher Program (2024)" data-ko="NRF 중견연구자 지원사업 선정 (2024)">Selected for NRF Mid-Career Researcher Program (2024)</li>
+            <li data-en="17 patents filed with 10 granted, including 1 technology transfer to industry" data-ko="특허 17건 출원, 10건 등록, 기업 기술이전 1건">17 patents filed with 10 granted, including 1 technology transfer to industry</li>
+            <li data-en="27 research projects funded by government agencies and industry (2016–2026)" data-ko="정부·산업체 지원 연구과제 27건 수행 (2016–2026)">27 research projects funded by government agencies and industry (2016–2026)</li>
+            <li data-en="5 books and book chapters" data-ko="저서·북챕터 5권">5 books and book chapters</li>
           </ul>
+          <h4 data-en="🤝 Professional Service" data-ko="🤝 대외 활동">🤝 Professional Service</h4>
+          <div class="chips">
+            <span class="chip" data-en="Journal Peer Review" data-ko="국제 저널 논문 심사">Journal Peer Review</span>
+            <span class="chip" data-en="Government R&amp;D Committees" data-ko="정부 연구개발 위원회">Government R&amp;D Committees</span>
+            <span class="chip" data-en="Academic Society Officer" data-ko="학회 임원">Academic Society Officer</span>
+          </div>
         </div>
 
         <!-- education -->
@@ -1041,10 +1048,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <p style="color:var(--ink-soft);font-size:15px" data-en="Our research connects materials science and printed electronics with the wider vision of human–robot interaction. We study flexible sensing, biosensors, information storage and energy devices, alongside AI-assisted analysis and printing processes. These individual research directions inform the interfaces that may connect people and machines." data-ko="본 연구실은 사람과 로봇의 상호작용이라는 비전 아래 소재과학과 인쇄전자를 연결합니다. 유연 센싱, 바이오센서, 정보 저장, 에너지 소자와 함께 AI 기반 분석 및 인쇄 공정을 연구합니다. 각 연구에서 얻은 지식을 사람과 기계를 잇는 인터페이스로 확장하고자 합니다.">Our research connects materials science and printed electronics with the wider vision of human–robot interaction. We study flexible sensing, biosensors, information storage and energy devices, alongside AI-assisted analysis and printing processes. These individual research directions inform the interfaces that may connect people and machines.</p>
           <h4 data-en="🏆 Recent Achievements" data-ko="🏆 최근 성과">🏆 Recent Achievements</h4>
           <ul class="achv">
+            <li data-en="2026: Review on printed energy materials in Progress in Materials Science (IF 37.4)" data-ko="2026: 인쇄 기반 에너지 소재 리뷰 논문 Progress in Materials Science (IF 37.4) 게재">2026: Review on printed energy materials in Progress in Materials Science (IF 37.4)</li>
             <li data-en="2025: Published in ACS Nano (IF 15.8) on ultra-sensitive DNA detection" data-ko="2025: 초고감도 DNA 검출 연구 ACS Nano (IF 15.8) 게재">2025: Published in ACS Nano (IF 15.8) on ultra-sensitive DNA detection</li>
             <li data-en="2024: Selected for NRF Mid-Career Researcher Program" data-ko="2024: NRF 중견연구자 지원사업 선정">2024: Selected for NRF Mid-Career Researcher Program</li>
             <li data-en="10 patents granted and 1 technology transfer in the printed electronics field" data-ko="인쇄전자 분야 등록 특허 10건, 기술이전 1건">10 patents granted and 1 technology transfer in the printed electronics field</li>
-            <li data-en="2023: Best Paper Award, International Conference on Printed Electronics" data-ko="2023: 국제 인쇄전자 학술대회 최우수 논문상">2023: Best Paper Award, International Conference on Printed Electronics</li>
+            <li data-en="2023: Future Talent Award for research achievement" data-ko="2023: 연구 업적 미래인재상 수상">2023: Future Talent Award for research achievement</li>
           </ul>
         </div>
       </div>
@@ -1097,9 +1105,10 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <section class="stats">
   <div class="wrap stats-grid">
     <div class="stat reveal"><div class="num" data-count="3049" data-suffix="+">0</div><div class="lbl" data-en="Total Citations" data-ko="총 피인용">Total Citations</div></div>
-    <div class="stat reveal"><div class="num" data-count="100" data-suffix="+">0</div><div class="lbl" data-en="Publications" data-ko="발표 논문">Publications</div></div>
+    <div class="stat reveal"><div class="num" data-count="127" data-suffix="+">0</div><div class="lbl" data-en="Publications" data-ko="발표 논문">Publications</div></div>
     <div class="stat reveal"><div class="num" data-prefix="h-" data-count="30">0</div><div class="lbl" data-en="h-index" data-ko="h-지수">h-index</div></div>
     <div class="stat reveal"><div class="num" data-count="17">0</div><div class="lbl" data-en="Patents" data-ko="특허">Patents</div></div>
+    <div class="stat reveal"><div class="num" data-count="27">0</div><div class="lbl" data-en="Research Projects" data-ko="연구과제">Research Projects</div></div>
   </div>
 </section>
 
@@ -1109,7 +1118,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <div class="sec-head reveal">
       <div class="eyebrow" data-en="Output" data-ko="연구 성과">Output</div>
       <h2 data-en="Research Publications" data-ko="연구 논문">Research Publications</h2>
-      <p data-en="Selected publications · journal IF > 10. Browse by year." data-ko="IF 10 초과 저널에 게재한 대표 논문입니다. 연도별로 살펴보십시오.">Selected publications · journal IF > 10. Browse by year.</p>
+      <p data-en="Selected from 127 peer-reviewed papers published since 2016 · journal IF > 10. Browse by year." data-ko="2016년 이후 발표한 동료 심사 논문 127편 가운데 IF 10 초과 저널 게재 논문입니다. 연도별로 살펴보십시오.">Selected from 127 peer-reviewed papers published since 2016 · journal IF > 10. Browse by year.</p>
     </div>
 
     <div class="pubfilter reveal">
@@ -1418,7 +1427,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.11-4</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.13-1</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
