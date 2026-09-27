@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
 <title>PPEL+ | Printability for Printed Electronics Lab — Jeonbuk National University</title>
 <script>
+try{const savedLang=localStorage.getItem('ppel-lang');document.documentElement.lang=savedLang==='ko'?'ko':'en';}catch{document.documentElement.lang='en';}
 try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement.dataset.theme=savedTheme==='dark'?'dark':'light';}catch{document.documentElement.dataset.theme='light';}
 </script>
 <meta name="author" content="Dr. Sooman Lim" />
@@ -91,7 +92,10 @@ try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement
 
   --font-display:"Inter","Pretendard", system-ui, sans-serif;
   --font-body:"Inter","Pretendard", system-ui, sans-serif;
-  --font-mono:"IBM Plex Mono", ui-monospace, monospace;
+  --font-mono:"IBM Plex Mono","Pretendard",ui-monospace,monospace;
+  --conductive-text:#1E3AFF;
+  --current-text:#007765;
+  --button-blue:#1E3AFF;
 }
 html[data-theme="dark"]{
   --substrate:#070B16;
@@ -99,16 +103,19 @@ html[data-theme="dark"]{
   --surface-2:#121B2E;
   --ink:#E9EEF8;
   --ink-soft:#A6B0C4;
-  --trace:#7B86A0;
+  --trace:#A0AEC5;
   --line:#1E293E;
   --conductive:#5A78FF;
+  --conductive-text:#9BAFFF;
+  --current-text:#5DE8CF;
+  --button-blue:#3854D9;
   --current:#23E0C0;
   --amber:#FFA640;
   --glow:rgba(90,120,255,.2);
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.6);
   --shadow-lg:0 2px 10px rgba(0,0,0,.5), 0 36px 70px -30px rgba(0,0,0,.7);
 }
-html[lang="ko"] body{ --font-body:"Pretendard","Inter",system-ui,sans-serif; }
+html[lang="ko"] body{--font-body:"Pretendard","Inter",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -127,13 +134,13 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 /* placeholder kept intentionally empty: page background is plain white */
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
-section{position:relative}
+section{position:relative;scroll-margin-top:66px}
 
 /* ---- registration mark + eyebrow ---- */
 .eyebrow{
   font-family:var(--font-mono);
   font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--conductive);font-weight:600;
+  color:var(--conductive-text);font-weight:600;
   display:inline-flex;align-items:center;gap:10px;
 }
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--conductive)}
@@ -161,7 +168,7 @@ header.scrolled{border-bottom-color:var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
 .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.01em}
 .brand .mk{width:30px;height:30px;flex:none;display:block;filter:drop-shadow(0 2px 8px rgba(30,58,255,.28))}
-.brand span.plus{color:var(--conductive)}
+.brand span.plus{color:var(--conductive-text)}
 /* superscript plus: tucked against the L's top-right corner, like an exponent */
 .brand .plus, .hero h1 .plus, .foot-brand .plus{
   display:inline-block;font-size:.5em;font-weight:800;
@@ -185,7 +192,7 @@ header.scrolled{border-bottom-color:var(--line)}
 
 /* Shared call-to-action buttons; hero styles live in assets/hero-immersive.css. */
 .btn{font-family:var(--font-body);font-weight:600;font-size:15px;border-radius:11px;cursor:pointer;padding:14px 26px;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:transform .18s,box-shadow .25s,background .2s,border-color .2s}
-.btn-primary{background:var(--conductive);color:#fff;box-shadow:0 12px 30px -10px var(--conductive)}
+.btn-primary{background:var(--button-blue);color:#fff;box-shadow:0 12px 30px -10px var(--conductive)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 38px -10px var(--conductive)}
 .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--conductive)}
@@ -196,7 +203,7 @@ header.scrolled{border-bottom-color:var(--line)}
 .intro-card{background:transparent;border:none;border-radius:0;padding:6px 4px;box-shadow:none}
 .intro-card h3{font-family:var(--font-display);font-size:22px;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .intro-card p{color:var(--ink-soft);font-size:16px}
-.intro-card .recruit-cta{margin-top:20px;display:inline-flex;align-items:center;gap:9px;color:var(--conductive);font-weight:600;font-family:var(--font-mono);font-size:14px}
+.intro-card .recruit-cta{margin-top:20px;display:inline-flex;align-items:center;gap:9px;color:var(--conductive-text);font-weight:600;font-family:var(--font-mono);font-size:14px}
 .intro-card .recruit-cta:hover{gap:13px;transition:gap .2s}
 .intro-photo{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg);position:relative}
 .intro-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
@@ -219,12 +226,12 @@ header.scrolled{border-bottom-color:var(--line)}
 .rcard:hover .media img{transform:scale(1.05)}
 .rcard .body{padding:26px;display:flex;flex-direction:column;flex:1}
 .rcard h3{font-family:var(--font-display);font-size:21px;font-weight:600;letter-spacing:-.01em}
-.rcard .quote{color:var(--accent);font-weight:600;font-size:15px;margin:8px 0 10px}
+.rcard .quote{color:var(--accent-text);font-weight:600;font-size:15px;margin:8px 0 10px}
 .rcard .desc{color:var(--ink-soft);font-size:15px;margin-bottom:16px}
 .tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
 .tag{
   font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;padding:5px 10px;border-radius:999px;
-  background:color-mix(in srgb,var(--accent) 12%, transparent);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 26%, transparent);
+  background:color-mix(in srgb,var(--accent) 12%, transparent);color:var(--accent-text);border:1px solid color-mix(in srgb,var(--accent) 26%, transparent);
 }
 .papers{margin-top:auto;border-top:1px dashed var(--line);padding-top:16px}
 .papers .pl{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--trace);margin-bottom:11px}
@@ -234,10 +241,10 @@ header.scrolled{border-bottom-color:var(--line)}
 }
 .paper:last-child{border-bottom:none}
 .paper:hover{padding-left:6px}
-.paper .pno{font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:600;flex:none;margin-top:3px;width:18px}
+.paper .pno{font-family:var(--font-mono);font-size:11px;color:var(--accent-text);font-weight:600;flex:none;margin-top:3px;width:18px}
 .paper .pt{font-size:13.5px;font-weight:500;line-height:1.4}
 .paper .pmeta{font-family:var(--font-mono);font-size:11px;color:var(--trace);margin-top:3px}
-.paper .pmeta b{color:var(--accent)}
+.paper .pmeta b{color:var(--accent-text)}
 
 /* =================== PROFESSOR =================== */
 .prof{padding:90px 0;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -258,10 +265,10 @@ header.scrolled{border-bottom-color:var(--line)}
 .prof-photo .c3{bottom:12px;left:12px;border-right:none;border-top:none}
 .prof-photo .c4{bottom:12px;right:12px;border-left:none;border-top:none}
 .prof-name{font-family:var(--font-display);font-size:28px;font-weight:700;margin-top:20px;letter-spacing:-.01em}
-.prof-role{color:var(--conductive);font-weight:600;font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;margin-top:4px}
+.prof-role{color:var(--conductive-text);font-weight:600;font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;margin-top:4px}
 .prof-aff{color:var(--ink-soft);font-size:14px;margin-top:10px;line-height:1.5}
 .btn-outline{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn-outline:hover{border-color:var(--conductive);color:var(--conductive);transform:translateY(-2px)}
+.btn-outline:hover{border-color:var(--conductive);color:var(--conductive-text);transform:translateY(-2px)}
 .prof-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px}
 .ptab{
   font-family:var(--font-mono);font-size:13px;font-weight:500;padding:9px 16px;border-radius:9px;cursor:pointer;
@@ -280,14 +287,14 @@ header.scrolled{border-bottom-color:var(--line)}
 .kv b{color:var(--ink)}
 .achv{list-style:none;display:grid;gap:10px}
 .achv li{display:flex;gap:12px;font-size:15px;color:var(--ink-soft)}
-.achv li::before{content:"+";color:var(--current);font-weight:700;font-family:var(--font-mono)}
+.achv li::before{content:"+";color:var(--current-text);font-weight:700;font-family:var(--font-mono)}
 /* timeline */
 .tl{position:relative;padding-left:30px}
 .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
 .tl-item{position:relative;padding-bottom:26px}
 .tl-item:last-child{padding-bottom:0}
 .tl-item::before{content:"";position:absolute;left:-27px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--conductive)}
-.tl-year{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--conductive)}
+.tl-year{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--conductive-text)}
 .tl-title{font-weight:600;font-size:16px;margin-top:2px}
 .tl-sub{color:var(--ink-soft);font-size:14px}
 .tl-org{color:var(--trace);font-size:13px;font-family:var(--font-mono);margin-top:2px}
@@ -306,10 +313,10 @@ header.scrolled{border-bottom-color:var(--line)}
 .mcard .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(1.02)}
 .mcard .info{padding:16px 12px}
 .mcard .info .nm{font-family:var(--font-display);font-weight:600;font-size:16px}
-.mcard .info .rl{font-family:var(--font-mono);font-size:11px;color:var(--conductive);margin-top:3px;letter-spacing:.03em}
+.mcard .info .rl{font-family:var(--font-mono);font-size:11px;color:var(--conductive-text);margin-top:3px;letter-spacing:.03em}
 
 /* =================== STATS strip =================== */
-.stats{padding:60px 0;background:var(--ink);color:var(--substrate);position:relative;overflow:hidden}
+.stats{padding:60px 0;background:#0A0F1E;color:#E9EEF8;position:relative;overflow:hidden}
 .stats::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.10) 1px,transparent 1px);background-size:26px 26px;opacity:.6}
 .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;position:relative;z-index:2;text-align:center}
 .stat .num{font-family:var(--font-display);font-weight:700;font-size:clamp(34px,4.6vw,52px);letter-spacing:-.02em;background:linear-gradient(120deg,#fff,var(--hero-node));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -322,7 +329,7 @@ header.scrolled{border-bottom-color:var(--line)}
   font-family:var(--font-mono);font-size:13px;font-weight:500;padding:8px 16px;border-radius:999px;cursor:pointer;
   border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);transition:all .2s;
 }
-.fbtn.active{background:var(--conductive);color:#fff;border-color:var(--conductive)}
+.fbtn.active{background:var(--button-blue);color:#fff;border-color:var(--conductive)}
 .fbtn:hover:not(.active){border-color:var(--conductive);color:var(--ink)}
 .publist{display:grid;gap:14px}
 .pub{
@@ -331,15 +338,15 @@ header.scrolled{border-bottom-color:var(--line)}
   display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
 }
 .pub:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--conductive)}
-.pub .field{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--conductive);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.08em;white-space:nowrap;border-left:2px solid var(--conductive);padding-left:6px}
+.pub .field{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--conductive-text);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.08em;white-space:nowrap;border-left:2px solid var(--conductive);padding-left:6px}
 .pub .main .pt{font-weight:600;font-size:16.5px;line-height:1.35;letter-spacing:-.01em}
-.pub .main .pt a:hover{color:var(--conductive)}
+.pub .main .pt a:hover{color:var(--conductive-text)}
 .pub .main .au{color:var(--ink-soft);font-size:13.5px;margin-top:6px}
 .pub .main .jr{font-family:var(--font-mono);font-size:12.5px;color:var(--trace);margin-top:5px}
-.pub .main .jr b{color:var(--current)}
+.pub .main .jr b{color:var(--current-text)}
 .pub .side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none}
-.if-badge{font-family:var(--font-mono);font-weight:600;font-size:12px;padding:6px 11px;border-radius:8px;background:color-mix(in srgb,var(--current) 14%,transparent);color:var(--current);border:1px solid color-mix(in srgb,var(--current) 30%,transparent);white-space:nowrap}
-.doi-link{font-family:var(--font-mono);font-size:12px;color:var(--conductive);display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.if-badge{font-family:var(--font-mono);font-weight:600;font-size:12px;padding:6px 11px;border-radius:8px;background:color-mix(in srgb,var(--current) 14%,transparent);color:var(--current-text);border:1px solid color-mix(in srgb,var(--current) 30%,transparent);white-space:nowrap}
+.doi-link{font-family:var(--font-mono);font-size:12px;color:var(--conductive-text);display:inline-flex;align-items:center;gap:5px;font-weight:500}
 .doi-link:hover{text-decoration:underline}
 .viewall{margin-top:34px;text-align:center}
 
@@ -353,20 +360,20 @@ header.scrolled{border-bottom-color:var(--line)}
 .pat:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .pat.granted{border-left:3px solid var(--conductive)}
 .pat .no{font-family:var(--font-mono);font-size:12px;color:var(--trace);letter-spacing:.05em;display:flex;align-items:center;gap:8px}
-.pat .no .g{color:var(--conductive)}
+.pat .no .g{color:var(--conductive-text)}
 .pat .ko{font-weight:600;font-size:16px;margin-top:10px;line-height:1.4}
 .pat .en{color:var(--ink-soft);font-size:13.5px;margin-top:6px;font-style:italic}
 .pat .dt{font-family:var(--font-mono);font-size:11.5px;color:var(--trace);margin-top:12px;letter-spacing:.02em;line-height:1.6}
 .pat .st{margin-left:auto;font-size:10.5px;padding:3px 10px;border-radius:999px;letter-spacing:.06em;font-weight:600;white-space:nowrap}
-.pat .st-granted{color:var(--conductive);border:1px solid currentColor}
+.pat .st-granted{color:var(--conductive-text);border:1px solid currentColor}
 .pat .st-filed{color:var(--trace);border:1px solid var(--line)}
-.pat .st-transfer{color:var(--current);border:1px solid currentColor}
+.pat .st-transfer{color:var(--current-text);border:1px solid currentColor}
 .pat.transfer{border-left:3px solid var(--current)}
 .pat-summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
 .pat-summary .chip{font-family:var(--font-mono);font-size:12.5px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--substrate);color:var(--ink-soft)}
-.pat-summary .chip b{color:var(--conductive);font-weight:700;margin-right:2px}
-.pat-summary .chip.tr b{color:var(--current)}
-.pat-note{font-family:var(--font-mono);font-size:12px;color:var(--trace);margin-top:22px;display:flex;align-items:center;gap:8px}
+.pat-summary .chip b{color:var(--conductive-text);font-weight:700;margin-right:2px}
+.pat-summary .chip.tr b{color:var(--current-text)}
+.pat-note{font-family:var(--font-body);font-size:12px;color:var(--trace);margin-top:22px;display:flex;align-items:center;gap:8px}
 .pat-note .sw{width:18px;height:12px;border-left:3px solid var(--conductive);background:var(--substrate);border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
 
 /* =================== COLLAB =================== */
@@ -407,7 +414,7 @@ header.scrolled{border-bottom-color:var(--line)}
   font:600 12px var(--font-mono);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;
   padding:8px 12px;cursor:pointer;letter-spacing:.04em;transition:border-color .2s,color .2s;
 }
-.arcade-bar button:hover,.arcade-bar a:hover{border-color:var(--conductive);color:var(--conductive)}
+.arcade-bar button:hover,.arcade-bar a:hover{border-color:var(--conductive);color:var(--conductive-text)}
 .arcade-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
 .alg{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--substrate)}
 .alg svg{width:32px;height:32px;flex:none}
@@ -417,19 +424,19 @@ header.scrolled{border-bottom-color:var(--line)}
 @media (max-width:720px){.arcade{padding:70px 0}.arcade-frame{aspect-ratio:auto;min-height:420px}.arcade-poster-inner{padding:24px 16px}.arcade-cta .game-link{display:none}.arcade-legend{grid-template-columns:1fr}}
 
 /* =================== FOOTER =================== */
-footer{background:var(--ink);color:#C3CEE6;padding:64px 0 34px;position:relative;overflow:hidden}
+footer{background:#0A0F1E;color:#C3CEE6;padding:64px 0 34px;position:relative;overflow:hidden}
 footer::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.08) 1px,transparent 1px);background-size:28px 28px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;position:relative;z-index:2}
 .foot-brand{font-family:var(--font-display);font-weight:700;font-size:26px;display:flex;align-items:center;gap:10px}
 .foot-brand .plus{color:var(--hero-node)}
 .foot-desc{color:#8597C2;font-size:14px;margin-top:14px;max-width:340px;line-height:1.6}
-.foot-col h5{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#6B7DAB;margin-bottom:14px}
+.foot-col h5{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#A8B5D6;margin-bottom:14px}
 .foot-col a,.foot-col p{display:block;color:#A8B5D6;font-size:14px;margin-bottom:9px;transition:color .2s;cursor:pointer}
 .foot-col a:hover{color:#fff}
 .email-copy{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-weight:500;color:var(--hero-node);cursor:pointer;font-size:15px}
-.email-copy .hint{font-size:11px;color:#6B7DAB}
+.email-copy .hint{font-size:11px;color:#A8B5D6}
 .foot-bottom{border-top:1px solid rgba(150,170,230,.15);margin-top:42px;padding-top:24px;position:relative;z-index:2;
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:#6B7DAB}
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:#A8B5D6}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -570,7 +577,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .pub .main .pt{font-size:18.5px;line-height:1.5;margin-bottom:4px}
 .pub .main .au{font-size:14.5px;line-height:1.6;margin-top:9px}
 .pub .main .jr{font-size:13.5px;margin-top:8px;letter-spacing:.01em}
-.pub .main .jr b{color:var(--current)}
+.pub .main .jr b{color:var(--current-text)}
 .if-badge{font-size:13px;padding:8px 13px}
 /* Research films: user-initiated playback, independent detail buttons. */
 .rcard{cursor:default}
@@ -621,25 +628,25 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .film-badge{position:absolute;z-index:1;right:20px;top:25px;border:1px solid #fff8;border-radius:20px;padding:4px 10px;font-size:10px;letter-spacing:.1em;background:#223036a8}
 .film-title{position:absolute;z-index:1;left:23px;right:23px;bottom:22px;font-size:clamp(16px,2vw,25px);font-weight:700;line-height:1.2;letter-spacing:-.02em;text-wrap:balance}
 .film-caption{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:13px 9px 3px;font-size:11px;color:var(--ink-soft)}
-.film-caption a{color:var(--accent);white-space:nowrap;font-weight:600}
+.film-caption a{color:var(--accent-text);white-space:nowrap;font-weight:600}
 .film-error{font-size:13px;padding:8px 12px;color:var(--ink-soft)}
 .film-error a{text-decoration:underline}
 .research-details{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;border:0;border-top:1px solid var(--line);padding:15px 0 0;margin-top:20px;background:none;text-align:left;cursor:pointer;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft)}
-.research-details span:last-child{font-size:19px;color:var(--accent)}
+.research-details span:last-child{font-size:19px;color:var(--accent-text)}
 .film-start:focus-visible,.research-details:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
 .film-stage video::cue{font-family:Arial,"Malgun Gothic",sans-serif;background:rgba(15,26,30,.86);color:white}
 @media(prefers-reduced-motion:reduce){.film-start img{transition:none}}
 @media(max-width:600px){.film-title{font-size:21px}.film-caption{font-size:10px}.film-play{width:43px;height:43px;left:17px;top:17px}.film-badge{top:20px;right:15px}.film-title{left:18px;bottom:18px}}
 
 /* =================== EQUIPMENT =================== */
-.equipment{padding:90px 0;scroll-margin-top:80px}
+.equipment{padding:90px 0}
 .equipment-grid{columns:2;column-gap:26px}
 .equipment-group{text-align:left;min-width:0;padding:26px;transition:none;break-inside:avoid;page-break-inside:avoid;margin-bottom:26px;display:block}
 .equipment-group:last-child{margin-bottom:0}
 .equipment-group:hover{transform:none}
 .equipment-group-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:12px}
 .equipment-group-heading h3{font-family:var(--font-display);font-size:20px;font-weight:600;line-height:1.4;word-break:keep-all;overflow-wrap:anywhere}
-.equipment-count,.equipment-number{font-family:var(--font-mono);font-size:12px;color:var(--conductive);flex:none}
+.equipment-count,.equipment-number{font-family:var(--font-mono);font-size:12px;color:var(--conductive-text);flex:none}
 .equipment-list{list-style:none}
 .equipment-item{display:flex;align-items:baseline;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
 .equipment-item:last-child{padding-bottom:0}
@@ -657,8 +664,8 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .pat-grid,.collab-grid{display:grid;grid-template-columns:1fr;gap:18px}
 .pat{display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:start;padding:28px 32px;border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}
 .pat .field{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--trace);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;border-left:2px solid var(--line);padding-left:10px;align-self:stretch}
-.pat.granted .field{color:var(--conductive);border-left-color:var(--conductive)}
-.pat.transfer .field{color:var(--current);border-left-color:var(--current)}
+.pat.granted .field{color:var(--conductive-text);border-left-color:var(--conductive)}
+.pat.transfer .field{color:var(--current-text);border-left-color:var(--current)}
 .pat .main .ko{margin-top:0}
 .pat .main .dt{margin-top:8px}
 .pat .side{display:flex;align-items:flex-start}
@@ -686,15 +693,15 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .pub.pub-row,.pat.pat-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:18px;align-items:center;padding:14px 22px;border-radius:14px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
 .pub.pub-row:hover,.pat.pat-row:hover,.cnode:hover{transform:none}
 .pub-row .yr,.pat-row .yr{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--trace);letter-spacing:.06em}
-.pat.granted .yr{color:var(--conductive)}
-.pat.transfer .yr{color:var(--current)}
+.pat.granted .yr{color:var(--conductive-text)}
+.pat.transfer .yr{color:var(--current-text)}
 .pub-row .pt,.pat-row .pt{min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;font-size:15.5px;line-height:1.45}
 .pub-row .pt a{color:inherit}
-.pub-row .pt a:hover{color:var(--conductive)}
+.pub-row .pt a:hover{color:var(--conductive-text)}
 .pub-row .row-tags,.pat-row .row-tags{display:flex;align-items:center;gap:8px;white-space:nowrap}
 .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:4px 9px;border-radius:999px;border:1px solid currentColor;line-height:1.2}
-.tag-corr{color:var(--conductive)}
-.tag-top{color:#a86a00;background:rgba(245,178,40,.14)}
+.tag-corr{color:var(--conductive-text)}
+.tag-top{color:#875400;background:rgba(245,178,40,.14)}
 .pub-row .if-badge{font-size:11.5px;padding:4px 10px}
 .pub-row .doi-link{font-size:12px}
 .pat-row .pat-no{font-family:var(--font-mono);font-size:11.5px;color:var(--trace)}
@@ -705,7 +712,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 @media(max-width:760px){
   .pub.pub-row,.pat.pat-row{grid-template-columns:44px minmax(0,1fr);row-gap:8px;padding:12px 16px}
   .pub-row .row-tags,.pat-row .row-tags{grid-column:2;flex-wrap:wrap}
-  .pub-row .pt,.pat-row .pt{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .pub-row .pt,.pat-row .pt{white-space:normal;display:block;overflow:visible;text-overflow:clip}
 }
 /* Rolling staircase wave: the row under the pointer rises most and its neighbours step down. */
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
@@ -716,7 +723,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .pub-row .main{min-width:0}
 .pub-row .au{margin-top:3px;font-size:12.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pub-row .au .corr{color:var(--ink);font-weight:700}
-.pub-row .au .corr sup{font-size:9px;margin-left:1px;color:var(--conductive)}
+.pub-row .au .corr sup{font-size:9px;margin-left:1px;color:var(--conductive-text)}
 .pub-row .au .jn{font-style:italic;color:var(--trace)}
 @media(max-width:760px){.pub-row .au{white-space:normal}}
 #publist .pub.pub-row{padding:14px 22px;gap:18px;align-items:center}
@@ -724,13 +731,91 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 @media(max-width:760px){#publist .pub-row .main .pt{white-space:normal;text-wrap:balance}}
 #publist .pub-row .main .au{margin-top:3px;font-size:12.5px;line-height:1.5}
 .pub-row .yr,.pat-row .yr{font-size:14px;font-weight:700;color:var(--ink)}
-.pat.granted .yr{color:var(--conductive)}
-.pat.transfer .yr{color:var(--current)}
+.pat.granted .yr{color:var(--conductive-text)}
+.pat.transfer .yr{color:var(--current-text)}
 #patents .pat.pat-row{padding:14px 22px;align-items:center}
 #patents .pat-row .row-tags{align-self:center}
 #patents .pat-row .pt{font-size:15.5px}
+
+/* September design polish: accent paint and readable text use separate tokens. */
+#research-ai-paper{--accent-text:#2852BC}
+#research-biosensor{--accent-text:#086E60}
+#research-memory{--accent-text:#704BAB}
+#research-energy-storage{--accent-text:#96521D}
+#research-cherry-blossom{--accent-text:#9D3E64}
+html[data-theme="dark"] #research-ai-paper{--accent-text:#9BB5FF}
+html[data-theme="dark"] #research-biosensor{--accent-text:#60D9C0}
+html[data-theme="dark"] #research-memory{--accent-text:#C2A5F2}
+html[data-theme="dark"] #research-energy-storage{--accent-text:#F4BA87}
+html[data-theme="dark"] #research-cherry-blossom{--accent-text:#EFA3C0}
+html[data-theme="dark"] :is(.stats,footer){background:#10192C;border-top:1px solid #30415C}
+html[data-theme="dark"] .tag-top{color:#FFD081}
+.stat .lbl[data-en="h-index"]{text-transform:none}
+.arcade-cta .btn-ghost{color:#fff;border-color:#ffffff99;background:#0A0F1ECC}
+.arcade-cta .btn-ghost:hover{border-color:#fff;background:#22324A}
+.arcade-motion{position:absolute;right:12px;bottom:12px;z-index:3}
+.arcade-motion:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.arcade-frame .arcade-motion{color:#E9EEF8;background:#10192CEE;border-color:#8195B5}
+.pat.pat-row.granted{border-left:3px solid var(--conductive)}
+.pat.pat-row.transfer{border-left:3px solid var(--current)}
+.pat-note .sw{flex:none}
+.paper .pmeta b{white-space:nowrap}
+.paper-links{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:none}
+.mcard .monogram{display:grid;place-items:center;font:600 clamp(36px,5vw,64px)/1 var(--font-display);color:var(--conductive-text);background:linear-gradient(135deg,color-mix(in srgb,var(--conductive) 10%,var(--surface)),color-mix(in srgb,var(--current) 12%,var(--surface)))}
+.mcard .info{min-width:0;overflow-wrap:anywhere}
+.wordmark{white-space:nowrap;display:inline-block}
+.brand .plus,.foot-brand .plus{margin-left:1px;transform:translateY(-.7em)}
+.build-stamp{color:#A8B5D6;white-space:nowrap}
+.line-icon{width:20px;height:20px;flex:none;vertical-align:middle}
+.st .line-icon{width:14px;height:14px}
+.pat .st{display:inline-flex;align-items:center;gap:4px}
+.film-title{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;left:0;right:auto;top:0;bottom:auto}
+.film-start::after{display:none}
+.film-badge{background:#172226}
+.tag,.film-badge,.film-caption,.pat .st,.pat-row .st,.pat-row .pat-no,.pub-row .if-badge,.email-copy .hint,.pat .dt{font-size:12px}
+html[lang="ko"] :is(.eyebrow,.mgroup-label,.stat .lbl,.foot-col h5,.arcade-sub,.arcade-keys,.arcade-bar,.papers .pl,.welcome-topline,.film-badge,.pat-summary .chip,#emailCopy .hint,.tag,.pat .st,.pub .field,.pat .field,.prof-role,.mcard .rl,.cnode .co){letter-spacing:.03em;text-transform:none}
+html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
+@media(hover:hover) and (pointer:fine){
+  .film-deck>.research-film:not(.is-front) :is(.film-play,.film-badge){visibility:hidden}
+  .film-deck::before{font-size:12px;background:var(--accent-text)}
+  html[data-theme="dark"] .film-deck::before{color:#0A0F1E}
+}
+@media(min-width:981px){.research-grid>.rcard:last-child:nth-child(odd){grid-column:1/-1;width:calc((100% - 34px)/2);justify-self:center}}
+@media(max-width:760px), (pointer:coarse){
+  .pub-row .pt,.pat-row .pt,#publist .pub-row .main .pt{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;text-overflow:clip}
+  .pub-row .au{white-space:normal;overflow:visible;text-overflow:clip}
+}
+@media(max-width:600px){
+  .mgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .mcard .info{padding:14px 10px}.mcard .info .nm{font-size:16px;line-height:1.4}
+  .mcard .info .rl{line-height:1.5}
+  .alumni-grid{grid-template-columns:1fr;gap:12px}
+  .alumni-grid .mcard{display:grid;grid-template-columns:60px minmax(0,1fr);align-items:center;gap:14px;text-align:left;padding:12px;border-radius:14px}
+  .alumni-grid .ph{width:60px;height:60px;border-radius:9px}
+  .alumni-grid .monogram{font-size:24px}
+  .alumni-grid .info{padding:0}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px}
+  .stats-grid .stat:last-child:nth-child(odd){grid-column:1/-1}
+  .stat .lbl{font-size:12px}
+  .film-title{font-size:12px;left:0;bottom:auto}
+  .email-copy{flex-wrap:wrap}
+}
+@media(pointer:coarse){
+  :is(.doi-link,.film-caption a,.welcome-email,.welcome-photo figcaption a){display:inline-flex;align-items:center;min-height:32px;padding-block:6px;margin-block:-6px}
+  .prof-card a[href*="scholar"],.viewall a{min-height:32px}
+}
+/* Footer navigation follows page order across compact rows. */
+.foot-grid>div{min-width:0}
+.foot-col .email-copy{max-width:100%;flex-wrap:wrap}
+@media(min-width:721px){
+  .foot-nav{display:grid;grid-template-columns:repeat(2,minmax(84px,max-content));gap:9px 40px;align-content:start}
+  .foot-grid>.foot-nav{min-width:max-content}
+  .foot-nav h5{grid-column:1/-1;margin-bottom:5px}
+  .foot-nav a{margin:0}
+}
+@media(pointer:coarse){.foot-nav a{display:flex;align-items:center;min-height:32px}}
 </style>
-<link rel="stylesheet" href="assets/hero-immersive.css?v=20260908-edge-fade" />
+<link rel="stylesheet" href="assets/hero-immersive.css?v=20260928-1" />
 <script>
 (()=>{
   const prefix=document.documentElement.dataset.theme==='dark'?'image/hero-human-robot-dark-v1':'image/hero-human-robot-v2';
@@ -741,19 +826,20 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   document.head.append(preload);
 })();
 </script>
-<script src="assets/hero-interface.js?v=20260908-4" defer></script>
+
+<script src="assets/hero-interface.js?v=20260928-1" defer></script>
 </head>
 <body>
 
 <!-- ============ NAV ============ -->
 <header id="hdr">
   <div class="wrap nav">
-    <a href="#home" class="brand"><svg class="mk" viewBox="0 0 34 34" fill="none" aria-hidden="true"><defs><linearGradient id="mkg1" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3AFF"/><stop offset="1" stop-color="#00E6C6"/></linearGradient></defs><path d="M9 30V7h9.5a6.5 6.5 0 0 1 0 13H9" stroke="url(#mkg1)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="30" r="2.6" fill="#00E6C6"/><path d="M24.5 6.5h8M28.5 2.5v8" stroke="#00E6C6" stroke-width="2.6" stroke-linecap="round"/></svg>PPEL<span class="plus">+</span></a>
+    <a href="#home" class="brand"><svg class="mk" viewBox="0 0 34 34" fill="none" aria-hidden="true"><defs><linearGradient id="mkg1" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3AFF"/><stop offset="1" stop-color="#00E6C6"/></linearGradient></defs><path d="M9 30V7h9.5a6.5 6.5 0 0 1 0 13H9" stroke="url(#mkg1)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="30" r="2.6" fill="#00E6C6"/><path d="M24.5 6.5h8M28.5 2.5v8" stroke="#00E6C6" stroke-width="2.6" stroke-linecap="round"/></svg><span class="wordmark">PPEL<span class="plus">+</span></span></a>
     <nav class="navlinks" id="navlinks">
       <a href="#home" data-en="Home" data-ko="홈">Home</a>
+      <a href="#research" data-en="Research" data-ko="연구">Research</a>
       <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
       <a href="#members" data-en="Members" data-ko="구성원">Members</a>
-      <a href="#research" data-en="Research" data-ko="연구">Research</a>
       <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
       <a href="#patents" data-en="Patents" data-ko="특허">Patents</a>
       <a href="#collaborations" data-en="Collaborations" data-ko="협력">Collaborations</a>
@@ -798,7 +884,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <!-- ============ INTRO ============ -->
 <section class="welcome-section" id="welcome" aria-labelledby="welcome-heading">
   <div class="wrap">
-    <div class="welcome-topline"><span data-en="People make the connection" data-ko="연결을 만드는 것은 사람입니다">People make the connection</span><span class="welcome-plus" aria-hidden="true">+</span></div>
+    <div class="welcome-topline"><span data-en="People make the connection" data-ko="연결을 만드는 것은 사람입니다">People make the connection</span></div>
     <div class="welcome-grid">
       <div class="welcome-copy">
         <div class="welcome-label" data-en="Graduate students welcome" data-ko="함께 연구할 대학원생을 기다립니다">Graduate students welcome</div>
@@ -882,7 +968,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <h3 data-en="AI-Powered Printed Electronics" data-ko="AI 기반 인쇄전자">AI-Powered Printed Electronics</h3>
           <div class="quote" data-en="How can a material read the way we move?" data-ko="소재는 사람의 움직임을 어떻게 읽을까요?">How can a material read the way we move?</div>
           <div class="desc" data-en="A sheet of mulberry paper can do more than carry words. Contact and separation generate electrical signals; machine learning then looks for patterns. Our featured study explores how paper properties affect this signal and its use in classifying foot health conditions." data-ko="한지는 글씨만 담는 종이가 아닙니다. 접촉과 분리로 생긴 전기 신호에서 머신러닝이 패턴을 찾습니다. 대표 연구는 한지의 특성이 신호에 미치는 영향과 발의 건강 상태 분류에 활용하는 방법을 탐구합니다.">A sheet of mulberry paper can do more than carry words. Contact and separation generate electrical signals; machine learning then looks for patterns. Our featured study explores how paper properties affect this signal and its use in classifying foot health conditions.</div>
-          <div class="tags"><span class="tag">Machine Learning</span><span class="tag">Screen Printing</span><span class="tag">Inkjet</span></div>
+          <div class="tags"><span class="tag" data-en="Machine Learning" data-ko="머신러닝">Machine Learning</span><span class="tag" data-en="Screen Printing" data-ko="스크린 인쇄">Screen Printing</span><span class="tag" data-en="Inkjet" data-ko="잉크젯">Inkjet</span></div>
           <button class="research-details" type="button" aria-expanded="false" aria-controls="papers-ai-paper"><span data-en="Explore the research" data-ko="연구 자세히 보기">Explore the research</span><span aria-hidden="true">＋</span></button>
           <div class="papers" id="papers-ai-paper">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
@@ -948,7 +1034,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <h3 data-en="Bioprinting & Biosensors" data-ko="바이오프린팅과 바이오센서">Bioprinting & Biosensors</h3>
           <div class="quote" data-en="How do biological signals become readable data?" data-ko="생체 신호는 어떻게 읽을 수 있는 데이터가 될까요?">How do biological signals become readable data?</div>
           <div class="desc" data-en="Pencil graphite starts a new career as tree-like graphene. In the featured study, this material supports an electrochemical sensor for 5hmC, a marker in DNA. A portable wireless potentiostat sends measurements to a mobile app." data-ko="연필 흑연이 나뭇가지 형태의 그래핀으로 새로운 일을 시작합니다. 대표 연구는 이 소재를 이용해 DNA 표지인 5hmC를 검출하는 전기화학 센서를 구현합니다. 휴대형 무선 포텐쇼스탯은 측정값을 모바일 앱으로 전달합니다.">Pencil graphite starts a new career as tree-like graphene. In the featured study, this material supports an electrochemical sensor for 5hmC, a marker in DNA. A portable wireless potentiostat sends measurements to a mobile app.</div>
-          <div class="tags"><span class="tag">Graphene</span><span class="tag">DNA Sensing</span><span class="tag">Wireless</span></div>
+          <div class="tags"><span class="tag" data-en="Graphene" data-ko="그래핀">Graphene</span><span class="tag" data-en="DNA Sensing" data-ko="DNA 센싱">DNA Sensing</span><span class="tag" data-en="Wireless" data-ko="무선">Wireless</span></div>
           <button class="research-details" type="button" aria-expanded="false" aria-controls="papers-biosensor"><span data-en="Explore the research" data-ko="연구 자세히 보기">Explore the research</span><span aria-hidden="true">＋</span></button>
           <div class="papers" id="papers-biosensor">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
@@ -1015,7 +1101,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <h3 data-en="Printed Memory Devices" data-ko="인쇄형 메모리 소자">Printed Memory Devices</h3>
           <div class="quote" data-en="What lets a material store information?" data-ko="소재는 어떻게 정보를 기억할까요?">What lets a material store information?</div>
           <div class="desc" data-en="A material can store information through different electrical resistance states. Our featured review surveys carbon-based resistive-switching materials and the mechanisms behind them, bringing together routes toward future memory devices." data-ko="물질의 전기저항이 다른 상태에 정보를 담을 수 있습니다. 대표 리뷰는 탄소 기반 저항변화 소재와 작동 원리를 정리하며 차세대 메모리 소자로 이어지는 다양한 연구 경로를 살펴봅니다.">A material can store information through different electrical resistance states. Our featured review surveys carbon-based resistive-switching materials and the mechanisms behind them, bringing together routes toward future memory devices.</div>
-          <div class="tags"><span class="tag">RRAM</span><span class="tag">Carbon Materials</span><span class="tag">Review</span></div>
+          <div class="tags"><span class="tag" data-en="RRAM" data-ko="RRAM">RRAM</span><span class="tag" data-en="Carbon Materials" data-ko="탄소 소재">Carbon Materials</span><span class="tag" data-en="Review" data-ko="리뷰">Review</span></div>
           <button class="research-details" type="button" aria-expanded="false" aria-controls="papers-memory"><span data-en="Explore the research" data-ko="연구 자세히 보기">Explore the research</span><span aria-hidden="true">＋</span></button>
           <div class="papers" id="papers-memory">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
@@ -1081,7 +1167,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <h3 data-en="Printed Supercapacitors & Batteries" data-ko="인쇄형 슈퍼커패시터와 배터리">Printed Supercapacitors & Batteries</h3>
           <div class="quote" data-en="How can energy storage bend with us?" data-ko="에너지 저장 소자도 우리 몸처럼 유연해질 수 있을까요?">How can energy storage bend with us?</div>
           <div class="desc" data-en="Even a promising conductive ink needs protection. The featured study uses oxygen-scavenging MnO₂ nanoparticles to improve the thermal and oxidation stability of MXene inks, then uses those inks in 3D-printed flexible asymmetric supercapacitors." data-ko="유망한 전도성 잉크에도 보호가 필요합니다. 대표 연구는 산소를 포집하는 MnO₂ 나노입자로 MXene 잉크의 열 안정성과 내산화성을 높이고, 이를 3D 프린팅한 유연 비대칭 슈퍼커패시터에 적용합니다.">Even a promising conductive ink needs protection. The featured study uses oxygen-scavenging MnO₂ nanoparticles to improve the thermal and oxidation stability of MXene inks, then uses those inks in 3D-printed flexible asymmetric supercapacitors.</div>
-          <div class="tags"><span class="tag">Supercapacitor</span><span class="tag">Micro-battery</span><span class="tag">2D Materials</span></div>
+          <div class="tags"><span class="tag" data-en="Supercapacitor" data-ko="슈퍼커패시터">Supercapacitor</span><span class="tag" data-en="Micro-battery" data-ko="마이크로 배터리">Micro-battery</span><span class="tag" data-en="2D Materials" data-ko="2차원 소재">2D Materials</span></div>
           <button class="research-details" type="button" aria-expanded="false" aria-controls="papers-energy-storage"><span data-en="Explore the research" data-ko="연구 자세히 보기">Explore the research</span><span aria-hidden="true">＋</span></button>
           <div class="papers" id="papers-energy-storage">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
@@ -1149,7 +1235,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <h3 data-en="Piezo & Triboelectric Energy Harvesting" data-ko="압전과 마찰전기 에너지 하베스팅">Piezo & Triboelectric Energy Harvesting</h3>
           <div class="quote" data-en="Could a touch generate its own sensing signal?" data-ko="접촉 자체가 센싱 신호를 만들어 낸다면?">Could a touch generate its own sensing signal?</div>
           <div class="desc" data-en="A tap can become a signal. The featured study uses cherry blossom petals in a triboelectric nanogenerator and analyzes single- and double-tap signals for gesture recognition. The touch creates the sensor signal; the accompanying electronics are separate." data-ko="손끝의 탭이 신호가 됩니다. 대표 연구는 벚꽃잎을 마찰전기 나노발전기에 활용하고, 한 번과 두 번 탭할 때의 신호를 분석해 제스처를 구분합니다. 터치가 센서 신호를 만들며, 연결된 전자 회로는 별도로 작동합니다.">A tap can become a signal. The featured study uses cherry blossom petals in a triboelectric nanogenerator and analyzes single- and double-tap signals for gesture recognition. The touch creates the sensor signal; the accompanying electronics are separate.</div>
-          <div class="tags"><span class="tag">Nanogenerator</span><span class="tag">Gesture Recognition</span><span class="tag">TENG / PENG</span></div>
+          <div class="tags"><span class="tag" data-en="Nanogenerator" data-ko="나노발전기">Nanogenerator</span><span class="tag" data-en="Gesture Recognition" data-ko="동작 인식">Gesture Recognition</span><span class="tag" data-en="TENG / PENG" data-ko="TENG / PENG">TENG / PENG</span></div>
           <button class="research-details" type="button" aria-expanded="false" aria-controls="papers-cherry-blossom"><span data-en="Explore the research" data-ko="연구 자세히 보기">Explore the research</span><span aria-hidden="true">＋</span></button>
           <div class="papers" id="papers-cherry-blossom">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
@@ -1180,8 +1266,8 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="prof-name">Dr. Sooman Lim</div>
         <div class="prof-role" data-en="Professor" data-ko="교수">Professor</div>
         <div class="prof-aff" data-en="Graduate School of Flexible and Printable Electronics, Jeonbuk National University" data-ko="전북대학교 플렉시블·프린터블 전자공학 대학원">Graduate School of Flexible and Printable Electronics, Jeonbuk National University</div>
-        <a href="mailto:smlim@jbnu.ac.kr" class="btn btn-primary" style="margin-top:18px;width:100%;justify-content:center" data-en="📧 Contact Professor" data-ko="📧 교수님께 연락">📧 Contact Professor</a>
-        <a href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:10px;width:100%;justify-content:center" data-en="🎓 Google Scholar" data-ko="🎓 구글 스칼라">🎓 Google Scholar</a>
+        <a href="mailto:smlim@jbnu.ac.kr" class="btn btn-primary" style="margin-top:18px;width:100%;justify-content:center"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-en="Contact Professor" data-ko="교수님께 연락">Contact Professor</span></a>
+        <a href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:10px;width:100%;justify-content:center"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5-10-5Zm4 2v6c4 3 8 3 12 0v-6M22 9v8"/></svg><span data-en="Google Scholar" data-ko="구글 스칼라">Google Scholar</span></a>
       </div>
 
       <div class="reveal">
@@ -1194,7 +1280,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
         <!-- overview -->
         <div class="ppanel active" id="overview">
-          <h4 data-en="🔬 Research Interests" data-ko="🔬 연구 관심사">🔬 Research Interests</h4>
+          <h4><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 3 4 2-4 8-4-2 4-8ZM5 21h14M9 17H4m11-9a6 6 0 0 1 0 12H8"/></svg><span data-en="Research Interests" data-ko="연구 관심사">Research Interests</span></h4>
           <div class="chips">
             <span class="chip" data-en="Human–Machine Interface" data-ko="인간–기계 계면">Human–Machine Interface</span>
             <span class="chip" data-en="Printed Electronics" data-ko="인쇄전자">Printed Electronics</span>
@@ -1202,13 +1288,13 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
             <span class="chip" data-en="Flexible Energy" data-ko="유연 에너지">Flexible Energy</span>
             <span class="chip" data-en="AI-Enhanced Manufacturing" data-ko="AI 강화 제조">AI-Enhanced Manufacturing</span>
           </div>
-          <h4 data-en="📧 Contact Information" data-ko="📧 연락처">📧 Contact Information</h4>
+          <h4><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-en="Contact Information" data-ko="연락처">Contact Information</span></h4>
           <div class="kv">
-            Email: <b>smlim@jbnu.ac.kr</b><br/>
+            <span data-en="Email:" data-ko="이메일:">Email:</span> <b>smlim@jbnu.ac.kr</b><br/>
             <span data-en="Office: Engineering Building 9, Room 300" data-ko="연구실: 공과대학 9호관 300호">Office: Engineering Building 9, Room 300</span><br/>
-            Phone: <b>+82-63-270-4259</b>
+            <span data-en="Phone:" data-ko="전화:">Phone:</span> <b>+82-63-270-4259</b>
           </div>
-          <h4 data-en="🏆 Academic Achievements" data-ko="🏆 학술 성과">🏆 Academic Achievements</h4>
+          <h4><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Academic Achievements" data-ko="학술 성과">Academic Achievements</span></h4>
           <ul class="achv">
             <li data-en="127 peer-reviewed journal papers published since 2016" data-ko="2016년 이후 동료 심사 저널 논문 127편 게재">127 peer-reviewed journal papers published since 2016</li>
             <li data-en="3,049+ citations with an h-index of 30 and i10-index of 78" data-ko="피인용 3,049회 이상, h-index 30 · i10-index 78">3,049+ citations with an h-index of 30 and i10-index of 78</li>
@@ -1216,7 +1302,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
             <li data-en="27 research projects funded by government agencies and industry (2016–2026)" data-ko="정부·산업체 지원 연구과제 27건 수행 (2016–2026)">27 research projects funded by government agencies and industry (2016–2026)</li>
             <li data-en="5 books and book chapters" data-ko="저서·북챕터 5권">5 books and book chapters</li>
           </ul>
-          <h4 data-en="🤝 Professional Service" data-ko="🤝 대외 활동">🤝 Professional Service</h4>
+          <h4><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8 4-4 5 2 5-2 4 4-3 8-4 4-8-4-3-8Zm4-4 5 2-3 5 3 2 3-3 5 4M7 15l4 4m0-4 4 4"/></svg><span data-en="Professional Service" data-ko="대외 활동">Professional Service</span></h4>
           <div class="chips">
             <span class="chip" data-en="Frontiers Guest Editor" data-ko="Frontiers 게스트 에디터">Frontiers Guest Editor</span>
             <span class="chip" data-en="Journal Peer Review" data-ko="국제 저널 논문 심사">Journal Peer Review</span>
@@ -1275,9 +1361,9 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
         <!-- research -->
         <div class="ppanel" id="research-panel">
-          <h4 data-en="🎯 Current Research Focus" data-ko="🎯 현재 연구 방향">🎯 Current Research Focus</h4>
+          <h4><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg><span data-en="Current Research Focus" data-ko="현재 연구 방향">Current Research Focus</span></h4>
           <p style="color:var(--ink-soft);font-size:15px" data-en="Our research connects materials science and printed electronics with the wider vision of human–robot interaction. We study flexible sensing, biosensors, information storage and energy devices, alongside AI-assisted analysis and printing processes. These individual research directions inform the interfaces that may connect people and machines." data-ko="본 연구실은 사람과 로봇의 상호작용이라는 비전 아래 소재과학과 인쇄전자를 연결합니다. 유연 센싱, 바이오센서, 정보 저장, 에너지 소자와 함께 AI 기반 분석 및 인쇄 공정을 연구합니다. 각 연구에서 얻은 지식을 사람과 기계를 잇는 인터페이스로 확장하고자 합니다.">Our research connects materials science and printed electronics with the wider vision of human–robot interaction. We study flexible sensing, biosensors, information storage and energy devices, alongside AI-assisted analysis and printing processes. These individual research directions inform the interfaces that may connect people and machines.</p>
-          <h4 data-en="🏆 Recent Achievements" data-ko="🏆 최근 성과">🏆 Recent Achievements</h4>
+          <h4><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Recent Achievements" data-ko="최근 성과">Recent Achievements</span></h4>
           <ul class="achv">
             <li data-en="2026: Review on printed energy materials in Progress in Materials Science (IF 37.4)" data-ko="2026: 인쇄 기반 에너지 소재 리뷰 논문 Progress in Materials Science (IF 37.4) 게재">2026: Review on printed energy materials in Progress in Materials Science (IF 37.4)</li>
             <li data-en="2025: Published in ACS Nano (IF 15.8) on ultra-sensitive DNA detection" data-ko="2025: 초고감도 DNA 검출 연구 ACS Nano (IF 15.8) 게재">2025: Published in ACS Nano (IF 15.8) on ultra-sensitive DNA detection</li>
@@ -1302,32 +1388,32 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 
     <div class="mgroup-label reveal" data-en="Postdoctoral" data-ko="박사후 연구원">Postdoctoral</div>
     <div class="mgrid">
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/HABIBULLA IMRAN_opt.jpg" alt="Dr. Habibulla Imran" loading="lazy"/></div><div class="info"><div class="nm">Dr. Habibulla Imran</div><div class="rl">Postdoctoral Researcher</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/HABIBULLA%20IMRAN_opt.jpg" alt="Dr. Habibulla Imran" loading="lazy"/></div><div class="info"><div class="nm">Dr. Habibulla Imran</div><div class="rl" data-en="Postdoctoral Researcher" data-ko="박사후 연구원">Postdoctoral Researcher</div></div></div>
     </div>
 
     <div class="mgroup-label reveal" data-en="Ph.D. Students" data-ko="박사과정생">Ph.D. Students</div>
     <div class="mgrid">
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/PATIL OMKAR_opt.jpg" alt="Omkar Patil" loading="lazy"/></div><div class="info"><div class="nm">Omkar Patil</div><div class="rl">Ph.D. Student</div></div></div>
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/QASIM RAZA_opt.jpg" alt="Qasim Raza" loading="lazy"/></div><div class="info"><div class="nm">Qasim Raza</div><div class="rl">Ph.D. Student</div></div></div>
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/JOSHI SWARALI KIRAN_opt.jpg" alt="Swarali Joshi" loading="lazy"/></div><div class="info"><div class="nm">Swarali Joshi</div><div class="rl">Ph.D. Student</div></div></div>
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/AQILA BINTI CHE AB RAHMAN_opt.jpg" alt="Aqila Che Ab Rahman" loading="lazy"/></div><div class="info"><div class="nm">Aqila Che Ab Rahman</div><div class="rl">Ph.D. Student</div></div></div>
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/MUHEEB RAFIQ_opt.jpg" alt="Rafiq Muheeb" loading="lazy"/></div><div class="info"><div class="nm">Rafiq Muheeb</div><div class="rl">Ph.D. Student</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/PATIL%20OMKAR_v2.jpg" alt="Omkar Patil" loading="lazy"/></div><div class="info"><div class="nm">Omkar Patil</div><div class="rl" data-en="Ph.D. Student" data-ko="박사과정">Ph.D. Student</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/QASIM%20RAZA_v2.jpg" alt="Qasim Raza" loading="lazy"/></div><div class="info"><div class="nm">Qasim Raza</div><div class="rl" data-en="Ph.D. Student" data-ko="박사과정">Ph.D. Student</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/JOSHI%20SWARALI%20KIRAN_v2.jpg" alt="Swarali Joshi" loading="lazy"/></div><div class="info"><div class="nm">Swarali Joshi</div><div class="rl" data-en="Ph.D. Student" data-ko="박사과정">Ph.D. Student</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/AQILA%20BINTI%20CHE%20AB%20RAHMAN_v2.jpg" alt="Aqila Che Ab Rahman" loading="lazy"/></div><div class="info"><div class="nm">Aqila Che Ab Rahman</div><div class="rl" data-en="Ph.D. Student" data-ko="박사과정">Ph.D. Student</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/MUHEEB%20RAFIQ_v2.jpg" alt="Rafiq Muheeb" loading="lazy"/></div><div class="info"><div class="nm">Rafiq Muheeb</div><div class="rl" data-en="Ph.D. Student" data-ko="박사과정">Ph.D. Student</div></div></div>
     </div>
 
     <div class="mgroup-label reveal" data-en="Undergraduate Students" data-ko="학부생">Undergraduate Students</div>
     <div class="mgrid">
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/SHIN HEE JUNG_opt.jpg" alt="Heejung Shin" loading="lazy"/></div><div class="info"><div class="nm">Heejung Shin (신희정)</div><div class="rl">Undergraduate Student · Electronics Engineering</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/SHIN%20HEE%20JUNG_opt.jpg" alt="Heejung Shin" loading="lazy"/></div><div class="info"><div class="nm">Heejung Shin (신희정)</div><div class="rl" data-en="Undergraduate Student · Electronics Engineering" data-ko="학부생 · 전자공학">Undergraduate Student · Electronics Engineering</div></div></div>
     </div>
 
     <div class="mgroup-label reveal" data-en="Alumni" data-ko="졸업생">Alumni</div>
-    <div class="mgrid">
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/PAWAR OMKAR_opt.jpg" alt="Omkar Pawar" loading="lazy"/></div><div class="info"><div class="nm">Omkar Pawar</div><div class="rl">Ph.D. 2026</div></div></div>
-      <div class="mcard reveal"><div class="ph"></div><div class="info"><div class="nm">Hai Li</div><div class="rl">Ph.D. 2024 · Professor, Jiangxi Science &amp; Technology Normal University</div></div></div>
-      <div class="mcard reveal"><div class="ph"></div><div class="info"><div class="nm">Asrar Alam</div><div class="rl">Ph.D. 2023 · Postdoctoral Researcher, Stanford University</div></div></div>
-      <div class="mcard reveal"><div class="ph"></div><div class="info"><div class="nm">Xue Qi</div><div class="rl">Ph.D. 2022 · Postdoctoral Researcher, Harbin Institute of Technology (Shenzhen)</div></div></div>
-      <div class="mcard reveal"><div class="ph"></div><div class="info"><div class="nm">Hoseong Song (송호성)</div><div class="rl">M.S. 2020 · Public enterprise</div></div></div>
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/MUHAMMAD ZEESHAN ASGHAR_opt.jpg" alt="Muhammad Zeeshan Asghar" loading="lazy"/></div><div class="info"><div class="nm">Muhammad Zeeshan Asghar</div><div class="rl">M.S.</div></div></div>
-      <div class="mcard reveal"><div class="ph"><img src="https://isac8058.github.io/ppel-lab/image/STUDENTS PICTURES/ALI SHAN_opt.jpg" alt="Ali Shan" loading="lazy"/></div><div class="info"><div class="nm">Ali Shan</div><div class="rl">M.S.</div></div></div>
+    <div class="mgrid alumni-grid">
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/PAWAR%20OMKAR_opt.jpg" alt="Omkar Pawar" loading="lazy"/></div><div class="info"><div class="nm">Omkar Pawar</div><div class="rl" data-en="Ph.D. 2026" data-ko="박사 2026">Ph.D. 2026</div></div></div>
+      <div class="mcard reveal"><div class="ph monogram" aria-hidden="true">HL</div><div class="info"><div class="nm">Hai Li</div><div class="rl" data-en="Ph.D. 2024 · Professor, Jiangxi Science &amp; Technology Normal University" data-ko="박사 2024 · 교수, Jiangxi Science &amp; Technology Normal University">Ph.D. 2024 · Professor, Jiangxi Science &amp; Technology Normal University</div></div></div>
+      <div class="mcard reveal"><div class="ph monogram" aria-hidden="true">AA</div><div class="info"><div class="nm">Asrar Alam</div><div class="rl" data-en="Ph.D. 2023 · Postdoctoral Researcher, Stanford University" data-ko="박사 2023 · 박사후 연구원, Stanford University">Ph.D. 2023 · Postdoctoral Researcher, Stanford University</div></div></div>
+      <div class="mcard reveal"><div class="ph monogram" aria-hidden="true">XQ</div><div class="info"><div class="nm">Xue Qi</div><div class="rl" data-en="Ph.D. 2022 · Postdoctoral Researcher, Harbin Institute of Technology (Shenzhen)" data-ko="박사 2022 · 박사후 연구원, Harbin Institute of Technology (Shenzhen)">Ph.D. 2022 · Postdoctoral Researcher, Harbin Institute of Technology (Shenzhen)</div></div></div>
+      <div class="mcard reveal"><div class="ph monogram" aria-hidden="true">HS</div><div class="info"><div class="nm">Hoseong Song (송호성)</div><div class="rl" data-en="M.S. 2020 · Public enterprise" data-ko="석사 2020 · 공기업">M.S. 2020 · Public enterprise</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/MUHAMMAD%20ZEESHAN%20ASGHAR_v2.jpg" alt="Muhammad Zeeshan Asghar" loading="lazy"/></div><div class="info"><div class="nm">Muhammad Zeeshan Asghar</div><div class="rl" data-en="M.S." data-ko="석사">M.S.</div></div></div>
+      <div class="mcard reveal"><div class="ph"><img src="image/STUDENTS%20PICTURES/ALI%20SHAN_opt.jpg" alt="Ali Shan" loading="lazy"/></div><div class="info"><div class="nm">Ali Shan</div><div class="rl" data-en="M.S." data-ko="석사">M.S.</div></div></div>
     </div>
   </div>
 </section>
@@ -1366,37 +1452,37 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="yr">2026</div>
         <div class="main"><div class="pt"><a title="Screen-printed functional materials for energy storage and harvesting: from fundamentals to integrated supercapacitors and nanogenerators
 Progress in Materials Science · 2026 · S Mandal, AC Mendhe, OY Pawar, M Roy, S Lim, T Park, HS Lee, H Lee" href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Screen-printed functional materials for energy storage and harvesting: from fundamentals to integrated supercapacitors and nanogenerators</a></div><div class="au">S Mandal, AC Mendhe, OY Pawar, M Roy, S Lim, T Park, HS Lee, H Lee<span class="jn"> · Progress in Materials Science</span></div></div>
-        <div class="row-tags"><span class="if-badge">IF 37.4</span><a class="doi-link" href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Scholar ↗</a></div>
+        <div class="row-tags"><span class="paper-links"><span class="if-badge">IF 37.4</span><a class="doi-link" href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Scholar ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2026">
         <div class="yr">2026</div>
         <div class="main"><div class="pt"><a title="Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing
 Chemical Engineering Journal · 2026 · AC Ab Rahman, H Imran, S Lim" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener">Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing</a></div><div class="au">AC Ab Rahman, H Imran, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Chemical Engineering Journal</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="paper-links"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2026">
         <div class="yr">2026</div>
         <div class="main"><div class="pt"><a title="Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator
 Nano Energy · 2026 · OA Patil, MY Chougale, S Lim" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener">Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator</a></div><div class="au">OA Patil, MY Chougale, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Nano Energy</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5.1%" data-ko="JCR 상위 5.1%">JCR Top 5.1%</span><span class="if-badge">IF 16.8</span><a class="doi-link" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5.1%" data-ko="JCR 상위 5.1%">JCR Top 5.1%</span><span class="paper-links"><span class="if-badge">IF 16.8</span><a class="doi-link" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2026">
         <div class="yr">2026</div>
         <div class="main"><div class="pt"><a title="Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors
 Advanced Composites and Hybrid Materials · 2026 · A Shan, H Imran, N Nawaz, C Cong, SG Lee, K Gola, MM Baig, H Yoon, S Lim" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener">Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors</a></div><div class="au">A Shan, H Imran, N Nawaz, C Cong, SG Lee, K Gola, MM Baig, H Yoon, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Advanced Composites and Hybrid Materials</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="if-badge">IF 21.8</span><a class="doi-link" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="paper-links"><span class="if-badge">IF 21.8</span><a class="doi-link" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2026">
         <div class="yr">2026</div>
         <div class="main"><div class="pt"><a title="Sulfated Cellulose Nanocrystals into Piezoelectricity: A New Material for Piezoelectric Energy Harvesting and Smart Strain Sensing for Health Monitoring
 Advanced Composites and Hybrid Materials · 2026 · S Lal, OY Pawar, A Lund, E Wang, S Lim, B Hwang" href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener">Sulfated Cellulose Nanocrystals into Piezoelectricity: A New Material for Piezoelectric Energy Harvesting and Smart Strain Sensing for Health Monitoring</a></div><div class="au">S Lal, OY Pawar, A Lund, E Wang, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b>, B Hwang<span class="jn"> · Advanced Composites and Hybrid Materials</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 1.5%" data-ko="JCR 상위 1.5%">JCR Top 1.5%</span><span class="if-badge">IF 21.8</span><a class="doi-link" href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 1.5%" data-ko="JCR 상위 1.5%">JCR Top 1.5%</span><span class="paper-links"><span class="if-badge">IF 21.8</span><a class="doi-link" href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2026">
         <div class="yr">2026</div>
         <div class="main"><div class="pt"><a title="Zinc Anode Modification Using Biomass-Based Materials for High-Performance Zinc-Ion Batteries
 International Journal of Energy Research · 2026 · S Lee, H Ha, E Dunsmore, S Ali, JY Cheong, S Lim, B Hwang" href="https://doi.org/10.1155/er/9436619" target="_blank" rel="noopener">Zinc Anode Modification Using Biomass-Based Materials for High-Performance Zinc-Ion Batteries</a></div><div class="au">S Lee, H Ha, E Dunsmore, S Ali, JY Cheong, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b>, B Hwang<span class="jn"> · International Journal of Energy Research</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 1.2%" data-ko="JCR 상위 1.2%">JCR Top 1.2%</span><span class="if-badge">IF 4.2</span><a class="doi-link" href="https://doi.org/10.1155/er/9436619" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 1.2%" data-ko="JCR 상위 1.2%">JCR Top 1.2%</span><span class="paper-links"><span class="if-badge">IF 4.2</span><a class="doi-link" href="https://doi.org/10.1155/er/9436619" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
 
       <!-- 2025 -->
@@ -1405,55 +1491,55 @@ International Journal of Energy Research · 2026 · S Lee, H Ha, E Dunsmore, S A
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers
 Advanced Functional Materials · 2025 · NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, S Lim, JW Kang" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener">Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</a></div><div class="au">NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b>, JW Kang<span class="jn"> · Advanced Functional Materials</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 4.5%" data-ko="JCR 상위 4.5%">JCR Top 4.5%</span><span class="if-badge">IF 19.0</span><a class="doi-link" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 4.5%" data-ko="JCR 상위 4.5%">JCR Top 4.5%</span><span class="paper-links"><span class="if-badge">IF 19.0</span><a class="doi-link" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene
 ACS Nano · 2025 · H Imran, S Lim, A Alam, J An, M Ko, S Lim" href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive, Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</a></div><div class="au">H Imran, S Lim, A Alam, J An, M Ko, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · ACS Nano</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 6%" data-ko="JCR 상위 6%">JCR Top 6%</span><span class="if-badge">IF 15.8</span><a class="doi-link" href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 6%" data-ko="JCR 상위 6%">JCR Top 6%</span><span class="paper-links"><span class="if-badge">IF 15.8</span><a class="doi-link" href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance
 Chemical Engineering Journal · 2025 · OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, S Lim" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank" rel="noopener">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</a></div><div class="au">OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Chemical Engineering Journal</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3%" data-ko="JCR 상위 3%">JCR Top 3%</span><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3%" data-ko="JCR 상위 3%">JCR Top 3%</span><span class="paper-links"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Portable and wireless DNA nanosensor for early detection of lung cancer using 1T-MoS₂/liposome-AuNP modified transducer
 Int. J. Biological Macromolecules · 2025 · H Imran, M Ko, V Dharuman, J An, S Lim" href="https://doi.org/10.1016/j.ijbiomac.2025.147736" target="_blank" rel="noopener">Portable and wireless DNA nanosensor for early detection of lung cancer using 1T-MoS₂/liposome-AuNP modified transducer</a></div><div class="au">H Imran, M Ko, V Dharuman, J An, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Int. J. Biological Macromolecules</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5.9%" data-ko="JCR 상위 5.9%">JCR Top 5.9%</span><span class="if-badge">IF 11.2</span><a class="doi-link" href="https://doi.org/10.1016/j.ijbiomac.2025.147736" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5.9%" data-ko="JCR 상위 5.9%">JCR Top 5.9%</span><span class="paper-links"><span class="if-badge">IF 11.2</span><a class="doi-link" href="https://doi.org/10.1016/j.ijbiomac.2025.147736" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Tunable dielectric properties of Y³ ⁺, Ni²⁺, and Y³ ⁺-Ni²⁺ substituted magnetite nanorods for multifunctional applications in sensing, energy harvesting, and environmental remediation
 Journal of Alloys and Compounds · 2025 · A Shan, H Imran, MZ Asghar, OA Patil, MM Baig, S Lim" href="https://doi.org/10.1016/j.jallcom.2025.178885" target="_blank" rel="noopener">Tunable dielectric properties of Y³ ⁺, Ni²⁺, and Y³ ⁺-Ni²⁺ substituted magnetite nanorods for multifunctional applications in sensing, energy harvesting, and environmental remediation</a></div><div class="au">A Shan, H Imran, MZ Asghar, OA Patil, MM Baig, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Journal of Alloys and Compounds</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.3%" data-ko="JCR 상위 8.3%">JCR Top 8.3%</span><span class="if-badge">IF 5.8</span><a class="doi-link" href="https://doi.org/10.1016/j.jallcom.2025.178885" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.3%" data-ko="JCR 상위 8.3%">JCR Top 8.3%</span><span class="paper-links"><span class="if-badge">IF 5.8</span><a class="doi-link" href="https://doi.org/10.1016/j.jallcom.2025.178885" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Effects of the properties of mulberry paper on high-performance triboelectric nanogenerators towards AI-based self-powered healthcare applications
 Cellulose · 2025 · OA Patil, OY Pawar, S Kim, S Lim" href="https://doi.org/10.1007/s10570-025-06542-7" target="_blank" rel="noopener">Effects of the properties of mulberry paper on high-performance triboelectric nanogenerators towards AI-based self-powered healthcare applications</a></div><div class="au">OA Patil, OY Pawar, S Kim, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Cellulose</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5%" data-ko="JCR 상위 5%">JCR Top 5%</span><span class="if-badge">IF 4.9</span><a class="doi-link" href="https://doi.org/10.1007/s10570-025-06542-7" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5%" data-ko="JCR 상위 5%">JCR Top 5%</span><span class="paper-links"><span class="if-badge">IF 4.9</span><a class="doi-link" href="https://doi.org/10.1007/s10570-025-06542-7" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Rapid on-site detection of riboflavin using nanozyme GdSn-MnO2 based printed electrode interface with portable and wireless sensor device
 Journal of Alloys and Compounds · 2025 · A Shan, H Imran, K Batool, MM Baig, SG Lee, S Lim" href="https://doi.org/10.1016/j.jallcom.2025.181189" target="_blank" rel="noopener">Rapid on-site detection of riboflavin using nanozyme GdSn-MnO2 based printed electrode interface with portable and wireless sensor device</a></div><div class="au">A Shan, H Imran, K Batool, MM Baig, SG Lee, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Journal of Alloys and Compounds</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.3%" data-ko="JCR 상위 8.3%">JCR Top 8.3%</span><span class="if-badge">IF 5.8</span><a class="doi-link" href="https://doi.org/10.1016/j.jallcom.2025.181189" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.3%" data-ko="JCR 상위 8.3%">JCR Top 8.3%</span><span class="paper-links"><span class="if-badge">IF 5.8</span><a class="doi-link" href="https://doi.org/10.1016/j.jallcom.2025.181189" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Ultra-sensitive and real-time detection of quercetin in food samples using nanozyme 2D CuO nanosheet printed flexible electrode
 Food Chemistry · 2025 · H Imran, JE Bae, Y Cho, S Lim" href="https://doi.org/10.1016/j.foodchem.2025.145157" target="_blank" rel="noopener">Ultra-sensitive and real-time detection of quercetin in food samples using nanozyme 2D CuO nanosheet printed flexible electrode</a></div><div class="au">H Imran, JE Bae, Y Cho, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Food Chemistry</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3.1%" data-ko="JCR 상위 3.1%">JCR Top 3.1%</span><span class="if-badge">IF 9.8</span><a class="doi-link" href="https://doi.org/10.1016/j.foodchem.2025.145157" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3.1%" data-ko="JCR 상위 3.1%">JCR Top 3.1%</span><span class="paper-links"><span class="if-badge">IF 9.8</span><a class="doi-link" href="https://doi.org/10.1016/j.foodchem.2025.145157" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Biocompatible microneedles with engineered indentation design fabricated via vat photopolymerization for enhanced transdermal drug delivery
 European Polymer Journal · 2025 · A Che Ab Rahman, S Yang, S Lim" href="https://doi.org/10.1016/j.eurpolymj.2025.113818" target="_blank" rel="noopener">Biocompatible microneedles with engineered indentation design fabricated via vat photopolymerization for enhanced transdermal drug delivery</a></div><div class="au">A Che Ab Rahman, S Yang, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · European Polymer Journal</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.9%" data-ko="JCR 상위 8.9%">JCR Top 8.9%</span><span class="if-badge">IF 5.8</span><a class="doi-link" href="https://doi.org/10.1016/j.eurpolymj.2025.113818" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.9%" data-ko="JCR 상위 8.9%">JCR Top 8.9%</span><span class="paper-links"><span class="if-badge">IF 5.8</span><a class="doi-link" href="https://doi.org/10.1016/j.eurpolymj.2025.113818" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
 
       <!-- 2024 -->
@@ -1461,49 +1547,49 @@ European Polymer Journal · 2025 · A Che Ab Rahman, S Yang, S Lim" href="https:
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites
 Journal of Materials Chemistry A · 2024 · A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, S Lim" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</a></div><div class="au">A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Journal of Materials Chemistry A</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.8%" data-ko="JCR 상위 8.8%">JCR Top 8.8%</span><span class="if-badge">IF 11.1</span><a class="doi-link" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.8%" data-ko="JCR 상위 8.8%">JCR Top 8.8%</span><span class="paper-links"><span class="if-badge">IF 11.1</span><a class="doi-link" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets: Exploring 1D/2D structural adjustment
 Chemical Engineering Journal · 2024 · B Diao, C Cong, F Sun, H Li, H Zhang, X Wang, M Jin, S Lim, X Li, SH Kim" href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets: Exploring 1D/2D structural adjustment</a></div><div class="au">B Diao, C Cong, F Sun, H Li, H Zhang, X Wang, M Jin, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b>, X Li, SH Kim<span class="jn"> · Chemical Engineering Journal</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3.1%" data-ko="JCR 상위 3.1%">JCR Top 3.1%</span><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3.1%" data-ko="JCR 상위 3.1%">JCR Top 3.1%</span><span class="paper-links"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Recent advancements in carbon-based materials for resistive switching applications
 Carbon · 2024 · SL Patil, OY Pawar, TD Dongale, S Chang, S Lim, YM Song" href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener">Recent advancements in carbon-based materials for resistive switching applications</a></div><div class="au">SL Patil, OY Pawar, TD Dongale, S Chang, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b>, YM Song<span class="jn"> · Carbon</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="if-badge">IF 11.6</span><a class="doi-link" href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="paper-links"><span class="if-badge">IF 11.6</span><a class="doi-link" href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Optimizing polymethyl methacrylate (PMMA)-based stretchable microneedle arrays by vat photopolymerization for efficient drug loading
 Additive Manufacturing · 2024 · AC Ab Rahman, BJ Lee, S Lim" href="https://doi.org/10.1016/j.addma.2024.104472" target="_blank" rel="noopener">Optimizing polymethyl methacrylate (PMMA)-based stretchable microneedle arrays by vat photopolymerization for efficient drug loading</a></div><div class="au">AC Ab Rahman, BJ Lee, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Additive Manufacturing</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 9%" data-ko="JCR 상위 9%">JCR Top 9%</span><span class="if-badge">IF 11.1</span><a class="doi-link" href="https://doi.org/10.1016/j.addma.2024.104472" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 9%" data-ko="JCR 상위 9%">JCR Top 9%</span><span class="paper-links"><span class="if-badge">IF 11.1</span><a class="doi-link" href="https://doi.org/10.1016/j.addma.2024.104472" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Development of stretchable microneedle arrays via single-step digital light-processing printing for delivery of rhodamine B into skin tissue
 International Journal of Biological Macromolecules · 2024 · A Che Ab Rahman, P Matteini, SH Kim, B Hwang, S Lim" href="https://doi.org/10.1016/j.ijbiomac.2024.129987" target="_blank" rel="noopener">Development of stretchable microneedle arrays via single-step digital light-processing printing for delivery of rhodamine B into skin tissue</a></div><div class="au">A Che Ab Rahman, P Matteini, SH Kim, B Hwang, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · International Journal of Biological Macromolecules</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5.2%" data-ko="JCR 상위 5.2%">JCR Top 5.2%</span><span class="if-badge">IF 8.2</span><a class="doi-link" href="https://doi.org/10.1016/j.ijbiomac.2024.129987" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 5.2%" data-ko="JCR 상위 5.2%">JCR Top 5.2%</span><span class="paper-links"><span class="if-badge">IF 8.2</span><a class="doi-link" href="https://doi.org/10.1016/j.ijbiomac.2024.129987" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="The effect of printing parameters on the bonding strength and electric performance of FDM-printed graphene filaments to mulberry paper for paper electronics
 Cellulose · 2024 · OY Pawar, H Ha, N Qaiser, SH Kim, B Hwang, S Lim" href="https://doi.org/10.1007/s10570-023-05730-7" target="_blank" rel="noopener">The effect of printing parameters on the bonding strength and electric performance of FDM-printed graphene filaments to mulberry paper for paper electronics</a></div><div class="au">OY Pawar, H Ha, N Qaiser, SH Kim, B Hwang, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Cellulose</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 2.4%" data-ko="JCR 상위 2.4%">JCR Top 2.4%</span><span class="if-badge">IF 5.7</span><a class="doi-link" href="https://doi.org/10.1007/s10570-023-05730-7" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 2.4%" data-ko="JCR 상위 2.4%">JCR Top 2.4%</span><span class="paper-links"><span class="if-badge">IF 5.7</span><a class="doi-link" href="https://doi.org/10.1007/s10570-023-05730-7" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Review of the Mechanistic and Structural Assessment of Binders in Electrodes for Lithium-Ion Batteries
 International Journal of Energy Research · 2024 · H Yoon, P Behera, S Lim, TG Yun, B Hwang, JY Cheong" href="https://doi.org/10.1155/2024/8893580" target="_blank" rel="noopener">Review of the Mechanistic and Structural Assessment of Binders in Electrodes for Lithium-Ion Batteries</a></div><div class="au">H Yoon, P Behera, S Lim, TG Yun, B Hwang, JY Cheong<span class="jn"> · International Journal of Energy Research</span></div></div>
-        <div class="row-tags"><span class="tag tag-top" data-en="JCR Top 1.5%" data-ko="JCR 상위 1.5%">JCR Top 1.5%</span><span class="if-badge">IF 4.6</span><a class="doi-link" href="https://doi.org/10.1155/2024/8893580" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-top" data-en="JCR Top 1.5%" data-ko="JCR 상위 1.5%">JCR Top 1.5%</span><span class="paper-links"><span class="if-badge">IF 4.6</span><a class="doi-link" href="https://doi.org/10.1155/2024/8893580" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Etching-free fabrication method for silver nanowires-based SERS sensors for enhanced molecule detection
 Engineering Science and Technology, an International Journal · 2024 · Y Han, C D’Andrea, M Leem, JW Jung, S Lim, P Matteini, B Hwang" href="https://doi.org/10.1016/j.jestch.2024.101892" target="_blank" rel="noopener">Etching-free fabrication method for silver nanowires-based SERS sensors for enhanced molecule detection</a></div><div class="au">Y Han, C D’Andrea, M Leem, JW Jung, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b>, P Matteini, B Hwang<span class="jn"> · Engineering Science and Technology, an International Journal</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 9.8%" data-ko="JCR 상위 9.8%">JCR Top 9.8%</span><span class="if-badge">IF 5.1</span><a class="doi-link" href="https://doi.org/10.1016/j.jestch.2024.101892" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 9.8%" data-ko="JCR 상위 9.8%">JCR Top 9.8%</span><span class="paper-links"><span class="if-badge">IF 5.1</span><a class="doi-link" href="https://doi.org/10.1016/j.jestch.2024.101892" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
     </div>
 
@@ -1542,43 +1628,43 @@ DLP Printing Composition Containing PMMA
 KR 10-2025-0050988 · Filed 2025.04.18"><div class="yr">2025</div><div class="pt" data-en="DLP Printing Composition Containing PMMA" data-ko="PMMA를 포함하는 DLP 인쇄용 조성물">DLP Printing Composition Containing PMMA</div><div class="row-tags"><span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span><span class="pat-no">KR 10-2025-0050988</span></div></div>
       <div class="pat granted reveal pat-row" title="압전 나노발전기용 압전 필름 및 그 제조 방법
 Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof
-KR 10-2024-0044354 · Filed 2024.04.01 · Reg. 10-2943900 (2026.03.20)"><div class="yr">2024</div><div class="pt" data-en="Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof" data-ko="압전 나노발전기용 압전 필름 및 그 제조 방법">Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2024-0044354</span></div></div>
+KR 10-2024-0044354 · Filed 2024.04.01 · Reg. 10-2943900 (2026.03.20)"><div class="yr">2024</div><div class="pt" data-en="Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof" data-ko="압전 나노발전기용 압전 필름 및 그 제조 방법">Piezoelectric Film for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2024-0044354</span></div></div>
       <div class="pat reveal pat-row" title="정전도장용 스프레이 페인트, 그 제조 방법 및 이를 이용한 피도물 코팅 방법
 Spray Paint for Electrostatic Coating, Manufacturing Method and Coating Method Using the Same
 KR 10-2024-0020580 · Filed 2024.02.13"><div class="yr">2024</div><div class="pt" data-en="Spray Paint for Electrostatic Coating, Manufacturing Method and Coating Method Using the Same" data-ko="정전도장용 스프레이 페인트, 그 제조 방법 및 이를 이용한 피도물 코팅 방법">Spray Paint for Electrostatic Coating, Manufacturing Method and Coating Method Using the Same</div><div class="row-tags"><span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span><span class="pat-no">KR 10-2024-0020580</span></div></div>
       <div class="pat granted reveal pat-row" title="정전 도장에 적용 가능한 친환경 컬러 세라믹 도료 조성물 및 그 제조방법
 Eco-Friendly Color Ceramic Paint Composition for Electrostatic Coating and Manufacturing Method Thereof
-KR 10-2023-0195512 · Filed 2023.12.28 · Reg. 10-2928995 (2026.02.12) · Co-filed with INIX Co., Ltd."><div class="yr">2023</div><div class="pt" data-en="Eco-Friendly Color Ceramic Paint Composition for Electrostatic Coating and Manufacturing Method Thereof" data-ko="정전 도장에 적용 가능한 친환경 컬러 세라믹 도료 조성물 및 그 제조방법">Eco-Friendly Color Ceramic Paint Composition for Electrostatic Coating and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2023-0195512</span></div></div>
+KR 10-2023-0195512 · Filed 2023.12.28 · Reg. 10-2928995 (2026.02.12) · Co-filed with INIX Co., Ltd."><div class="yr">2023</div><div class="pt" data-en="Eco-Friendly Color Ceramic Paint Composition for Electrostatic Coating and Manufacturing Method Thereof" data-ko="정전 도장에 적용 가능한 친환경 컬러 세라믹 도료 조성물 및 그 제조방법">Eco-Friendly Color Ceramic Paint Composition for Electrostatic Coating and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2023-0195512</span></div></div>
       <div class="pat transfer reveal pat-row" title="캡사이신 검출용 스크린 인쇄 탄소전극 및 이의 제조방법
 Screen-Printed Carbon Electrode for Capsaicin Detection and Manufacturing Method Thereof
 KR 10-2023-0161484 · Filed 2023.11.20 · Licensed to industry"><div class="yr">2023</div><div class="pt" data-en="Screen-Printed Carbon Electrode for Capsaicin Detection and Manufacturing Method Thereof" data-ko="캡사이신 검출용 스크린 인쇄 탄소전극 및 이의 제조방법">Screen-Printed Carbon Electrode for Capsaicin Detection and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-transfer" data-en="Tech Transferred" data-ko="기술이전">Tech Transferred</span><span class="pat-no">KR 10-2023-0161484</span></div></div>
       <div class="pat granted reveal pat-row" title="압전 나노발전기용 3차원 고분자-나노입체-액체 삼원복합체 및 이의 제조방법
 Three-Dimensional Polymer–Nanostructure–Liquid Ternary Composite for Piezoelectric Nanogenerators and Manufacturing Method Thereof
-KR 10-2023-0139801 · Filed 2023.10.18 · Reg. 10-2828808 (2025.06.30)"><div class="yr">2023</div><div class="pt" data-en="Three-Dimensional Polymer–Nanostructure–Liquid Ternary Composite for Piezoelectric Nanogenerators and Manufacturing Method Thereof" data-ko="압전 나노발전기용 3차원 고분자-나노입체-액체 삼원복합체 및 이의 제조방법">Three-Dimensional Polymer–Nanostructure–Liquid Ternary Composite for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2023-0139801</span></div></div>
+KR 10-2023-0139801 · Filed 2023.10.18 · Reg. 10-2828808 (2025.06.30)"><div class="yr">2023</div><div class="pt" data-en="Three-Dimensional Polymer–Nanostructure–Liquid Ternary Composite for Piezoelectric Nanogenerators and Manufacturing Method Thereof" data-ko="압전 나노발전기용 3차원 고분자-나노입체-액체 삼원복합체 및 이의 제조방법">Three-Dimensional Polymer–Nanostructure–Liquid Ternary Composite for Piezoelectric Nanogenerators and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2023-0139801</span></div></div>
       <div class="pat reveal pat-row" title="5-하이드록시메틸시토신 감지용 질화탄소 개질 금 변환기 기반 전기 화학 센서 및 그 제조 방법
 Electrochemical Sensor Based on Carbon-Nitride-Modified Gold Transducer for 5-Hydroxymethylcytosine Detection and Manufacturing Method Thereof
 KR 10-2023-0129371 · Filed 2023.09.26"><div class="yr">2023</div><div class="pt" data-en="Electrochemical Sensor Based on Carbon-Nitride-Modified Gold Transducer for 5-Hydroxymethylcytosine Detection and Manufacturing Method Thereof" data-ko="5-하이드록시메틸시토신 감지용 질화탄소 개질 금 변환기 기반 전기 화학 센서 및 그 제조 방법">Electrochemical Sensor Based on Carbon-Nitride-Modified Gold Transducer for 5-Hydroxymethylcytosine Detection and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-filed" data-en="Pending" data-ko="출원">Pending</span><span class="pat-no">KR 10-2023-0129371</span></div></div>
       <div class="pat granted reveal pat-row" title="초고에너지 밀도 플렉시블 비대칭 슈퍼커패시터 및 이의 제조방법
 Ultrahigh-Energy-Density Flexible Asymmetric Supercapacitor and Manufacturing Method Thereof
-KR 10-2023-0123266 · Filed 2023.09.15 · Reg. 10-2827900 (2025.06.26)"><div class="yr">2023</div><div class="pt" data-en="Ultrahigh-Energy-Density Flexible Asymmetric Supercapacitor and Manufacturing Method Thereof" data-ko="초고에너지 밀도 플렉시블 비대칭 슈퍼커패시터 및 이의 제조방법">Ultrahigh-Energy-Density Flexible Asymmetric Supercapacitor and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2023-0123266</span></div></div>
+KR 10-2023-0123266 · Filed 2023.09.15 · Reg. 10-2827900 (2025.06.26)"><div class="yr">2023</div><div class="pt" data-en="Ultrahigh-Energy-Density Flexible Asymmetric Supercapacitor and Manufacturing Method Thereof" data-ko="초고에너지 밀도 플렉시블 비대칭 슈퍼커패시터 및 이의 제조방법">Ultrahigh-Energy-Density Flexible Asymmetric Supercapacitor and Manufacturing Method Thereof</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2023-0123266</span></div></div>
       <div class="pat granted reveal pat-row" title="3차원 다공성 압전 소자 및 이의 제조 방법, 이를 포함하는 압전 나노발전기
 Three-Dimensional Porous Piezoelectric Device, Manufacturing Method Thereof, and Piezoelectric Nanogenerator Including the Same
-KR 10-2023-0010884 · Filed 2023.01.27 · Reg. 10-2756747 (2025.01.14)"><div class="yr">2023</div><div class="pt" data-en="Three-Dimensional Porous Piezoelectric Device, Manufacturing Method Thereof, and Piezoelectric Nanogenerator Including the Same" data-ko="3차원 다공성 압전 소자 및 이의 제조 방법, 이를 포함하는 압전 나노발전기">Three-Dimensional Porous Piezoelectric Device, Manufacturing Method Thereof, and Piezoelectric Nanogenerator Including the Same</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2023-0010884</span></div></div>
+KR 10-2023-0010884 · Filed 2023.01.27 · Reg. 10-2756747 (2025.01.14)"><div class="yr">2023</div><div class="pt" data-en="Three-Dimensional Porous Piezoelectric Device, Manufacturing Method Thereof, and Piezoelectric Nanogenerator Including the Same" data-ko="3차원 다공성 압전 소자 및 이의 제조 방법, 이를 포함하는 압전 나노발전기">Three-Dimensional Porous Piezoelectric Device, Manufacturing Method Thereof, and Piezoelectric Nanogenerator Including the Same</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2023-0010884</span></div></div>
       <div class="pat granted reveal pat-row" title="고분자-나노 액적 복합체, 그 제조방법, 그를 포함하는 SL-PENG 및 이를 포함하는 전자 장치
 Polymer–Nanodroplet Composite, Manufacturing Method Thereof, SL-PENG Including the Same, and Electronic Device Comprising It
-KR 10-2022-0045597 · Filed 2022.04.13 · Reg. 10-2812949 (2025.05.21)"><div class="yr">2022</div><div class="pt" data-en="Polymer–Nanodroplet Composite, Manufacturing Method Thereof, SL-PENG Including the Same, and Electronic Device Comprising It" data-ko="고분자-나노 액적 복합체, 그 제조방법, 그를 포함하는 SL-PENG 및 이를 포함하는 전자 장치">Polymer–Nanodroplet Composite, Manufacturing Method Thereof, SL-PENG Including the Same, and Electronic Device Comprising It</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2022-0045597</span></div></div>
+KR 10-2022-0045597 · Filed 2022.04.13 · Reg. 10-2812949 (2025.05.21)"><div class="yr">2022</div><div class="pt" data-en="Polymer–Nanodroplet Composite, Manufacturing Method Thereof, SL-PENG Including the Same, and Electronic Device Comprising It" data-ko="고분자-나노 액적 복합체, 그 제조방법, 그를 포함하는 SL-PENG 및 이를 포함하는 전자 장치">Polymer–Nanodroplet Composite, Manufacturing Method Thereof, SL-PENG Including the Same, and Electronic Device Comprising It</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2022-0045597</span></div></div>
       <div class="pat granted reveal pat-row" title="압전 소자의 프린팅용 조성물, 이의 제조 방법 및 이를 이용한 압전 소자용 프린터
 Printing Composition for Piezoelectric Devices, Manufacturing Method Thereof, and Printer for Piezoelectric Devices Using the Same
-KR 10-2021-0104866 · Filed 2021.08.09 · Reg. 10-2595641 (2023.10.25)"><div class="yr">2021</div><div class="pt" data-en="Printing Composition for Piezoelectric Devices, Manufacturing Method Thereof, and Printer for Piezoelectric Devices Using the Same" data-ko="압전 소자의 프린팅용 조성물, 이의 제조 방법 및 이를 이용한 압전 소자용 프린터">Printing Composition for Piezoelectric Devices, Manufacturing Method Thereof, and Printer for Piezoelectric Devices Using the Same</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2021-0104866</span></div></div>
+KR 10-2021-0104866 · Filed 2021.08.09 · Reg. 10-2595641 (2023.10.25)"><div class="yr">2021</div><div class="pt" data-en="Printing Composition for Piezoelectric Devices, Manufacturing Method Thereof, and Printer for Piezoelectric Devices Using the Same" data-ko="압전 소자의 프린팅용 조성물, 이의 제조 방법 및 이를 이용한 압전 소자용 프린터">Printing Composition for Piezoelectric Devices, Manufacturing Method Thereof, and Printer for Piezoelectric Devices Using the Same</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2021-0104866</span></div></div>
       <div class="pat granted reveal pat-row" title="압전물질 복합체, 이의 필름과 제조방법, 및 이 필름을 이용한 센서
 Piezoelectric Material Composite, Film and Manufacturing Method Thereof, and Sensor Using the Film
-KR 10-2020-0149629 · Filed 2020.11.10 · Reg. 10-2610162 (2023.11.30)"><div class="yr">2020</div><div class="pt" data-en="Piezoelectric Material Composite, Film and Manufacturing Method Thereof, and Sensor Using the Film" data-ko="압전물질 복합체, 이의 필름과 제조방법, 및 이 필름을 이용한 센서">Piezoelectric Material Composite, Film and Manufacturing Method Thereof, and Sensor Using the Film</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2020-0149629</span></div></div>
+KR 10-2020-0149629 · Filed 2020.11.10 · Reg. 10-2610162 (2023.11.30)"><div class="yr">2020</div><div class="pt" data-en="Piezoelectric Material Composite, Film and Manufacturing Method Thereof, and Sensor Using the Film" data-ko="압전물질 복합체, 이의 필름과 제조방법, 및 이 필름을 이용한 센서">Piezoelectric Material Composite, Film and Manufacturing Method Thereof, and Sensor Using the Film</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2020-0149629</span></div></div>
       <div class="pat granted reveal pat-row" title="한지 기반 그래핀 스트레인 센서의 제조방법 및 이에 의한 스트레인센서
 Manufacturing Method of Hanji-Based Graphene Strain Sensor and Strain Sensor Produced Thereby
-KR 10-2020-0064711 · Filed 2020.05.29 · Reg. 10-2400602 (2022.05.17)"><div class="yr">2020</div><div class="pt" data-en="Manufacturing Method of Hanji-Based Graphene Strain Sensor and Strain Sensor Produced Thereby" data-ko="한지 기반 그래핀 스트레인 센서의 제조방법 및 이에 의한 스트레인센서">Manufacturing Method of Hanji-Based Graphene Strain Sensor and Strain Sensor Produced Thereby</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2020-0064711</span></div></div>
+KR 10-2020-0064711 · Filed 2020.05.29 · Reg. 10-2400602 (2022.05.17)"><div class="yr">2020</div><div class="pt" data-en="Manufacturing Method of Hanji-Based Graphene Strain Sensor and Strain Sensor Produced Thereby" data-ko="한지 기반 그래핀 스트레인 센서의 제조방법 및 이에 의한 스트레인센서">Manufacturing Method of Hanji-Based Graphene Strain Sensor and Strain Sensor Produced Thereby</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2020-0064711</span></div></div>
       <div class="pat granted reveal pat-row" title="스트레인 게이지, 그를 포함하는 스트레인 센서 및 이를 이용한 스트레인 측정 방법
 Strain Gauge, Strain Sensor Including the Same, and Strain Measurement Method Using the Same
-KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div class="yr">2019</div><div class="pt" data-en="Strain Gauge, Strain Sensor Including the Same, and Strain Measurement Method Using the Same" data-ko="스트레인 게이지, 그를 포함하는 스트레인 센서 및 이를 이용한 스트레인 측정 방법">Strain Gauge, Strain Sensor Including the Same, and Strain Measurement Method Using the Same</div><div class="row-tags"><span class="st st-granted" data-en="🏆 Granted" data-ko="🏆 등록">🏆 Granted</span><span class="pat-no">KR 10-2019-0059812</span></div></div>
+KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div class="yr">2019</div><div class="pt" data-en="Strain Gauge, Strain Sensor Including the Same, and Strain Measurement Method Using the Same" data-ko="스트레인 게이지, 그를 포함하는 스트레인 센서 및 이를 이용한 스트레인 측정 방법">Strain Gauge, Strain Sensor Including the Same, and Strain Measurement Method Using the Same</div><div class="row-tags"><span class="st st-granted"><svg class="line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v6a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v6m-4 2h8"/></svg><span data-en="Granted" data-ko="등록">Granted</span></span><span class="pat-no">KR 10-2019-0059812</span></div></div>
     </div>
     <div class="pat-note reveal"><span class="sw"></span><span data-en="Granted patents are marked with a blue left border · tech-transferred with a green border" data-ko="등록 특허는 좌측 파란색, 기술이전 특허는 초록색 테두리로 표시됩니다">Granted patents are marked with a blue left border · tech-transferred with a green border</span></div>
   </div>
@@ -1593,12 +1679,12 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
       <p data-en="Partnerships with leading research institutions worldwide." data-ko="세계 유수 연구기관과의 협력 관계입니다.">Partnerships with leading research institutions worldwide.</p>
     </div>
     <div class="collab-grid">
-      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 190 100" role="img" aria-label="United States flag" preserveAspectRatio="xMidYMid meet"><title>United States</title><rect width="190" height="100" fill="#B22234"/><path d="M0 11.54H190M0 26.92H190M0 42.31H190M0 57.69H190M0 73.08H190M0 88.46H190" stroke="#fff" stroke-width="7.69"/><rect width="76" height="53.85" fill="#3C3B6E"/><g fill="#fff"><circle cx="6.33" cy="5.38" r="1.9"/><circle cx="19.00" cy="5.38" r="1.9"/><circle cx="31.67" cy="5.38" r="1.9"/><circle cx="44.34" cy="5.38" r="1.9"/><circle cx="57.01" cy="5.38" r="1.9"/><circle cx="69.68" cy="5.38" r="1.9"/><circle cx="12.67" cy="10.77" r="1.9"/><circle cx="25.34" cy="10.77" r="1.9"/><circle cx="38.01" cy="10.77" r="1.9"/><circle cx="50.68" cy="10.77" r="1.9"/><circle cx="63.35" cy="10.77" r="1.9"/><circle cx="6.33" cy="16.16" r="1.9"/><circle cx="19.00" cy="16.16" r="1.9"/><circle cx="31.67" cy="16.16" r="1.9"/><circle cx="44.34" cy="16.16" r="1.9"/><circle cx="57.01" cy="16.16" r="1.9"/><circle cx="69.68" cy="16.16" r="1.9"/><circle cx="12.67" cy="21.54" r="1.9"/><circle cx="25.34" cy="21.54" r="1.9"/><circle cx="38.01" cy="21.54" r="1.9"/><circle cx="50.68" cy="21.54" r="1.9"/><circle cx="63.35" cy="21.54" r="1.9"/><circle cx="6.33" cy="26.92" r="1.9"/><circle cx="19.00" cy="26.92" r="1.9"/><circle cx="31.67" cy="26.92" r="1.9"/><circle cx="44.34" cy="26.92" r="1.9"/><circle cx="57.01" cy="26.92" r="1.9"/><circle cx="69.68" cy="26.92" r="1.9"/><circle cx="12.67" cy="32.31" r="1.9"/><circle cx="25.34" cy="32.31" r="1.9"/><circle cx="38.01" cy="32.31" r="1.9"/><circle cx="50.68" cy="32.31" r="1.9"/><circle cx="63.35" cy="32.31" r="1.9"/><circle cx="6.33" cy="37.70" r="1.9"/><circle cx="19.00" cy="37.70" r="1.9"/><circle cx="31.67" cy="37.70" r="1.9"/><circle cx="44.34" cy="37.70" r="1.9"/><circle cx="57.01" cy="37.70" r="1.9"/><circle cx="69.68" cy="37.70" r="1.9"/><circle cx="12.67" cy="43.08" r="1.9"/><circle cx="25.34" cy="43.08" r="1.9"/><circle cx="38.01" cy="43.08" r="1.9"/><circle cx="50.68" cy="43.08" r="1.9"/><circle cx="63.35" cy="43.08" r="1.9"/><circle cx="6.33" cy="48.46" r="1.9"/><circle cx="19.00" cy="48.46" r="1.9"/><circle cx="31.67" cy="48.46" r="1.9"/><circle cx="44.34" cy="48.46" r="1.9"/><circle cx="57.01" cy="48.46" r="1.9"/><circle cx="69.68" cy="48.46" r="1.9"/></g></svg></div><div><div class="nm">University of Minnesota</div><div class="co">USA</div></div></div>
-      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 30 20" role="img" aria-label="China flag" preserveAspectRatio="xMidYMid meet"><title>China</title><rect width="30" height="20" fill="#EE1C25"/><polygon fill="#FFFF00" points="5.00,2.00 5.67,4.07 7.85,4.07 6.09,5.35 6.76,7.43 5.00,6.15 3.24,7.43 3.91,5.35 2.15,4.07 4.33,4.07"/><polygon fill="#FFFF00" points="10.00,1.00 10.22,1.69 10.95,1.69 10.36,2.12 10.59,2.81 10.00,2.38 9.41,2.81 9.64,2.12 9.05,1.69 9.78,1.69"/><polygon fill="#FFFF00" points="12.00,3.00 12.22,3.69 12.95,3.69 12.36,4.12 12.59,4.81 12.00,4.38 11.41,4.81 11.64,4.12 11.05,3.69 11.78,3.69"/><polygon fill="#FFFF00" points="12.00,6.00 12.22,6.69 12.95,6.69 12.36,7.12 12.59,7.81 12.00,7.38 11.41,7.81 11.64,7.12 11.05,6.69 11.78,6.69"/><polygon fill="#FFFF00" points="10.00,8.00 10.22,8.69 10.95,8.69 10.36,9.12 10.59,9.81 10.00,9.38 9.41,9.81 9.64,9.12 9.05,8.69 9.78,8.69"/></svg></div><div><div class="nm">Tsinghua University</div><div class="co">China</div></div></div>
-      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 30 20" role="img" aria-label="Japan flag" preserveAspectRatio="xMidYMid meet"><title>Japan</title><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#BC002D"/></svg></div><div><div class="nm">Institute of Science Tokyo</div><div class="co">Japan</div></div></div>
-      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 5 3" role="img" aria-label="Germany flag" preserveAspectRatio="xMidYMid meet"><title>Germany</title><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#DD0000"/><rect y="2" width="5" height="1" fill="#FFCE00"/></svg></div><div><div class="nm">Technical University of Munich</div><div class="co">Germany</div></div></div>
-      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 60 30" role="img" aria-label="United Kingdom flag" preserveAspectRatio="xMidYMid meet"><title>United Kingdom</title><clipPath id="flag-uk-clip"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath><rect width="60" height="30" fill="#012169"/><path d="M0 0l60 30M60 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" clip-path="url(#flag-uk-clip)" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></svg></div><div><div class="nm">Imperial College London</div><div class="co">United Kingdom</div></div></div>
-      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 30 20" role="img" aria-label="Singapore flag" preserveAspectRatio="xMidYMid meet"><title>Singapore</title><rect width="30" height="10" fill="#EF3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7.4" cy="5.2" r="3.4" fill="#fff"/><circle cx="8.9" cy="5.2" r="3.4" fill="#EF3340"/><polygon fill="#fff" points="10.20,2.55 10.37,3.07 10.91,3.07 10.47,3.39 10.64,3.91 10.20,3.59 9.76,3.91 9.93,3.39 9.49,3.07 10.03,3.07"/><polygon fill="#fff" points="12.01,3.86 12.18,4.38 12.72,4.38 12.28,4.70 12.45,5.22 12.01,4.90 11.57,5.22 11.73,4.70 11.29,4.38 11.84,4.38"/><polygon fill="#fff" points="11.32,5.99 11.49,6.51 12.03,6.51 11.59,6.83 11.76,7.34 11.32,7.02 10.88,7.34 11.04,6.83 10.60,6.51 11.15,6.51"/><polygon fill="#fff" points="9.08,5.99 9.25,6.51 9.80,6.51 9.36,6.83 9.52,7.34 9.08,7.02 8.64,7.34 8.81,6.83 8.37,6.51 8.91,6.51"/><polygon fill="#fff" points="8.39,3.86 8.56,4.38 9.11,4.38 8.67,4.70 8.83,5.22 8.39,4.90 7.95,5.22 8.12,4.70 7.68,4.38 8.22,4.38"/></svg></div><div><div class="nm">National University of Singapore</div><div class="co">Singapore</div></div></div>
+      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 190 100" role="img" aria-label="United States flag" preserveAspectRatio="xMidYMid meet"><title>United States</title><rect width="190" height="100" fill="#B22234"/><path d="M0 11.54H190M0 26.92H190M0 42.31H190M0 57.69H190M0 73.08H190M0 88.46H190" stroke="#fff" stroke-width="7.69"/><rect width="76" height="53.85" fill="#3C3B6E"/><g fill="#fff"><circle cx="6.33" cy="5.38" r="1.9"/><circle cx="19.00" cy="5.38" r="1.9"/><circle cx="31.67" cy="5.38" r="1.9"/><circle cx="44.34" cy="5.38" r="1.9"/><circle cx="57.01" cy="5.38" r="1.9"/><circle cx="69.68" cy="5.38" r="1.9"/><circle cx="12.67" cy="10.77" r="1.9"/><circle cx="25.34" cy="10.77" r="1.9"/><circle cx="38.01" cy="10.77" r="1.9"/><circle cx="50.68" cy="10.77" r="1.9"/><circle cx="63.35" cy="10.77" r="1.9"/><circle cx="6.33" cy="16.16" r="1.9"/><circle cx="19.00" cy="16.16" r="1.9"/><circle cx="31.67" cy="16.16" r="1.9"/><circle cx="44.34" cy="16.16" r="1.9"/><circle cx="57.01" cy="16.16" r="1.9"/><circle cx="69.68" cy="16.16" r="1.9"/><circle cx="12.67" cy="21.54" r="1.9"/><circle cx="25.34" cy="21.54" r="1.9"/><circle cx="38.01" cy="21.54" r="1.9"/><circle cx="50.68" cy="21.54" r="1.9"/><circle cx="63.35" cy="21.54" r="1.9"/><circle cx="6.33" cy="26.92" r="1.9"/><circle cx="19.00" cy="26.92" r="1.9"/><circle cx="31.67" cy="26.92" r="1.9"/><circle cx="44.34" cy="26.92" r="1.9"/><circle cx="57.01" cy="26.92" r="1.9"/><circle cx="69.68" cy="26.92" r="1.9"/><circle cx="12.67" cy="32.31" r="1.9"/><circle cx="25.34" cy="32.31" r="1.9"/><circle cx="38.01" cy="32.31" r="1.9"/><circle cx="50.68" cy="32.31" r="1.9"/><circle cx="63.35" cy="32.31" r="1.9"/><circle cx="6.33" cy="37.70" r="1.9"/><circle cx="19.00" cy="37.70" r="1.9"/><circle cx="31.67" cy="37.70" r="1.9"/><circle cx="44.34" cy="37.70" r="1.9"/><circle cx="57.01" cy="37.70" r="1.9"/><circle cx="69.68" cy="37.70" r="1.9"/><circle cx="12.67" cy="43.08" r="1.9"/><circle cx="25.34" cy="43.08" r="1.9"/><circle cx="38.01" cy="43.08" r="1.9"/><circle cx="50.68" cy="43.08" r="1.9"/><circle cx="63.35" cy="43.08" r="1.9"/><circle cx="6.33" cy="48.46" r="1.9"/><circle cx="19.00" cy="48.46" r="1.9"/><circle cx="31.67" cy="48.46" r="1.9"/><circle cx="44.34" cy="48.46" r="1.9"/><circle cx="57.01" cy="48.46" r="1.9"/><circle cx="69.68" cy="48.46" r="1.9"/></g></svg></div><div><div class="nm">University of Minnesota</div><div class="co" data-en="USA" data-ko="미국">USA</div></div></div>
+      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 30 20" role="img" aria-label="China flag" preserveAspectRatio="xMidYMid meet"><title>China</title><rect width="30" height="20" fill="#EE1C25"/><polygon fill="#FFFF00" points="5.00,2.00 5.67,4.07 7.85,4.07 6.09,5.35 6.76,7.43 5.00,6.15 3.24,7.43 3.91,5.35 2.15,4.07 4.33,4.07"/><polygon fill="#FFFF00" points="10.00,1.00 10.22,1.69 10.95,1.69 10.36,2.12 10.59,2.81 10.00,2.38 9.41,2.81 9.64,2.12 9.05,1.69 9.78,1.69"/><polygon fill="#FFFF00" points="12.00,3.00 12.22,3.69 12.95,3.69 12.36,4.12 12.59,4.81 12.00,4.38 11.41,4.81 11.64,4.12 11.05,3.69 11.78,3.69"/><polygon fill="#FFFF00" points="12.00,6.00 12.22,6.69 12.95,6.69 12.36,7.12 12.59,7.81 12.00,7.38 11.41,7.81 11.64,7.12 11.05,6.69 11.78,6.69"/><polygon fill="#FFFF00" points="10.00,8.00 10.22,8.69 10.95,8.69 10.36,9.12 10.59,9.81 10.00,9.38 9.41,9.81 9.64,9.12 9.05,8.69 9.78,8.69"/></svg></div><div><div class="nm">Tsinghua University</div><div class="co" data-en="China" data-ko="중국">China</div></div></div>
+      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 30 20" role="img" aria-label="Japan flag" preserveAspectRatio="xMidYMid meet"><title>Japan</title><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#BC002D"/></svg></div><div><div class="nm">Institute of Science Tokyo</div><div class="co" data-en="Japan" data-ko="일본">Japan</div></div></div>
+      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 5 3" role="img" aria-label="Germany flag" preserveAspectRatio="xMidYMid meet"><title>Germany</title><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#DD0000"/><rect y="2" width="5" height="1" fill="#FFCE00"/></svg></div><div><div class="nm">Technical University of Munich</div><div class="co" data-en="Germany" data-ko="독일">Germany</div></div></div>
+      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 60 30" role="img" aria-label="United Kingdom flag" preserveAspectRatio="xMidYMid meet"><title>United Kingdom</title><clipPath id="flag-uk-clip"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath><rect width="60" height="30" fill="#012169"/><path d="M0 0l60 30M60 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" clip-path="url(#flag-uk-clip)" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></svg></div><div><div class="nm">Imperial College London</div><div class="co" data-en="United Kingdom" data-ko="영국">United Kingdom</div></div></div>
+      <div class="cnode reveal"><div class="flag"><svg viewBox="0 0 30 20" role="img" aria-label="Singapore flag" preserveAspectRatio="xMidYMid meet"><title>Singapore</title><rect width="30" height="10" fill="#EF3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7.4" cy="5.2" r="3.4" fill="#fff"/><circle cx="8.9" cy="5.2" r="3.4" fill="#EF3340"/><polygon fill="#fff" points="10.20,2.55 10.37,3.07 10.91,3.07 10.47,3.39 10.64,3.91 10.20,3.59 9.76,3.91 9.93,3.39 9.49,3.07 10.03,3.07"/><polygon fill="#fff" points="12.01,3.86 12.18,4.38 12.72,4.38 12.28,4.70 12.45,5.22 12.01,4.90 11.57,5.22 11.73,4.70 11.29,4.38 11.84,4.38"/><polygon fill="#fff" points="11.32,5.99 11.49,6.51 12.03,6.51 11.59,6.83 11.76,7.34 11.32,7.02 10.88,7.34 11.04,6.83 10.60,6.51 11.15,6.51"/><polygon fill="#fff" points="9.08,5.99 9.25,6.51 9.80,6.51 9.36,6.83 9.52,7.34 9.08,7.02 8.64,7.34 8.81,6.83 8.37,6.51 8.91,6.51"/><polygon fill="#fff" points="8.39,3.86 8.56,4.38 9.11,4.38 8.67,4.70 8.83,5.22 8.39,4.90 7.95,5.22 8.12,4.70 7.68,4.38 8.22,4.38"/></svg></div><div><div class="nm">National University of Singapore</div><div class="co" data-en="Singapore" data-ko="싱가포르">Singapore</div></div></div>
     </div>
   </div>
 </section>
@@ -1714,6 +1800,7 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
           <polyline points="890,80 886,94 893,108 887,122 894,136 889,150 893,164 888,178 892,192 889,206 893,220 890,234" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
           <g transform="translate(905 400)"><path d="M0 -16C9 -3 11 3 11 7A11 11 0 0 1 -11 7C-11 3 -9 -3 0 -16Z" fill="url(#arcInk)"/><ellipse cx="-4" cy="4" rx="2.2" ry="3.5" fill="rgba(255,255,255,.55)"/></g>
         </svg>
+        <button class="hero-motion arcade-motion" id="arcadeMotion" type="button" aria-pressed="false" aria-label="Pause poster motion"><span aria-hidden="true">Ⅱ</span></button>
         <div class="arcade-poster-inner">
           <div class="arcade-title">INK RUNNER</div>
           <div class="arcade-sub" data-en="PPEL+ printed-electronics arcade" data-ko="PPEL+ 인쇄전자 아케이드">PPEL+ printed-electronics arcade</div>
@@ -1747,17 +1834,20 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-brand"><svg class="mk" viewBox="0 0 34 34" fill="none" aria-hidden="true" style="width:30px;height:30px;flex:none"><defs><linearGradient id="mkg2" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3AFF"/><stop offset="1" stop-color="#00E6C6"/></linearGradient></defs><path d="M9 30V7h9.5a6.5 6.5 0 0 1 0 13H9" stroke="url(#mkg2)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="30" r="2.6" fill="#00E6C6"/><path d="M24.5 6.5h8M28.5 2.5v8" stroke="#00E6C6" stroke-width="2.6" stroke-linecap="round"/></svg>PPEL<span class="plus">+</span></div>
+        <div class="foot-brand"><svg class="mk" viewBox="0 0 34 34" fill="none" aria-hidden="true" style="width:30px;height:30px;flex:none"><defs><linearGradient id="mkg2" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3AFF"/><stop offset="1" stop-color="#00E6C6"/></linearGradient></defs><path d="M9 30V7h9.5a6.5 6.5 0 0 1 0 13H9" stroke="url(#mkg2)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="30" r="2.6" fill="#00E6C6"/><path d="M24.5 6.5h8M28.5 2.5v8" stroke="#00E6C6" stroke-width="2.6" stroke-linecap="round"/></svg><span class="wordmark">PPEL<span class="plus">+</span></span></div>
         <p class="foot-desc" data-en="PPEL · Jeonbuk National University. Exploring printed materials, sensing and energy for the connection between people and robots." data-ko="PPEL · 전북대학교. 사람과 로봇을 연결할 인쇄 소재, 센싱, 에너지 기술을 연구합니다.">PPEL · Jeonbuk National University. Exploring printed materials, sensing and energy for the connection between people and robots.</p>
       </div>
-      <div class="foot-col">
+      <div class="foot-col foot-nav">
         <h5 data-en="Navigate" data-ko="바로가기">Navigate</h5>
-        <a href="#research" data-en="Research" data-ko="연구">Research</a>
-        <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
-        <a href="#patents" data-en="Patents" data-ko="특허">Patents</a>
-        <a href="#members" data-en="Members" data-ko="구성원">Members</a>
-        <a href="#equipment" data-en="Equipment" data-ko="장비">Equipment</a>
-        <a href="game.html" class="game-link" data-en="Ink Runner · game" data-ko="Ink Runner · 게임">Ink Runner · game</a>
+      <a href="#home" data-en="Home" data-ko="홈">Home</a>
+      <a href="#research" data-en="Research" data-ko="연구">Research</a>
+      <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
+      <a href="#members" data-en="Members" data-ko="구성원">Members</a>
+      <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
+      <a href="#patents" data-en="Patents" data-ko="특허">Patents</a>
+      <a href="#collaborations" data-en="Collaborations" data-ko="협력">Collaborations</a>
+      <a href="#equipment" data-en="Equipment" data-ko="장비">Equipment</a>
+      <a href="#game" data-en="Game" data-ko="게임">Game</a>
       </div>
       <div class="foot-col">
         <h5 data-en="Contact" data-ko="연락처">Contact</h5>
@@ -1767,8 +1857,8 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.27-2</span></span>
-      <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
+      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">v2026.09.28-1</span></span>
+      <span data-en="567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea" data-ko="54896 전북특별자치도 전주시 덕진구 백제대로 567">567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
 </footer>
@@ -1794,7 +1884,7 @@ themeBtn.addEventListener("click",()=>{
 
 /* ===== Language toggle ===== */
 const langBtn=document.getElementById("langBtn");
-let lang="en";
+let lang=html.lang==="ko"?"ko":"en";
 function applyLang(){
   document.querySelectorAll("[data-en]").forEach(el=>{
     const val = el.getAttribute("data-"+lang);
@@ -1803,13 +1893,15 @@ function applyLang(){
   });
   html.setAttribute("lang", lang);
   syncThemeControl();
+  syncArcadeMotionControl();
+  document.querySelectorAll(".pat-row .pt").forEach(el=>{el.title=el.textContent;});
   document.dispatchEvent(new Event("ppel:language"));
   syncFilmLanguage();
   langBtn.textContent = lang==="en"?"EN":"KO";
   document.querySelectorAll(".game-link").forEach(a=>{ a.href="game.html?lang="+lang; });
 }
 document.querySelectorAll(".game-link").forEach(a=>{ a.href="game.html?lang="+lang; });
-langBtn.addEventListener("click",()=>{ lang = lang==="en"?"ko":"en"; applyLang(); });
+langBtn.addEventListener("click",()=>{ lang = lang==="en"?"ko":"en"; try{localStorage.setItem("ppel-lang",lang);}catch{} applyLang(); });
 
 /* ===== Nav scroll + burger ===== */
 const hdr=document.getElementById("hdr");
@@ -1823,13 +1915,24 @@ addEventListener("keydown",event=>{if(event.key==="Escape"&&navlinks.classList.c
 /* ===== Lab Arcade: Ink Runner embed ===== */
 const arcadeFrame=document.getElementById("arcadeFrame"), arcadeBar=document.getElementById("arcadeBar");
 const arcadeDash=arcadeFrame.querySelector(".dash");
-let arcadeDashOff=0, arcadeDashTimer=null;
-// the poster's electron dashes are driven by a plain interval, not a CSS animation (reduced-motion machines freeze those)
-new IntersectionObserver(es=>{
-  const on=es[0].isIntersecting && !arcadeFrame.classList.contains("live");
-  if(on && !arcadeDashTimer) arcadeDashTimer=setInterval(()=>{ arcadeDashOff-=2.2; arcadeDash.setAttribute("stroke-dashoffset",arcadeDashOff); },33);
-  if(!on && arcadeDashTimer){ clearInterval(arcadeDashTimer); arcadeDashTimer=null; }
-},{threshold:.1}).observe(arcadeFrame);
+let arcadeDashOff=0, arcadeDashTimer=null, arcadeVisible=false, arcadePaused=false;
+const arcadeMotion=document.getElementById('arcadeMotion');
+function syncArcadeMotionControl(){
+  const label=arcadePaused?(lang==='ko'?'포스터 모션 재생':'Play poster motion'):(lang==='ko'?'포스터 모션 일시정지':'Pause poster motion');
+  arcadeMotion.setAttribute('aria-label',label);arcadeMotion.title=label;
+  arcadeMotion.setAttribute('aria-pressed',String(arcadePaused));
+  arcadeMotion.querySelector('span').textContent=arcadePaused?'▷':'Ⅱ';
+}
+function syncArcadeMotion(){
+  const on=arcadeVisible&&!arcadePaused&&!document.hidden&&!arcadeFrame.classList.contains('live');
+  if(on&&!arcadeDashTimer)arcadeDashTimer=setInterval(()=>{arcadeDashOff-=2.2;arcadeDash.setAttribute('stroke-dashoffset',arcadeDashOff);},33);
+  if(!on&&arcadeDashTimer){clearInterval(arcadeDashTimer);arcadeDashTimer=null;}
+  syncArcadeMotionControl();
+}
+// Explicit pause controls motion; OS reduced-motion does not freeze the poster.
+arcadeMotion.addEventListener('click',()=>{arcadePaused=!arcadePaused;syncArcadeMotion();});
+document.addEventListener('visibilitychange',syncArcadeMotion);
+new IntersectionObserver(es=>{arcadeVisible=es[0].isIntersecting;syncArcadeMotion();},{threshold:.1}).observe(arcadeFrame);
 document.getElementById("arcadePlay").addEventListener("click",()=>{
   if(matchMedia("(max-width:720px)").matches){ location.href="game.html?lang="+lang; return; }   // phones: the full page plays better than a small frame
   if(arcadeFrame.querySelector("iframe")) return;
@@ -2024,7 +2127,9 @@ const deckMode=window.matchMedia('(hover:hover) and (pointer:fine)');
 function updateDeckHint(deck){
   const back=Array.from(deck.querySelectorAll('.research-film')).find(film=>!film.classList.contains('is-front'));
   const title=back?back.querySelector('.film-start').getAttribute('aria-label')||'':'';
-  deck.dataset.next=title?(lang==='ko'?'다음 영상 2/2 ▲ ':'NEXT FILM 2/2 ▲ ')+title:'';
+  const films=Array.from(deck.querySelectorAll('.research-film'));
+  const number=films.indexOf(back)+1;
+  deck.dataset.next=title?(lang==='ko'?'다른 영상 ':'OTHER FILM ')+number+'/'+films.length+' ▲ '+title:'';
 }
 document.querySelectorAll('.film-deck').forEach(deck=>{
   const films=Array.from(deck.querySelectorAll('.research-film'));

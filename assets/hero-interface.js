@@ -9,15 +9,15 @@
   const canvas = hero.querySelector('.hero-signals');
   const ctx = canvas.getContext('2d');
   const motion = hero.querySelector('.hero-motion');
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(pointer: fine)');
   const color = [40,125,149];
-  let paused = reduced.matches, visible = false, frame = 0;
+  let paused = false, visible = false, frame = 0, fallback = 0, lastDraw = 0;
   let width = 0, height = 0, elapsed = 0, last = 0, x = 0, y = 0, tx = 0, ty = 0;
   function labels() {
     const ko = document.documentElement.lang === 'ko';
     const motionLabel = paused ? (ko ? '모션 켜기' : 'Enable motion') : (ko ? '모션 멈춤' : 'Pause motion');
     motion.setAttribute('aria-label', motionLabel);
+    motion.setAttribute('aria-pressed', String(paused));
     motion.querySelector('.hero-motion-icon').textContent = paused ? '▷' : 'Ⅱ';
     const teamPhoto=document.querySelector('.welcome-photo img');
     if(teamPhoto)teamPhoto.alt=ko?'식사를 함께하는 PPEL 연구팀':'PPEL research team sharing a meal';
@@ -46,14 +46,16 @@
   function draw(now) {
     frame = 0;
     if (paused || !visible || document.hidden) return;
+    lastDraw = performance.now();
     elapsed += last ? Math.min(now - last, 50) : 0; last = now;
     x += (tx - x) * .045; y += (ty - y) * .045;
     const drift = Math.sin(elapsed * .00036);
     scene.style.transform = `rotateX(${y * -2 + drift * .45}deg) rotateY(${x * 3 + Math.cos(elapsed * .00031) * .8}deg) translateY(${drift * 2}px)`;
-    paint(); frame = requestAnimationFrame(draw);
+    paint(); if (!fallback) frame = requestAnimationFrame(draw);
   }
   function sync() {
     cancelAnimationFrame(frame); frame = 0; last = 0;
+    clearInterval(fallback); fallback = 0; lastDraw = performance.now();
     hero.dataset.motion = paused ? 'paused' : 'running';
     if (paused) { x = y = tx = ty = 0; scene.style.transform = 'none'; paint(); }
     if (!paused && visible && !document.hidden) frame = requestAnimationFrame(draw);
@@ -74,10 +76,20 @@
   }, {passive:true});
   stage.addEventListener('pointerleave', () => { tx = ty = 0; });
   motion.addEventListener('click', () => { paused = !paused; sync(); });
-  reduced.addEventListener('change', () => { paused = reduced.matches; sync(); });
   document.addEventListener('visibilitychange', sync);
   document.addEventListener('ppel:language', labels);
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold:.05}).observe(stage);
   new ResizeObserver(resize).observe(stage);
+  // Self-heal stalled rAF without overriding a user's explicit pause.
+  let previousTransform = '';
+  setInterval(() => {
+    if (paused || !visible || document.hidden || fallback) { previousTransform = ''; return; }
+    const current = getComputedStyle(scene).transform;
+    if (current === previousTransform && performance.now() - lastDraw > 900) {
+      cancelAnimationFrame(frame); frame = 0;
+      fallback = setInterval(() => draw(performance.now()), 33);
+    }
+    previousTransform = current;
+  }, 1000);
   motion.hidden = false; resize(); sync();
 })();

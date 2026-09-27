@@ -3,7 +3,7 @@
 .hero-interface .hero-layout{position:relative;isolation:isolate}
 .hero-copy{position:absolute;z-index:3;top:0;left:28px;right:28px;text-align:center;pointer-events:none}
 .hero-interface h1{font-family:var(--font-display);font-size:clamp(15px,3.9vw,46px);font-weight:600;line-height:1.2;letter-spacing:-.045em;white-space:nowrap}
-.hero-interface h1 span{color:#327a94}
+.hero-interface h1 span{color:#327a94;white-space:nowrap}
 html[lang="ko"] .hero-interface h1{font-size:clamp(18px,5.7vw,46px);line-height:1.23;letter-spacing:-.045em}
 .hero-description{max-width:760px;margin:15px auto 0;color:var(--ink-soft);font-size:15px;line-height:1.8;text-wrap:balance;word-break:keep-all}
 .hero-figure{position:relative;margin:0;padding-top:30px;overflow:hidden}
@@ -42,8 +42,7 @@ html[data-theme="dark"] .hero-interface button:focus-visible,html[data-theme="da
 
 /* The research vision leads into the people who will build it. */
 .welcome-section{background:var(--substrate);color:#173440;padding:48px 0 92px;scroll-margin-top:66px}
-.welcome-topline{display:flex;align-items:center;justify-content:space-between;gap:25px;padding-bottom:23px;border-bottom:1px solid #d6e1df;margin-bottom:46px;color:#51716f;font:500 11px/1.6 var(--font-mono);letter-spacing:.11em;text-transform:uppercase}
-.welcome-topline .welcome-plus{color:#467f83;font-size:25px;line-height:1}
+.welcome-topline{display:flex;align-items:center;justify-content:space-between;gap:25px;padding-bottom:23px;border-bottom:1px solid #d6e1df;margin-bottom:46px;color:#51716f;font:500 12px/1.6 var(--font-mono);letter-spacing:.11em;text-transform:uppercase}
 .welcome-grid{display:grid;grid-template-columns:1.04fr 1fr;gap:70px;align-items:center}
 .welcome-photo{margin:0;position:relative;grid-column:1;grid-row:1}
 .welcome-copy{grid-column:2;grid-row:1}
@@ -57,7 +56,7 @@ html[data-theme="dark"] .hero-interface button:focus-visible,html[data-theme="da
 html[lang="ko"] .welcome-copy h2{line-height:1.24;word-break:keep-all;font-weight:600}
 .welcome-copy>p{margin-top:24px;font-size:15px;line-height:1.85;color:#526965;word-break:keep-all}
 .welcome-fields{display:flex;flex-wrap:wrap;gap:7px;margin:21px 0 29px;list-style:none}
-.welcome-fields li{font-size:11px;line-height:1.5;padding:6px 10px;color:#54736c;border:1px solid #d4e1dc;border-radius:30px}
+.welcome-fields li{font-size:12px;line-height:1.5;padding:6px 10px;color:#54736c;border:1px solid #d4e1dc;border-radius:30px}
 .welcome-contact{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
 .welcome-contact .btn{background:#254f50;color:#fff;border-radius:8px;padding:13px 19px;font-size:14px;box-shadow:none}
 .welcome-contact .btn:hover{background:#32666a;transform:translateY(-2px)}
@@ -69,11 +68,10 @@ html[lang="ko"] .welcome-copy h2{line-height:1.24;word-break:keep-all;font-weigh
 }
 @media(max-width:1100px){.welcome-grid{gap:38px}.welcome-copy h2{font-size:34px}}
 @media(max-width:900px){.welcome-section{padding:48px 0 65px}.welcome-grid{gap:32px}.welcome-copy h2{font-size:30px}.welcome-copy>p{font-size:14px;margin-top:18px}.welcome-topline{margin-bottom:32px}.welcome-photo figcaption{flex-direction:column;gap:5px}.welcome-fields{margin:17px 0 22px}}
-@media(max-width:620px){.welcome-grid{grid-template-columns:1fr;gap:34px}.welcome-topline{font-size:10px;margin-bottom:27px}.welcome-copy{grid-row:1}.welcome-copy h2{font-size:36px}.welcome-copy>p{font-size:15px}.welcome-photo figcaption{flex-direction:row;gap:12px}.welcome-label{margin-bottom:17px}.welcome-fields{margin-bottom:25px}.welcome-photo img{border-radius:5px 28px 5px 5px}.welcome-copy{grid-column:1}.welcome-photo{grid-row:2}}
-@media(max-width:360px){.welcome-copy h2{font-size:31px}.welcome-photo figcaption{font-size:11px}}
+@media(max-width:620px){.welcome-grid{grid-template-columns:1fr;gap:34px}.welcome-topline{font-size:12px;margin-bottom:27px}.welcome-copy{grid-row:1}.welcome-copy h2{font-size:36px}.welcome-copy>p{font-size:15px}.welcome-photo figcaption{flex-direction:row;gap:12px}.welcome-label{margin-bottom:17px}.welcome-fields{margin-bottom:25px}.welcome-photo img{border-radius:5px 28px 5px 5px}.welcome-copy{grid-column:1}.welcome-photo{grid-row:2}}
+@media(max-width:360px){.welcome-copy h2{font-size:31px}.welcome-photo figcaption{font-size:12px}}
 html[data-theme="dark"] .welcome-section{background:var(--substrate);color:#e4eeee}
 html[data-theme="dark"] .welcome-topline{border-color:#2a4048;color:#a3bbb9}
-html[data-theme="dark"] .welcome-topline .welcome-plus{color:#99c2c6}
 html[data-theme="dark"] .welcome-label{color:#a3cdc7}
 html[data-theme="dark"] .welcome-copy h2 span{color:#9fd1d0}
 html[data-theme="dark"] .welcome-copy>p{color:#b8c8cd}
@@ -83,3 +81,9 @@ html[data-theme="dark"] .welcome-contact .btn:hover{background:#c5e5dc}
 html[data-theme="dark"] .welcome-photo figcaption{color:#b2c5c6}
 html[data-theme="dark"] :is(.welcome-email,.welcome-photo figcaption a){color:#a7d1d4}
 
+
+@media(max-width:600px){
+  .hero-interface h1,html[lang="ko"] .hero-interface h1{font-size:clamp(28px,7.6vw,34px);white-space:normal;text-wrap:balance;line-height:1.23}
+  .hero-description{font-size:14px;line-height:1.75}
+  .hero-figure{margin-top:0}
+}

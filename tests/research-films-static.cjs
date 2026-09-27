@@ -96,4 +96,7 @@ for(const script of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)){
   if(script[0].includes('application/ld+json'))JSON.parse(script[1]);
   else new vm.Script(script[1]);
 }
-console.log('PASS: 5 cards x 2 films; 60 existing bilingual media files; lazy sources; titles/captions/papers/fallbacks; duplicate IDs 0; obsolete DOI 0; balanced HTML and valid inline JS.');
+assert.equal((html.match(/<script src="assets\/hero-interface\.js\?v=20260928-1" defer><\/script>/g)||[]).length,1,'Load the external hero exactly once with defer');
+assert(!html.includes('const hero = document.querySelector'), 'No duplicate inline hero renderer');
+new vm.Script(fs.readFileSync(path.join(root,'assets/hero-interface.js'),'utf8'));
+console.log('PASS: 5 cards x 2 films; 60 existing bilingual media files; lazy sources; titles/captions/papers/fallbacks; duplicate IDs 0; obsolete DOI 0; balanced HTML and valid inline/external hero JS.');

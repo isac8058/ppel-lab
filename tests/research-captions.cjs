@@ -26,15 +26,11 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    await page.goto(url);await sleep(2000);
    const motion=()=>page.evaluate(()=>({transform:getComputedStyle(document.querySelector('.hero-scene')).transform,ink:document.querySelector('.hero-signals').toDataURL()}));
    const before=await motion();await sleep(900);const after=await motion();
-   if(reducedMotion==='reduce'){
-    assert.deepEqual(before,after,'Reduced motion keeps the hero still');
-   }else{
-    assert.notEqual(before.transform,after.transform,'Hero depth motion is active');
-    assert.notEqual(before.ink,after.ink,'Hero signals are active');
-    await page.locator('.hero-motion').click();
-    const paused=await motion();await sleep(350);
-    assert.deepEqual(paused,await motion(),'Pause stops both perspective and signals');
-   }
+   assert.notEqual(before.transform,after.transform,'Hero depth motion stays active with either OS motion preference');
+   assert.notEqual(before.ink,after.ink,'Hero signals stay active with either OS motion preference');
+   await page.locator('#home .hero-motion').click();
+   const paused=await motion();await sleep(350);
+   assert.deepEqual(paused,await motion(),'Pause stops both perspective and signals');
    assert.equal(await page.locator('video source[src]').count(),0,'Media stays lazy before play');
    assert.equal(mediaRequests.length,0,'No MP4 network request before a click');
    for(const card of [...new Set(data.map(item=>item.card))]){
@@ -52,6 +48,7 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    for(const item of data){
     console.log(`Checking ${reducedMotion} / ${item.id}`);
     const root=page.locator(`[data-film="${item.id}"]`),video=root.locator('video');
+    await root.locator('.film-start').focus(); // Bring the selected deck card forward with its real keyboard interaction.
     await root.locator('.film-start').click();
     await page.waitForFunction(id=>document.querySelector(`#film-${id}`).readyState>=1,item.id);
     assert((await video.evaluate(video=>video.currentSrc)).endsWith(`${item.stem}-ko.mp4`));
@@ -59,6 +56,7 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await video.evaluate((video,seconds)=>{video.pause();video.currentTime=seconds;},item.sample);
     const expectedCaption=captionAt(item,'ko',item.sample);
     await page.waitForFunction(({id,caption})=>document.querySelector(`[data-film="${id}"] .film-subtitles`).textContent===caption,{id:item.id,caption:expectedCaption});
+    await page.waitForFunction(id=>getComputedStyle(document.querySelector(`[data-film="${id}"]`)).transform==='none',item.id);
     const bounds=await root.evaluate(root=>({video:root.querySelector('video').getBoundingClientRect().bottom,panel:root.querySelector('.film-subtitle-panel').getBoundingClientRect().top,modes:Array.from(root.querySelector('video').textTracks).map(track=>track.mode)}));
     assert(bounds.panel>=bounds.video-1,'Captions must sit outside the picture');
     assert(!bounds.modes.includes('showing'),'No native caption overlay');
@@ -97,10 +95,13 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    await first.locator('video').evaluate(v=>{v.currentTime=11;});
    await page.locator('#langBtn').click(); // English again
    await page.waitForFunction(text=>document.querySelector('#subtitles-ai-paper').textContent===text,captionAt(data[0],'en',data[0].sample));
+   await first.locator('.film-fullscreen').focus();
+   await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-film="ai-paper"]')).transform==='none');
    await first.locator('.film-fullscreen').click();
    await page.waitForFunction(()=>document.fullscreenElement?.classList.contains('film-viewer'));
    assert(await first.evaluate(root=>root.querySelector('.film-subtitle-panel').getBoundingClientRect().top>=root.querySelector('video').getBoundingClientRect().bottom-1));
    await page.screenshot({path:`.video-work/captions-fullscreen-${reducedMotion}.png`});
+   await first.locator('.film-fullscreen').focus();
    await first.locator('.film-fullscreen').click();
    await page.setViewportSize({width:390,height:844});
    await page.reload();

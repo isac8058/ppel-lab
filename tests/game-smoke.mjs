@@ -57,7 +57,7 @@ const PILOT = `
 const jump = px => `(() => { const G = window.__ink.G; G.dist += ${px}; G.spawnX += ${px}; for (const o of G.objs) o.x += ${px}; })()`;
 
 async function run() {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
   // external requests (fonts, CDN CSS) are aborted so the pages never wait on the network; fallbacks render instead
   const newCtx = async opts => { const c = await browser.newContext(opts); await c.route(/^https?:\/\//, r => r.abort()); return c; };
   const errors = [];
