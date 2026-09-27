@@ -40,7 +40,7 @@ try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement
     "@type": "PostalAddress",
     "streetAddress": "567 Baekje-daero, Deokjin-gu",
     "addressLocality": "Jeonju-si",
-    "addressRegion": "Jeollabuk-do",
+    "addressRegion": "Jeonbuk State",
     "postalCode": "54896",
     "addressCountry": "KR"
   },
@@ -814,6 +814,21 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
   .foot-nav a{margin:0}
 }
 @media(pointer:coarse){.foot-nav a{display:flex;align-items:center;min-height:32px}}
+/* English pass (2026-09-28): same standard as the Korean review. */
+.rcard .quote{text-wrap:pretty}
+.foot-bottom{column-gap:32px}
+.foot-bottom>span:last-child{margin-left:auto;text-align:right}
+@media(max-width:720px){
+  .foot-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 20px}
+  .foot-nav h5{grid-column:1/-1}
+  .foot-nav a{margin:0}
+  .foot-bottom>span:last-child{margin-left:0;text-align:left}
+  .arcade-keys{display:none}
+}
+@media(max-width:760px){
+  .cnode>div:last-child{display:block}
+  .cnode .co{margin-top:4px}
+}
 </style>
 <link rel="stylesheet" href="assets/hero-immersive.css?v=20260928-1" />
 <script>
@@ -1594,7 +1609,7 @@ Engineering Science and Technology, an International Journal · 2024 · Y Han, C
     </div>
 
     <div class="viewall reveal">
-      <a class="btn btn-primary" href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" data-en="View All Publications on Google Scholar →" data-ko="Google Scholar에서 전체 논문 보기 →">View All Publications on Google Scholar →</a>
+      <a class="btn btn-primary" href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" data-en="View All Publications on Google&nbsp;Scholar&nbsp;→" data-ko="Google Scholar에서 전체 논문 보기&nbsp;→">View All Publications on Google&nbsp;Scholar&nbsp;→</a>
     </div>
   </div>
 </section>
@@ -1857,8 +1872,8 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
       </div>
     </div>
     <div class="foot-bottom">
-      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">v2026.09.28-1</span></span>
-      <span data-en="567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea" data-ko="54896 전북특별자치도 전주시 덕진구 백제대로 567">567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
+      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.09.28-2</span></span>
+      <span data-en="567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea" data-ko="54896 전북특별자치도 전주시 덕진구 백제대로 567">567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea</span>
     </div>
   </div>
 </footer>
