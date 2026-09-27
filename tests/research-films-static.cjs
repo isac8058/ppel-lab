@@ -49,7 +49,9 @@ for(const card of cards){
 for(const f of films){
   assert.equal(f.duration,36);assert(f.title.en&&f.title.ko&&f.doi);
   const film=nodes.find(n=>n.attrs['data-film']===f.stem);assert(film);
-  assert.equal(film.parent,ids.get('research-'+f.card),'Both films are direct, always available card children');
+  // Both films sit together in the card's film deck (overlapped on pointer devices, stacked otherwise).
+  assert(has(film.parent,'film-deck'),'Film is inside a film deck');
+  assert.equal(film.parent.parent,ids.get('research-'+f.card),'Film deck is a direct card child');
   assert(!('hidden' in film.attrs));
   const video=ids.get('film-'+f.stem),sub=ids.get('subtitles-'+f.stem);
   assert(video&&sub&&under(video,film)&&under(sub,film));
