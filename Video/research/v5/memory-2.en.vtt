@@ -1,0 +1,93 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:01.100
+MEMORY COOK-OFF · INGREDIENT 1: DOPAMINE (carries nerve signals in the brain)
+
+2
+00:00:01.100 --> 00:00:01.600
+INGREDIENT 2: AGAROSE (natural polymer · binder)
+
+3
+00:00:01.600 --> 00:00:02.450
+TODAY'S DISH: A MEMORY DEVICE
+
+4
+00:00:02.500 --> 00:00:04.400
+A SPOONFUL OF DOPAMINE · A MEMORY COOK-OFF
+
+5
+00:00:04.600 --> 00:00:05.700
+WHAT IS RESISTIVE MEMORY? It stores data by switching resistance with voltage
+
+6
+00:00:05.700 --> 00:00:07.000
+DISSOLVE (agarose in water) · ONE SPOON (dopamine, 3 mg) · DROP-CAST & DRY (on FTO, dried at room temperature) · ADD SILVER (Ag paste top electrode) (Illustration · not to scale, not real speed)
+
+7
+00:00:07.100 --> 00:00:08.050
+Ag electrode / dopamine@agarose / FTO electrode (about 300 nm thick) · Apply a voltage and the resistance state switches
+
+8
+00:00:08.100 --> 00:00:08.950
+WHAT DOES VOLATILE MEAN? The switched state is not kept once the voltage is removed
+
+9
+00:00:09.050 --> 00:00:10.400
+THE CHALLENGE: With e-waste now a global problem, memory needs materials from biomaterials
+
+10
+00:00:10.600 --> 00:00:11.600
+Same ±1–4 V. What about the current? (CONTROL: agarose only, no dopamine | THIS WORK: dopamine@agarose device)
+
+11
+00:00:11.650 --> 00:00:14.500
+The control showed extremely low current (control experiment in the paper · ±1–4 V) | THIS WORK: Dopamine may help charges move (a redox-active molecule · the paper's interpretation)
+
+12
+00:00:14.500 --> 00:00:15.400
+THIS WORK: stored charge · conductive path (Illustration · not to scale, not real speed)
+
+13
+00:00:15.500 --> 00:00:17.000
+CONTROL: EXTREMELY LOW CURRENT | THIS WORK: IMPROVED CURRENT
+
+14
+00:00:17.050 --> 00:00:19.000
+Dopamine may help charges move; stored charge and a conductive path switch the resistance (Mechanism proposed in the paper · not directly observed)
+
+15
+00:00:19.500 --> 00:00:21.000
+Same voltage, ±1–4 V: Agarose-only control Extremely low current | Dopamine@agarose Improved current · vs. the control device (Ag/agarose/FTO), same conditions
+
+16
+00:00:21.000 --> 00:00:22.500
+Path for charges: Agarose-only control Very limited | Dopamine@agarose Dopamine may help · both cells: the paper's interpretation
+
+17
+00:00:22.500 --> 00:00:25.000
+Full device: Five volatile resistance states, stable over 15,000 cycles (1–4 V pulses · 100 ms width · 0.2 V read)
+
+18
+00:00:25.100 --> 00:00:26.000
+WHERE IT COULD GO: A sustainable volatile memory candidate (Uses suggested in the paper)
+
+19
+00:00:26.000 --> 00:00:27.450
+Neuromorphic devices · Dynamic memory elements · Tunable capacitors · Neuromorphic: brain-inspired computing
+
+20
+00:00:27.550 --> 00:00:30.000
+MEM-CAPACITANCE · THE PAPER'S INTERPRETATION: Resistive switching mixed with a capacitive effect · EVIDENCE 1 The I–V loop does not cross at zero · EVIDENCE 2 Capacitance changes with frequency (clear peak at 1 kHz · nearly flat at 50 and 100 kHz) · Curves are schematic
+
+21
+00:00:30.200 --> 00:00:34.000
+A spoonful of dopamine: bio-based volatile memory
+
+22
+00:00:34.000 --> 00:00:34.750
+Can I get this to go?
+
+23
+00:00:34.750 --> 00:00:35.800
+Volatile, chef. No to-go!

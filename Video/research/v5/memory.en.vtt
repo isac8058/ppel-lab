@@ -1,0 +1,69 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:01.900
+3 · 2 · 1 · GO
+
+2
+00:00:01.900 --> 00:00:02.500
+RESISTANCE
+
+3
+00:00:02.500 --> 00:00:04.400
+FAST & RESISTIVE · A CARBON CIRCUIT RACE (REVIEW PAPER · Carbon 2024)
+
+4
+00:00:04.600 --> 00:00:06.900
+WHAT IS RESISTIVE MEMORY? Memory that stores 0 and 1 as a resistance state (0 · HIGH RESISTANCE)
+
+5
+00:00:07.000 --> 00:00:09.000
+Apply a write voltage: a path opens = 1 (LOW RESISTANCE) · Simplified analogy of one common mechanism · not the real device structure
+
+6
+00:00:09.050 --> 00:00:10.400
+THE PROBLEM WITH DRAM: DRAM, the working memory in computers, loses its data when the power goes off
+
+7
+00:00:10.600 --> 00:00:11.900
+Same blackout. Different ending? (DRAM | RESISTIVE MEMORY)
+
+8
+00:00:12.000 --> 00:00:13.750
+POWER OFF · DRAM, stores data as charge: Power off: the charge and the data are gone | RESISTIVE MEMORY, stores a resistance state: The resistance state holds without power
+
+9
+00:00:13.800 --> 00:00:15.400
+POWER ON · STORED: DRAM ? | RESISTIVE MEMORY 1 · Example of a non-volatile device · retention varies by device and conditions
+
+10
+00:00:15.500 --> 00:00:17.000
+DRAM: DATA LOST | RESISTIVE MEMORY: DATA RETAINED
+
+11
+00:00:17.050 --> 00:00:19.000
+0 and 1 are written as resistance states; if a state holds without power, it is non-volatile (Retention varies by device and conditions)
+
+12
+00:00:19.500 --> 00:00:21.300
+When power is cut: DRAM Data is lost | Resistive memory Non-volatile devices retain data (Retention varies by device and conditions)
+
+13
+00:00:21.300 --> 00:00:25.000
+This review: Carbon materials from 0D to 3D · Potential advantages it describes: easy synthesis, biocompatibility, abundance
+
+14
+00:00:25.100 --> 00:00:28.000
+WHERE IT COULD GO (Next-generation memristors (resistive switching devices) discussed in the review): Health monitoring · Skin-adhesive · Self-powered
+
+15
+00:00:28.100 --> 00:00:30.000
+RESEARCH GOALS IN THE REVIEW: Energy-efficient · Compact · Bio-integrated for future memristive systems
+
+16
+00:00:30.200 --> 00:00:34.000
+From 0D to 3D: carbon memristors, reviewed
+
+17
+00:00:34.000 --> 00:00:35.600
+...did I miss it?

@@ -1,0 +1,85 @@
+WEBVTT
+
+1
+00:00:00.100 --> 00:00:01.750
+SECURE ZONE · HANJI SENSOR FLOOR (Imagined application)
+
+2
+00:00:01.750 --> 00:00:02.500
+INTRUDER?
+
+3
+00:00:02.500 --> 00:00:04.400
+MISSION: HANJI-POSSIBLE · A MULBERRY-PAPER OPERATION
+
+4
+00:00:04.600 --> 00:00:06.950
+Hanji meets PTFE, press and release: power · WHAT IS A TENG? A generator that turns friction into electricity
+
+5
+00:00:07.000 --> 00:00:08.900
+WHAT IS HANJI? Traditional Korean paper made from mulberry fibers
+
+6
+00:00:09.050 --> 00:00:10.400
+WHY A SELF-POWERED SENSOR?: A sensor that runs on external power needs that power to give a signal
+
+7
+00:00:10.600 --> 00:00:12.250
+Same sneak-in. Different ending? (EXTERNAL POWER, conceptual example | THIS WORK, hanji TENG principle) · Imagined application · a principle comparison of power supply · not a head-to-head experiment
+
+8
+00:00:12.300 --> 00:00:14.450
+EXTERNAL POWER: Cut the supply, and the signal stops | THIS WORK: HANJI TENG SENSOR, makes its own electrical signal when pressed and released
+
+9
+00:00:14.500 --> 00:00:16.000
+EXTERNAL POWER: POWER CUT | THIS WORK: MAKES ITS OWN SIGNAL
+
+10
+00:00:16.100 --> 00:00:17.550
+Hanji samples compared in the paper: A Thick, dense hanji LOWER OUTPUT | B Thin, porous hanji HIGHER OUTPUT (Among the hanji samples compared in the paper · glow is qualitative only)
+
+11
+00:00:17.650 --> 00:00:19.000
+Thinner, more porous hanji gave higher output (among the hanji samples compared in the paper)
+
+12
+00:00:19.400 --> 00:00:20.500
+Power (principle, conceptual): Needs external power, example: externally powered sensor | Generates its own signal, hanji and PTFE touch and separate (TENG)
+
+13
+00:00:20.500 --> 00:00:21.600
+Hanji samples (compared in the paper): A Thick, dense, lower output | B Thin, porous, higher output among the samples compared
+
+14
+00:00:21.600 --> 00:00:22.300
+Optimized device, power density: 13.2 µW/cm² (measured)
+
+15
+00:00:22.300 --> 00:00:24.000
+Repeated-operation test: 72,000 cycles (stable operation)
+
+16
+00:00:24.050 --> 00:00:25.800
+With its own electricity 143 LEDs lit (demonstrated in the paper)
+
+17
+00:00:25.850 --> 00:00:27.400
+WHERE IT COULD GO: Also a humidity sensor · Linear response to humidity (Illustration)
+
+18
+00:00:27.450 --> 00:00:28.500
+A separate evaluation · machine-learning analysis in the paper: Sensor signals → machine learning · Random forest · Predicting foot health
+
+19
+00:00:28.550 --> 00:00:30.000
+Predicting foot health ACCURACY 95.94% (Random forest · as evaluated in the paper)
+
+20
+00:00:30.200 --> 00:00:33.600
+Power from hanji, AI foot-health prediction tested · Foot-health prediction accuracy was evaluated within the paper
+
+21
+00:00:33.650 --> 00:00:35.600
+...so much for stealth (Imagined application)

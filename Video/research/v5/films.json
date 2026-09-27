@@ -1,0 +1,112 @@
+[
+  {
+    "card": "ai-paper",
+    "stem": "ai-paper",
+    "order": 1,
+    "title": {
+      "en": "MISSION: HANJI-POSSIBLE",
+      "ko": "미션 한지파서블"
+    },
+    "doi": "10.1007/s10570-025-06542-7",
+    "duration": 36
+  },
+  {
+    "card": "ai-paper",
+    "stem": "ai-paper-2",
+    "order": 2,
+    "title": {
+      "en": "FILM OF ROCK",
+      "ko": "필름 오브 록"
+    },
+    "doi": "10.1002/adfm.202424271",
+    "duration": 36
+  },
+  {
+    "card": "biosensor",
+    "stem": "biosensor",
+    "order": 1,
+    "title": {
+      "en": "PENCIL NOIR",
+      "ko": "연필 형사"
+    },
+    "doi": "10.1021/acsnano.4c18646",
+    "duration": 36
+  },
+  {
+    "card": "biosensor",
+    "stem": "biosensor-2",
+    "order": 2,
+    "title": {
+      "en": "HANJI HERO",
+      "ko": "한지 히어로"
+    },
+    "doi": "10.1016/j.cej.2026.178008",
+    "duration": 36
+  },
+  {
+    "card": "memory",
+    "stem": "memory",
+    "order": 1,
+    "title": {
+      "en": "FAST & RESISTIVE",
+      "ko": "저항의 질주"
+    },
+    "doi": "10.1016/j.carbon.2024.119320",
+    "duration": 36
+  },
+  {
+    "card": "memory",
+    "stem": "memory-2",
+    "order": 2,
+    "title": {
+      "en": "A SPOONFUL OF DOPAMINE",
+      "ko": "도파민 한 스푼"
+    },
+    "doi": "10.1016/j.orgel.2025.107305",
+    "duration": 36
+  },
+  {
+    "card": "energy-storage",
+    "stem": "energy-storage",
+    "order": 1,
+    "title": {
+      "en": "OPERATION OXIDATION",
+      "ko": "작전명: 산화"
+    },
+    "doi": "10.1007/s42114-026-01862-z",
+    "duration": 36
+  },
+  {
+    "card": "energy-storage",
+    "stem": "energy-storage-2",
+    "order": 2,
+    "title": {
+      "en": "MXene VOYAGE",
+      "ko": "MXene 결사대"
+    },
+    "doi": "10.1021/acsami.6c05337",
+    "duration": 36
+  },
+  {
+    "card": "cherry-blossom",
+    "stem": "cherry-blossom",
+    "order": 1,
+    "title": {
+      "en": "PETAL FIGHTER",
+      "ko": "벚꽃 파이터"
+    },
+    "doi": "10.1016/j.nanoen.2025.111687",
+    "duration": 36
+  },
+  {
+    "card": "cherry-blossom",
+    "stem": "cherry-blossom-2",
+    "order": 2,
+    "title": {
+      "en": "CLEAN & CHARGE",
+      "ko": "번쩍 셀룰로스"
+    },
+    "doi": "10.1007/s42114-026-01819-2",
+    "duration": 36
+  }
+]

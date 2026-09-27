@@ -1,3 +1,7 @@
+현재 홈페이지 사용본은 [v5](v5/README.md)입니다: 카드당 2편, 총 10편의 36초 한국어·영어 영상.
+
+> 아래는 보존된 v1–v4 제작·검증 이력이며 현재 홈페이지 구성과 다릅니다.
+
 # PPEL+ · Material Mischief
 
 Five 30-second research films for the PPEL+ homepage. **The cherry-blossom card now uses the adult anime film in [v2](v2/README.md)** (720p/24fps); the other four still use the original 1080p/24fps films. All have JPEG posters and English/Korean WebVTT captions. Original v1 files remain here for provenance; the renderer below is the legacy 2D pipeline and does not rebuild the new anime footage.

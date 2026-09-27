@@ -1,0 +1,81 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:02.400
+TONIGHT LIVE PVDF · The paper's control: PVDF film without filler · WEAKNESS: LOW OUTPUT VOLTAGE
+
+2
+00:00:02.500 --> 00:00:04.400
+FILM OF ROCK · TURN THE VOLTAGE UP
+
+3
+00:00:04.600 --> 00:00:05.450
+WHAT IS A TENG? A generator that makes electricity from contact and release
+
+4
+00:00:05.450 --> 00:00:06.950
+DRUMS: LINEAR MOTOR (presses and releases at 50 N, 3 Hz) · LEAD: PVDF FILM (3D-printed top layer) · BASS: PDMS FILM (bottom layer that grabs electrons)
+
+5
+00:00:07.100 --> 00:00:08.900
+Plain PVDF is mostly α-phase, with its dipoles paired in opposite directions, so their effects cancel out (Illustration · each film shows only its dominant phase (character counts are not phase contents) · sound and crowd are metaphors)
+
+6
+00:00:09.050 --> 00:00:10.400
+THE PROBLEM WITH PLAIN PVDF: Mostly α-phase, where the dipoles cancel out, so its output was weak
+
+7
+00:00:10.600 --> 00:00:11.950
+Same hits. Different ending? (NO FILLER, plain PVDF, the paper's control | THIS WORK, PVDF + perovskite nanofillers) · Illustration · only the amp numbers are measured Vp-p (50 N, 3 Hz, best device of each film) · sound and crowd are metaphors
+
+8
+00:00:11.950 --> 00:00:12.450
+NO FILLER: Same 3D printing · plain PVDF ink (mostly α-phase: paired dipoles cancel out), Vp-p 80 V | THIS WORK: STEP 1 · 3D-print an ink with δ-FAPbI₃ (yellow δ nanofillers · 80 °C anneal · more PVDF β-phase), Vp-p 179 V
+
+9
+00:00:12.500 --> 00:00:15.450
+THIS WORK: STEP 2 · 150 °C oven anneal, 1 hour (fillers turn black α-phase, surface turns mesoporous · time compressed), Vp-p 392 V | NO FILLER: Fewer charges build up on contact, Vp-p 80 V
+
+10
+00:00:15.500 --> 00:00:17.000
+NO FILLER: LOW Vp-p | THIS WORK: ABOUT 5× Vp-p
+
+11
+00:00:17.050 --> 00:00:19.000
+The fillers raise PVDF's polar β-phase content and give the surface more room for charge (β-phase by FTIR and XRD, surface by FESEM)
+
+12
+00:00:19.500 --> 00:00:21.000
+PVDF β-phase content: No filler ≈45% | This work ≈88% · FTIR · 20 wt% α-filler film (δ-filler film ≈83%)
+
+13
+00:00:21.000 --> 00:00:22.500
+Output voltage Vp-p: No filler 80 V | This work 392 V · same 50 N, 3 Hz · best device per film · Vp-p about 5×
+
+14
+00:00:22.500 --> 00:00:25.000
+α-filler device: Power density 2587 µW/cm² (peak at a 70 MΩ load, about 3 Hz and 50 N)
+
+15
+00:00:25.100 --> 00:00:26.550
+SHOWN IN THE PAPER: 200 red LEDs lit (200 series-connected LEDs, pressed at 50 N)
+
+16
+00:00:26.650 --> 00:00:28.000
+WHERE IT COULD GO: Harvesting power from body motion a possible wearable power source · Foot-sole output · Wrist output · Robot-hand touch sensing (Shown in the paper: foot and wrist output signals and a robot-hand contact voltage map · powering wearables is a prospect)
+
+17
+00:00:28.100 --> 00:00:30.000
+REPEATED PRESSING TEST: 18,000 cycles, stable output, no significant voltage drop (40 µm film · 25 N · 3 Hz)
+
+18
+00:00:30.200 --> 00:00:33.000
+Perovskite fillers boost a printed TENG's voltage
+
+19
+00:00:33.000 --> 00:00:34.200
+One more song!
+
+20
+00:00:34.250 --> 00:00:35.600
+Again?!

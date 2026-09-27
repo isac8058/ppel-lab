@@ -1,0 +1,77 @@
+WEBVTT
+
+1
+00:00:00.200 --> 00:00:02.400
+TODAY'S EVENT: PIEZO LIFTING · Turn pressure into electricity
+
+2
+00:00:02.500 --> 00:00:04.400
+CLEAN & CHARGE · THE NANO WEIGHTLIFTING FINAL
+
+3
+00:00:04.600 --> 00:00:06.900
+WHAT IS A CNC (CELLULOSE NANOCRYSTAL)? A tiny crystal obtained from plant fibers
+
+4
+00:00:07.100 --> 00:00:08.900
+Piezoelectric: makes electricity when pressed · CNCs alone give a weak output
+
+5
+00:00:09.050 --> 00:00:10.400
+THE PROBLEM: CNCs are piezoelectric, but used alone their output is too weak for sensing or harvesting (Source: paper introduction)
+
+6
+00:00:10.600 --> 00:00:11.900
+Same 40 N press. What comes out? (BEFORE | THIS WORK)
+
+7
+00:00:12.000 --> 00:00:15.300
+BEFORE: No sulfate groups, weak dipoles | THIS WORK: CNC with sulfate groups (SO₃⁻), more surface charge, better dipole alignment (Illustration · simplified dipoles and charges, not the real molecular arrangement)
+
+8
+00:00:15.500 --> 00:00:17.000
+BEFORE: UNDER 1 V (plain CNC device voltage) | THIS WORK: MORE THAN 6× (SCNC device voltage vs. plain CNC device)
+
+9
+00:00:17.050 --> 00:00:19.000
+Sulfate groups boost surface charge and dipoles, so a press makes a higher voltage (Confirmed by DFT, COMSOL and measurements)
+
+10
+00:00:19.450 --> 00:00:20.550
+Device voltage when pressed (test): Plain CNC Under 1 V | This work (SCNC) More than 6× · the plain-CNC device voltage · Fig. 3b, 40 N
+
+11
+00:00:20.550 --> 00:00:21.650
+Dipole moment (DFT): Plain CNC 3.2 D | This work (SCNC) 11.0 D · calculated per unit cell · 3.4×
+
+12
+00:00:21.650 --> 00:00:22.750
+Zeta potential (measured): Plain CNC −2.46 mV | This work (SCNC) −18.21 mV · more negative: supports more negative surface charge
+
+13
+00:00:22.750 --> 00:00:24.500
+Optimized composite device: Open-circuit 6–8 V · short-circuit 120–150 nA (SCNC + CNT + PVA layer on mulberry paper, under mechanical deformation)
+
+14
+00:00:24.600 --> 00:00:25.500
+WHERE IT COULD GO: One device, two jobs: piezo harvesting and strain sensing · Wearable health monitoring
+
+15
+00:00:25.500 --> 00:00:27.000
+SHOWN IN PAPER: Wrist pulse (piezo voltage), 60–70 mV when firmly attached to skin · Finger bending (piezo voltage · resistance change), both were measured · Neck movement (resistance change), resistance read by an external circuit
+
+16
+00:00:27.000 --> 00:00:28.000
+An Arduino circuit reads the signal and raises the alert: doorbell, safety-line demos
+
+17
+00:00:28.100 --> 00:00:30.000
+DURABILITY: 20,000 cycles · performance nearly unchanged under repeated pressing · long-term test of the PCS-2 device (SCNC + CNT + PVA on mulberry paper)
+
+18
+00:00:30.200 --> 00:00:32.950
+Sulfated cellulose crystals for harvesting and sensing
+
+19
+00:00:33.000 --> 00:00:35.600
+WASTE TISSUE · sulfation · Me next!

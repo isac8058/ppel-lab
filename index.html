@@ -578,12 +578,14 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .rcard .body::after{display:none}
 .rcard h3{padding-right:0}
 .rcard .body{padding-top:23px}
-.research-film{padding:10px 10px 0}
+.research-film{padding:10px 10px 0;min-width:0}
+.research-film + .research-film{margin-top:16px}
+.rcard{min-width:0}
 .film-viewer{overflow:hidden;border-radius:15px;background:#172226}
 .film-stage{position:relative;aspect-ratio:16/9;overflow:hidden;background:#223036}
 .film-subtitle-panel{display:flex;align-items:center;gap:12px;min-height:82px;padding:12px 16px;background:#172226;color:#fff}
 .film-subtitle-panel[hidden]{display:none}
-.film-subtitles{flex:1;margin:0;font-size:clamp(14px,1.25vw,18px);font-weight:500;line-height:1.5;text-align:center;white-space:pre-line;text-wrap:balance}
+.film-subtitles{flex:1;min-width:0;overflow-wrap:anywhere;margin:0;font-size:clamp(14px,1.25vw,18px);font-weight:500;line-height:1.5;text-align:center;white-space:pre-line;text-wrap:balance}
 .film-fullscreen{flex:none;border:1px solid #ffffff45;border-radius:6px;background:transparent;color:white;font:inherit;font-size:20px;width:34px;height:34px;cursor:pointer}
 .film-fullscreen:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .film-viewer:fullscreen{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:0;width:100%;height:100%;padding:0;background:#11191c}
@@ -600,7 +602,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .film-play{position:absolute;z-index:1;left:22px;top:22px;background:#fff;color:#223036;width:49px;height:49px;border-radius:50%;display:grid;place-items:center;padding-left:3px;font-size:18px;box-shadow:0 4px 18px #0002}
 .film-badge{position:absolute;z-index:1;right:20px;top:25px;border:1px solid #fff8;border-radius:20px;padding:4px 10px;font-size:10px;letter-spacing:.1em;background:#223036a8}
 .film-title{position:absolute;z-index:1;left:23px;right:23px;bottom:22px;font-size:clamp(16px,2vw,25px);font-weight:700;line-height:1.2;letter-spacing:-.02em;text-wrap:balance}
-.film-caption{display:flex;gap:12px;justify-content:space-between;padding:13px 9px 3px;font-size:11px;color:var(--ink-soft)}
+.film-caption{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding:13px 9px 3px;font-size:11px;color:var(--ink-soft)}
 .film-caption a{color:var(--accent);white-space:nowrap;font-weight:600}
 .film-error{font-size:13px;padding:8px 12px;color:var(--ink-soft)}
 .film-error a{text-decoration:underline}
@@ -734,16 +736,16 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="research-film" data-film="ai-paper">
           <div class="film-viewer">
             <div class="film-stage">
-              <video hidden tabindex="0" id="film-ai-paper" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v4/hanji-walk-naturally-30s.jpg" aria-label="WALK NATURALLY" data-label-en="WALK NATURALLY" data-label-ko="자연스럽게 걸으세요">
-                <source data-src="Video/research/v4/hanji-walk-naturally-30s.mp4" type="video/mp4"/>
-                <track kind="captions" srclang="en" label="English" src="Video/research/v4/hanji-walk-naturally-30s.en.vtt"/>
-                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v4/hanji-walk-naturally-30s.ko.vtt"/>
+              <video hidden tabindex="0" id="film-ai-paper" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/ai-paper-en.jpg" data-poster-en="Video/research/v5/ai-paper-en.jpg" data-poster-ko="Video/research/v5/ai-paper-ko.jpg" aria-label="MISSION: HANJI-POSSIBLE" data-label-en="MISSION: HANJI-POSSIBLE" data-label-ko="미션 한지파서블">
+                <source data-src-en="Video/research/v5/ai-paper-en.mp4" data-src-ko="Video/research/v5/ai-paper-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/ai-paper.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/ai-paper.ko.vtt"/>
               </video>
-              <button class="film-start" type="button" aria-controls="film-ai-paper">
-                <img src="Video/research/v4/hanji-walk-naturally-30s.jpg" alt="" loading="lazy" width="960" height="540"/>
+              <button class="film-start" type="button" aria-controls="film-ai-paper" aria-label="MISSION: HANJI-POSSIBLE" title="MISSION: HANJI-POSSIBLE">
+                <img src="Video/research/v5/ai-paper-en.jpg" data-src-en="Video/research/v5/ai-paper-en.jpg" data-src-ko="Video/research/v5/ai-paper-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
                 <span class="film-play" aria-hidden="true">▶</span>
-                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-                <span class="film-title" data-en="WALK NATURALLY" data-ko="자연스럽게 걸으세요">WALK NATURALLY</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="MISSION: HANJI-POSSIBLE" data-ko="미션 한지파서블">MISSION: HANJI-POSSIBLE</span>
               </button>
             </div>
             <div class="film-subtitle-panel" hidden>
@@ -751,9 +753,33 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
               <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
             </div>
           </div>
-          <div class="film-caption"><span class="film-note" data-en="AI dramatization · not experimental footage or a diagnostic demo." data-ko="AI 연출 · 실제 실험·진단 시연 아님">AI dramatization · not experimental footage or a diagnostic demo.</span><a href="https://doi.org/10.1007/s10570-025-06542-7" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
-          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v4/hanji-walk-naturally-30s.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
-          <noscript><p><a href="Video/research/v4/hanji-walk-naturally-30s.mp4">Watch the 30-second film · 30초 영상 보기</a></p></noscript>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1007/s10570-025-06542-7" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/ai-paper-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/ai-paper-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
+        </div>
+        <div class="research-film" data-film="ai-paper-2">
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-ai-paper-2" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/ai-paper-2-en.jpg" data-poster-en="Video/research/v5/ai-paper-2-en.jpg" data-poster-ko="Video/research/v5/ai-paper-2-ko.jpg" aria-label="FILM OF ROCK" data-label-en="FILM OF ROCK" data-label-ko="필름 오브 록">
+                <source data-src-en="Video/research/v5/ai-paper-2-en.mp4" data-src-ko="Video/research/v5/ai-paper-2-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/ai-paper-2.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/ai-paper-2.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-ai-paper-2" aria-label="FILM OF ROCK" title="FILM OF ROCK">
+                <img src="Video/research/v5/ai-paper-2-en.jpg" data-src-en="Video/research/v5/ai-paper-2-en.jpg" data-src-ko="Video/research/v5/ai-paper-2-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="FILM OF ROCK" data-ko="필름 오브 록">FILM OF ROCK</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-ai-paper-2" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
+          </div>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/ai-paper-2-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/ai-paper-2-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
         </div>
         <div class="body">
           <h3 data-en="AI-Powered Printed Electronics" data-ko="AI 기반 인쇄전자">AI-Powered Printed Electronics</h3>
@@ -774,16 +800,16 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="research-film" data-film="biosensor">
           <div class="film-viewer">
             <div class="film-stage">
-              <video hidden tabindex="0" id="film-biosensor" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v4/biosensor-pencil-career-30s.jpg" aria-label="THE PENCIL CHANGED JOBS" data-label-en="THE PENCIL CHANGED JOBS" data-label-ko="연필의 이직">
-                <source data-src="Video/research/v4/biosensor-pencil-career-30s.mp4" type="video/mp4"/>
-                <track kind="captions" srclang="en" label="English" src="Video/research/v4/biosensor-pencil-career-30s.en.vtt"/>
-                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v4/biosensor-pencil-career-30s.ko.vtt"/>
+              <video hidden tabindex="0" id="film-biosensor" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/biosensor-en.jpg" data-poster-en="Video/research/v5/biosensor-en.jpg" data-poster-ko="Video/research/v5/biosensor-ko.jpg" aria-label="PENCIL NOIR" data-label-en="PENCIL NOIR" data-label-ko="연필 형사">
+                <source data-src-en="Video/research/v5/biosensor-en.mp4" data-src-ko="Video/research/v5/biosensor-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/biosensor.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/biosensor.ko.vtt"/>
               </video>
-              <button class="film-start" type="button" aria-controls="film-biosensor">
-                <img src="Video/research/v4/biosensor-pencil-career-30s.jpg" alt="" loading="lazy" width="960" height="540"/>
+              <button class="film-start" type="button" aria-controls="film-biosensor" aria-label="PENCIL NOIR" title="PENCIL NOIR">
+                <img src="Video/research/v5/biosensor-en.jpg" data-src-en="Video/research/v5/biosensor-en.jpg" data-src-ko="Video/research/v5/biosensor-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
                 <span class="film-play" aria-hidden="true">▶</span>
-                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-                <span class="film-title" data-en="THE PENCIL CHANGED JOBS" data-ko="연필의 이직">THE PENCIL CHANGED JOBS</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="PENCIL NOIR" data-ko="연필 형사">PENCIL NOIR</span>
               </button>
             </div>
             <div class="film-subtitle-panel" hidden>
@@ -791,9 +817,33 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
               <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
             </div>
           </div>
-          <div class="film-caption"><span class="film-note" data-en="AI dramatization · not experimental footage or a diagnostic demo." data-ko="AI 연출 · 실제 실험·진단 시연 아님">AI dramatization · not experimental footage or a diagnostic demo.</span><a href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
-          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v4/biosensor-pencil-career-30s.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
-          <noscript><p><a href="Video/research/v4/biosensor-pencil-career-30s.mp4">Watch the 30-second film · 30초 영상 보기</a></p></noscript>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/biosensor-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/biosensor-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
+        </div>
+        <div class="research-film" data-film="biosensor-2">
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-biosensor-2" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/biosensor-2-en.jpg" data-poster-en="Video/research/v5/biosensor-2-en.jpg" data-poster-ko="Video/research/v5/biosensor-2-ko.jpg" aria-label="HANJI HERO" data-label-en="HANJI HERO" data-label-ko="한지 히어로">
+                <source data-src-en="Video/research/v5/biosensor-2-en.mp4" data-src-ko="Video/research/v5/biosensor-2-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/biosensor-2.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/biosensor-2.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-biosensor-2" aria-label="HANJI HERO" title="HANJI HERO">
+                <img src="Video/research/v5/biosensor-2-en.jpg" data-src-en="Video/research/v5/biosensor-2-en.jpg" data-src-ko="Video/research/v5/biosensor-2-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="HANJI HERO" data-ko="한지 히어로">HANJI HERO</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-biosensor-2" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
+          </div>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/biosensor-2-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/biosensor-2-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
         </div>
         <div class="body">
           <h3 data-en="Bioprinting & Biosensors" data-ko="바이오프린팅과 바이오센서">Bioprinting & Biosensors</h3>
@@ -805,6 +855,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
             <a class="paper" href="https://doi.org/10.1021/acsnano.4c18646" target="_blank" rel="noopener"><span class="pno">01</span><span><span class="pt">Portable, Wireless Potentiostat Sensor for Ultra-Sensitive Real-Time Detection of 5hmC in Genomic DNA Using Tree-Like Graphene</span><span class="pmeta">ACS Nano, 2025 · <b>IF 15.8</b></span></span></a>
             <a class="paper" href="https://doi.org/10.1016/j.ijbiomac.2025.147736" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Portable and wireless DNA nanosensor for early detection of lung cancer using 1T-MoS₂/liposome-AuNP modified transducer</span><span class="pmeta">Int. J. Biological Macromolecules, 2025 · <b>IF 11.2</b> · JCR Q1</span></span></a>
+            <a class="paper" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener"><span class="pno">03</span><span><span class="pt">Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing</span><span class="pmeta">Chem. Eng. J., 2026 · <b>IF 13.4</b></span></span></a>
           </div>
         </div>
       </article>
@@ -814,16 +865,16 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="research-film" data-film="memory">
           <div class="film-viewer">
             <div class="film-stage">
-              <video hidden tabindex="0" id="film-memory" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v4/memory-two-states-30s.jpg" aria-label="THE BOSS HAS TWO STATES" data-label-en="THE BOSS HAS TWO STATES" data-label-ko="부장님의 두 상태">
-                <source data-src="Video/research/v4/memory-two-states-30s.mp4" type="video/mp4"/>
-                <track kind="captions" srclang="en" label="English" src="Video/research/v4/memory-two-states-30s.en.vtt"/>
-                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v4/memory-two-states-30s.ko.vtt"/>
+              <video hidden tabindex="0" id="film-memory" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/memory-en.jpg" data-poster-en="Video/research/v5/memory-en.jpg" data-poster-ko="Video/research/v5/memory-ko.jpg" aria-label="FAST &amp; RESISTIVE" data-label-en="FAST &amp; RESISTIVE" data-label-ko="저항의 질주">
+                <source data-src-en="Video/research/v5/memory-en.mp4" data-src-ko="Video/research/v5/memory-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/memory.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/memory.ko.vtt"/>
               </video>
-              <button class="film-start" type="button" aria-controls="film-memory">
-                <img src="Video/research/v4/memory-two-states-30s.jpg" alt="" loading="lazy" width="960" height="540"/>
+              <button class="film-start" type="button" aria-controls="film-memory" aria-label="FAST &amp; RESISTIVE" title="FAST &amp; RESISTIVE">
+                <img src="Video/research/v5/memory-en.jpg" data-src-en="Video/research/v5/memory-en.jpg" data-src-ko="Video/research/v5/memory-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
                 <span class="film-play" aria-hidden="true">▶</span>
-                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-                <span class="film-title" data-en="THE BOSS HAS TWO STATES" data-ko="부장님의 두 상태">THE BOSS HAS TWO STATES</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="FAST &amp; RESISTIVE" data-ko="저항의 질주">FAST &amp; RESISTIVE</span>
               </button>
             </div>
             <div class="film-subtitle-panel" hidden>
@@ -831,9 +882,33 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
               <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
             </div>
           </div>
-          <div class="film-caption"><span class="film-note" data-en="AI comedy · resistance-state analogy." data-ko="AI 코미디 · 저항 상태의 비유">AI comedy · resistance-state analogy.</span><a href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
-          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v4/memory-two-states-30s.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
-          <noscript><p><a href="Video/research/v4/memory-two-states-30s.mp4">Watch the 30-second film · 30초 영상 보기</a></p></noscript>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/memory-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/memory-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
+        </div>
+        <div class="research-film" data-film="memory-2">
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-memory-2" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/memory-2-en.jpg" data-poster-en="Video/research/v5/memory-2-en.jpg" data-poster-ko="Video/research/v5/memory-2-ko.jpg" aria-label="A SPOONFUL OF DOPAMINE" data-label-en="A SPOONFUL OF DOPAMINE" data-label-ko="도파민 한 스푼">
+                <source data-src-en="Video/research/v5/memory-2-en.mp4" data-src-ko="Video/research/v5/memory-2-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/memory-2.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/memory-2.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-memory-2" aria-label="A SPOONFUL OF DOPAMINE" title="A SPOONFUL OF DOPAMINE">
+                <img src="Video/research/v5/memory-2-en.jpg" data-src-en="Video/research/v5/memory-2-en.jpg" data-src-ko="Video/research/v5/memory-2-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="A SPOONFUL OF DOPAMINE" data-ko="도파민 한 스푼">A SPOONFUL OF DOPAMINE</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-memory-2" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
+          </div>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1016/j.orgel.2025.107305" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/memory-2-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/memory-2-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
         </div>
         <div class="body">
           <h3 data-en="Printed Memory Devices" data-ko="인쇄형 메모리 소자">Printed Memory Devices</h3>
@@ -844,6 +919,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <div class="papers" id="papers-memory">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
             <a class="paper" href="https://doi.org/10.1016/j.carbon.2024.119320" target="_blank" rel="noopener"><span class="pno">01</span><span><span class="pt">Recent advancements in carbon-based materials for resistive switching applications</span><span class="pmeta">Carbon, 2024 · <b>IF 11.6</b></span></span></a>
+            <a class="paper" href="https://doi.org/10.1016/j.orgel.2025.107305" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Mem-capacitance enabled volatile switching in Dopamine@Agarose-based devices</span><span class="pmeta">Organic Electronics, 2025</span></span></a>
           </div>
         </div>
       </article>
@@ -853,16 +929,16 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="research-film" data-film="energy-storage">
           <div class="film-viewer">
             <div class="film-stage">
-              <video hidden tabindex="0" id="film-energy-storage" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v4/ink-slept-well-26s.jpg" aria-label="THE INK SLEPT WELL" data-label-en="THE INK SLEPT WELL" data-label-ko="잉크는 푹 잤다">
-                <source data-src="Video/research/v4/ink-slept-well-26s.mp4" type="video/mp4"/>
-                <track kind="captions" srclang="en" label="English" src="Video/research/v4/ink-slept-well-26s.en.vtt"/>
-                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v4/ink-slept-well-26s.ko.vtt"/>
+              <video hidden tabindex="0" id="film-energy-storage" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/energy-storage-en.jpg" data-poster-en="Video/research/v5/energy-storage-en.jpg" data-poster-ko="Video/research/v5/energy-storage-ko.jpg" aria-label="OPERATION OXIDATION" data-label-en="OPERATION OXIDATION" data-label-ko="작전명: 산화">
+                <source data-src-en="Video/research/v5/energy-storage-en.mp4" data-src-ko="Video/research/v5/energy-storage-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/energy-storage.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/energy-storage.ko.vtt"/>
               </video>
-              <button class="film-start" type="button" aria-controls="film-energy-storage">
-                <img src="Video/research/v4/ink-slept-well-26s.jpg" alt="" loading="lazy" width="960" height="540"/>
+              <button class="film-start" type="button" aria-controls="film-energy-storage" aria-label="OPERATION OXIDATION" title="OPERATION OXIDATION">
+                <img src="Video/research/v5/energy-storage-en.jpg" data-src-en="Video/research/v5/energy-storage-en.jpg" data-src-ko="Video/research/v5/energy-storage-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
                 <span class="film-play" aria-hidden="true">▶</span>
-                <span class="film-badge" data-en="WATCH · 26 SEC" data-ko="26초로 보기">WATCH · 26 SEC</span>
-                <span class="film-title" data-en="THE INK SLEPT WELL" data-ko="잉크는 푹 잤다">THE INK SLEPT WELL</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="OPERATION OXIDATION" data-ko="작전명: 산화">OPERATION OXIDATION</span>
               </button>
             </div>
             <div class="film-subtitle-panel" hidden>
@@ -870,9 +946,33 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
               <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
             </div>
           </div>
-          <div class="film-caption"><span class="film-note" data-en="AI dramatization · not experimental footage." data-ko="AI 연출 · 실제 실험 영상 아님">AI dramatization · not experimental footage.</span><a href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
-          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v4/ink-slept-well-26s.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
-          <noscript><p><a href="Video/research/v4/ink-slept-well-26s.mp4">Watch the 26-second film · 26초 영상 보기</a></p></noscript>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/energy-storage-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/energy-storage-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
+        </div>
+        <div class="research-film" data-film="energy-storage-2">
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-energy-storage-2" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/energy-storage-2-en.jpg" data-poster-en="Video/research/v5/energy-storage-2-en.jpg" data-poster-ko="Video/research/v5/energy-storage-2-ko.jpg" aria-label="MXene VOYAGE" data-label-en="MXene VOYAGE" data-label-ko="MXene 결사대">
+                <source data-src-en="Video/research/v5/energy-storage-2-en.mp4" data-src-ko="Video/research/v5/energy-storage-2-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/energy-storage-2.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/energy-storage-2.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-energy-storage-2" aria-label="MXene VOYAGE" title="MXene VOYAGE">
+                <img src="Video/research/v5/energy-storage-2-en.jpg" data-src-en="Video/research/v5/energy-storage-2-en.jpg" data-src-ko="Video/research/v5/energy-storage-2-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="MXene VOYAGE" data-ko="MXene 결사대">MXene VOYAGE</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-energy-storage-2" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
+          </div>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/energy-storage-2-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/energy-storage-2-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
         </div>
         <div class="body">
           <h3 data-en="Printed Supercapacitors & Batteries" data-ko="인쇄형 슈퍼커패시터와 배터리">Printed Supercapacitors & Batteries</h3>
@@ -883,8 +983,9 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
           <div class="papers" id="papers-energy-storage">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
             <a class="paper" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener"><span class="pno">01</span><span><span class="pt">Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable, oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors</span><span class="pmeta">Adv. Composites and Hybrid Materials, 2026 · <b>IF 21.8</b></span></span></a>
-            <a class="paper" href="https://doi.org/10.1016/j.cej.2024.152345" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets</span><span class="pmeta">Chemical Engineering Journal, 2024 · <b>IF 13.4</b></span></span></a>
+            <a class="paper" href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets</span><span class="pmeta">Chemical Engineering Journal, 2024 · <b>IF 13.4</b></span></span></a>
             <a class="paper" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener"><span class="pno">03</span><span><span class="pt">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</span><span class="pmeta">J. Mater. Chem. A, 2024 · <b>IF 11.1</b></span></span></a>
+            <a class="paper" href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener"><span class="pno">04</span><span><span class="pt">Ti3C2Tx MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment</span><span class="pmeta">ACS Appl. Mater. Interfaces, 2026</span></span></a>
           </div>
         </div>
       </article>
@@ -894,16 +995,16 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <div class="research-film" data-film="cherry-blossom">
           <div class="film-viewer">
             <div class="film-stage">
-              <video hidden tabindex="0" id="film-cherry-blossom" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v3/cherry-action-30s.jpg" aria-label="WAIT!" data-label-en="WAIT!" data-label-ko="잠깐만요!">
-                <source data-src="Video/research/v3/cherry-action-30s.mp4" type="video/mp4"/>
-                <track kind="captions" srclang="en" label="English" src="Video/research/v3/cherry-action-30s.en.vtt"/>
-                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v3/cherry-action-30s.ko.vtt"/>
+              <video hidden tabindex="0" id="film-cherry-blossom" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/cherry-blossom-en.jpg" data-poster-en="Video/research/v5/cherry-blossom-en.jpg" data-poster-ko="Video/research/v5/cherry-blossom-ko.jpg" aria-label="PETAL FIGHTER" data-label-en="PETAL FIGHTER" data-label-ko="벚꽃 파이터">
+                <source data-src-en="Video/research/v5/cherry-blossom-en.mp4" data-src-ko="Video/research/v5/cherry-blossom-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/cherry-blossom.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/cherry-blossom.ko.vtt"/>
               </video>
-              <button class="film-start" type="button" aria-controls="film-cherry-blossom">
-                <img src="Video/research/v3/cherry-action-30s.jpg" alt="" loading="lazy" width="960" height="540"/>
+              <button class="film-start" type="button" aria-controls="film-cherry-blossom" aria-label="PETAL FIGHTER" title="PETAL FIGHTER">
+                <img src="Video/research/v5/cherry-blossom-en.jpg" data-src-en="Video/research/v5/cherry-blossom-en.jpg" data-src-ko="Video/research/v5/cherry-blossom-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
                 <span class="film-play" aria-hidden="true">▶</span>
-                <span class="film-badge" data-en="WATCH · 30 SEC" data-ko="30초로 보기">WATCH · 30 SEC</span>
-                <span class="film-title" data-en="WAIT!" data-ko="잠깐만요!">WAIT!</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="PETAL FIGHTER" data-ko="벚꽃 파이터">PETAL FIGHTER</span>
               </button>
             </div>
             <div class="film-subtitle-panel" hidden>
@@ -911,9 +1012,33 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
               <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
             </div>
           </div>
-          <div class="film-caption"><span class="film-note" data-en="Petal rescue mission · AI dramatization." data-ko="꽃잎 구출 작전 · AI 연출 영상">Petal rescue mission · AI dramatization.</span><a href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener" data-en="Read paper ↗" data-ko="논문 보기 ↗">Read paper ↗</a></div>
-          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v3/cherry-action-30s.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
-          <noscript><p><a href="Video/research/v3/cherry-action-30s.mp4">Watch the 30-second film · 30초 영상 보기</a></p></noscript>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/cherry-blossom-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/cherry-blossom-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
+        </div>
+        <div class="research-film" data-film="cherry-blossom-2">
+          <div class="film-viewer">
+            <div class="film-stage">
+              <video hidden tabindex="0" id="film-cherry-blossom-2" controls controlsList="nofullscreen" playsinline preload="none" poster="Video/research/v5/cherry-blossom-2-en.jpg" data-poster-en="Video/research/v5/cherry-blossom-2-en.jpg" data-poster-ko="Video/research/v5/cherry-blossom-2-ko.jpg" aria-label="CLEAN &amp; CHARGE" data-label-en="CLEAN &amp; CHARGE" data-label-ko="번쩍 셀룰로스">
+                <source data-src-en="Video/research/v5/cherry-blossom-2-en.mp4" data-src-ko="Video/research/v5/cherry-blossom-2-ko.mp4" type="video/mp4"/>
+                <track kind="captions" srclang="en" label="English" src="Video/research/v5/cherry-blossom-2.en.vtt"/>
+                <track kind="captions" srclang="ko" label="한국어" src="Video/research/v5/cherry-blossom-2.ko.vtt"/>
+              </video>
+              <button class="film-start" type="button" aria-controls="film-cherry-blossom-2" aria-label="CLEAN &amp; CHARGE" title="CLEAN &amp; CHARGE">
+                <img src="Video/research/v5/cherry-blossom-2-en.jpg" data-src-en="Video/research/v5/cherry-blossom-2-en.jpg" data-src-ko="Video/research/v5/cherry-blossom-2-ko.jpg" alt="" loading="lazy" width="1920" height="1080"/>
+                <span class="film-play" aria-hidden="true">▶</span>
+                <span class="film-badge" data-en="WATCH · 36 SEC" data-ko="36초로 보기">WATCH · 36 SEC</span>
+                <span class="film-title" data-en="CLEAN &amp; CHARGE" data-ko="번쩍 셀룰로스">CLEAN &amp; CHARGE</span>
+              </button>
+            </div>
+            <div class="film-subtitle-panel" hidden>
+              <p class="film-subtitles" id="subtitles-cherry-blossom-2" aria-label="Subtitles"></p>
+              <button class="film-fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+            </div>
+          </div>
+          <div class="film-caption"><span class="film-note" data-en="Animated dramatization · figures from the paper, not experimental footage." data-ko="애니메이션 연출 · 수치는 논문 기준, 실제 실험 영상 아님">Animated dramatization · figures from the paper, not experimental footage.</span><a href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener" data-en="Film source ↗" data-ko="영상 출처 ↗">Film source ↗</a></div>
+          <p class="film-error" role="status" hidden><span data-en="Playback is unavailable here." data-ko="이 브라우저에서 재생할 수 없습니다.">Playback is unavailable here.</span> <a href="Video/research/v5/cherry-blossom-2-en.mp4" data-en="Open video ↗" data-ko="영상 열기 ↗">Open video ↗</a></p>
+          <noscript><p><a href="Video/research/v5/cherry-blossom-2-en.mp4">Watch the 36-second film · 36초 영상 보기</a></p></noscript>
         </div>
         <div class="body">
           <h3 data-en="Piezo & Triboelectric Energy Harvesting" data-ko="압전과 마찰전기 에너지 하베스팅">Piezo & Triboelectric Energy Harvesting</h3>
@@ -1132,6 +1257,12 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <div class="publist" id="publist">
       <!-- 2026 -->
       <article class="pub reveal" data-year="2026">
+        <div class="field">Energy</div>
+        <div class="main"><div class="pt"><a href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener">Ti3C2Tx MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment</a></div><div class="jr">ACS Appl. Mater. Interfaces · 2026</div></div>
+        <div class="side"><a class="doi-link" href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener">DOI ↗</a></div>
+      </article>
+
+      <article class="pub reveal" data-year="2026">
         <div class="field">Energy · Review</div>
         <div class="main"><div class="pt"><a href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Screen-printed functional materials for energy storage and harvesting: from fundamentals to integrated supercapacitors and nanogenerators</a></div><div class="au">S Mandal, AC Mendhe, OY Pawar, M Roy, S Lim, T Park, HS Lee, H Lee</div><div class="jr">Progress in Materials Science · 2026</div></div>
         <div class="side"><span class="if-badge">IF 37.4</span><a class="doi-link" href="https://scholar.google.co.kr/citations?hl=en&user=YzC1uPAAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Scholar ↗</a></div>
@@ -1158,6 +1289,12 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </article>
 
       <!-- 2025 -->
+      <article class="pub reveal" data-year="2025">
+        <div class="field">Memory</div>
+        <div class="main"><div class="pt"><a href="https://doi.org/10.1016/j.orgel.2025.107305" target="_blank" rel="noopener">Mem-capacitance enabled volatile switching in Dopamine@Agarose-based devices</a></div><div class="jr">Organic Electronics · 2025</div></div>
+        <div class="side"><a class="doi-link" href="https://doi.org/10.1016/j.orgel.2025.107305" target="_blank" rel="noopener">DOI ↗</a></div>
+      </article>
+
       <article class="pub reveal" data-year="2025">
         <div class="field">Materials Sci.</div>
         <div class="main"><div class="pt"><a href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener">Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</a></div><div class="au">NH Zain Karimy, H Li, HB Lee, DP Ojha, MM Ovhal, V Devaraj, S Lim, JW Kang</div><div class="jr">Advanced Functional Materials · 2025</div></div>
@@ -1187,8 +1324,8 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </article>
       <article class="pub reveal" data-year="2024">
         <div class="field">Chem. Eng.</div>
-        <div class="main"><div class="pt"><a href="https://doi.org/10.1016/j.cej.2024.152345" target="_blank" rel="noopener">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets: Exploring 1D/2D structural adjustment</a></div><div class="au">B Diao, C Cong, F Sun, H Li, H Zhang, X Wang, M Jin, S Lim, X Li, SH Kim</div><div class="jr">Chemical Engineering Journal · 2024</div></div>
-        <div class="side"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.152345" target="_blank" rel="noopener">DOI ↗</a></div>
+        <div class="main"><div class="pt"><a href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets: Exploring 1D/2D structural adjustment</a></div><div class="au">B Diao, C Cong, F Sun, H Li, H Zhang, X Wang, M Jin, S Lim, X Li, SH Kim</div><div class="jr">Chemical Engineering Journal · 2024</div></div>
+        <div class="side"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener">DOI ↗</a></div>
       </article>
       <article class="pub reveal" data-year="2024">
         <div class="field">Materials Sci.</div>
@@ -1428,7 +1565,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.13-2</span></span>
+      <span>© 2026 PPEL — Printability for Printed Electronics Lab+. Jeonbuk National University. <span style="opacity:.45">v2026.09.27-1</span></span>
       <span>567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeollabuk-do, 54896, Republic of Korea</span>
     </div>
   </div>
@@ -1555,6 +1692,54 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
 document.querySelectorAll(".num").forEach(el=>cio.observe(el));
 
 /* ===== Research films and accessible detail toggles ===== */
+// Keep the intended time/state across load() resets and rapid language changes.
+const filmSwitches=new WeakMap();
+let activeFilm=null;
+function claimFilmPlayback(video){
+  activeFilm=video;
+  const ownPending=filmSwitches.get(video);
+  if(ownPending)ownPending.playing=true;
+  document.querySelectorAll('.research-film video').forEach(other=>{
+    if(other===video)return;
+    const pending=filmSwitches.get(other);
+    if(pending)pending.playing=false;
+    other.pause();
+  });
+}
+function switchFilmSource(video,url){
+  const source=video.querySelector('source');
+  if(!source.getAttribute('src')||source.getAttribute('src')===url)return;
+  const previous=filmSwitches.get(video);
+  const state={time:previous?previous.time:video.currentTime,
+    playing:previous?previous.playing:!video.paused&&!video.ended,
+    rate:previous?previous.rate:video.playbackRate};
+  if(previous)previous.cleanup();
+  const film=video.closest('.research-film'),error=film.querySelector('.film-error');
+  const finish=()=>{
+    if(filmSwitches.get(video)!==state)return;
+    state.cleanup();filmSwitches.delete(video);
+    video.playbackRate=state.rate;
+    renderFilmSubtitles(video);
+    if(state.playing&&activeFilm===video){
+      video.play().catch(reason=>{
+        if(reason.name!=='AbortError'&&source.getAttribute('src')===url)error.hidden=false;
+      });
+    }
+  };
+  const restore=()=>{
+    if(filmSwitches.get(video)!==state||video.readyState<1)return;
+    video.addEventListener('seeked',finish,{once:true});
+    video.currentTime=Math.max(0,Math.min(state.time,Number.isFinite(video.duration)?video.duration:state.time));
+    if(!video.seeking)finish();
+  };
+  state.cleanup=()=>{
+    video.removeEventListener('loadedmetadata',restore);
+    video.removeEventListener('seeked',finish);
+  };
+  filmSwitches.set(video,state);
+  video.addEventListener('loadedmetadata',restore,{once:true});
+  error.hidden=true;source.src=url;video.load();
+}
 function renderFilmSubtitles(video){
   const film=video.closest('.research-film'),text=film.querySelector('.film-subtitles');
   const track=Array.from(video.textTracks).find(track=>track.language===video.dataset.captionLanguage);
@@ -1563,13 +1748,23 @@ function renderFilmSubtitles(video){
 function syncFilmLanguage(currentVideo){
   const videos=currentVideo?[currentVideo]:document.querySelectorAll('.research-film video');
   videos.forEach(video=>{
-    video.setAttribute('aria-label',video.dataset['label'+(lang==='ko'?'Ko':'En')]);
+    const suffix=lang==='ko'?'Ko':'En',label=video.dataset['label'+suffix];
+    video.setAttribute('aria-label',label);
     video.dataset.captionLanguage=lang;
-    const film=video.closest('.research-film'),full=film.querySelector('.film-fullscreen');
+    const film=video.closest('.research-film'),full=film.querySelector('.film-fullscreen'),start=film.querySelector('.film-start');
+    const source=video.querySelector('source'),url=source.dataset['src'+suffix];
+    video.poster=video.dataset['poster'+suffix];
+    const image=start.querySelector('img');image.src=image.dataset['src'+suffix];
+    start.setAttribute('aria-label',label);start.title=label;
+    film.querySelector('.film-error a').href=url;
+    // With JS enabled, noscript is inert text, not a subtree of live links.
+    const fallback=film.querySelector('noscript');
+    fallback.textContent=fallback.textContent.replace(/href="[^"]*"/,()=>`href="${url}"`);
     const fullLabel=document.fullscreenElement===film.querySelector('.film-viewer')?(lang==='ko'?'전체 화면 닫기':'Exit full screen'):(lang==='ko'?'자막과 함께 전체 화면':'Full screen with subtitles');
     full.setAttribute('aria-label',fullLabel);full.title=fullLabel;
     film.querySelector('.film-subtitles').setAttribute('aria-label',lang==='ko'?'자막':'Subtitles');
-    if(!video.querySelector('source').getAttribute('src'))return;
+    if(!source.getAttribute('src'))return;
+    switchFilmSource(video,url);
     // Hidden tracks expose timed cues without drawing over the picture.
     Array.from(video.textTracks).forEach(track=>{track.mode=track.language===lang?'hidden':'disabled';});
     renderFilmSubtitles(video);
@@ -1603,12 +1798,13 @@ document.querySelectorAll('.research-film').forEach(film=>{
   });
   start.addEventListener('click',()=>{
     const source=video.querySelector('source');
-    if(!source.getAttribute('src')){source.src=source.dataset.src;video.load();}
+    claimFilmPlayback(video);
+    if(!source.getAttribute('src')){source.src=source.dataset[lang==='ko'?'srcKo':'srcEn'];video.load();}
     video.hidden=false;start.hidden=true;panel.hidden=false;error.hidden=true;syncFilmLanguage(video);
     video.focus();
     video.play().catch(reason=>{if(reason.name!=='AbortError')error.hidden=false;});
   });
-  video.addEventListener('play',()=>{document.querySelectorAll('.research-film video').forEach(other=>{if(other!==video)other.pause();});});
+  video.addEventListener('play',()=>claimFilmPlayback(video));
   // A lazy source has no URL until play; ignore its initial empty-source error.
   const showPlaybackError=()=>{if(video.querySelector('source').getAttribute('src'))error.hidden=false;};
   video.addEventListener('error',showPlaybackError);
