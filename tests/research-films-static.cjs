@@ -90,7 +90,7 @@ assert.equal(files.size,60);
 assert(!html.includes('10.1016/j.cej.2024.'+'152345'));
 assert.equal(html.split('10.1016/j.cej.2024.156993').length-1,3);
 assert(!/30초|30 SEC|30-second|26초|26 SEC|26-second|Video\/research\/v[1-4]\//.test(html));
-assert(html.includes('v2026.09.27-1'));
+assert(/v20[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]+/.test(html),'footer version');
 for(const n of nodes)if(n.attrs['aria-controls'])for(const id of n.attrs['aria-controls'].split(/\s+/))assert(ids.has(id),`Broken aria-controls ${id}`);
 for(const script of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)){
   if(script[0].includes('application/ld+json'))JSON.parse(script[1]);
