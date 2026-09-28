@@ -207,7 +207,7 @@ section{position:relative;scroll-margin-top:66px}
 <body>
 
 <div class="pv-bar">
-  <span><b>PPEL+</b> · <span data-en="Preview: Simulation section (placed after Research)" data-ko="미리보기: 시뮬레이션 섹션 (연구 섹션 다음)">미리보기: 시뮬레이션 섹션 (연구 섹션 다음)</span></span>
+  <span><b>PPEL+</b> · <span data-en="Preview: Simulation section (placed after Research) · figures added 2026-09-29" data-ko="미리보기: 시뮬레이션 섹션 (연구 섹션 다음) · 그림 반영 2026-09-29">미리보기: 시뮬레이션 섹션 (연구 섹션 다음) · 그림 반영 2026-09-29</span></span>
   <span class="pv-tools"><button type="button" id="pvLang">EN</button><button type="button" id="pvTheme">Dark</button></span>
 </div>
 <div class="pv-ghost" data-en="↑ Research section" data-ko="↑ 연구 섹션">↑ 연구 섹션</div>
@@ -230,6 +230,7 @@ section{position:relative;scroll-margin-top:66px}
     <div class="sim-grid">
 
       <article class="sim-card dft reveal" aria-labelledby="sim-dft">
+        <img class="sim-ill" src="image/simulation/illust-dft.webp" width="1600" height="700" alt="" loading="lazy">
         <div class="sim-body">
           <div class="sim-name"><h4 id="sim-dft">DFT</h4></div>
           <div class="sim-scale" data-en="Å · Atoms and electrons" data-ko="Å · 원자와 전자">Å · Atoms and electrons</div>
@@ -240,13 +241,14 @@ section{position:relative;scroll-margin-top:66px}
             <li class="done"><span data-en="Dipole moment and polarization" data-ko="쌍극자 모멘트와 분극">Dipole moment and polarization</span></li>
             <li class="done"><span data-en="Adsorption and binding energy of molecules such as O₂ and glucose" data-ko="O₂, 포도당 등 분자의 흡착·결합 에너지">Adsorption and binding energy of molecules such as O₂ and glucose</span></li>
             <li class="done"><span data-en="Electronic structure (DOS/PDOS) and how adsorption shifts it" data-ko="전자 구조(DOS/PDOS)와 흡착에 따른 변화">Electronic structure (DOS/PDOS) and how adsorption shifts it</span></li>
-            <li><span data-en="Band structure, work function, doping, defect and surface models" data-ko="밴드 구조, 일함수, 도핑·결함·표면 모델">Band structure, work function, doping, defect and surface models</span></li>
+            <li class="done"><span data-en="Band structure, work function, doping, defect and surface models" data-ko="밴드 구조, 일함수, 도핑·결함·표면 모델">Band structure, work function, doping, defect and surface models</span></li>
           </ul>
           <div class="sim-code">Quantum ESPRESSO</div>
         </div>
       </article>
 
       <article class="sim-card md reveal" aria-labelledby="sim-md">
+        <img class="sim-ill" src="image/simulation/illust-md.webp" width="1600" height="700" alt="" loading="lazy">
         <div class="sim-body">
           <div class="sim-name"><h4 id="sim-md">MD</h4><span class="sim-soon" data-en="Coming soon" data-ko="준비 중">Coming soon</span></div>
           <div class="sim-scale" data-en="nm · Molecules and interfaces" data-ko="nm · 분자와 계면">nm · Molecules and interfaces</div>
@@ -262,6 +264,7 @@ section{position:relative;scroll-margin-top:66px}
       </article>
 
       <article class="sim-card fem reveal" aria-labelledby="sim-fem">
+        <img class="sim-ill" src="image/simulation/illust-comsol.webp" width="1600" height="700" alt="" loading="lazy">
         <div class="sim-body">
           <div class="sim-name"><h4 id="sim-fem">COMSOL</h4></div>
           <div class="sim-scale" data-en="µm–mm · Devices and fields" data-ko="µm~mm · 소자와 장">µm–mm · Devices and fields</div>
@@ -270,7 +273,7 @@ section{position:relative;scroll-margin-top:66px}
           <ul class="sim-list" role="list">
             <li class="done"><span data-en="Piezoelectric potential under load, compared across structures" data-ko="하중에 따른 압전 전위와 구조별 비교">Piezoelectric potential under load, compared across structures</span></li>
             <li class="done"><span data-en="Crack growth and strain in printed sensors under tension" data-ko="인장 시 인쇄 센서의 균열과 변형">Crack growth and strain in printed sensors under tension</span></li>
-            <li><span data-en="Triboelectric potential and electric field distribution" data-ko="마찰전기 전위와 전기장 분포">Triboelectric potential and electric field distribution</span></li>
+            <li class="done"><span data-en="Triboelectric potential and electric field distribution" data-ko="마찰전기 전위와 전기장 분포">Triboelectric potential and electric field distribution</span></li>
             <li><span data-en="Stress in bending, pressing and microneedle insertion" data-ko="굽힘·압축·마이크로니들 삽입 시 응력">Stress in bending, pressing and microneedle insertion</span></li>
             <li><span data-en="Diffusion, reaction and heat transfer in sensors and batteries" data-ko="센서·전지의 확산, 반응, 열 전달">Diffusion, reaction and heat transfer in sensors and batteries</span></li>
           </ul>
@@ -284,6 +287,14 @@ section{position:relative;scroll-margin-top:66px}
       <div class="sim-sub reveal"><h3 data-en="Examples from our papers" data-ko="논문 속 계산 예시">Examples from our papers</h3></div>
       <div class="sim-ex-grid">
         <figure class="sim-fig reveal">
+          <div class="shot"><img src="image/simulation/dft-scnc.jpg" width="1100" height="916" loading="lazy" alt="DFT maps of charge density difference and electrostatic potential difference, Bader charges and projected density of states for pristine and sulfated cellulose nanocrystals"></div>
+          <figcaption class="cap">
+            <span class="sim-tag dft">DFT</span>
+            <b data-en="Sulfate groups pull charge and raise the unit-cell dipole moment from 3.2 D to 11.0 D." data-ko="황산기가 전하를 끌어당겨 단위셀 쌍극자 모멘트가 3.2 D에서 11.0 D로 커집니다.">Sulfate groups pull charge and raise the unit-cell dipole moment from 3.2 D to 11.0 D.</b>
+            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener">Adv. Compos. Hybrid Mater. 9 (2026) 205 · CC BY 4.0 ↗</a></span>
+          </figcaption>
+        </figure>
+        <figure class="sim-fig reveal">
           <div class="shot"><img src="image/simulation/comsol-cnnt-cej2025.jpg" width="1100" height="902" loading="lazy" alt="COMSOL maps of stress transfer and electric potential in PVDF composites with g-C3N4 nanorods and nanotubes"></div>
           <figcaption class="cap">
             <span class="sim-tag fem">COMSOL</span>
@@ -294,17 +305,9 @@ section{position:relative;scroll-margin-top:66px}
         <figure class="sim-fig reveal">
           <div class="shot"><img src="image/simulation/comsol-aligned-jcis2024.jpg" width="1100" height="917" loading="lazy" alt="COMSOL maps of stress and electric potential for aligned and randomly oriented g-C3N4 nanosheets in PVDF"></div>
           <figcaption class="cap">
-            <span class="cap-tags"><span class="sim-tag fem">COMSOL</span><span class="sim-check-flag" data-en="Confirm it is in the paper" data-ko="논문 수록 확인 필요">Confirm it is in the paper</span></span>
+            <span class="sim-tag fem">COMSOL</span>
             <b data-en="Aligned nanosheets share stress evenly and give a steadier potential than random ones." data-ko="정렬된 나노시트가 응력을 고르게 나눠 무작위 배열보다 안정적인 전위를 만듭니다.">Aligned nanosheets share stress evenly and give a steadier potential than random ones.</b>
             <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://www.sciencedirect.com/science/article/pii/S0021979723020386" target="_blank" rel="noopener">J. Colloid Interface Sci. 654 (2024) 868 ↗</a></span>
-          </figcaption>
-        </figure>
-        <figure class="sim-fig link reveal">
-          <a class="shot" href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener"><span class="shot-link"><b>DFT</b><span data-en="View the DFT figures in the open-access paper ↗" data-ko="공개 논문에서 DFT 그림 보기 ↗">View the DFT figures in the open-access paper ↗</span></span></a>
-          <figcaption class="cap">
-            <span class="sim-tag dft">DFT</span>
-            <b data-en="Glucose binds to the Ti₃C₂O₂ MXene surface at −0.82 eV and shifts its electronic structure." data-ko="포도당이 Ti₃C₂O₂ MXene 표면에 −0.82 eV로 흡착하며 전자 구조가 바뀝니다.">Glucose binds to the Ti₃C₂O₂ MXene surface at −0.82 eV and shifts its electronic structure.</b>
-            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener">Micromachines 17 (2026) 489 ↗</a></span>
           </figcaption>
         </figure>
       </div>
@@ -313,7 +316,7 @@ section{position:relative;scroll-margin-top:66px}
     <div class="sim-proof" id="sim-proof">
       <div class="sim-sub reveal">
         <h3 data-en="Published with our simulations" data-ko="계산이 쓰인 게재 논문">Published with our simulations</h3>
-        <span class="sim-count" data-en="7 papers · DFT 5 · COMSOL 3" data-ko="7편 · DFT 5 · COMSOL 3">7 papers · DFT 5 · COMSOL 3</span>
+        <span class="sim-count" data-en="13 papers · DFT 11 · COMSOL 5" data-ko="13편 · DFT 11 · COMSOL 5">13 papers · DFT 11 · COMSOL 5</span>
       </div>
       <ol class="sim-papers" role="list">
         <li class="sim-paper reveal">
@@ -357,12 +360,60 @@ section{position:relative;scroll-margin-top:66px}
           <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener">DOI ↗</a></div>
         </li>
         <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.cej.2026.182306" target="_blank" rel="noopener" title="Viscosity-engineered cellulose acetate/g-C₃N₄ triboelectric nanogenerators for self-powered UV/force dual-stimulus sensing">Viscosity-engineered cellulose acetate/g-C₃N₄ triboelectric nanogenerators for self-powered UV/force dual-stimulus sensing</a>
+            <p class="fx"><span data-en="DFT: stronger charge redistribution at the exposed g-C₃N₄/PTFE contact · COMSOL: an electrostatic model reproduces the voltage trend" data-ko="DFT: g-C₃N₄/PTFE 접촉면의 전하 재분포가 더 큼 · COMSOL: 정전 모델로 전압 경향 재현">DFT: stronger charge redistribution at the exposed g-C₃N₄/PTFE contact · COMSOL: an electrostatic model reproduces the voltage trend</span> <span class="jn">· Chemical Engineering Journal</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="sim-tag fem">COMSOL</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2026.182306" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener" title="Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing">Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing</a>
+            <p class="fx"><span data-en="DFT: Au₁₃ on NiO(100) lowers the work function by 1.47 eV (7.38 → 5.91 eV)" data-ko="DFT: NiO(100)에 Au₁₃를 올리면 일함수가 1.47 eV 낮아짐 (7.38 → 5.91 eV)">DFT: Au₁₃ on NiO(100) lowers the work function by 1.47 eV (7.38 → 5.91 eV)</span> <span class="jn">· Chemical Engineering Journal</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1039/d6ra01713d" target="_blank" rel="noopener" title="Synergistic integration of Fe-MOF and biomass-derived activated carbon for enhanced ciprofloxacin adsorption: experimental insights and DFT-based mechanistic elucidation">Synergistic integration of Fe-MOF and biomass-derived activated carbon for enhanced ciprofloxacin adsorption: experimental insights and DFT-based mechanistic elucidation</a>
+            <p class="fx"><span data-en="DFT: charge builds up at the Fe–O–ciprofloxacin binding sites of the MIL-53(Fe) slab" data-ko="DFT: MIL-53(Fe) 슬래브의 Fe–O–시프로플록사신 결합 자리에 전하 축적">DFT: charge builds up at the Fe–O–ciprofloxacin binding sites of the MIL-53(Fe) slab</span> <span class="jn">· RSC Advances</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1039/d6ra01713d" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.jallcom.2026.186009" target="_blank" rel="noopener" title="Defect-tailored Fe-NiCr₂O₄ nano-spinel for efficient solar-light responsive photocatalysis and water disinfection">Defect-tailored Fe-NiCr₂O₄ nano-spinel for efficient solar-light responsive photocatalysis and water disinfection</a>
+            <p class="fx"><span data-en="DFT: Fe substitution adds shallow Fe 3d states at the band edges" data-ko="DFT: Fe 치환이 밴드 가장자리에 얕은 Fe 3d 준위를 만듦">DFT: Fe substitution adds shallow Fe 3d states at the band edges</span> <span class="jn">· Journal of Alloys and Compounds</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1016/j.jallcom.2026.186009" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
           <span class="yr">2025</span>
           <div class="main">
             <a class="pt" href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener" title="Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</a>
             <p class="fx"><span data-en="COMSOL: why hollow nanotubes raise piezoelectric output" data-ko="COMSOL: 속이 빈 나노튜브가 압전 출력을 높이는 이유">COMSOL: why hollow nanotubes raise piezoelectric output</span> <span class="jn">· Chemical Engineering Journal</span></p>
           </div>
           <div class="row-tags"><span class="sim-tag fem">COMSOL</span><span class="if-badge">IF 13.4</span></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2025</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener" title="Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers">Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</a>
+            <p class="fx"><span data-en="DFT: FAPbI₃ fillers reshape the electrostatic potential of PVDF · COMSOL: charge distribution in the TENG" data-ko="DFT: FAPbI₃ 필러가 PVDF의 정전 퍼텐셜 분포를 바꿈 · COMSOL: TENG 전하 분포">DFT: FAPbI₃ fillers reshape the electrostatic potential of PVDF · COMSOL: charge distribution in the TENG</span> <span class="jn">· Advanced Functional Materials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="sim-tag fem">COMSOL</span><a class="doi-link" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2025</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.aca.2025.344702" target="_blank" rel="noopener" title="Development of a wireless vitamin B2 sensor by using flexible and disposable screen-printed electrode modified with g-C₃N₄ based ternary composite">Development of a wireless vitamin B2 sensor by using flexible and disposable screen-printed electrode modified with g-C₃N₄ based ternary composite</a>
+            <p class="fx"><span data-en="DFT: Y–Zr co-doping narrows the band gap and gathers electrons at metal–nitrogen sites" data-ko="DFT: Y–Zr 공동 도핑으로 밴드갭이 줄고 금속–질소 자리에 전자가 모임">DFT: Y–Zr co-doping narrows the band gap and gathers electrons at metal–nitrogen sites</span> <span class="jn">· Analytica Chimica Acta</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1016/j.aca.2025.344702" target="_blank" rel="noopener">DOI ↗</a></div>
         </li>
         <li class="sim-paper reveal">
           <span class="yr">2022</span>
