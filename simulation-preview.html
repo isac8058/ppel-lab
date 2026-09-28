@@ -95,7 +95,8 @@ section{position:relative;scroll-margin-top:66px}
 .sim-card.md{--accent:var(--current);--accent-text:var(--current-text);border-style:dashed;box-shadow:none}
 .sim-card.fem{--accent:var(--amber);--accent-text:var(--sim-amber-text)}
 .sim-ill{display:block;width:100%;height:auto;aspect-ratio:320/140;background:color-mix(in srgb,var(--accent) 7%,var(--surface));border-bottom:1px solid var(--line)}
-.sim-card.md .sim-ill{opacity:.72}
+.sim-slot{display:grid;place-items:center;border-bottom-style:dashed}
+.sim-slot span{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--trace);padding:6px 12px;border:1px dashed color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:999px;background:var(--surface)}
 .sim-body{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1}
 .sim-name{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .sim-name h4{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
@@ -114,27 +115,22 @@ section{position:relative;scroll-margin-top:66px}
 .sim-legend i{width:9px;height:9px;border-radius:50%;border:2px solid var(--trace);box-sizing:border-box}
 .sim-legend i.done{background:var(--trace)}
 
-/* illustration strokes and fills follow the theme tokens */
-.sim-ill .atom{fill:color-mix(in srgb,var(--ink) 12%,var(--surface));stroke:color-mix(in srgb,var(--ink) 28%,transparent);stroke-width:1}
-.sim-ill .atom.top{fill:color-mix(in srgb,var(--ink) 20%,var(--surface))}
-.sim-ill .mol{fill:var(--accent);stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-width:1}
-.sim-ill .bond{stroke:var(--accent);stroke-width:3;stroke-linecap:round}
-.sim-ill .gain{fill:var(--conductive);opacity:.26}
-.sim-ill .loss{fill:var(--amber);opacity:.3}
-.sim-ill .lbl{font:600 10px var(--font-mono);fill:var(--trace);letter-spacing:.04em}
-.sim-ill .box{fill:none;stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-dasharray:4 5}
-.sim-ill .chain{fill:none;stroke:var(--current);stroke-width:2.4;stroke-linejoin:round;opacity:.8}
-.sim-ill .bead{fill:var(--current)}
-.sim-ill .ion{fill:var(--conductive);opacity:.75}
-.sim-ill .path{fill:none;stroke:color-mix(in srgb,var(--ink) 45%,transparent);stroke-width:1.4;stroke-dasharray:3 4}
-.sim-ill .press{fill:color-mix(in srgb,var(--ink) 14%,var(--surface));stroke:color-mix(in srgb,var(--ink) 35%,transparent)}
-.sim-ill .arrow{stroke:color-mix(in srgb,var(--ink) 55%,transparent);stroke-width:2;fill:none;stroke-linecap:round}
-.sim-ill .arrowhead{fill:color-mix(in srgb,var(--ink) 55%,transparent)}
-.sim-ill .film{stroke:color-mix(in srgb,var(--ink) 30%,transparent)}
-.sim-ill .mesh{fill:none;stroke:rgba(255,255,255,.55);stroke-width:.8}
-.sim-ill .s-hi{stop-color:var(--amber)}
-.sim-ill .s-mid{stop-color:var(--current)}
-.sim-ill .s-lo{stop-color:var(--conductive)}
+
+/* real figures from our papers */
+.sim-ex{margin-top:72px}
+.sim-ex-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.sim-fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.sim-fig .shot{background:#FFFFFF;aspect-ratio:6/5;display:grid;place-items:center;padding:10px;border-bottom:1px solid var(--line)}
+.sim-fig .shot img{width:100%;height:100%;max-width:100%;object-fit:contain;display:block}
+.sim-fig .cap{padding:16px 18px 18px;display:grid;gap:9px;justify-items:start}
+.sim-fig .cap-tags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sim-fig .cap b{font-size:15px;font-weight:600;line-height:1.5}
+.sim-fig .src{font-size:12.5px;color:var(--trace)}
+.sim-fig .src a{color:var(--conductive-text);font-family:var(--font-mono);font-size:12px}
+.sim-fig .src a:hover{text-decoration:underline}
+.sim-check-flag{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.03em;padding:4px 9px;border-radius:999px;color:var(--sim-amber-text);background:color-mix(in srgb,var(--amber) 14%,transparent)}
+.sim-fig.todo .shot{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--conductive) 7%,var(--surface)) 0 12px,var(--surface) 12px 24px)}
+.sim-fig.todo .shot span{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--trace);text-align:center;padding:8px 14px;border:1px dashed var(--line);border-radius:10px;background:var(--surface)}
 
 /* published papers that used these simulations */
 .sim-proof{margin-top:72px}
@@ -161,12 +157,6 @@ section{position:relative;scroll-margin-top:66px}
 .sim-steps .n{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--surface);border:2px solid var(--conductive);font-family:var(--font-mono);font-weight:700;font-size:13px;color:var(--conductive-text);position:relative}
 .sim-steps b{display:block;margin-top:14px;font-size:17px;font-weight:600}
 .sim-steps p{margin-top:6px;font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
-.sim-modes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
-.sim-mode{padding:20px 24px;border-radius:16px;border:1px solid var(--line);background:var(--surface);display:grid;gap:4px}
-.sim-mode b{font-size:16.5px;font-weight:700}
-.sim-mode b::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--conductive);margin-right:10px;vertical-align:middle;transform:translateY(-1px)}
-.sim-mode:last-child b::before{background:var(--amber)}
-.sim-mode p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
 
 /* contact band: fixed dark in both themes, like the stats band */
 .sim-cta{margin-top:56px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:center;padding:40px 44px;border-radius:24px;background:var(--sim-cta-bg);border:1px solid var(--sim-cta-line);color:#E9EEF8}
@@ -187,16 +177,17 @@ section{position:relative;scroll-margin-top:66px}
   .sim-axis{display:none}
   .sim-steps{grid-template-columns:repeat(2,1fr);row-gap:30px}
   .sim-steps::before{display:none}
+  .sim-ex-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sim-cta{grid-template-columns:1fr;gap:26px}
 }
 @media (max-width:760px){
   .sim{padding:70px 0}
-  .sim-proof,.sim-how{margin-top:56px}
+  .sim-proof,.sim-how,.sim-ex{margin-top:56px}
+  .sim-ex-grid{grid-template-columns:1fr}
   .sim-paper{grid-template-columns:minmax(0,1fr);row-gap:6px;padding:14px 18px}
   .sim-paper .yr{font-size:12.5px;color:var(--trace)}
   .sim-paper .row-tags{flex-wrap:wrap;margin-top:4px}
   .sim-paper .pt{white-space:normal;text-wrap:balance}
-  .sim-modes{grid-template-columns:1fr}
   .sim-check{grid-template-columns:1fr}
   .sim-cta{padding:30px 24px;border-radius:20px}
 }
@@ -225,7 +216,7 @@ section{position:relative;scroll-margin-top:66px}
     <div class="sec-head reveal">
       <div class="eyebrow" data-en="Simulation Collaboration" data-ko="시뮬레이션 협업">Simulation Collaboration</div>
       <h2 id="simulation-heading" data-en="Experiments show what happens.<br><span>Simulation shows why.</span>" data-ko="실험은 현상을 보여 주고,<br><span>계산은 그 이유를 밝힙니다.</span>">Experiments show what happens.<br><span>Simulation shows why.</span></h2>
-      <p data-en="We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, work with us through joint research or commissioned analysis. Molecular dynamics (MD) is coming soon." data-ko="PPEL은 DFT와 COMSOL 계산을 직접 수행하며, 이 계산은 이미 여러 게재 논문에서 기전을 뒷받침했습니다. 실험 결과를 원자 수준이나 소자 수준에서 설명해야 한다면 공동연구나 분석 의뢰로 함께하겠습니다. 분자동역학(MD)도 곧 시작합니다.">We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, work with us through joint research or commissioned analysis. Molecular dynamics (MD) is coming soon.</p>
+      <p data-en="We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, let us work on it together. Molecular dynamics (MD) is coming soon." data-ko="PPEL은 DFT와 COMSOL 계산을 직접 수행하며, 이 계산은 이미 여러 게재 논문에서 기전을 뒷받침했습니다. 실험 결과를 원자 수준이나 소자 수준에서 설명해야 한다면 함께 연구하겠습니다. 분자동역학(MD)도 곧 시작합니다.">We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, let us work on it together. Molecular dynamics (MD) is coming soon.</p>
       <div class="sim-actions">
         <a class="btn btn-primary sim-mail" href="mailto:smlim@jbnu.ac.kr" data-en="Propose a collaboration ↗" data-ko="시뮬레이션 협업 문의 ↗">Propose a collaboration ↗</a>
         <a class="btn btn-ghost" href="#sim-proof" data-en="See published work ↓" data-ko="게재 논문 보기 ↓">See published work ↓</a>
@@ -237,19 +228,7 @@ section{position:relative;scroll-margin-top:66px}
     <div class="sim-grid">
 
       <article class="sim-card dft reveal" aria-labelledby="sim-dft">
-        <svg class="sim-ill" viewBox="0 0 320 140" aria-hidden="true" focusable="false">
-          <text class="lbl" x="14" y="22">Δρ</text>
-          <ellipse class="loss" cx="164" cy="30" rx="30" ry="9"/>
-          <ellipse class="gain" cx="164" cy="74" rx="34" ry="12"/>
-          <ellipse class="gain" cx="146" cy="91" rx="10" ry="5"/>
-          <ellipse class="gain" cx="182" cy="91" rx="10" ry="5"/>
-          <line class="bond" x1="164" y1="50" x2="142" y2="38"/><line class="bond" x1="164" y1="50" x2="186" y2="38"/>
-          <circle class="mol" cx="142" cy="38" r="6.5"/><circle class="mol" cx="186" cy="38" r="6.5"/><circle class="mol" cx="164" cy="50" r="9"/>
-          <g class="atoms">
-            <circle class="atom" cx="20" cy="118" r="8"/><circle class="atom" cx="44" cy="118" r="8"/><circle class="atom" cx="68" cy="118" r="8"/><circle class="atom" cx="92" cy="118" r="8"/><circle class="atom" cx="116" cy="118" r="8"/><circle class="atom" cx="140" cy="118" r="8"/><circle class="atom" cx="164" cy="118" r="8"/><circle class="atom" cx="188" cy="118" r="8"/><circle class="atom" cx="212" cy="118" r="8"/><circle class="atom" cx="236" cy="118" r="8"/><circle class="atom" cx="260" cy="118" r="8"/><circle class="atom" cx="284" cy="118" r="8"/><circle class="atom" cx="308" cy="118" r="8"/>
-            <circle class="atom top" cx="32" cy="103" r="8"/><circle class="atom top" cx="56" cy="103" r="8"/><circle class="atom top" cx="80" cy="103" r="8"/><circle class="atom top" cx="104" cy="103" r="8"/><circle class="atom top" cx="128" cy="103" r="8"/><circle class="atom top" cx="152" cy="103" r="8"/><circle class="atom top" cx="176" cy="103" r="8"/><circle class="atom top" cx="200" cy="103" r="8"/><circle class="atom top" cx="224" cy="103" r="8"/><circle class="atom top" cx="248" cy="103" r="8"/><circle class="atom top" cx="272" cy="103" r="8"/><circle class="atom top" cx="296" cy="103" r="8"/>
-          </g>
-        </svg>
+        <div class="sim-ill sim-slot" aria-hidden="true"><span data-en="Illustration slot · by Astra" data-ko="일러스트 자리 · Astra 제작">Illustration slot · by Astra</span></div>
         <div class="sim-body">
           <div class="sim-name"><h4 id="sim-dft">DFT</h4></div>
           <div class="sim-scale" data-en="Å · Atoms and electrons" data-ko="Å · 원자와 전자">Å · Atoms and electrons</div>
@@ -267,17 +246,7 @@ section{position:relative;scroll-margin-top:66px}
       </article>
 
       <article class="sim-card md reveal" aria-labelledby="sim-md">
-        <svg class="sim-ill" viewBox="0 0 320 140" aria-hidden="true" focusable="false">
-          <rect class="box" x="12" y="12" width="296" height="116" rx="8"/>
-          <polyline class="chain" points="30,44 52,32 74,46 96,34 118,48 140,36 162,50"/>
-          <g class="bead"><circle cx="30" cy="44" r="3.5"/><circle cx="52" cy="32" r="3.5"/><circle cx="74" cy="46" r="3.5"/><circle cx="96" cy="34" r="3.5"/><circle cx="118" cy="48" r="3.5"/><circle cx="140" cy="36" r="3.5"/><circle cx="162" cy="50" r="3.5"/></g>
-          <polyline class="chain" points="146,104 168,90 190,104 212,92 234,106 256,94 280,106"/>
-          <g class="bead"><circle cx="146" cy="104" r="3.5"/><circle cx="168" cy="90" r="3.5"/><circle cx="190" cy="104" r="3.5"/><circle cx="212" cy="92" r="3.5"/><circle cx="234" cy="106" r="3.5"/><circle cx="256" cy="94" r="3.5"/><circle cx="280" cy="106" r="3.5"/></g>
-          <polyline class="chain" points="36,100 56,82 78,94 98,76 120,88"/>
-          <g class="bead"><circle cx="36" cy="100" r="3.5"/><circle cx="56" cy="82" r="3.5"/><circle cx="78" cy="94" r="3.5"/><circle cx="98" cy="76" r="3.5"/><circle cx="120" cy="88" r="3.5"/></g>
-          <path class="path" d="M186 76L196 67L205 74L215 69L219 59L229 61L234 50"/>
-          <circle class="ion" cx="234" cy="50" r="5"/><circle class="ion" cx="276" cy="38" r="5"/><circle class="ion" cx="70" cy="66" r="5"/><circle class="ion" cx="120" cy="116" r="5"/>
-        </svg>
+        <div class="sim-ill sim-slot" aria-hidden="true"><span data-en="Illustration slot · by Astra" data-ko="일러스트 자리 · Astra 제작">Illustration slot · by Astra</span></div>
         <div class="sim-body">
           <div class="sim-name"><h4 id="sim-md">MD</h4><span class="sim-soon" data-en="Coming soon" data-ko="준비 중">Coming soon</span></div>
           <div class="sim-scale" data-en="nm · Molecules and interfaces" data-ko="nm · 분자와 계면">nm · Molecules and interfaces</div>
@@ -293,18 +262,7 @@ section{position:relative;scroll-margin-top:66px}
       </article>
 
       <article class="sim-card fem reveal" aria-labelledby="sim-fem">
-        <svg class="sim-ill" viewBox="0 0 320 140" aria-hidden="true" focusable="false">
-          <defs>
-            <radialGradient id="simFemGrad" cx=".52" cy="0" r=".78"><stop class="s-hi" offset="0"/><stop class="s-mid" offset=".48"/><stop class="s-lo" offset="1"/></radialGradient>
-            <linearGradient id="simLegGrad" x1="0" x2="1" y1="0" y2="0"><stop class="s-lo" offset="0"/><stop class="s-mid" offset=".5"/><stop class="s-hi" offset="1"/></linearGradient>
-          </defs>
-          <rect class="press" x="134" y="16" width="60" height="16" rx="4"/>
-          <line class="arrow" x1="164" y1="34" x2="164" y2="52"/><path class="arrowhead" d="M158 50L164 60L170 50Z"/>
-          <rect class="film" x="24" y="64" width="272" height="48" rx="3" fill="url(#simFemGrad)" opacity=".92"/>
-          <path class="mesh" d="M24 64V112M46.7 64V112M69.3 64V112M92 64V112M114.7 64V112M137.3 64V112M160 64V112M182.7 64V112M205.3 64V112M228 64V112M250.7 64V112M273.3 64V112M296 64V112M24 64H296M24 76H296M24 88H296M24 100H296M24 112H296M24 64L46.7 76M46.7 76L24 88M24 88L46.7 100M46.7 100L24 112M69.3 64L46.7 76M46.7 76L69.3 88M69.3 88L46.7 100M46.7 100L69.3 112M69.3 64L92 76M92 76L69.3 88M69.3 88L92 100M92 100L69.3 112M114.7 64L92 76M92 76L114.7 88M114.7 88L92 100M92 100L114.7 112M114.7 64L137.3 76M137.3 76L114.7 88M114.7 88L137.3 100M137.3 100L114.7 112M160 64L137.3 76M137.3 76L160 88M160 88L137.3 100M137.3 100L160 112M160 64L182.7 76M182.7 76L160 88M160 88L182.7 100M182.7 100L160 112M205.3 64L182.7 76M182.7 76L205.3 88M205.3 88L182.7 100M182.7 100L205.3 112M205.3 64L228 76M228 76L205.3 88M205.3 88L228 100M228 100L205.3 112M250.7 64L228 76M228 76L250.7 88M250.7 88L228 100M228 100L250.7 112M250.7 64L273.3 76M273.3 76L250.7 88M250.7 88L273.3 100M273.3 100L250.7 112M296 64L273.3 76M273.3 76L296 88M296 88L273.3 100M273.3 100L296 112"/>
-          <rect x="236" y="20" width="60" height="6" rx="3" fill="url(#simLegGrad)"/>
-          <text class="lbl" x="224" y="27">−</text><text class="lbl" x="299" y="27">+V</text>
-        </svg>
+        <div class="sim-ill sim-slot" aria-hidden="true"><span data-en="Illustration slot · by Astra" data-ko="일러스트 자리 · Astra 제작">Illustration slot · by Astra</span></div>
         <div class="sim-body">
           <div class="sim-name"><h4 id="sim-fem">COMSOL</h4></div>
           <div class="sim-scale" data-en="µm–mm · Devices and fields" data-ko="µm~mm · 소자와 장">µm–mm · Devices and fields</div>
@@ -322,6 +280,36 @@ section{position:relative;scroll-margin-top:66px}
       </article>
     </div>
     <p class="sim-legend reveal"><span><i class="done"></i><span data-en="Used in our published papers" data-ko="게재 논문에서 수행">Used in our published papers</span></span><span><i></i><span data-en="Available on request" data-ko="요청 시 수행 가능">Available on request</span></span></p>
+
+    <div class="sim-ex">
+      <div class="sim-sub reveal"><h3 data-en="Examples from our papers" data-ko="논문 속 계산 예시">Examples from our papers</h3></div>
+      <div class="sim-ex-grid">
+        <figure class="sim-fig reveal">
+          <div class="shot"><img src="image/simulation/comsol-cnnt-cej2025.jpg" width="1100" height="902" loading="lazy" alt="COMSOL maps of stress transfer and electric potential in PVDF composites with g-C3N4 nanorods and nanotubes"></div>
+          <figcaption class="cap">
+            <span class="sim-tag fem">COMSOL</span>
+            <b data-en="Nanotubes pass on more stress than nanorods and build a larger piezoelectric potential." data-ko="나노튜브가 나노로드보다 응력을 더 잘 전달해 더 큰 압전 전위를 만듭니다.">Nanotubes pass on more stress than nanorods and build a larger piezoelectric potential.</b>
+            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener">Chem. Eng. J. 519 (2025) 165069 ↗</a></span>
+          </figcaption>
+        </figure>
+        <figure class="sim-fig reveal">
+          <div class="shot"><img src="image/simulation/comsol-aligned-jcis2024.jpg" width="1100" height="917" loading="lazy" alt="COMSOL maps of stress and electric potential for aligned and randomly oriented g-C3N4 nanosheets in PVDF"></div>
+          <figcaption class="cap">
+            <span class="cap-tags"><span class="sim-tag fem">COMSOL</span><span class="sim-check-flag" data-en="Confirm it is in the paper" data-ko="논문 수록 확인 필요">Confirm it is in the paper</span></span>
+            <b data-en="Aligned nanosheets share stress evenly and give a steadier potential than random ones." data-ko="정렬된 나노시트가 응력을 고르게 나눠 무작위 배열보다 안정적인 전위를 만듭니다.">Aligned nanosheets share stress evenly and give a steadier potential than random ones.</b>
+            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://www.sciencedirect.com/science/article/pii/S0021979723020386" target="_blank" rel="noopener">J. Colloid Interface Sci. 654 (2024) 868 ↗</a></span>
+          </figcaption>
+        </figure>
+        <figure class="sim-fig todo reveal">
+          <div class="shot"><span data-en="DFT figure from our papers goes here" data-ko="DFT 논문 그림 자리">DFT figure from our papers goes here</span></div>
+          <figcaption class="cap">
+            <span class="sim-tag dft">DFT</span>
+            <b data-en="For example, charge transfer at the cherry-blossom TENG interface or the SCNC dipole moment." data-ko="예: 벚꽃 TENG 계면의 전하 이동, SCNC 쌍극자 모멘트">For example, charge transfer at the cherry-blossom TENG interface or the SCNC dipole moment.</b>
+            <span class="src" data-en="Original figure file needed" data-ko="원본 그림 파일 필요">Original figure file needed</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
 
     <div class="sim-proof" id="sim-proof">
       <div class="sim-sub reveal">
@@ -396,10 +384,6 @@ section{position:relative;scroll-margin-top:66px}
         <li><span class="n">03</span><b data-en="Compute" data-ko="계산·전달">Compute</b><p data-en="Figures, a Methods paragraph and SI-ready data." data-ko="그림, Methods 문단, SI 자료까지 전달합니다.">Figures, a Methods paragraph and SI-ready data.</p></li>
         <li><span class="n">04</span><b data-en="Publish" data-ko="투고 지원">Publish</b><p data-en="Extra calculations when reviewers ask for them." data-ko="리뷰어의 추가 계산 요청까지 함께 대응합니다.">Extra calculations when reviewers ask for them.</p></li>
       </ol>
-      <div class="sim-modes reveal">
-        <div class="sim-mode"><b data-en="Joint research" data-ko="공동연구">Joint research</b><p data-en="We plan the calculations with you from the start of the study." data-ko="연구 초기부터 계산을 함께 설계합니다.">We plan the calculations with you from the start of the study.</p></div>
-        <div class="sim-mode"><b data-en="Commissioned analysis" data-ko="분석 의뢰">Commissioned analysis</b><p data-en="We run the calculations you need and deliver the results." data-ko="필요한 계산을 수행해 결과를 전달합니다.">We run the calculations you need and deliver the results.</p></div>
-      </div>
     </div>
 
     <div class="sim-cta reveal">
@@ -410,13 +394,13 @@ section{position:relative;scroll-margin-top:66px}
           <li><span data-en="Material system and structure" data-ko="재료 계와 구조">Material system and structure</span></li>
           <li><span data-en="Data you already have (XRD, XPS, device output)" data-ko="보유 데이터 (XRD, XPS, 소자 출력 등)">Data you already have (XRD, XPS, device output)</span></li>
           <li><span data-en="The question the calculation should answer" data-ko="계산으로 확인하고 싶은 점">The question the calculation should answer</span></li>
-          <li><span data-en="Joint research or commissioned analysis, and timeline" data-ko="공동연구 또는 분석 의뢰, 희망 일정">Joint research or commissioned analysis, and timeline</span></li>
+          <li><span data-en="Your target journal and timeline" data-ko="목표 저널과 희망 일정">Your target journal and timeline</span></li>
         </ul>
       </div>
       <div class="sim-cta-side">
         <a class="btn btn-primary sim-mail" href="mailto:smlim@jbnu.ac.kr" data-en="Email us ↗" data-ko="메일 보내기 ↗">Email us ↗</a>
         <span class="sim-addr">smlim@jbnu.ac.kr</span>
-        <span class="sim-terms" data-en="Terms are arranged by email." data-ko="세부 조건은 메일로 협의합니다.">Terms are arranged by email.</span>
+        <span class="sim-terms" data-en="Commissioned (paid) analysis is also possible. Terms are arranged by email." data-ko="용역 형태의 분석도 가능합니다. 세부 조건은 메일로 협의합니다.">Commissioned (paid) analysis is also possible. Terms are arranged by email.</span>
       </div>
     </div>
   </div>
@@ -429,8 +413,8 @@ section{position:relative;scroll-margin-top:66px}
 function simMailHref(lang){
   const ko=lang==='ko';
   const subject=ko?'[PPEL 시뮬레이션] 협업 문의':'[PPEL Simulation] Collaboration inquiry';
-  const lines=ko?['재료 계와 구조:','보유 데이터:','계산으로 확인하고 싶은 점:','공동연구 / 분석 의뢰:','희망 일정:']
-                :['Material system and structure:','Data available:','Question to answer:','Joint research / commissioned analysis:','Timeline:'];
+  const lines=ko?['재료 계와 구조:','보유 데이터:','계산으로 확인하고 싶은 점:','목표 저널과 희망 일정:']
+                :['Material system and structure:','Data available:','Question to answer:','Target journal and timeline:'];
   return 'mailto:smlim@jbnu.ac.kr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\r\n\r\n')+'\r\n');
 }
 function syncSimMail(){document.querySelectorAll('.sim-mail').forEach(a=>{a.href=simMailHref(document.documentElement.lang);});}
