@@ -9,8 +9,8 @@ try{const savedLang=localStorage.getItem('ppel-lang');document.documentElement.l
 try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement.dataset.theme=savedTheme==='dark'?'dark':'light';}catch{document.documentElement.dataset.theme='light';}
 </script>
 <meta name="author" content="Dr. Sooman Lim" />
-<meta name="description" content="PPEL at Jeonbuk National University. Printed electronics for the connection between people and robots: research in sensing, information storage, flexible energy and human–machine interfaces, with Density Functional Theory (DFT) and COMSOL Multiphysics simulation collaborations." />
-<meta name="keywords" content="printed electronics, human-machine interface, electronic skin, soft robotics, flexible electronics, energy storage, biosensors, Density Functional Theory (DFT), COMSOL Multiphysics Simulation, simulation collaboration, PPEL, Jeonbuk National University, Dr. Sooman Lim" />
+<meta name="description" content="PPEL at Jeonbuk National University. Printed electronics for the connection between people and robots: research in sensing, information storage, flexible energy and human–machine interfaces, plus in-house Density Functional Theory (DFT) and COMSOL Multiphysics simulation." />
+<meta name="keywords" content="printed electronics, human-machine interface, electronic skin, soft robotics, flexible electronics, energy storage, biosensors, Density Functional Theory (DFT), COMSOL Multiphysics Simulation, computational simulation, PPEL, Jeonbuk National University, Dr. Sooman Lim" />
 <link rel="canonical" href="https://isac8058.github.io/ppel-lab/" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070B16'/%3E%3Cpath d='M20 52V14h15a11 11 0 0 1 0 22H20' fill='none' stroke='%231E3AFF' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='52' r='4.5' fill='%2300E6C6'/%3E%3Cpath d='M45 13h14M52 6v14' stroke='%2300E6C6' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
 
@@ -96,7 +96,7 @@ try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement
   --conductive-text:#1E3AFF;
   --current-text:#007765;
   --button-blue:#1E3AFF;
-  --sim-amber-text:#96521D;--sim-cta-bg:#0A0F1E;--sim-cta-line:transparent;
+  --sim-amber-text:#96521D;
 }
 html[data-theme="dark"]{
   --substrate:#070B16;
@@ -110,7 +110,7 @@ html[data-theme="dark"]{
   --conductive-text:#9BAFFF;
   --current-text:#5DE8CF;
   --button-blue:#3854D9;
-  --sim-amber-text:#F4BA87;--sim-cta-bg:#10192C;--sim-cta-line:#30415C;
+  --sim-amber-text:#F4BA87;
   --current:#23E0C0;
   --amber:#FFA640;
   --glow:rgba(90,120,255,.2);
@@ -787,7 +787,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
 }
 @media(min-width:981px){.research-grid>.rcard:last-child:nth-child(odd){grid-column:1/-1;width:calc((100% - 34px)/2);justify-self:center}}
 @media(max-width:760px), (pointer:coarse){
-  .pub-row .pt,.pat-row .pt,#publist .pub-row .main .pt{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;text-overflow:clip}
+  .pub-row .pt,.pat-row .pt,#publist .pub-row .main .pt,.sim-paper .pt{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;text-overflow:clip}
   .pub-row .au{white-space:normal;overflow:visible;text-overflow:clip}
 }
 @media(max-width:600px){
@@ -806,8 +806,8 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
   .email-copy{flex-wrap:wrap}
 }
 @media(pointer:coarse){
-  :is(.doi-link,.film-caption a,.welcome-email,.welcome-photo figcaption a){display:inline-flex;align-items:center;min-height:32px;padding-block:6px;margin-block:-6px}
-  .prof-card a[href*="scholar"],.viewall a{min-height:32px}
+  :is(.doi-link,.film-caption a,.welcome-email,.welcome-photo figcaption a,.sim-film,.sim-fig .src a,.sim-note a){display:inline-flex;align-items:center;min-height:32px;padding-block:6px;margin-block:-6px}
+  .prof-card a[href*="scholar"],.viewall a,.sim-paper .pt{min-height:32px}
 }
 /* Footer navigation follows page order across compact rows. */
 .foot-grid>div{min-width:0}
@@ -835,7 +835,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
   .cnode .co{margin-top:4px}
 }
 
-/* =================== SIMULATION COLLABORATION (copy to index.html) =================== */
+/* =================== SIMULATION (전산모사, copy to index.html) =================== */
 .sim{padding:90px 0;background:linear-gradient(180deg,color-mix(in srgb,var(--conductive) 5%,var(--substrate)),var(--substrate) 55%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sim::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(color-mix(in srgb,var(--conductive) 22%,transparent) 1px,transparent 1.5px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 42%);mask-image:linear-gradient(180deg,#000,transparent 42%)}
 .sim>.wrap{position:relative}
@@ -907,57 +907,31 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
 .sim-film{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--current-text)}
 .sim-film:hover{text-decoration:underline}
 
-/* how a collaboration runs */
-.sim-how{margin-top:72px}
-.sim-steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
-.sim-steps::before{content:"";position:absolute;left:22px;right:22px;top:21px;height:2px;background:linear-gradient(90deg,var(--conductive),var(--current),var(--amber));opacity:.45}
-.sim-steps li{position:relative}
-.sim-steps .n{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--surface);border:2px solid var(--conductive);font-family:var(--font-mono);font-weight:700;font-size:13px;color:var(--conductive-text);position:relative}
-.sim-steps b{display:block;margin-top:14px;font-size:17px;font-weight:600}
-.sim-steps p{margin-top:6px;font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
-
-/* contact band: fixed dark in both themes, like the stats band */
-.sim-cta{margin-top:56px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:center;padding:40px 44px;border-radius:24px;background:var(--sim-cta-bg);border:1px solid var(--sim-cta-line);color:#E9EEF8}
-.sim-cta::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.12) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
-.sim-cta>*{position:relative}
-.sim-cta h3{font-family:var(--font-display);font-size:clamp(22px,2.6vw,28px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
-.sim-cta p{margin-top:10px;color:#B7C2DA;font-size:15px}
-.sim-check{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 22px;margin-top:16px}
-.sim-check li{display:grid;grid-template-columns:16px 1fr;gap:8px;font-size:14.5px;line-height:1.5;color:#E9EEF8}
-.sim-check li::before{content:"";width:8px;height:8px;margin-top:7px;border-radius:2px;background:#00E6C6}
-.sim-cta-side{display:grid;justify-items:start;gap:10px}
-.sim-cta-side .btn{box-shadow:0 12px 30px -10px #1E3AFF}
-.sim-addr{font-family:var(--font-mono);font-size:14px;color:#E9EEF8;letter-spacing:.02em}
-.sim-terms{font-size:13px;color:#B7C2DA}
+/* closing note: joint research and commissioned calculations */
+.sim-note{margin-top:56px;padding-top:22px;border-top:1px dashed var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:15px;line-height:1.6;color:var(--ink-soft)}
+.sim-note a{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--conductive-text)}
+.sim-note a:hover{text-decoration:underline}
+.sim-ex,.sim-proof{scroll-margin-top:84px}
 
 @media (max-width:980px){
   .sim-grid{grid-template-columns:1fr;max-width:640px}
   .sim-axis{display:none}
-  .sim-steps{grid-template-columns:repeat(2,1fr);row-gap:30px}
-  .sim-steps::before{display:none}
   .sim-ex-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .sim-cta{grid-template-columns:1fr;gap:26px}
 }
 @media (max-width:760px){
   .sim{padding:70px 0}
-  .sim-proof,.sim-how,.sim-ex{margin-top:56px}
+  .sim-proof,.sim-ex{margin-top:56px}
   .sim-ex-grid{grid-template-columns:1fr}
   .sim-paper{grid-template-columns:minmax(0,1fr);row-gap:6px;padding:14px 18px}
   .sim-paper .yr{font-size:12.5px;color:var(--trace)}
   .sim-paper .row-tags{flex-wrap:wrap;margin-top:4px}
   .sim-paper .pt{white-space:normal;text-wrap:balance}
-  .sim-check{grid-template-columns:1fr}
-  .sim-cta{padding:30px 24px;border-radius:20px}
 }
 @media (max-width:600px){
-  .sim-steps{grid-template-columns:1fr;row-gap:22px}
-  .sim-steps li{display:grid;grid-template-columns:44px 1fr;column-gap:16px}
-  .sim-steps b{margin-top:0;align-self:center}
-  .sim-steps p{grid-column:2;margin-top:2px}
   .sim-body{padding:22px 20px 22px}
   .sim-actions .btn{width:100%;justify-content:center}
 }
-/* =================== /SIMULATION COLLABORATION =================== */
+/* =================== /SIMULATION =================== */
 </style>
 <link rel="stylesheet" href="assets/hero-immersive.css?v=20260928-1" />
 <script>
@@ -982,7 +956,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
     <nav class="navlinks" id="navlinks">
       <a href="#home" data-en="Home" data-ko="홈">Home</a>
       <a href="#research" data-en="Research" data-ko="연구">Research</a>
-      <a href="#simulation" data-en="Simulation" data-ko="시뮬레이션">Simulation</a>
+      <a href="#simulation" data-en="Simulation" data-ko="전산모사">Simulation</a>
       <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
       <a href="#members" data-en="Members" data-ko="구성원">Members</a>
       <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
@@ -1399,11 +1373,11 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
 <section class="sim" id="simulation" aria-labelledby="simulation-heading">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div class="eyebrow" data-en="Simulation Collaboration" data-ko="시뮬레이션 협업">Simulation Collaboration</div>
+      <div class="eyebrow" data-en="Computational Simulation" data-ko="전산모사">Computational Simulation</div>
       <h2 id="simulation-heading" data-en="Experiments show what happens.<br><span>Simulation shows why.</span>" data-ko="실험은 현상을 보여 주고,<br><span>계산은 그 이유를 밝힙니다.</span>">Experiments show what happens.<br><span>Simulation shows why.</span></h2>
-      <p data-en="We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, let us work on it together. Molecular dynamics (MD) is coming soon." data-ko="PPEL은 DFT와 COMSOL 계산을 직접 수행하며, 이 계산은 이미 여러 게재 논문에서 기전을 뒷받침했습니다. 실험 결과를 원자 수준이나 소자 수준에서 설명해야 한다면 함께 연구하겠습니다. 분자동역학(MD)도 곧 시작합니다.">We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, let us work on it together. Molecular dynamics (MD) is coming soon.</p>
+      <p data-en="We run DFT and COMSOL in-house, from the electronic structure of atoms to stress and electric potential across whole devices. In 13 of our published papers these calculations explain why our materials and devices behave as they do. Molecular dynamics (MD) is coming soon." data-ko="PPEL은 DFT와 COMSOL로 원자의 전자 구조부터 소자 전체의 응력과 전위 분포까지 직접 계산합니다. 이 계산은 게재 논문 13편에서 소재와 소자가 왜 그렇게 동작하는지 밝혔습니다. 분자동역학(MD)도 곧 시작합니다.">We run DFT and COMSOL in-house, from the electronic structure of atoms to stress and electric potential across whole devices. In 13 of our published papers these calculations explain why our materials and devices behave as they do. Molecular dynamics (MD) is coming soon.</p>
       <div class="sim-actions">
-        <a class="btn btn-primary sim-mail" href="mailto:smlim@jbnu.ac.kr" data-en="Propose a collaboration ↗" data-ko="시뮬레이션 협업 문의 ↗">Propose a collaboration ↗</a>
+        <a class="btn btn-primary" href="#sim-examples" data-en="See examples ↓" data-ko="계산 예시 보기 ↓">See examples ↓</a>
         <a class="btn btn-ghost" href="#sim-proof" data-en="See published work ↓" data-ko="게재 논문 보기 ↓">See published work ↓</a>
       </div>
     </div>
@@ -1464,9 +1438,9 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
         </div>
       </article>
     </div>
-    <p class="sim-legend reveal"><span><i class="done"></i><span data-en="Used in our published papers" data-ko="게재 논문에서 수행">Used in our published papers</span></span><span><i></i><span data-en="Available on request" data-ko="요청 시 수행 가능">Available on request</span></span></p>
+    <p class="sim-legend reveal"><span><i class="done"></i><span data-en="Used in our published papers" data-ko="게재 논문에서 수행">Used in our published papers</span></span><span><i></i><span data-en="Also available" data-ko="수행 가능">Also available</span></span></p>
 
-    <div class="sim-ex">
+    <div class="sim-ex" id="sim-examples">
       <div class="sim-sub reveal"><h3 data-en="Examples from our papers" data-ko="논문 속 계산 예시">Examples from our papers</h3></div>
       <div class="sim-ex-grid">
         <figure class="sim-fig reveal">
@@ -1609,33 +1583,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
       </ol>
     </div>
 
-    <div class="sim-how">
-      <div class="sim-sub reveal"><h3 data-en="How we work together" data-ko="협업 진행 방식">How we work together</h3></div>
-      <ol class="sim-steps reveal" role="list">
-        <li><span class="n">01</span><b data-en="Share" data-ko="공유">Share</b><p data-en="Your material, data and the question you want answered." data-ko="재료와 측정 데이터, 설명하고 싶은 현상을 알려 주십시오.">Your material, data and the question you want answered.</p></li>
-        <li><span class="n">02</span><b data-en="Design" data-ko="설계">Design</b><p data-en="We agree on which calculation answers it." data-ko="어떤 계산으로 무엇을 보일지 함께 정합니다.">We agree on which calculation answers it.</p></li>
-        <li><span class="n">03</span><b data-en="Compute" data-ko="계산·전달">Compute</b><p data-en="Figures, a Methods paragraph and SI-ready data." data-ko="그림, Methods 문단, SI 자료까지 전달합니다.">Figures, a Methods paragraph and SI-ready data.</p></li>
-        <li><span class="n">04</span><b data-en="Publish" data-ko="투고 지원">Publish</b><p data-en="Extra calculations when reviewers ask for them." data-ko="리뷰어의 추가 계산 요청까지 함께 대응합니다.">Extra calculations when reviewers ask for them.</p></li>
-      </ol>
-    </div>
-
-    <div class="sim-cta reveal">
-      <div>
-        <h3 data-en="Have results that need a why?" data-ko="이유를 밝혀야 할 실험 결과가 있으신가요?">Have results that need a why?</h3>
-        <p data-en="Email us a short note with:" data-ko="아래 내용을 적어 메일로 보내 주십시오.">Email us a short note with:</p>
-        <ul class="sim-check" role="list">
-          <li><span data-en="Material system and structure" data-ko="재료 계와 구조">Material system and structure</span></li>
-          <li><span data-en="Data you already have (XRD, XPS, device output)" data-ko="보유 데이터 (XRD, XPS, 소자 출력 등)">Data you already have (XRD, XPS, device output)</span></li>
-          <li><span data-en="The question the calculation should answer" data-ko="계산으로 확인하고 싶은 점">The question the calculation should answer</span></li>
-          <li><span data-en="Your target journal and timeline" data-ko="목표 저널과 희망 일정">Your target journal and timeline</span></li>
-        </ul>
-      </div>
-      <div class="sim-cta-side">
-        <a class="btn btn-primary sim-mail" href="mailto:smlim@jbnu.ac.kr" data-en="Email us ↗" data-ko="메일 보내기 ↗">Email us ↗</a>
-        <span class="sim-addr">smlim@jbnu.ac.kr</span>
-        <span class="sim-terms" data-en="Commissioned (paid) analysis is also possible. Terms are arranged by email." data-ko="용역 형태의 분석도 가능합니다. 세부 조건은 메일로 협의합니다.">Commissioned (paid) analysis is also possible. Terms are arranged by email.</span>
-      </div>
-    </div>
+    <p class="sim-note reveal"><span data-en="Joint research and commissioned calculations are also possible." data-ko="공동연구와 계산 의뢰도 가능합니다.">Joint research and commissioned calculations are also possible.</span> <a class="sim-mail" href="mailto:smlim@jbnu.ac.kr">smlim@jbnu.ac.kr ↗</a></p>
   </div>
 </section>
 
@@ -2230,7 +2178,7 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
         <h5 data-en="Navigate" data-ko="바로가기">Navigate</h5>
       <a href="#home" data-en="Home" data-ko="홈">Home</a>
       <a href="#research" data-en="Research" data-ko="연구">Research</a>
-      <a href="#simulation" data-en="Simulation" data-ko="시뮬레이션">Simulation</a>
+      <a href="#simulation" data-en="Simulation" data-ko="전산모사">Simulation</a>
       <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
       <a href="#members" data-en="Members" data-ko="구성원">Members</a>
       <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
@@ -2293,10 +2241,10 @@ function applyLang(){
 document.querySelectorAll(".game-link").forEach(a=>{ a.href="game.html?lang="+lang; });
 langBtn.addEventListener("click",()=>{ lang = lang==="en"?"ko":"en"; try{localStorage.setItem("ppel-lang",lang);}catch{} applyLang(); });
 
-/* Simulation section: the mail buttons carry a subject and a short template in the page language. */
+/* Simulation section: the mail link carries a subject and a short template in the page language. */
 function simMailHref(lang){
   const ko=lang==='ko';
-  const subject=ko?'[PPEL 시뮬레이션] 협업 문의':'[PPEL Simulation] Collaboration inquiry';
+  const subject=ko?'[PPEL 전산모사] 문의':'[PPEL Simulation] Inquiry';
   const lines=ko?['재료 계와 구조:','보유 데이터:','계산으로 확인하고 싶은 점:','목표 저널과 희망 일정:']
                 :['Material system and structure:','Data available:','Question to answer:','Target journal and timeline:'];
   return 'mailto:smlim@jbnu.ac.kr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\r\n\r\n')+'\r\n');
