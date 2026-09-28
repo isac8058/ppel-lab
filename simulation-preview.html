@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Simulation Section Preview</title>
+<title>PPEL 시뮬레이션 협업</title>
 <meta name="robots" content="noindex" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 /* ---------- site base (copied from index.html so the preview matches) ---------- */
 :root{
@@ -18,20 +17,31 @@
   --maxw:1180px;
   --shadow:0 1px 2px rgba(10,15,30,.05), 0 12px 32px -16px rgba(10,15,30,.18);
   --shadow-lg:0 2px 8px rgba(10,15,30,.06), 0 30px 60px -28px rgba(10,15,30,.28);
-  --font-display:"Inter","Pretendard", system-ui, sans-serif;
-  --font-body:"Inter","Pretendard", system-ui, sans-serif;
-  --font-mono:"IBM Plex Mono","Pretendard",ui-monospace,monospace;
+  --font-display:"Inter","Pretendard","Noto Sans KR", system-ui, sans-serif;
+  --font-body:"Inter","Pretendard","Noto Sans KR", system-ui, sans-serif;
+  --font-mono:"IBM Plex Mono","Pretendard","Noto Sans KR",ui-monospace,monospace;
   --conductive-text:#1E3AFF;--current-text:#007765;--button-blue:#1E3AFF;
+  --sim-amber-text:#96521D;--sim-cta-bg:#0A0F1E;--sim-cta-line:transparent;
 }
-html[data-theme="dark"]{
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
   --substrate:#070B16;--surface:#0E1525;--surface-2:#121B2E;
   --ink:#E9EEF8;--ink-soft:#A6B0C4;--trace:#A0AEC5;--line:#1E293E;
   --conductive:#5A78FF;--conductive-text:#9BAFFF;--current-text:#5DE8CF;--button-blue:#3854D9;
   --current:#23E0C0;--amber:#FFA640;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.6);
   --shadow-lg:0 2px 10px rgba(0,0,0,.5), 0 36px 70px -30px rgba(0,0,0,.7);
+  --sim-amber-text:#F4BA87;--sim-cta-bg:#10192C;--sim-cta-line:#30415C;
+}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --substrate:#070B16;--surface:#0E1525;--surface-2:#121B2E;
+  --ink:#E9EEF8;--ink-soft:#A6B0C4;--trace:#A0AEC5;--line:#1E293E;
+  --conductive:#5A78FF;--conductive-text:#9BAFFF;--current-text:#5DE8CF;--button-blue:#3854D9;
+  --current:#23E0C0;--amber:#FFA640;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.6);
+  --shadow-lg:0 2px 10px rgba(0,0,0,.5), 0 36px 70px -30px rgba(0,0,0,.7);
+  --sim-amber-text:#F4BA87;--sim-cta-bg:#10192C;--sim-cta-line:#30415C;
 }
-html[lang="ko"] body{--font-body:"Pretendard","Inter",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+html[lang="ko"] body{--font-body:"Pretendard","Noto Sans KR","Inter",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--substrate);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
@@ -51,10 +61,12 @@ section{position:relative;scroll-margin-top:66px}
 .doi-link{font-family:var(--font-mono);font-size:12px;color:var(--conductive-text);display:inline-flex;align-items:center;gap:5px;font-weight:500}
 .doi-link:hover{text-decoration:underline}
 .reveal{opacity:1;transform:none}
+:focus-visible{outline:2px solid var(--conductive);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.001ms!important}}
 
 /* ---------- preview harness only (not copied to index.html) ---------- */
 .pv-bar>span:first-child{min-width:0}
-.pv-bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--substrate) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:12px;color:var(--trace)}
+.pv-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--substrate) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:12px;color:var(--trace)}
 .pv-bar b{color:var(--ink)}
 .pv-tools{display:flex;gap:8px}
 .pv-tools button{white-space:nowrap;font:600 12px var(--font-mono);padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
@@ -62,8 +74,6 @@ section{position:relative;scroll-margin-top:66px}
 .pv-ghost{padding:34px 0;border-bottom:1px solid var(--line);color:var(--trace);font:500 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;text-align:center}
 
 /* =================== SIMULATION COLLABORATION (copy to index.html) =================== */
-:root{--sim-amber-text:#96521D}
-html[data-theme="dark"]{--sim-amber-text:#F4BA87}
 .sim{padding:90px 0;background:linear-gradient(180deg,color-mix(in srgb,var(--conductive) 5%,var(--substrate)),var(--substrate) 55%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sim::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(color-mix(in srgb,var(--conductive) 22%,transparent) 1px,transparent 1.5px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 42%);mask-image:linear-gradient(180deg,#000,transparent 42%)}
 .sim>.wrap{position:relative}
@@ -159,7 +169,7 @@ html[data-theme="dark"]{--sim-amber-text:#F4BA87}
 .sim-mode p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
 
 /* contact band: fixed dark in both themes, like the stats band */
-.sim-cta{margin-top:56px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:center;padding:40px 44px;border-radius:24px;background:#0A0F1E;color:#E9EEF8}
+.sim-cta{margin-top:56px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:center;padding:40px 44px;border-radius:24px;background:var(--sim-cta-bg);border:1px solid var(--sim-cta-line);color:#E9EEF8}
 .sim-cta::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.12) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
 .sim-cta>*{position:relative}
 .sim-cta h3{font-family:var(--font-display);font-size:clamp(22px,2.6vw,28px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
@@ -171,7 +181,6 @@ html[data-theme="dark"]{--sim-amber-text:#F4BA87}
 .sim-cta-side .btn{box-shadow:0 12px 30px -10px #1E3AFF}
 .sim-addr{font-family:var(--font-mono);font-size:14px;color:#E9EEF8;letter-spacing:.02em}
 .sim-terms{font-size:13px;color:#B7C2DA}
-html[data-theme="dark"] .sim-cta{background:#10192C;border:1px solid #30415C}
 
 @media (max-width:980px){
   .sim-grid{grid-template-columns:1fr;max-width:640px}
@@ -440,9 +449,11 @@ function applyLang(){
   syncSimMail();
 }
 document.getElementById('pvLang').addEventListener('click',()=>{lang=lang==='en'?'ko':'en';applyLang();});
-document.getElementById('pvTheme').addEventListener('click',e=>{
-  const dark=root.dataset.theme!=='dark';root.dataset.theme=dark?'dark':'light';e.currentTarget.textContent=dark?'Light':'Dark';
-});
+const themeBtn=document.getElementById('pvTheme');
+function isDark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;}
+function syncThemeBtn(){themeBtn.textContent=isDark()?'Light':'Dark';}
+themeBtn.addEventListener('click',()=>{root.dataset.theme=isDark()?'light':'dark';syncThemeBtn();});
+syncThemeBtn();
 applyLang();
 </script>
 </body>
