@@ -9,8 +9,8 @@ try{const savedLang=localStorage.getItem('ppel-lang');document.documentElement.l
 try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement.dataset.theme=savedTheme==='dark'?'dark':'light';}catch{document.documentElement.dataset.theme='light';}
 </script>
 <meta name="author" content="Dr. Sooman Lim" />
-<meta name="description" content="PPEL at Jeonbuk National University. Printed electronics for the connection between people and robots: research in sensing, information storage, flexible energy and human–machine interfaces." />
-<meta name="keywords" content="printed electronics, human-machine interface, electronic skin, soft robotics, flexible electronics, energy storage, biosensors, PPEL, Jeonbuk National University, Dr. Sooman Lim" />
+<meta name="description" content="PPEL at Jeonbuk National University. Printed electronics for the connection between people and robots: research in sensing, information storage, flexible energy and human–machine interfaces, plus in-house Density Functional Theory (DFT) and COMSOL Multiphysics simulation." />
+<meta name="keywords" content="printed electronics, human-machine interface, electronic skin, soft robotics, flexible electronics, energy storage, biosensors, Density Functional Theory (DFT), COMSOL Multiphysics Simulation, computational simulation, PPEL, Jeonbuk National University, Dr. Sooman Lim" />
 <link rel="canonical" href="https://isac8058.github.io/ppel-lab/" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070B16'/%3E%3Cpath d='M20 52V14h15a11 11 0 0 1 0 22H20' fill='none' stroke='%231E3AFF' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='52' r='4.5' fill='%2300E6C6'/%3E%3Cpath d='M45 13h14M52 6v14' stroke='%2300E6C6' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
 
@@ -56,7 +56,7 @@ try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement
     "email": "smlim@jbnu.ac.kr",
     "sameAs": "https://scholar.google.co.kr/citations?user=YzC1uPAAAAAJ"
   },
-  "knowsAbout": ["Printed Electronics", "Human-Machine Interface", "Electronic Skin", "Flexible Energy Storage", "Biosensors", "Triboelectric Nanogenerators"]
+  "knowsAbout": ["Printed Electronics", "Human-Machine Interface", "Electronic Skin", "Flexible Energy Storage", "Biosensors", "Triboelectric Nanogenerators", "Density Functional Theory (DFT)", "COMSOL Multiphysics Simulation"]
 }
 </script>
 
@@ -96,6 +96,7 @@ try{const savedTheme=localStorage.getItem('ppel-theme');document.documentElement
   --conductive-text:#1E3AFF;
   --current-text:#007765;
   --button-blue:#1E3AFF;
+  --sim-amber-text:#96521D;
 }
 html[data-theme="dark"]{
   --substrate:#070B16;
@@ -109,6 +110,7 @@ html[data-theme="dark"]{
   --conductive-text:#9BAFFF;
   --current-text:#5DE8CF;
   --button-blue:#3854D9;
+  --sim-amber-text:#F4BA87;
   --current:#23E0C0;
   --amber:#FFA640;
   --glow:rgba(90,120,255,.2);
@@ -174,9 +176,9 @@ header.scrolled{border-bottom-color:var(--line)}
   display:inline-block;font-size:.5em;font-weight:800;
   transform:translateY(-.8em);margin-left:-.18em;
 }
-.navlinks{display:flex;gap:4px;align-items:center}
+.navlinks{display:flex;gap:2px;align-items:center}
 .navlinks a{
-  font-size:14px;font-weight:500;color:var(--ink-soft);padding:8px 13px;border-radius:8px;
+  font-size:14px;font-weight:500;color:var(--ink-soft);padding:8px 8px;border-radius:8px;
   transition:color .2s,background .2s;position:relative;
 }
 .navlinks a:hover{color:var(--ink);background:var(--surface-2)}
@@ -654,8 +656,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .equipment-names{min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
 .equipment-en{font-size:15px;font-weight:500;line-height:1.55;overflow-wrap:anywhere}
 .equipment-ko{font-size:14px;color:var(--ink-soft);line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
-/* Fit the extra navigation link before the existing mobile-menu breakpoint. */
-@media(min-width:981px) and (max-width:1100px){.navlinks a{padding-inline:5px}}
+/* Ten navigation links use the existing hamburger layout through 1180px. */
+@media(min-width:981px) and (max-width:1180px){
+  .navlinks{position:absolute;top:66px;left:20px;right:20px;display:none;flex-direction:column;align-items:stretch;gap:2px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);transform:none;max-height:calc(100dvh - 90px);overflow:auto}
+  .navlinks.open{display:flex;transform:none}.navlinks a{padding:11px 13px}.burger{display:grid;place-items:center}
+}
 @media(max-width:980px){.equipment-grid{columns:1}}
 @media(max-width:600px){.equipment{padding:65px 0}.equipment-group{margin-bottom:22px}.equipment-group{padding:20px}.equipment-group-heading h3{font-size:18px}.equipment-item{gap:10px}}
 @media(prefers-reduced-motion:reduce){.equipment,.equipment-group{opacity:1;transform:none;animation:none;transition:none}}
@@ -782,7 +787,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
 }
 @media(min-width:981px){.research-grid>.rcard:last-child:nth-child(odd){grid-column:1/-1;width:calc((100% - 34px)/2);justify-self:center}}
 @media(max-width:760px), (pointer:coarse){
-  .pub-row .pt,.pat-row .pt,#publist .pub-row .main .pt{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;text-overflow:clip}
+  .pub-row .pt,.pat-row .pt,#publist .pub-row .main .pt,.sim-paper .pt{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;text-overflow:clip}
   .pub-row .au{white-space:normal;overflow:visible;text-overflow:clip}
 }
 @media(max-width:600px){
@@ -801,8 +806,8 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
   .email-copy{flex-wrap:wrap}
 }
 @media(pointer:coarse){
-  :is(.doi-link,.film-caption a,.welcome-email,.welcome-photo figcaption a){display:inline-flex;align-items:center;min-height:32px;padding-block:6px;margin-block:-6px}
-  .prof-card a[href*="scholar"],.viewall a{min-height:32px}
+  :is(.doi-link,.film-caption a,.welcome-email,.welcome-photo figcaption a,.sim-film,.sim-fig .src a,.sim-note a){display:inline-flex;align-items:center;min-height:32px;padding-block:6px;margin-block:-6px}
+  .prof-card a[href*="scholar"],.viewall a,.sim-paper .pt{min-height:32px}
 }
 /* Footer navigation follows page order across compact rows. */
 .foot-grid>div{min-width:0}
@@ -829,6 +834,104 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
   .cnode>div:last-child{display:block}
   .cnode .co{margin-top:4px}
 }
+
+/* =================== SIMULATION (전산모사, copy to index.html) =================== */
+.sim{padding:90px 0;background:linear-gradient(180deg,color-mix(in srgb,var(--conductive) 5%,var(--substrate)),var(--substrate) 55%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sim::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(color-mix(in srgb,var(--conductive) 22%,transparent) 1px,transparent 1.5px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 42%);mask-image:linear-gradient(180deg,#000,transparent 42%)}
+.sim>.wrap{position:relative}
+.sim .sec-head h2 span{color:var(--conductive-text)}
+.sim-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.sim-sub{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 22px}
+.sim-sub h3{font-family:var(--font-display);font-size:22px;font-weight:600;letter-spacing:-.01em}
+.sim-count{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--trace);letter-spacing:.06em}
+
+/* length-scale axis above the three method cards */
+.sim-axis{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:16px}
+.sim-axis::before{content:"";position:absolute;left:0;right:10px;top:50%;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--conductive),var(--current),var(--amber));opacity:.55}
+.sim-axis::after{content:"";position:absolute;right:0;top:50%;width:0;height:0;border-left:10px solid var(--amber);border-top:6px solid transparent;border-bottom:6px solid transparent;transform:translateY(-5px);opacity:.75}
+.sim-axis span{justify-self:center;position:relative;font-family:var(--font-mono);font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+
+.sim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.sim-card{--accent:var(--conductive);--accent-text:var(--conductive-text);background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s,border-color .3s}
+.sim-card{border-top:3px solid var(--accent)}
+.sim-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
+.sim-card.md{--accent:var(--current);--accent-text:var(--current-text);border-style:dashed;box-shadow:none}
+.sim-card.fem{--accent:var(--amber);--accent-text:var(--sim-amber-text)}
+.sim-ill{display:block;width:100%;height:auto;aspect-ratio:16/7;object-fit:cover;background:#FFFFFF;border-bottom:1px solid var(--line)}
+.sim-body{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1}
+.sim-name{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sim-name h4{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.sim-soon{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;color:var(--accent-text);border:1px solid currentColor;white-space:nowrap}
+.sim-scale{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--accent-text);margin-top:8px}
+.sim-full{font-size:13.5px;color:var(--trace);margin-top:2px}
+.sim-q{font-weight:600;font-size:16px;line-height:1.5;color:var(--ink);margin:16px 0 14px;padding-left:12px;border-left:3px solid var(--accent)}
+.sim-list{list-style:none;display:grid;gap:9px;margin-bottom:20px}
+.sim-list li{display:grid;grid-template-columns:12px 1fr;gap:10px;font-size:14.5px;line-height:1.5;color:var(--ink-soft)}
+.sim-list li::before{content:"";width:9px;height:9px;border-radius:50%;margin-top:7px;border:2px solid var(--accent);box-sizing:border-box}
+.sim-list li.done{color:var(--ink)}
+.sim-list li.done::before{background:var(--accent)}
+.sim-code{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);font-family:var(--font-mono);font-size:12px;color:var(--trace);letter-spacing:.03em}
+.sim-legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px;font-size:13px;color:var(--trace)}
+.sim-legend span{display:inline-flex;align-items:center;gap:8px}
+.sim-legend i{width:9px;height:9px;border-radius:50%;border:2px solid var(--trace);box-sizing:border-box}
+.sim-legend i.done{background:var(--trace)}
+
+
+/* real figures from our papers */
+.sim-ex{margin-top:72px}
+.sim-ex-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.sim-fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.sim-fig .shot{background:#FFFFFF;aspect-ratio:6/5;display:grid;place-items:center;padding:10px;border-bottom:1px solid var(--line)}
+.sim-fig .shot img{width:100%;height:100%;max-width:100%;object-fit:contain;display:block}
+.sim-fig .cap{padding:16px 18px 18px;display:grid;gap:9px;justify-items:start}
+.sim-fig .cap-tags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sim-fig .cap b{font-size:15px;font-weight:600;line-height:1.5}
+.sim-fig .src{font-size:12.5px;color:var(--trace)}
+.sim-fig .src a{color:var(--conductive-text);font-family:var(--font-mono);font-size:12px}
+.sim-fig .src a:hover{text-decoration:underline}
+
+/* published papers that used these simulations */
+.sim-proof{margin-top:72px}
+.sim-papers{list-style:none;display:grid;gap:10px}
+.sim-paper{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:18px;align-items:center;padding:14px 22px;border-radius:14px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sim-paper .yr{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--ink);letter-spacing:.06em}
+.sim-paper .main{min-width:0}
+.sim-paper .pt{display:block;font-weight:600;font-size:15.5px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sim-paper .pt:hover{color:var(--conductive-text)}
+.sim-paper .fx{margin-top:3px;font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
+.sim-paper .jn{font-style:italic;color:var(--trace)}
+.sim-paper .row-tags{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.sim-tag{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 9px;border-radius:999px;border:1px solid currentColor;line-height:1.2}
+.sim-tag.dft{color:var(--conductive-text);background:color-mix(in srgb,var(--conductive) 9%,transparent)}
+.sim-tag.fem{color:var(--sim-amber-text);background:color-mix(in srgb,var(--amber) 11%,transparent)}
+.sim-film{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--current-text)}
+.sim-film:hover{text-decoration:underline}
+
+/* closing note: joint research and commissioned calculations */
+.sim-note{margin-top:56px;padding-top:22px;border-top:1px dashed var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:15px;line-height:1.6;color:var(--ink-soft)}
+.sim-note a{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--conductive-text)}
+.sim-note a:hover{text-decoration:underline}
+.sim-ex,.sim-proof{scroll-margin-top:84px}
+
+@media (max-width:980px){
+  .sim-grid{grid-template-columns:1fr;max-width:640px}
+  .sim-axis{display:none}
+  .sim-ex-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .sim{padding:70px 0}
+  .sim-proof,.sim-ex{margin-top:56px}
+  .sim-ex-grid{grid-template-columns:1fr}
+  .sim-paper{grid-template-columns:minmax(0,1fr);row-gap:6px;padding:14px 18px}
+  .sim-paper .yr{font-size:12.5px;color:var(--trace)}
+  .sim-paper .row-tags{flex-wrap:wrap;margin-top:4px}
+  .sim-paper .pt{white-space:normal;text-wrap:balance}
+}
+@media (max-width:600px){
+  .sim-body{padding:22px 20px 22px}
+  .sim-actions .btn{width:100%;justify-content:center}
+}
+/* =================== /SIMULATION =================== */
 </style>
 <link rel="stylesheet" href="assets/hero-immersive.css?v=20260928-1" />
 <script>
@@ -853,6 +956,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
     <nav class="navlinks" id="navlinks">
       <a href="#home" data-en="Home" data-ko="홈">Home</a>
       <a href="#research" data-en="Research" data-ko="연구">Research</a>
+      <a href="#simulation" data-en="Simulation" data-ko="전산모사">Simulation</a>
       <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
       <a href="#members" data-en="Members" data-ko="구성원">Members</a>
       <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
@@ -1188,7 +1292,7 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
             <a class="paper" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener"><span class="pno">01</span><span><span class="pt">Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable, oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors</span><span class="pmeta">Adv. Composites and Hybrid Materials, 2026 · <b>IF 21.8</b></span></span></a>
             <a class="paper" href="https://doi.org/10.1016/j.cej.2024.156993" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Printed flexible supercapacitors utilizing composites of MWCNT/MOF ultrathin nanosheets</span><span class="pmeta">Chemical Engineering Journal, 2024 · <b>IF 13.4</b></span></span></a>
-            <a class="paper" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener"><span class="pno">03</span><span><span class="pt">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</span><span class="pmeta">J. Mater. Chem. A, 2024 · <b>IF 11.1</b></span></span></a>
+            <a class="paper" href="https://doi.org/10.1039/D4TA01551G" target="_blank" rel="noopener"><span class="pno">03</span><span><span class="pt">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</span><span class="pmeta">J. Mater. Chem. A, 2024 · <b>IF 11.1</b></span></span></a>
             <a class="paper" href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener"><span class="pno">04</span><span><span class="pt">Ti3C2Tx MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment</span><span class="pmeta">ACS Appl. Mater. Interfaces, 2026</span></span></a>
           </div>
         </div>
@@ -1255,13 +1359,231 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
           <div class="papers" id="papers-cherry-blossom">
             <div class="pl" data-en="Selected Papers" data-ko="대표 논문">Selected Papers</div>
             <a class="paper" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener"><span class="pno">01</span><span><span class="pt">Self-Powered Gesture Recognition Using a Sustainable Cherry Blossom Triboelectric Nanogenerator</span><span class="pmeta">Nano Energy, 2026 · <b>IF 16.8</b></span></span></a>
-            <a class="paper" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</span><span class="pmeta">Chemical Engineering Journal, 2025 · <b>IF 13.4</b></span></span></a>
+            <a class="paper" href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener"><span class="pno">02</span><span><span class="pt">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</span><span class="pmeta">Chemical Engineering Journal, 2025 · <b>IF 13.4</b></span></span></a>
             <a class="paper" href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener"><span class="pno">03</span><span><span class="pt">Sulfated Cellulose Nanocrystals into Piezoelectricity for Energy Harvesting and Smart Strain Sensing</span><span class="pmeta">Adv. Composites and Hybrid Materials, 2026 · <b>IF 21.8</b></span></span></a>
           </div>
         </div>
       </article>
 
     </div>
+  </div>
+</section>
+
+<!-- ============ SIMULATION ============ -->
+<section class="sim" id="simulation" aria-labelledby="simulation-heading">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow" data-en="Computational Simulation" data-ko="전산모사">Computational Simulation</div>
+      <h2 id="simulation-heading" data-en="Experiments show what happens.<br><span>Simulation shows why.</span>" data-ko="실험은 현상을 보여 주고,<br><span>계산은 그 이유를 밝힙니다.</span>">Experiments show what happens.<br><span>Simulation shows why.</span></h2>
+      <p data-en="We run DFT and COMSOL in-house, from the electronic structure of atoms to stress and electric potential across whole devices. In 13 of our published papers these calculations explain why our materials and devices behave as they do. Molecular dynamics (MD) is coming soon." data-ko="PPEL은 DFT와 COMSOL로 원자의 전자 구조부터 소자 전체의 응력과 전위 분포까지 직접 계산합니다. 이 계산은 게재 논문 13편에서 소재와 소자가 왜 그렇게 동작하는지 밝혔습니다. 분자동역학(MD)도 곧 시작합니다.">We run DFT and COMSOL in-house, from the electronic structure of atoms to stress and electric potential across whole devices. In 13 of our published papers these calculations explain why our materials and devices behave as they do. Molecular dynamics (MD) is coming soon.</p>
+      <div class="sim-actions">
+        <a class="btn btn-primary" href="#sim-examples" data-en="See examples ↓" data-ko="계산 예시 보기 ↓">See examples ↓</a>
+        <a class="btn btn-ghost" href="#sim-proof" data-en="See published work ↓" data-ko="게재 논문 보기 ↓">See published work ↓</a>
+      </div>
+    </div>
+
+    <div class="sim-sub reveal"><h3 data-en="From atoms to devices" data-ko="원자에서 소자까지">From atoms to devices</h3></div>
+    <div class="sim-axis reveal" aria-hidden="true"><span>Å</span><span>nm</span><span>µm–mm</span></div>
+    <div class="sim-grid">
+
+      <article class="sim-card dft reveal" aria-labelledby="sim-dft">
+        <img class="sim-ill" src="image/simulation/illust-dft.webp" width="1600" height="700" alt="" loading="lazy">
+        <div class="sim-body">
+          <div class="sim-name"><h4 id="sim-dft">DFT</h4></div>
+          <div class="sim-scale" data-en="Å · Atoms and electrons" data-ko="Å · 원자와 전자">Å · Atoms and electrons</div>
+          <div class="sim-full" data-en="Density functional theory" data-ko="밀도범함수 이론">Density functional theory</div>
+          <p class="sim-q" data-en="Why does this material behave this way?" data-ko="이 소재는 왜 이렇게 동작할까요?">Why does this material behave this way?</p>
+          <ul class="sim-list" role="list">
+            <li class="done"><span data-en="Charge transfer at interfaces (charge density difference, Bader charge)" data-ko="계면의 전하 이동 (전하 밀도 차, Bader 전하)">Charge transfer at interfaces (charge density difference, Bader charge)</span></li>
+            <li class="done"><span data-en="Dipole moment and polarization" data-ko="쌍극자 모멘트와 분극">Dipole moment and polarization</span></li>
+            <li class="done"><span data-en="Adsorption and binding energy of molecules such as O₂ and glucose" data-ko="O₂, 포도당 등 분자의 흡착·결합 에너지">Adsorption and binding energy of molecules such as O₂ and glucose</span></li>
+            <li class="done"><span data-en="Electronic structure (DOS/PDOS) and how adsorption shifts it" data-ko="전자 구조(DOS/PDOS)와 흡착에 따른 변화">Electronic structure (DOS/PDOS) and how adsorption shifts it</span></li>
+            <li class="done"><span data-en="Band structure, work function, doping, defect and surface models" data-ko="밴드 구조, 일함수, 도핑·결함·표면 모델">Band structure, work function, doping, defect and surface models</span></li>
+          </ul>
+          <div class="sim-code">Quantum ESPRESSO</div>
+        </div>
+      </article>
+
+      <article class="sim-card md reveal" aria-labelledby="sim-md">
+        <img class="sim-ill" src="image/simulation/illust-md.webp" width="1600" height="700" alt="" loading="lazy">
+        <div class="sim-body">
+          <div class="sim-name"><h4 id="sim-md">MD</h4><span class="sim-soon" data-en="Coming soon" data-ko="준비 중">Coming soon</span></div>
+          <div class="sim-scale" data-en="nm · Molecules and interfaces" data-ko="nm · 분자와 계면">nm · Molecules and interfaces</div>
+          <div class="sim-full" data-en="Molecular dynamics" data-ko="분자동역학">Molecular dynamics</div>
+          <p class="sim-q" data-en="How do molecules and ions move and pack?" data-ko="분자와 이온은 어떻게 움직이고 배열될까요?">How do molecules and ions move and pack?</p>
+          <ul class="sim-list" role="list">
+            <li><span data-en="Diffusion coefficients and ion transport in electrolytes" data-ko="확산 계수와 전해질 내 이온 수송">Diffusion coefficients and ion transport in electrolytes</span></li>
+            <li><span data-en="Polymer–filler interface interactions" data-ko="고분자-필러 계면 상호작용">Polymer–filler interface interactions</span></li>
+            <li><span data-en="Mechanical and thermal behavior of polymer chains" data-ko="고분자 사슬의 기계·열 거동">Mechanical and thermal behavior of polymer chains</span></li>
+          </ul>
+          <div class="sim-code" data-en="Joining DFT and COMSOL soon" data-ko="DFT, COMSOL에 이어 곧 시작합니다">Joining DFT and COMSOL soon</div>
+        </div>
+      </article>
+
+      <article class="sim-card fem reveal" aria-labelledby="sim-fem">
+        <img class="sim-ill" src="image/simulation/illust-comsol.webp" width="1600" height="700" alt="" loading="lazy">
+        <div class="sim-body">
+          <div class="sim-name"><h4 id="sim-fem">COMSOL</h4></div>
+          <div class="sim-scale" data-en="µm–mm · Devices and fields" data-ko="µm~mm · 소자와 장">µm–mm · Devices and fields</div>
+          <div class="sim-full" data-en="Finite element multiphysics" data-ko="유한요소 다중물리 해석">Finite element multiphysics</div>
+          <p class="sim-q" data-en="How does the device respond to force, charge and ions?" data-ko="소자는 힘과 전하, 이온에 어떻게 반응할까요?">How does the device respond to force, charge and ions?</p>
+          <ul class="sim-list" role="list">
+            <li class="done"><span data-en="Piezoelectric potential under load, compared across structures" data-ko="하중에 따른 압전 전위와 구조별 비교">Piezoelectric potential under load, compared across structures</span></li>
+            <li class="done"><span data-en="Crack growth and strain in printed sensors under tension" data-ko="인장 시 인쇄 센서의 균열과 변형">Crack growth and strain in printed sensors under tension</span></li>
+            <li class="done"><span data-en="Triboelectric potential and electric field distribution" data-ko="마찰전기 전위와 전기장 분포">Triboelectric potential and electric field distribution</span></li>
+            <li><span data-en="Stress in bending, pressing and microneedle insertion" data-ko="굽힘·압축·마이크로니들 삽입 시 응력">Stress in bending, pressing and microneedle insertion</span></li>
+            <li><span data-en="Diffusion, reaction and heat transfer in sensors and batteries" data-ko="센서·전지의 확산, 반응, 열 전달">Diffusion, reaction and heat transfer in sensors and batteries</span></li>
+          </ul>
+          <div class="sim-code">COMSOL Multiphysics</div>
+        </div>
+      </article>
+    </div>
+    <p class="sim-legend reveal"><span><i class="done"></i><span data-en="Used in our published papers" data-ko="게재 논문에서 수행">Used in our published papers</span></span><span><i></i><span data-en="Also available" data-ko="수행 가능">Also available</span></span></p>
+
+    <div class="sim-ex" id="sim-examples">
+      <div class="sim-sub reveal"><h3 data-en="Examples from our papers" data-ko="논문 속 계산 예시">Examples from our papers</h3></div>
+      <div class="sim-ex-grid">
+        <figure class="sim-fig reveal">
+          <div class="shot"><img src="image/simulation/dft-scnc.jpg" width="1100" height="916" loading="lazy" alt="DFT maps of charge density difference and electrostatic potential difference, Bader charges and projected density of states for pristine and sulfated cellulose nanocrystals"></div>
+          <figcaption class="cap">
+            <span class="sim-tag dft">DFT</span>
+            <b data-en="Sulfate groups pull charge and raise the unit-cell dipole moment from 3.2 D to 11.0 D." data-ko="황산기가 전하를 끌어당겨 단위셀 쌍극자 모멘트가 3.2 D에서 11.0 D로 커집니다.">Sulfate groups pull charge and raise the unit-cell dipole moment from 3.2 D to 11.0 D.</b>
+            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener">Adv. Compos. Hybrid Mater. 9 (2026) 205 · CC BY 4.0 ↗</a></span>
+          </figcaption>
+        </figure>
+        <figure class="sim-fig reveal">
+          <div class="shot"><img src="image/simulation/comsol-cnnt-cej2025.jpg" width="1100" height="902" loading="lazy" alt="COMSOL maps of stress transfer and electric potential in PVDF composites with g-C3N4 nanorods and nanotubes"></div>
+          <figcaption class="cap">
+            <span class="sim-tag fem">COMSOL</span>
+            <b data-en="Nanotubes pass on more stress than nanorods and build a larger piezoelectric potential." data-ko="나노튜브가 나노로드보다 응력을 더 잘 전달해 더 큰 압전 전위를 만듭니다.">Nanotubes pass on more stress than nanorods and build a larger piezoelectric potential.</b>
+            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener">Chem. Eng. J. 519 (2025) 165069 ↗</a></span>
+          </figcaption>
+        </figure>
+        <figure class="sim-fig reveal">
+          <div class="shot"><img src="image/simulation/comsol-aligned-jcis2024.jpg" width="1100" height="917" loading="lazy" alt="COMSOL maps of stress and electric potential for aligned and randomly oriented g-C3N4 nanosheets in PVDF"></div>
+          <figcaption class="cap">
+            <span class="sim-tag fem">COMSOL</span>
+            <b data-en="Aligned nanosheets share stress evenly and give a steadier potential than random ones." data-ko="정렬된 나노시트가 응력을 고르게 나눠 무작위 배열보다 안정적인 전위를 만듭니다.">Aligned nanosheets share stress evenly and give a steadier potential than random ones.</b>
+            <span class="src"><span data-en="Source:" data-ko="출처:">Source:</span> <a href="https://www.sciencedirect.com/science/article/pii/S0021979723020386" target="_blank" rel="noopener">J. Colloid Interface Sci. 654 (2024) 868 ↗</a></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="sim-proof" id="sim-proof">
+      <div class="sim-sub reveal">
+        <h3 data-en="Published with our simulations" data-ko="계산이 쓰인 게재 논문">Published with our simulations</h3>
+        <span class="sim-count" data-en="13 papers · DFT 11 · COMSOL 5" data-ko="13편 · DFT 11 · COMSOL 5">13 papers · DFT 11 · COMSOL 5</span>
+      </div>
+      <ol class="sim-papers" role="list">
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener" title="Sulfated Cellulose Nanocrystals into Piezoelectricity: A New Material for Piezoelectric Energy Harvesting and Smart Strain Sensing for Health Monitoring">Sulfated Cellulose Nanocrystals into Piezoelectricity: A New Material for Piezoelectric Energy Harvesting and Smart Strain Sensing for Health Monitoring</a>
+            <p class="fx"><span data-en="DFT: dipole moment 3.2 D → 11.0 D (3.4×) · COMSOL: higher piezoelectric potential under load" data-ko="DFT: 쌍극자 모멘트 3.2 D → 11.0 D (3.4배) · COMSOL: 하중 시 더 큰 압전 전위">DFT: dipole moment 3.2 D → 11.0 D (3.4×) · COMSOL: higher piezoelectric potential under load</span> <span class="jn">· Advanced Composites and Hybrid Materials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="sim-tag fem">COMSOL</span><span class="if-badge">IF 21.8</span><a class="sim-film" href="#research-cherry-blossom" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener" title="Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors">Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors</a>
+            <p class="fx"><span data-en="DFT: MnO₂ interacts with oxygen first, shielding MXene from oxidation" data-ko="DFT: MnO₂가 산소와 먼저 상호작용해 MXene 산화를 억제">DFT: MnO₂ interacts with oxygen first, shielding MXene from oxidation</span> <span class="jn">· Advanced Composites and Hybrid Materials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="if-badge">IF 21.8</span><a class="sim-film" href="#research-energy-storage" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener" title="Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator">Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator</a>
+            <p class="fx"><span data-en="DFT: charge-transfer mechanism at the contact interface" data-ko="DFT: 접촉 계면의 전하 이동 기전">DFT: charge-transfer mechanism at the contact interface</span> <span class="jn">· Nano Energy</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="if-badge">IF 16.8</span><a class="sim-film" href="#research-cherry-blossom" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener" title="Ti₃C₂Tₓ MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment">Ti₃C₂Tₓ MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment</a>
+            <p class="fx"><span data-en="DFT: the metallic Ti–C backbone and O/F terminations work together for fast electron transport" data-ko="DFT: 금속성 Ti–C 골격과 O/F 말단기가 함께 빠른 전자 수송을 만듦">DFT: the metallic Ti–C backbone and O/F terminations work together for fast electron transport</span> <span class="jn">· ACS Applied Materials &amp; Interfaces</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="sim-film" href="#research-energy-storage" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener" title="First-Principles Investigation of Glucose Adsorption and Sensing-Related Electronic Modulation on Ti₃C₂O₂ MXene">First-Principles Investigation of Glucose Adsorption and Sensing-Related Electronic Modulation on Ti₃C₂O₂ MXene</a>
+            <p class="fx"><span data-en="DFT: glucose adsorption (−0.82 eV) and the electronic change it causes on the sensing surface" data-ko="DFT: 센서 표면의 포도당 흡착(−0.82 eV)과 그에 따른 전자 구조 변화">DFT: glucose adsorption (−0.82 eV) and the electronic change it causes on the sensing surface</span> <span class="jn">· Micromachines</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.cej.2026.182306" target="_blank" rel="noopener" title="Viscosity-engineered cellulose acetate/g-C₃N₄ triboelectric nanogenerators for self-powered UV/force dual-stimulus sensing">Viscosity-engineered cellulose acetate/g-C₃N₄ triboelectric nanogenerators for self-powered UV/force dual-stimulus sensing</a>
+            <p class="fx"><span data-en="DFT: stronger charge redistribution at the exposed g-C₃N₄/PTFE contact · COMSOL: an electrostatic model reproduces the voltage trend" data-ko="DFT: g-C₃N₄/PTFE 접촉면의 전하 재분포가 더 큼 · COMSOL: 정전 모델로 전압 경향 재현">DFT: stronger charge redistribution at the exposed g-C₃N₄/PTFE contact · COMSOL: an electrostatic model reproduces the voltage trend</span> <span class="jn">· Chemical Engineering Journal</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="sim-tag fem">COMSOL</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2026.182306" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener" title="Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing">Breathable mulberry paper-based theranostic patch integrating 3D-printed microneedles for drug delivery and wireless sweat-wicking uric acid sensing</a>
+            <p class="fx"><span data-en="DFT: Au₁₃ on NiO(100) lowers the work function by 1.47 eV (7.38 → 5.91 eV)" data-ko="DFT: NiO(100)에 Au₁₃를 올리면 일함수가 1.47 eV 낮아짐 (7.38 → 5.91 eV)">DFT: Au₁₃ on NiO(100) lowers the work function by 1.47 eV (7.38 → 5.91 eV)</span> <span class="jn">· Chemical Engineering Journal</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2026.178008" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1039/d6ra01713d" target="_blank" rel="noopener" title="Synergistic integration of Fe-MOF and biomass-derived activated carbon for enhanced ciprofloxacin adsorption: experimental insights and DFT-based mechanistic elucidation">Synergistic integration of Fe-MOF and biomass-derived activated carbon for enhanced ciprofloxacin adsorption: experimental insights and DFT-based mechanistic elucidation</a>
+            <p class="fx"><span data-en="DFT: charge builds up at the Fe–O–ciprofloxacin binding sites of the MIL-53(Fe) slab" data-ko="DFT: MIL-53(Fe) 슬래브의 Fe–O–시프로플록사신 결합 자리에 전하 축적">DFT: charge builds up at the Fe–O–ciprofloxacin binding sites of the MIL-53(Fe) slab</span> <span class="jn">· RSC Advances</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1039/d6ra01713d" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.jallcom.2026.186009" target="_blank" rel="noopener" title="Defect-tailored Fe-NiCr₂O₄ nano-spinel for efficient solar-light responsive photocatalysis and water disinfection">Defect-tailored Fe-NiCr₂O₄ nano-spinel for efficient solar-light responsive photocatalysis and water disinfection</a>
+            <p class="fx"><span data-en="DFT: Fe substitution adds shallow Fe 3d states at the band edges" data-ko="DFT: Fe 치환이 밴드 가장자리에 얕은 Fe 3d 준위를 만듦">DFT: Fe substitution adds shallow Fe 3d states at the band edges</span> <span class="jn">· Journal of Alloys and Compounds</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1016/j.jallcom.2026.186009" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2025</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener" title="Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</a>
+            <p class="fx"><span data-en="COMSOL: why hollow nanotubes raise piezoelectric output" data-ko="COMSOL: 속이 빈 나노튜브가 압전 출력을 높이는 이유">COMSOL: why hollow nanotubes raise piezoelectric output</span> <span class="jn">· Chemical Engineering Journal</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag fem">COMSOL</span><span class="if-badge">IF 13.4</span></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2025</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener" title="Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers">Highly Efficient 3D-Printed PVDF-Based Triboelectric Nanogenerators Featuring Polymorphic Perovskite Nanofillers</a>
+            <p class="fx"><span data-en="DFT: FAPbI₃ fillers reshape the electrostatic potential of PVDF · COMSOL: charge distribution in the TENG" data-ko="DFT: FAPbI₃ 필러가 PVDF의 정전 퍼텐셜 분포를 바꿈 · COMSOL: TENG 전하 분포">DFT: FAPbI₃ fillers reshape the electrostatic potential of PVDF · COMSOL: charge distribution in the TENG</span> <span class="jn">· Advanced Functional Materials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="sim-tag fem">COMSOL</span><a class="doi-link" href="https://doi.org/10.1002/adfm.202424271" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2025</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.aca.2025.344702" target="_blank" rel="noopener" title="Development of a wireless vitamin B2 sensor by using flexible and disposable screen-printed electrode modified with g-C₃N₄ based ternary composite">Development of a wireless vitamin B2 sensor by using flexible and disposable screen-printed electrode modified with g-C₃N₄ based ternary composite</a>
+            <p class="fx"><span data-en="DFT: Y–Zr co-doping narrows the band gap and gathers electrons at metal–nitrogen sites" data-ko="DFT: Y–Zr 공동 도핑으로 밴드갭이 줄고 금속–질소 자리에 전자가 모임">DFT: Y–Zr co-doping narrows the band gap and gathers electrons at metal–nitrogen sites</span> <span class="jn">· Analytica Chimica Acta</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.1016/j.aca.2025.344702" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2022</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.3390/nano12060972" target="_blank" rel="noopener" title="A Screen-Printed Metal Hybrid Composite for Wireless Wind Sensing">A Screen-Printed Metal Hybrid Composite for Wireless Wind Sensing</a>
+            <p class="fx"><span data-en="COMSOL: crack growth under tension explains how the printed sensor changes resistance" data-ko="COMSOL: 인장 시 균열 해석으로 인쇄 센서의 저항 변화 원리 규명">COMSOL: crack growth under tension explains how the printed sensor changes resistance</span> <span class="jn">· Nanomaterials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag fem">COMSOL</span><a class="doi-link" href="https://doi.org/10.3390/nano12060972" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+      </ol>
+    </div>
+
+    <p class="sim-note reveal"><span data-en="Joint research and commissioned calculations are also possible." data-ko="공동연구와 계산 의뢰도 가능합니다.">Joint research and commissioned calculations are also possible.</span> <a class="sim-mail" href="mailto:smlim@jbnu.ac.kr">smlim@jbnu.ac.kr ↗</a></p>
   </div>
 </section>
 
@@ -1517,8 +1839,8 @@ ACS Nano · 2025 · H Imran, S Lim, A Alam, J An, M Ko, S Lim" href="https://doi
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
         <div class="main"><div class="pt"><a title="Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance
-Chemical Engineering Journal · 2025 · OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, S Lim" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank" rel="noopener">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</a></div><div class="au">OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Chemical Engineering Journal</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3%" data-ko="JCR 상위 3%">JCR Top 3%</span><span class="paper-links"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2024.157858" target="_blank" rel="noopener">DOI ↗</a></span></div>
+Chemical Engineering Journal · 2025 · OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, S Lim" href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</a></div><div class="au">OY Pawar, H Li, OA Patil, J Xu, TD Dongale, B Lu, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Chemical Engineering Journal</span></div></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 3%" data-ko="JCR 상위 3%">JCR Top 3%</span><span class="paper-links"><span class="if-badge">IF 13.4</span><a class="doi-link" href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2025">
         <div class="yr">2025</div>
@@ -1561,8 +1883,8 @@ European Polymer Journal · 2025 · A Che Ab Rahman, S Yang, S Lim" href="https:
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
         <div class="main"><div class="pt"><a title="Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites
-Journal of Materials Chemistry A · 2024 · A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, S Lim" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</a></div><div class="au">A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Journal of Materials Chemistry A</span></div></div>
-        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.8%" data-ko="JCR 상위 8.8%">JCR Top 8.8%</span><span class="paper-links"><span class="if-badge">IF 11.1</span><a class="doi-link" href="https://doi.org/10.1039/D4TA01234H" target="_blank" rel="noopener">DOI ↗</a></span></div>
+Journal of Materials Chemistry A · 2024 · A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, S Lim" href="https://doi.org/10.1039/D4TA01551G" target="_blank" rel="noopener">Ultrahigh-energy-density supercapacitors based on all-pseudocapacitive binary metal sulfide–MXene composites</a></div><div class="au">A Alam, KW Kim, H Jo, D Sahoo, SH Kim, JK Kim, <b class="corr" title="Corresponding author">S Lim<sup aria-hidden="true">✉</sup></b><span class="jn"> · Journal of Materials Chemistry A</span></div></div>
+        <div class="row-tags"><span class="tag tag-corr" data-en="Corresponding" data-ko="교신">Corresponding</span><span class="tag tag-top" data-en="JCR Top 8.8%" data-ko="JCR 상위 8.8%">JCR Top 8.8%</span><span class="paper-links"><span class="if-badge">IF 11.1</span><a class="doi-link" href="https://doi.org/10.1039/D4TA01551G" target="_blank" rel="noopener">DOI ↗</a></span></div>
       </article>
       <article class="pub pub-row reveal" data-year="2024">
         <div class="yr">2024</div>
@@ -1856,6 +2178,7 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
         <h5 data-en="Navigate" data-ko="바로가기">Navigate</h5>
       <a href="#home" data-en="Home" data-ko="홈">Home</a>
       <a href="#research" data-en="Research" data-ko="연구">Research</a>
+      <a href="#simulation" data-en="Simulation" data-ko="전산모사">Simulation</a>
       <a href="#professor" data-en="Professor" data-ko="교수">Professor</a>
       <a href="#members" data-en="Members" data-ko="구성원">Members</a>
       <a href="#publications" data-en="Publications" data-ko="논문">Publications</a>
@@ -1872,7 +2195,7 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
       </div>
     </div>
     <div class="foot-bottom">
-      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.09.28-4</span></span>
+      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.09.29-1</span></span>
       <span data-en="567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea" data-ko="54896 전북특별자치도 전주시 덕진구 백제대로 567">567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea</span>
     </div>
   </div>
@@ -1917,6 +2240,17 @@ function applyLang(){
 }
 document.querySelectorAll(".game-link").forEach(a=>{ a.href="game.html?lang="+lang; });
 langBtn.addEventListener("click",()=>{ lang = lang==="en"?"ko":"en"; try{localStorage.setItem("ppel-lang",lang);}catch{} applyLang(); });
+
+/* Simulation section: the mail link carries a subject and a short template in the page language. */
+function simMailHref(lang){
+  const ko=lang==='ko';
+  const subject=ko?'[PPEL 전산모사] 문의':'[PPEL Simulation] Inquiry';
+  const lines=ko?['재료 계와 구조:','보유 데이터:','계산으로 확인하고 싶은 점:','목표 저널과 희망 일정:']
+                :['Material system and structure:','Data available:','Question to answer:','Target journal and timeline:'];
+  return 'mailto:smlim@jbnu.ac.kr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\r\n\r\n')+'\r\n');
+}
+function syncSimMail(){document.querySelectorAll('.sim-mail').forEach(a=>{a.href=simMailHref(document.documentElement.lang);});}
+document.addEventListener("ppel:language",syncSimMail);
 
 /* ===== Nav scroll + burger ===== */
 const hdr=document.getElementById("hdr");
