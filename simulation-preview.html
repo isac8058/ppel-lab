@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simulation Section Preview</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+/* ---------- site base (copied from index.html so the preview matches) ---------- */
+:root{
+  --substrate:#FFFFFF;--surface:#FFFFFF;--surface-2:#EEF2F8;
+  --ink:#0A0F1E;--ink-soft:#3A4358;--trace:#5B6478;--line:#DCE3ED;
+  --conductive:#1E3AFF;--current:#00B79C;--amber:#FF8A00;
+  --maxw:1180px;
+  --shadow:0 1px 2px rgba(10,15,30,.05), 0 12px 32px -16px rgba(10,15,30,.18);
+  --shadow-lg:0 2px 8px rgba(10,15,30,.06), 0 30px 60px -28px rgba(10,15,30,.28);
+  --font-display:"Inter","Pretendard", system-ui, sans-serif;
+  --font-body:"Inter","Pretendard", system-ui, sans-serif;
+  --font-mono:"IBM Plex Mono","Pretendard",ui-monospace,monospace;
+  --conductive-text:#1E3AFF;--current-text:#007765;--button-blue:#1E3AFF;
+}
+html[data-theme="dark"]{
+  --substrate:#070B16;--surface:#0E1525;--surface-2:#121B2E;
+  --ink:#E9EEF8;--ink-soft:#A6B0C4;--trace:#A0AEC5;--line:#1E293E;
+  --conductive:#5A78FF;--conductive-text:#9BAFFF;--current-text:#5DE8CF;--button-blue:#3854D9;
+  --current:#23E0C0;--amber:#FFA640;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.6);
+  --shadow-lg:0 2px 10px rgba(0,0,0,.5), 0 36px 70px -30px rgba(0,0,0,.7);
+}
+html[lang="ko"] body{--font-body:"Pretendard","Inter",system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--substrate);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+section{position:relative;scroll-margin-top:66px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--conductive-text);font-weight:600;display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--conductive)}
+.sec-head{margin-bottom:54px;max-width:960px}
+.sec-head h2{font-family:var(--font-display);font-weight:600;font-size:clamp(28px,4.4vw,46px);line-height:1.08;letter-spacing:-.02em;margin-top:14px;text-wrap:balance}
+.sec-head p{color:var(--ink-soft);font-size:18px;line-height:1.7;margin-top:16px;max-width:680px;text-wrap:pretty}
+.btn{font-family:var(--font-body);font-weight:600;font-size:15px;border-radius:11px;cursor:pointer;padding:14px 26px;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;transition:transform .18s,box-shadow .25s,background .2s,border-color .2s}
+.btn-primary{background:var(--button-blue);color:#fff;box-shadow:0 12px 30px -10px var(--conductive)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 38px -10px var(--conductive)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--conductive)}
+.if-badge{font-family:var(--font-mono);font-weight:600;font-size:11.5px;padding:4px 10px;border-radius:8px;background:color-mix(in srgb,var(--current) 14%,transparent);color:var(--current-text);border:1px solid color-mix(in srgb,var(--current) 30%,transparent);white-space:nowrap}
+.doi-link{font-family:var(--font-mono);font-size:12px;color:var(--conductive-text);display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.doi-link:hover{text-decoration:underline}
+.reveal{opacity:1;transform:none}
+
+/* ---------- preview harness only (not copied to index.html) ---------- */
+.pv-bar>span:first-child{min-width:0}
+.pv-bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--substrate) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:12px;color:var(--trace)}
+.pv-bar b{color:var(--ink)}
+.pv-tools{display:flex;gap:8px}
+.pv-tools button{white-space:nowrap;font:600 12px var(--font-mono);padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.pv-tools button:hover{border-color:var(--conductive)}
+.pv-ghost{padding:34px 0;border-bottom:1px solid var(--line);color:var(--trace);font:500 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;text-align:center}
+
+/* =================== SIMULATION COLLABORATION (copy to index.html) =================== */
+:root{--sim-amber-text:#96521D}
+html[data-theme="dark"]{--sim-amber-text:#F4BA87}
+.sim{padding:90px 0;background:linear-gradient(180deg,color-mix(in srgb,var(--conductive) 5%,var(--substrate)),var(--substrate) 55%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sim::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(color-mix(in srgb,var(--conductive) 22%,transparent) 1px,transparent 1.5px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 42%);mask-image:linear-gradient(180deg,#000,transparent 42%)}
+.sim>.wrap{position:relative}
+.sim .sec-head h2 span{color:var(--conductive-text)}
+.sim-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.sim-sub{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 22px}
+.sim-sub h3{font-family:var(--font-display);font-size:22px;font-weight:600;letter-spacing:-.01em}
+.sim-count{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--trace);letter-spacing:.06em}
+
+/* length-scale axis above the three method cards */
+.sim-axis{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:16px}
+.sim-axis::before{content:"";position:absolute;left:0;right:10px;top:50%;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--conductive),var(--current),var(--amber));opacity:.55}
+.sim-axis::after{content:"";position:absolute;right:0;top:50%;width:0;height:0;border-left:10px solid var(--amber);border-top:6px solid transparent;border-bottom:6px solid transparent;transform:translateY(-5px);opacity:.75}
+.sim-axis span{justify-self:center;position:relative;font-family:var(--font-mono);font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+
+.sim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.sim-card{--accent:var(--conductive);--accent-text:var(--conductive-text);background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s,border-color .3s}
+.sim-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
+.sim-card.md{--accent:var(--current);--accent-text:var(--current-text);border-style:dashed;box-shadow:none}
+.sim-card.fem{--accent:var(--amber);--accent-text:var(--sim-amber-text)}
+.sim-ill{display:block;width:100%;height:auto;aspect-ratio:320/140;background:color-mix(in srgb,var(--accent) 7%,var(--surface));border-bottom:1px solid var(--line)}
+.sim-card.md .sim-ill{opacity:.72}
+.sim-body{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1}
+.sim-name{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sim-name h4{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.sim-soon{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;color:var(--accent-text);border:1px solid currentColor;white-space:nowrap}
+.sim-scale{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--accent-text);margin-top:8px}
+.sim-full{font-size:13.5px;color:var(--trace);margin-top:2px}
+.sim-q{font-weight:600;font-size:16px;line-height:1.5;color:var(--ink);margin:16px 0 14px;padding-left:12px;border-left:3px solid var(--accent)}
+.sim-list{list-style:none;display:grid;gap:9px;margin-bottom:20px}
+.sim-list li{display:grid;grid-template-columns:12px 1fr;gap:10px;font-size:14.5px;line-height:1.5;color:var(--ink-soft)}
+.sim-list li::before{content:"";width:9px;height:9px;border-radius:50%;margin-top:7px;border:2px solid var(--accent);box-sizing:border-box}
+.sim-list li.done{color:var(--ink)}
+.sim-list li.done::before{background:var(--accent)}
+.sim-code{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);font-family:var(--font-mono);font-size:12px;color:var(--trace);letter-spacing:.03em}
+.sim-legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px;font-size:13px;color:var(--trace)}
+.sim-legend span{display:inline-flex;align-items:center;gap:8px}
+.sim-legend i{width:9px;height:9px;border-radius:50%;border:2px solid var(--trace);box-sizing:border-box}
+.sim-legend i.done{background:var(--trace)}
+
+/* illustration strokes and fills follow the theme tokens */
+.sim-ill .atom{fill:color-mix(in srgb,var(--ink) 12%,var(--surface));stroke:color-mix(in srgb,var(--ink) 28%,transparent);stroke-width:1}
+.sim-ill .atom.top{fill:color-mix(in srgb,var(--ink) 20%,var(--surface))}
+.sim-ill .mol{fill:var(--accent);stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-width:1}
+.sim-ill .bond{stroke:var(--accent);stroke-width:3;stroke-linecap:round}
+.sim-ill .gain{fill:var(--conductive);opacity:.26}
+.sim-ill .loss{fill:var(--amber);opacity:.3}
+.sim-ill .lbl{font:600 10px var(--font-mono);fill:var(--trace);letter-spacing:.04em}
+.sim-ill .box{fill:none;stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-dasharray:4 5}
+.sim-ill .chain{fill:none;stroke:var(--current);stroke-width:2.4;stroke-linejoin:round;opacity:.8}
+.sim-ill .bead{fill:var(--current)}
+.sim-ill .ion{fill:var(--conductive);opacity:.75}
+.sim-ill .path{fill:none;stroke:color-mix(in srgb,var(--ink) 45%,transparent);stroke-width:1.4;stroke-dasharray:3 4}
+.sim-ill .press{fill:color-mix(in srgb,var(--ink) 14%,var(--surface));stroke:color-mix(in srgb,var(--ink) 35%,transparent)}
+.sim-ill .arrow{stroke:color-mix(in srgb,var(--ink) 55%,transparent);stroke-width:2;fill:none;stroke-linecap:round}
+.sim-ill .arrowhead{fill:color-mix(in srgb,var(--ink) 55%,transparent)}
+.sim-ill .film{stroke:color-mix(in srgb,var(--ink) 30%,transparent)}
+.sim-ill .mesh{fill:none;stroke:rgba(255,255,255,.55);stroke-width:.8}
+.sim-ill .s-hi{stop-color:var(--amber)}
+.sim-ill .s-mid{stop-color:var(--current)}
+.sim-ill .s-lo{stop-color:var(--conductive)}
+
+/* published papers that used these simulations */
+.sim-proof{margin-top:72px}
+.sim-papers{list-style:none;display:grid;gap:10px}
+.sim-paper{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:18px;align-items:center;padding:14px 22px;border-radius:14px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sim-paper .yr{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--ink);letter-spacing:.06em}
+.sim-paper .main{min-width:0}
+.sim-paper .pt{display:block;font-weight:600;font-size:15.5px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sim-paper .pt:hover{color:var(--conductive-text)}
+.sim-paper .fx{margin-top:3px;font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
+.sim-paper .jn{font-style:italic;color:var(--trace)}
+.sim-paper .row-tags{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.sim-tag{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 9px;border-radius:999px;border:1px solid currentColor;line-height:1.2}
+.sim-tag.dft{color:var(--conductive-text);background:color-mix(in srgb,var(--conductive) 9%,transparent)}
+.sim-tag.fem{color:var(--sim-amber-text);background:color-mix(in srgb,var(--amber) 11%,transparent)}
+.sim-film{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--current-text)}
+.sim-film:hover{text-decoration:underline}
+
+/* how a collaboration runs */
+.sim-how{margin-top:72px}
+.sim-steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
+.sim-steps::before{content:"";position:absolute;left:22px;right:22px;top:21px;height:2px;background:linear-gradient(90deg,var(--conductive),var(--current),var(--amber));opacity:.45}
+.sim-steps li{position:relative}
+.sim-steps .n{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--surface);border:2px solid var(--conductive);font-family:var(--font-mono);font-weight:700;font-size:13px;color:var(--conductive-text);position:relative}
+.sim-steps b{display:block;margin-top:14px;font-size:17px;font-weight:600}
+.sim-steps p{margin-top:6px;font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
+.sim-modes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
+.sim-mode{padding:20px 24px;border-radius:16px;border:1px solid var(--line);background:var(--surface);display:grid;gap:4px}
+.sim-mode b{font-size:16.5px;font-weight:700}
+.sim-mode b::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--conductive);margin-right:10px;vertical-align:middle;transform:translateY(-1px)}
+.sim-mode:last-child b::before{background:var(--amber)}
+.sim-mode p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
+
+/* contact band: fixed dark in both themes, like the stats band */
+.sim-cta{margin-top:56px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:center;padding:40px 44px;border-radius:24px;background:#0A0F1E;color:#E9EEF8}
+.sim-cta::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.12) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+.sim-cta>*{position:relative}
+.sim-cta h3{font-family:var(--font-display);font-size:clamp(22px,2.6vw,28px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.sim-cta p{margin-top:10px;color:#B7C2DA;font-size:15px}
+.sim-check{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 22px;margin-top:16px}
+.sim-check li{display:grid;grid-template-columns:16px 1fr;gap:8px;font-size:14.5px;line-height:1.5;color:#E9EEF8}
+.sim-check li::before{content:"";width:8px;height:8px;margin-top:7px;border-radius:2px;background:#00E6C6}
+.sim-cta-side{display:grid;justify-items:start;gap:10px}
+.sim-cta-side .btn{box-shadow:0 12px 30px -10px #1E3AFF}
+.sim-addr{font-family:var(--font-mono);font-size:14px;color:#E9EEF8;letter-spacing:.02em}
+.sim-terms{font-size:13px;color:#B7C2DA}
+html[data-theme="dark"] .sim-cta{background:#10192C;border:1px solid #30415C}
+
+@media (max-width:980px){
+  .sim-grid{grid-template-columns:1fr;max-width:640px}
+  .sim-axis{display:none}
+  .sim-steps{grid-template-columns:repeat(2,1fr);row-gap:30px}
+  .sim-steps::before{display:none}
+  .sim-cta{grid-template-columns:1fr;gap:26px}
+}
+@media (max-width:760px){
+  .sim{padding:70px 0}
+  .sim-proof,.sim-how{margin-top:56px}
+  .sim-paper{grid-template-columns:minmax(0,1fr);row-gap:6px;padding:14px 18px}
+  .sim-paper .yr{font-size:12.5px;color:var(--trace)}
+  .sim-paper .row-tags{flex-wrap:wrap;margin-top:4px}
+  .sim-paper .pt{white-space:normal;text-wrap:balance}
+  .sim-modes{grid-template-columns:1fr}
+  .sim-check{grid-template-columns:1fr}
+  .sim-cta{padding:30px 24px;border-radius:20px}
+}
+@media (max-width:600px){
+  .sim-steps{grid-template-columns:1fr;row-gap:22px}
+  .sim-steps li{display:grid;grid-template-columns:44px 1fr;column-gap:16px}
+  .sim-steps b{margin-top:0;align-self:center}
+  .sim-steps p{grid-column:2;margin-top:2px}
+  .sim-body{padding:22px 20px 22px}
+  .sim-actions .btn{width:100%;justify-content:center}
+}
+/* =================== /SIMULATION COLLABORATION =================== */
+</style>
+</head>
+<body>
+
+<div class="pv-bar">
+  <span><b>PPEL+</b> · <span data-en="Preview: Simulation section (placed after Research)" data-ko="미리보기: 시뮬레이션 섹션 (연구 섹션 다음)">미리보기: 시뮬레이션 섹션 (연구 섹션 다음)</span></span>
+  <span class="pv-tools"><button type="button" id="pvLang">EN</button><button type="button" id="pvTheme">Dark</button></span>
+</div>
+<div class="pv-ghost" data-en="↑ Research section" data-ko="↑ 연구 섹션">↑ 연구 섹션</div>
+
+<!-- ============ SIMULATION ============ -->
+<section class="sim" id="simulation" aria-labelledby="simulation-heading">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow" data-en="Simulation Collaboration" data-ko="시뮬레이션 협업">Simulation Collaboration</div>
+      <h2 id="simulation-heading" data-en="Experiments show what happens.<br><span>Simulation shows why.</span>" data-ko="실험은 현상을 보여 주고,<br><span>계산은 그 이유를 밝힙니다.</span>">Experiments show what happens.<br><span>Simulation shows why.</span></h2>
+      <p data-en="We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, work with us through joint research or commissioned analysis. Molecular dynamics (MD) is coming soon." data-ko="PPEL은 DFT와 COMSOL 계산을 직접 수행하며, 이 계산은 이미 여러 게재 논문에서 기전을 뒷받침했습니다. 실험 결과를 원자 수준이나 소자 수준에서 설명해야 한다면 공동연구나 분석 의뢰로 함께하겠습니다. 분자동역학(MD)도 곧 시작합니다.">We run DFT and COMSOL simulations in-house, and they already back the mechanisms in our published papers. If your results need an explanation at the atomic or device level, work with us through joint research or commissioned analysis. Molecular dynamics (MD) is coming soon.</p>
+      <div class="sim-actions">
+        <a class="btn btn-primary sim-mail" href="mailto:smlim@jbnu.ac.kr" data-en="Propose a collaboration ↗" data-ko="시뮬레이션 협업 문의 ↗">Propose a collaboration ↗</a>
+        <a class="btn btn-ghost" href="#sim-proof" data-en="See published work ↓" data-ko="게재 논문 보기 ↓">See published work ↓</a>
+      </div>
+    </div>
+
+    <div class="sim-sub reveal"><h3 data-en="From atoms to devices" data-ko="원자에서 소자까지">From atoms to devices</h3></div>
+    <div class="sim-axis reveal" aria-hidden="true"><span>Å</span><span>nm</span><span>µm–mm</span></div>
+    <div class="sim-grid">
+
+      <article class="sim-card dft reveal" aria-labelledby="sim-dft">
+        <svg class="sim-ill" viewBox="0 0 320 140" aria-hidden="true" focusable="false">
+          <text class="lbl" x="14" y="22">Δρ</text>
+          <ellipse class="loss" cx="164" cy="30" rx="30" ry="9"/>
+          <ellipse class="gain" cx="164" cy="74" rx="34" ry="12"/>
+          <ellipse class="gain" cx="146" cy="91" rx="10" ry="5"/>
+          <ellipse class="gain" cx="182" cy="91" rx="10" ry="5"/>
+          <line class="bond" x1="164" y1="50" x2="142" y2="38"/><line class="bond" x1="164" y1="50" x2="186" y2="38"/>
+          <circle class="mol" cx="142" cy="38" r="6.5"/><circle class="mol" cx="186" cy="38" r="6.5"/><circle class="mol" cx="164" cy="50" r="9"/>
+          <g class="atoms">
+            <circle class="atom" cx="20" cy="118" r="8"/><circle class="atom" cx="44" cy="118" r="8"/><circle class="atom" cx="68" cy="118" r="8"/><circle class="atom" cx="92" cy="118" r="8"/><circle class="atom" cx="116" cy="118" r="8"/><circle class="atom" cx="140" cy="118" r="8"/><circle class="atom" cx="164" cy="118" r="8"/><circle class="atom" cx="188" cy="118" r="8"/><circle class="atom" cx="212" cy="118" r="8"/><circle class="atom" cx="236" cy="118" r="8"/><circle class="atom" cx="260" cy="118" r="8"/><circle class="atom" cx="284" cy="118" r="8"/><circle class="atom" cx="308" cy="118" r="8"/>
+            <circle class="atom top" cx="32" cy="103" r="8"/><circle class="atom top" cx="56" cy="103" r="8"/><circle class="atom top" cx="80" cy="103" r="8"/><circle class="atom top" cx="104" cy="103" r="8"/><circle class="atom top" cx="128" cy="103" r="8"/><circle class="atom top" cx="152" cy="103" r="8"/><circle class="atom top" cx="176" cy="103" r="8"/><circle class="atom top" cx="200" cy="103" r="8"/><circle class="atom top" cx="224" cy="103" r="8"/><circle class="atom top" cx="248" cy="103" r="8"/><circle class="atom top" cx="272" cy="103" r="8"/><circle class="atom top" cx="296" cy="103" r="8"/>
+          </g>
+        </svg>
+        <div class="sim-body">
+          <div class="sim-name"><h4 id="sim-dft">DFT</h4></div>
+          <div class="sim-scale" data-en="Å · Atoms and electrons" data-ko="Å · 원자와 전자">Å · Atoms and electrons</div>
+          <div class="sim-full" data-en="Density functional theory" data-ko="밀도범함수 이론">Density functional theory</div>
+          <p class="sim-q" data-en="Why does this material behave this way?" data-ko="이 소재는 왜 이렇게 동작할까요?">Why does this material behave this way?</p>
+          <ul class="sim-list" role="list">
+            <li class="done"><span data-en="Charge transfer at interfaces (charge density difference, Bader charge)" data-ko="계면의 전하 이동 (전하 밀도 차, Bader 전하)">Charge transfer at interfaces (charge density difference, Bader charge)</span></li>
+            <li class="done"><span data-en="Dipole moment and polarization" data-ko="쌍극자 모멘트와 분극">Dipole moment and polarization</span></li>
+            <li class="done"><span data-en="Adsorption and binding energy of molecules such as O₂ and glucose" data-ko="O₂, 포도당 등 분자의 흡착·결합 에너지">Adsorption and binding energy of molecules such as O₂ and glucose</span></li>
+            <li class="done"><span data-en="Electronic structure (DOS/PDOS) and how adsorption shifts it" data-ko="전자 구조(DOS/PDOS)와 흡착에 따른 변화">Electronic structure (DOS/PDOS) and how adsorption shifts it</span></li>
+            <li><span data-en="Band structure, work function, doping, defect and surface models" data-ko="밴드 구조, 일함수, 도핑·결함·표면 모델">Band structure, work function, doping, defect and surface models</span></li>
+          </ul>
+          <div class="sim-code">Quantum ESPRESSO</div>
+        </div>
+      </article>
+
+      <article class="sim-card md reveal" aria-labelledby="sim-md">
+        <svg class="sim-ill" viewBox="0 0 320 140" aria-hidden="true" focusable="false">
+          <rect class="box" x="12" y="12" width="296" height="116" rx="8"/>
+          <polyline class="chain" points="30,44 52,32 74,46 96,34 118,48 140,36 162,50"/>
+          <g class="bead"><circle cx="30" cy="44" r="3.5"/><circle cx="52" cy="32" r="3.5"/><circle cx="74" cy="46" r="3.5"/><circle cx="96" cy="34" r="3.5"/><circle cx="118" cy="48" r="3.5"/><circle cx="140" cy="36" r="3.5"/><circle cx="162" cy="50" r="3.5"/></g>
+          <polyline class="chain" points="146,104 168,90 190,104 212,92 234,106 256,94 280,106"/>
+          <g class="bead"><circle cx="146" cy="104" r="3.5"/><circle cx="168" cy="90" r="3.5"/><circle cx="190" cy="104" r="3.5"/><circle cx="212" cy="92" r="3.5"/><circle cx="234" cy="106" r="3.5"/><circle cx="256" cy="94" r="3.5"/><circle cx="280" cy="106" r="3.5"/></g>
+          <polyline class="chain" points="36,100 56,82 78,94 98,76 120,88"/>
+          <g class="bead"><circle cx="36" cy="100" r="3.5"/><circle cx="56" cy="82" r="3.5"/><circle cx="78" cy="94" r="3.5"/><circle cx="98" cy="76" r="3.5"/><circle cx="120" cy="88" r="3.5"/></g>
+          <path class="path" d="M186 76L196 67L205 74L215 69L219 59L229 61L234 50"/>
+          <circle class="ion" cx="234" cy="50" r="5"/><circle class="ion" cx="276" cy="38" r="5"/><circle class="ion" cx="70" cy="66" r="5"/><circle class="ion" cx="120" cy="116" r="5"/>
+        </svg>
+        <div class="sim-body">
+          <div class="sim-name"><h4 id="sim-md">MD</h4><span class="sim-soon" data-en="Coming soon" data-ko="준비 중">Coming soon</span></div>
+          <div class="sim-scale" data-en="nm · Molecules and interfaces" data-ko="nm · 분자와 계면">nm · Molecules and interfaces</div>
+          <div class="sim-full" data-en="Molecular dynamics" data-ko="분자동역학">Molecular dynamics</div>
+          <p class="sim-q" data-en="How do molecules and ions move and pack?" data-ko="분자와 이온은 어떻게 움직이고 배열될까요?">How do molecules and ions move and pack?</p>
+          <ul class="sim-list" role="list">
+            <li><span data-en="Diffusion coefficients and ion transport in electrolytes" data-ko="확산 계수와 전해질 내 이온 수송">Diffusion coefficients and ion transport in electrolytes</span></li>
+            <li><span data-en="Polymer–filler interface interactions" data-ko="고분자-필러 계면 상호작용">Polymer–filler interface interactions</span></li>
+            <li><span data-en="Mechanical and thermal behavior of polymer chains" data-ko="고분자 사슬의 기계·열 거동">Mechanical and thermal behavior of polymer chains</span></li>
+          </ul>
+          <div class="sim-code" data-en="Joining DFT and COMSOL soon" data-ko="DFT, COMSOL에 이어 곧 시작합니다">Joining DFT and COMSOL soon</div>
+        </div>
+      </article>
+
+      <article class="sim-card fem reveal" aria-labelledby="sim-fem">
+        <svg class="sim-ill" viewBox="0 0 320 140" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="simFemGrad" cx=".52" cy="0" r=".78"><stop class="s-hi" offset="0"/><stop class="s-mid" offset=".48"/><stop class="s-lo" offset="1"/></radialGradient>
+            <linearGradient id="simLegGrad" x1="0" x2="1" y1="0" y2="0"><stop class="s-lo" offset="0"/><stop class="s-mid" offset=".5"/><stop class="s-hi" offset="1"/></linearGradient>
+          </defs>
+          <rect class="press" x="134" y="16" width="60" height="16" rx="4"/>
+          <line class="arrow" x1="164" y1="34" x2="164" y2="52"/><path class="arrowhead" d="M158 50L164 60L170 50Z"/>
+          <rect class="film" x="24" y="64" width="272" height="48" rx="3" fill="url(#simFemGrad)" opacity=".92"/>
+          <path class="mesh" d="M24 64V112M46.7 64V112M69.3 64V112M92 64V112M114.7 64V112M137.3 64V112M160 64V112M182.7 64V112M205.3 64V112M228 64V112M250.7 64V112M273.3 64V112M296 64V112M24 64H296M24 76H296M24 88H296M24 100H296M24 112H296M24 64L46.7 76M46.7 76L24 88M24 88L46.7 100M46.7 100L24 112M69.3 64L46.7 76M46.7 76L69.3 88M69.3 88L46.7 100M46.7 100L69.3 112M69.3 64L92 76M92 76L69.3 88M69.3 88L92 100M92 100L69.3 112M114.7 64L92 76M92 76L114.7 88M114.7 88L92 100M92 100L114.7 112M114.7 64L137.3 76M137.3 76L114.7 88M114.7 88L137.3 100M137.3 100L114.7 112M160 64L137.3 76M137.3 76L160 88M160 88L137.3 100M137.3 100L160 112M160 64L182.7 76M182.7 76L160 88M160 88L182.7 100M182.7 100L160 112M205.3 64L182.7 76M182.7 76L205.3 88M205.3 88L182.7 100M182.7 100L205.3 112M205.3 64L228 76M228 76L205.3 88M205.3 88L228 100M228 100L205.3 112M250.7 64L228 76M228 76L250.7 88M250.7 88L228 100M228 100L250.7 112M250.7 64L273.3 76M273.3 76L250.7 88M250.7 88L273.3 100M273.3 100L250.7 112M296 64L273.3 76M273.3 76L296 88M296 88L273.3 100M273.3 100L296 112"/>
+          <rect x="236" y="20" width="60" height="6" rx="3" fill="url(#simLegGrad)"/>
+          <text class="lbl" x="224" y="27">−</text><text class="lbl" x="299" y="27">+V</text>
+        </svg>
+        <div class="sim-body">
+          <div class="sim-name"><h4 id="sim-fem">COMSOL</h4></div>
+          <div class="sim-scale" data-en="µm–mm · Devices and fields" data-ko="µm~mm · 소자와 장">µm–mm · Devices and fields</div>
+          <div class="sim-full" data-en="Finite element multiphysics" data-ko="유한요소 다중물리 해석">Finite element multiphysics</div>
+          <p class="sim-q" data-en="How does the device respond to force, charge and ions?" data-ko="소자는 힘과 전하, 이온에 어떻게 반응할까요?">How does the device respond to force, charge and ions?</p>
+          <ul class="sim-list" role="list">
+            <li class="done"><span data-en="Piezoelectric potential under load, compared across structures" data-ko="하중에 따른 압전 전위와 구조별 비교">Piezoelectric potential under load, compared across structures</span></li>
+            <li class="done"><span data-en="Crack growth and strain in printed sensors under tension" data-ko="인장 시 인쇄 센서의 균열과 변형">Crack growth and strain in printed sensors under tension</span></li>
+            <li><span data-en="Triboelectric potential and electric field distribution" data-ko="마찰전기 전위와 전기장 분포">Triboelectric potential and electric field distribution</span></li>
+            <li><span data-en="Stress in bending, pressing and microneedle insertion" data-ko="굽힘·압축·마이크로니들 삽입 시 응력">Stress in bending, pressing and microneedle insertion</span></li>
+            <li><span data-en="Diffusion, reaction and heat transfer in sensors and batteries" data-ko="센서·전지의 확산, 반응, 열 전달">Diffusion, reaction and heat transfer in sensors and batteries</span></li>
+          </ul>
+          <div class="sim-code">COMSOL Multiphysics</div>
+        </div>
+      </article>
+    </div>
+    <p class="sim-legend reveal"><span><i class="done"></i><span data-en="Used in our published papers" data-ko="게재 논문에서 수행">Used in our published papers</span></span><span><i></i><span data-en="Available on request" data-ko="요청 시 수행 가능">Available on request</span></span></p>
+
+    <div class="sim-proof" id="sim-proof">
+      <div class="sim-sub reveal">
+        <h3 data-en="Published with our simulations" data-ko="계산이 쓰인 게재 논문">Published with our simulations</h3>
+        <span class="sim-count" data-en="7 papers · DFT 5 · COMSOL 3" data-ko="7편 · DFT 5 · COMSOL 3">7 papers · DFT 5 · COMSOL 3</span>
+      </div>
+      <ol class="sim-papers" role="list">
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1007/s42114-026-01819-2" target="_blank" rel="noopener" title="Sulfated Cellulose Nanocrystals into Piezoelectricity: A New Material for Piezoelectric Energy Harvesting and Smart Strain Sensing for Health Monitoring">Sulfated Cellulose Nanocrystals into Piezoelectricity: A New Material for Piezoelectric Energy Harvesting and Smart Strain Sensing for Health Monitoring</a>
+            <p class="fx"><span data-en="DFT: dipole moment 3.2 D → 11.0 D (3.4×) · COMSOL: higher piezoelectric potential under load" data-ko="DFT: 쌍극자 모멘트 3.2 D → 11.0 D (3.4배) · COMSOL: 하중 시 더 큰 압전 전위">DFT: dipole moment 3.2 D → 11.0 D (3.4×) · COMSOL: higher piezoelectric potential under load</span> <span class="jn">· Advanced Composites and Hybrid Materials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="sim-tag fem">COMSOL</span><span class="if-badge">IF 21.8</span><a class="sim-film" href="#research-cherry-blossom" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1007/s42114-026-01862-z" target="_blank" rel="noopener" title="Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors">Oxygen-scavenging MnO₂ nanoparticles enabled thermally stable and oxidation-resistant MXene inks for 3D-printed flexible asymmetric supercapacitors</a>
+            <p class="fx"><span data-en="DFT: MnO₂ interacts with oxygen first, shielding MXene from oxidation" data-ko="DFT: MnO₂가 산소와 먼저 상호작용해 MXene 산화를 억제">DFT: MnO₂ interacts with oxygen first, shielding MXene from oxidation</span> <span class="jn">· Advanced Composites and Hybrid Materials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="if-badge">IF 21.8</span><a class="sim-film" href="#research-energy-storage" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.nanoen.2025.111687" target="_blank" rel="noopener" title="Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator">Self-Powered Gesture Recognition Using a Sustainable and Thermally Stable Cherry Blossom Triboelectric Nanogenerator</a>
+            <p class="fx"><span data-en="DFT: charge-transfer mechanism at the contact interface" data-ko="DFT: 접촉 계면의 전하 이동 기전">DFT: charge-transfer mechanism at the contact interface</span> <span class="jn">· Nano Energy</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><span class="if-badge">IF 16.8</span><a class="sim-film" href="#research-cherry-blossom" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1021/acsami.6c05337" target="_blank" rel="noopener" title="Ti₃C₂Tₓ MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment">Ti₃C₂Tₓ MXene Nanosheets: Bridging High-Performance Energy Storage and Comprehensive In Vivo Biocompatibility Assessment</a>
+            <p class="fx"><span data-en="DFT: the metallic Ti–C backbone and O/F terminations work together for fast electron transport" data-ko="DFT: 금속성 Ti–C 골격과 O/F 말단기가 함께 빠른 전자 수송을 만듦">DFT: the metallic Ti–C backbone and O/F terminations work together for fast electron transport</span> <span class="jn">· ACS Applied Materials &amp; Interfaces</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="sim-film" href="#research-energy-storage" data-en="▶ Film" data-ko="▶ 영상">▶ Film</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2026</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener" title="First-Principles Investigation of Glucose Adsorption and Sensing-Related Electronic Modulation on Ti₃C₂O₂ MXene">First-Principles Investigation of Glucose Adsorption and Sensing-Related Electronic Modulation on Ti₃C₂O₂ MXene</a>
+            <p class="fx"><span data-en="DFT: glucose adsorption (−0.82 eV) and the electronic change it causes on the sensing surface" data-ko="DFT: 센서 표면의 포도당 흡착(−0.82 eV)과 그에 따른 전자 구조 변화">DFT: glucose adsorption (−0.82 eV) and the electronic change it causes on the sensing surface</span> <span class="jn">· Micromachines</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag dft">DFT</span><a class="doi-link" href="https://doi.org/10.3390/mi17040489" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2025</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.1016/j.cej.2025.165069" target="_blank" rel="noopener" title="Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance">Structural transformation of graphitic carbon nitride from 2D to 1D architectures for enhanced piezoelectric performance</a>
+            <p class="fx"><span data-en="COMSOL: why hollow nanotubes raise piezoelectric output" data-ko="COMSOL: 속이 빈 나노튜브가 압전 출력을 높이는 이유">COMSOL: why hollow nanotubes raise piezoelectric output</span> <span class="jn">· Chemical Engineering Journal</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag fem">COMSOL</span><span class="if-badge">IF 13.4</span></div>
+        </li>
+        <li class="sim-paper reveal">
+          <span class="yr">2022</span>
+          <div class="main">
+            <a class="pt" href="https://doi.org/10.3390/nano12060972" target="_blank" rel="noopener" title="A Screen-Printed Metal Hybrid Composite for Wireless Wind Sensing">A Screen-Printed Metal Hybrid Composite for Wireless Wind Sensing</a>
+            <p class="fx"><span data-en="COMSOL: crack growth under tension explains how the printed sensor changes resistance" data-ko="COMSOL: 인장 시 균열 해석으로 인쇄 센서의 저항 변화 원리 규명">COMSOL: crack growth under tension explains how the printed sensor changes resistance</span> <span class="jn">· Nanomaterials</span></p>
+          </div>
+          <div class="row-tags"><span class="sim-tag fem">COMSOL</span><a class="doi-link" href="https://doi.org/10.3390/nano12060972" target="_blank" rel="noopener">DOI ↗</a></div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="sim-how">
+      <div class="sim-sub reveal"><h3 data-en="How we work together" data-ko="협업 진행 방식">How we work together</h3></div>
+      <ol class="sim-steps reveal" role="list">
+        <li><span class="n">01</span><b data-en="Share" data-ko="공유">Share</b><p data-en="Your material, data and the question you want answered." data-ko="재료와 측정 데이터, 설명하고 싶은 현상을 알려 주십시오.">Your material, data and the question you want answered.</p></li>
+        <li><span class="n">02</span><b data-en="Design" data-ko="설계">Design</b><p data-en="We agree on which calculation answers it." data-ko="어떤 계산으로 무엇을 보일지 함께 정합니다.">We agree on which calculation answers it.</p></li>
+        <li><span class="n">03</span><b data-en="Compute" data-ko="계산·전달">Compute</b><p data-en="Figures, a Methods paragraph and SI-ready data." data-ko="그림, Methods 문단, SI 자료까지 전달합니다.">Figures, a Methods paragraph and SI-ready data.</p></li>
+        <li><span class="n">04</span><b data-en="Publish" data-ko="투고 지원">Publish</b><p data-en="Extra calculations when reviewers ask for them." data-ko="리뷰어의 추가 계산 요청까지 함께 대응합니다.">Extra calculations when reviewers ask for them.</p></li>
+      </ol>
+      <div class="sim-modes reveal">
+        <div class="sim-mode"><b data-en="Joint research" data-ko="공동연구">Joint research</b><p data-en="We plan the calculations with you from the start of the study." data-ko="연구 초기부터 계산을 함께 설계합니다.">We plan the calculations with you from the start of the study.</p></div>
+        <div class="sim-mode"><b data-en="Commissioned analysis" data-ko="분석 의뢰">Commissioned analysis</b><p data-en="We run the calculations you need and deliver the results." data-ko="필요한 계산을 수행해 결과를 전달합니다.">We run the calculations you need and deliver the results.</p></div>
+      </div>
+    </div>
+
+    <div class="sim-cta reveal">
+      <div>
+        <h3 data-en="Have results that need a why?" data-ko="이유를 밝혀야 할 실험 결과가 있으신가요?">Have results that need a why?</h3>
+        <p data-en="Email us a short note with:" data-ko="아래 내용을 적어 메일로 보내 주십시오.">Email us a short note with:</p>
+        <ul class="sim-check" role="list">
+          <li><span data-en="Material system and structure" data-ko="재료 계와 구조">Material system and structure</span></li>
+          <li><span data-en="Data you already have (XRD, XPS, device output)" data-ko="보유 데이터 (XRD, XPS, 소자 출력 등)">Data you already have (XRD, XPS, device output)</span></li>
+          <li><span data-en="The question the calculation should answer" data-ko="계산으로 확인하고 싶은 점">The question the calculation should answer</span></li>
+          <li><span data-en="Joint research or commissioned analysis, and timeline" data-ko="공동연구 또는 분석 의뢰, 희망 일정">Joint research or commissioned analysis, and timeline</span></li>
+        </ul>
+      </div>
+      <div class="sim-cta-side">
+        <a class="btn btn-primary sim-mail" href="mailto:smlim@jbnu.ac.kr" data-en="Email us ↗" data-ko="메일 보내기 ↗">Email us ↗</a>
+        <span class="sim-addr">smlim@jbnu.ac.kr</span>
+        <span class="sim-terms" data-en="Terms are arranged by email." data-ko="세부 조건은 메일로 협의합니다.">Terms are arranged by email.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pv-ghost" data-en="↓ Professor section" data-ko="↓ 교수 섹션">↓ 교수 섹션</div>
+
+<script>
+/* Simulation section: the mail buttons carry a subject and a short template in the page language. */
+function simMailHref(lang){
+  const ko=lang==='ko';
+  const subject=ko?'[PPEL 시뮬레이션] 협업 문의':'[PPEL Simulation] Collaboration inquiry';
+  const lines=ko?['재료 계와 구조:','보유 데이터:','계산으로 확인하고 싶은 점:','공동연구 / 분석 의뢰:','희망 일정:']
+                :['Material system and structure:','Data available:','Question to answer:','Joint research / commissioned analysis:','Timeline:'];
+  return 'mailto:smlim@jbnu.ac.kr?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\r\n\r\n')+'\r\n');
+}
+function syncSimMail(){document.querySelectorAll('.sim-mail').forEach(a=>{a.href=simMailHref(document.documentElement.lang);});}
+
+/* Preview harness: same data-en / data-ko switching as index.html, plus a theme toggle. */
+const root=document.documentElement;
+let lang='ko';
+function applyLang(){
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const val=el.getAttribute('data-'+lang);
+    if(val===null)return;
+    if(val.includes('<'))el.innerHTML=val;else el.textContent=val;
+  });
+  root.lang=lang;
+  document.getElementById('pvLang').textContent=lang==='en'?'EN':'KO';
+  syncSimMail();
+}
+document.getElementById('pvLang').addEventListener('click',()=>{lang=lang==='en'?'ko':'en';applyLang();});
+document.getElementById('pvTheme').addEventListener('click',e=>{
+  const dark=root.dataset.theme!=='dark';root.dataset.theme=dark?'dark':'light';e.currentTarget.textContent=dark?'Light':'Dark';
+});
+applyLang();
+</script>
+</body>
+</html>
