@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const url=process.env.TEST_URL||'http://127.0.0.1:8765/';
 const widths=[360,375,390,414,600,601,720,721,760,761,768,820,980,981,1024,1100,1180,1181,1280,1440,1920];
-const nav=['#home','#research','#simulation','#professor','#members','#publications','#patents','#collaborations','#equipment','#game'];
+const nav=['#home','#research','#professor','#members','#publications','#simulation','#patents','#collaborations','#equipment','#game'];
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function auditLayout(){
  const ctx=document.createElement('canvas').getContext('2d');ctx.canvas.width=ctx.canvas.height=1;
