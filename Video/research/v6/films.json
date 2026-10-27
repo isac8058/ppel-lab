@@ -1,0 +1,142 @@
+[
+  {
+    "card": "energy-storage",
+    "stem": "energy-storage",
+    "order": 1,
+    "title": {
+      "en": "The ink that catches oxygen first",
+      "ko": "산소를 먼저 붙잡는 잉크"
+    },
+    "doi": "10.1007/s42114-026-01862-z",
+    "duration": {
+      "ko": 61,
+      "en": 68
+    }
+  },
+  {
+    "card": "energy-storage",
+    "stem": "energy-storage-2",
+    "order": 2,
+    "title": {
+      "en": "A question for batteries worn on the body",
+      "ko": "몸 가까이 둘 전지를 위한 질문"
+    },
+    "doi": "10.1021/acsami.6c05337",
+    "duration": {
+      "ko": 60,
+      "en": 60
+    }
+  },
+  {
+    "card": "memory",
+    "stem": "memory",
+    "order": 1,
+    "title": {
+      "en": "How carbon remembers",
+      "ko": "탄소로 기억하는 법"
+    },
+    "doi": "10.1016/j.carbon.2024.119320",
+    "duration": {
+      "ko": 49,
+      "en": 49
+    }
+  },
+  {
+    "card": "memory",
+    "stem": "memory-2",
+    "order": 2,
+    "title": {
+      "en": "A memory made with dopamine",
+      "ko": "도파민으로 만든 메모리"
+    },
+    "doi": "10.1016/j.orgel.2025.107305",
+    "duration": {
+      "ko": 49,
+      "en": 50
+    }
+  },
+  {
+    "card": "biosensor",
+    "stem": "biosensor",
+    "order": 1,
+    "title": {
+      "en": "A cancer clue from a pencil",
+      "ko": "연필심에서 찾은 암의 단서"
+    },
+    "doi": "10.1021/acsnano.4c18646",
+    "duration": {
+      "ko": 60,
+      "en": 55
+    }
+  },
+  {
+    "card": "biosensor",
+    "stem": "biosensor-2",
+    "order": 2,
+    "title": {
+      "en": "A patch that breathes",
+      "ko": "숨 쉬는 한지 패치"
+    },
+    "doi": "10.1016/j.cej.2026.178008",
+    "duration": {
+      "ko": 58,
+      "en": 60
+    }
+  },
+  {
+    "card": "ai-paper",
+    "stem": "ai-paper",
+    "order": 1,
+    "title": {
+      "en": "Paper that reads your steps",
+      "ko": "한지가 발걸음을 읽다"
+    },
+    "doi": "10.1007/s10570-025-06542-7",
+    "duration": {
+      "ko": 51,
+      "en": 50
+    }
+  },
+  {
+    "card": "ai-paper",
+    "stem": "ai-paper-2",
+    "order": 2,
+    "title": {
+      "en": "A printed film, five times the voltage",
+      "ko": "찍어 낸 필름, 다섯 배 전압"
+    },
+    "doi": "10.1002/adfm.202424271",
+    "duration": {
+      "ko": 56,
+      "en": 56
+    }
+  },
+  {
+    "card": "cherry-blossom",
+    "stem": "cherry-blossom",
+    "order": 1,
+    "title": {
+      "en": "Petals that know your touch",
+      "ko": "꽃잎이 손끝을 알아보다"
+    },
+    "doi": "10.1016/j.nanoen.2025.111687",
+    "duration": {
+      "ko": 46,
+      "en": 47
+    }
+  },
+  {
+    "card": "cherry-blossom",
+    "stem": "cherry-blossom-2",
+    "order": 2,
+    "title": {
+      "en": "Waking piezoelectricity in waste tissue",
+      "ko": "휴지에서 깨운 압전"
+    },
+    "doi": "10.1007/s42114-026-01819-2",
+    "duration": {
+      "ko": 53,
+      "en": 50
+    }
+  }
+]

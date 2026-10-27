@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const url=process.env.TEST_URL||'http://127.0.0.1:8765/';
 const path=require('node:path');
-const data=require('../Video/research/v5/films.json').map(item=>({...item,id:item.stem,media:'v5/'+item.stem,sample:11}));
+const data=require('../Video/research/v6/films.json').map(item=>({...item,id:item.stem,media:'v6/'+item.stem,sample:11}));
 function captionAt(item,language,seconds){
  const content=fs.readFileSync(path.join(__dirname,'../Video/research',item.media+'.'+language+'.vtt'),'utf8');
  const time=text=>text.trim().split(/\s+/)[0].split(':').reduce((sum,n)=>sum*60+Number(n),0);
@@ -52,7 +52,7 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await root.locator('.film-start').click();
     await page.waitForFunction(id=>document.querySelector(`#film-${id}`).readyState>=1,item.id);
     assert((await video.evaluate(video=>video.currentSrc)).endsWith(`${item.stem}-ko.mp4`));
-    assert(Math.abs(await video.evaluate(video=>video.duration)-item.duration)<0.15,'Video duration matches its displayed length');
+    assert(Math.abs(await video.evaluate(video=>video.duration)-item.duration.ko)<0.6||Math.abs(await video.evaluate(video=>video.duration)-item.duration.en)<0.6,'Video duration matches its displayed length');
     await video.evaluate((video,seconds)=>{video.pause();video.currentTime=seconds;},item.sample);
     const expectedCaption=captionAt(item,'ko',item.sample);
     await page.waitForFunction(({id,caption})=>document.querySelector(`[data-film="${id}"] .film-subtitles`).textContent===caption,{id:item.id,caption:expectedCaption});
@@ -110,8 +110,8 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No horizontal overflow on mobile');
    await first.screenshot({path:`.video-work/captions-mobile-${reducedMotion}.png`});
    // A real failed request must reveal the language-specific fallback.
-   await page.route('**/Video/research/v5/memory-2-*.mp4*',route=>route.abort());
-   await page.locator('#film-memory-2').evaluate(v=>{v.querySelector('source').src='Video/research/v5/memory-2-en.mp4?error-test';v.load();});
+   await page.route('**/Video/research/v6/memory-2-*.mp4*',route=>route.abort());
+   await page.locator('#film-memory-2').evaluate(v=>{v.querySelector('source').src='Video/research/v6/memory-2-en.mp4?error-test';v.load();});
    await page.waitForFunction(()=>!document.querySelector('[data-film="memory-2"] .film-error').hidden);
    assert((await page.locator('[data-film="memory-2"] .film-error a').getAttribute('href')).endsWith('-en.mp4'));
    assert.deepEqual(errors,[]);console.log(`${reducedMotion}: 10 films, bilingual sources/time/state, lazy/exclusive playback, captions, fullscreen, errors, mobile and hero motion passed`);

@@ -1,0 +1,25 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:08.800
+Resistive memory stores information in a material's resistance. High resistance is a zero; apply a voltage, it drops, and that is a one.
+
+2
+00:00:10.400 --> 00:00:16.300
+DRAM is the working memory of a computer. It stores charge, so its data vanish when the power goes off.
+
+3
+00:00:17.900 --> 00:00:23.000
+If the resistance state holds without power, the data survive, and the memory becomes nonvolatile.
+
+4
+00:00:24.600 --> 00:00:32.200
+This review gathers resistive switching devices made from carbon of every dimension, from dots to three dimensional networks, and how they work.
+
+5
+00:00:33.800 --> 00:00:38.000
+Carbon is easy to synthesize, compatible with living tissue, and abundant.
+
+6
+00:00:40.300 --> 00:00:45.600
+The review looks ahead to memory devices that monitor health, sit on skin, and power themselves.

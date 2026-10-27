@@ -5,7 +5,7 @@ const path=require('node:path');
 const vm=require('node:vm');
 const root=path.resolve(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
-const films=require('../Video/research/v5/films.json');
+const films=require('../Video/research/v6/films.json');
 const decode=s=>s.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 // Strict explicit-tag balance (including noscript fallback markup). Raw script/style
 // bodies and comments are excluded so JS operators cannot masquerade as HTML.
@@ -47,7 +47,7 @@ for(const card of cards){
   assert.deepEqual(numbers,numbers.map((_,i)=>String(i+1).padStart(2,'0')));
 }
 for(const f of films){
-  assert.equal(f.duration,36);assert(f.title.en&&f.title.ko&&f.doi);
+  assert(f.duration.ko>40&&f.duration.en>40);assert(f.title.en&&f.title.ko&&f.doi);
   const film=nodes.find(n=>n.attrs['data-film']===f.stem);assert(film);
   // Both films sit together in the card's film deck (overlapped on pointer devices, stacked otherwise).
   assert(has(film.parent,'film-deck'),'Film is inside a film deck');
@@ -62,7 +62,7 @@ for(const f of films){
   assert.equal(start.attrs.title,f.title.en);assert.equal(start.attrs['aria-label'],f.title.en);
   const image=one(start,n=>n.tag==='img');
   for(const lang of ['ko','en']){
-    const base='Video/research/v5/'+f.stem;
+    const base='Video/research/v6/'+f.stem;
     assert.equal(source.attrs['data-src-'+lang],base+'-'+lang+'.mp4');
     assert.equal(video.attrs['data-poster-'+lang],base+'-'+lang+'.jpg');
     assert.equal(image.attrs['data-src-'+lang],base+'-'+lang+'.jpg');
@@ -83,8 +83,8 @@ for(const f of films){
   for(const parent of [error,noscript])assert.equal(one(parent,n=>n.tag==='a').attrs.href,source.attrs['data-src-en']);
   one(film,n=>has(n,'film-subtitle-panel'));one(film,n=>has(n,'film-fullscreen'));
 }
-// Inspect every v5 URL attribute, including future additions outside the film blocks.
-for(const n of nodes)for(const value of Object.values(n.attrs))if(value.startsWith('Video/research/v5/'))files.add(value);
+// Inspect every v6 URL attribute, including future additions outside the film blocks.
+for(const n of nodes)for(const value of Object.values(n.attrs))if(value.startsWith('Video/research/v6/'))files.add(value);
 for(const file of files)assert(fs.statSync(path.join(root,file)).size>0,`Missing/empty file ${file}`);
 assert.equal(files.size,60);
 assert(!html.includes('10.1016/j.cej.2024.'+'152345'));
