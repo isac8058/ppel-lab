@@ -606,6 +606,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   .film-deck::before{content:attr(data-next);position:absolute;top:2px;left:12px;z-index:3;pointer-events:none;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
     font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;color:#fff;background:var(--accent);padding:4px 11px;border-radius:999px;box-shadow:0 4px 12px rgba(8,14,26,.18)}
 }
+.film-deck.deck-swapping>.research-film{transition:filter .35s}
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:reduce){.film-deck>.research-film{transition:none}}
 .rcard{min-width:0}
 .film-viewer{overflow:hidden;border-radius:15px;background:#172226}
@@ -2195,7 +2196,7 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
       </div>
     </div>
     <div class="foot-bottom">
-      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.10.27-1</span></span>
+      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.10.27-2</span></span>
       <span data-en="567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea" data-ko="54896 전북특별자치도 전주시 덕진구 백제대로 567">567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea</span>
     </div>
   </div>
@@ -2485,6 +2486,17 @@ document.querySelectorAll('.film-deck').forEach(deck=>{
   let armed=true;
   const raise=film=>{
     if(film.classList.contains('is-front'))return;
+    // The back film first slides up out from behind, then settles over the front one, which sinks back.
+    const outgoing=films.find(other=>other.classList.contains('is-front'));
+    if(film.animate&&outgoing&&!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+      const back='translate(6px,-38px) rotate(1.8deg) scale(.95)',timing={duration:800,easing:'ease-in-out'};
+      deck.classList.add('deck-swapping');
+      film.animate([{transform:back,zIndex:1},{transform:'translate(16px,-96px) rotate(4deg) scale(.97)',zIndex:1,offset:.42},
+        {transform:'translate(16px,-96px) rotate(4deg) scale(.97)',zIndex:3,offset:.43},{transform:'translate(0,-6px) scale(1.01)',zIndex:3,offset:.8},{transform:'none',zIndex:3}],timing);
+      outgoing.animate([{transform:'none',zIndex:2},{transform:'translate(-3px,6px) scale(.97)',zIndex:2,offset:.42},
+        {transform:'translate(-3px,6px) scale(.97)',zIndex:1,offset:.43},{transform:back,zIndex:1}],timing)
+        .finished.then(()=>deck.classList.remove('deck-swapping'),()=>deck.classList.remove('deck-swapping'));
+    }
     films.forEach(other=>{
       const front=other===film;
       other.classList.toggle('is-front',front);
