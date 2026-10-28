@@ -121,7 +121,9 @@ html[lang="ko"] body{--font-body:"Pretendard","Inter",system-ui,sans-serif;word-
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+/* Reduced motion only turns off smooth scrolling. A global duration kill used to sit here, but the owner's
+   Windows reports reduced motion and every transition looked frozen there (2026-10-28, owner chose visible motion). */
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 body{
   font-family:var(--font-body);
@@ -933,6 +935,128 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
   .sim-actions .btn{width:100%;justify-content:center}
 }
 /* =================== /SIMULATION =================== */
+/* ===== 2026-10-28 Section rhythm + At a glance (owner picked prototype C + A) =====
+   Section backgrounds alternate white / pale dot grid / navy band; big outline numbers drift
+   behind each section head; an "at a glance" bento sits after the welcome; long lists fold;
+   publications, patents and equipment pin their head on wide screens. */
+:root{--rh-pale:#F3F6FB;--rh-dot:color-mix(in srgb,var(--conductive) 9%,transparent)}
+html[data-theme="dark"]{--rh-pale:#0C1322;--rh-dot:rgba(120,150,255,.08)}
+.glance,#professor,#equipment{background-color:var(--rh-pale);background-image:radial-gradient(var(--rh-dot) 1px,transparent 1px);background-size:26px 26px}
+#professor,#equipment{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+#professor .prof-card,#equipment .equipment-group{background:var(--surface)}
+/* International collaborations become the second navy band (stats is the first) */
+#collaborations{
+  --substrate:#0A0F1E;--surface:#111A2E;--surface-2:#16213A;--ink:#E9EEF8;--ink-soft:#A6B0C4;--trace:#8C9AB5;--line:#22314D;
+  --conductive:#5A78FF;--conductive-text:#9BAFFF;
+  background:#0A0F1E;color:var(--ink);overflow:hidden}
+html[data-theme="dark"] #collaborations{background:#10192C;border-top:1px solid #30415C;border-bottom:1px solid #30415C}
+#collaborations::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(120,150,255,.12) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+#collaborations .cnode{background:var(--surface);border-color:var(--line);color:var(--ink)}
+#collaborations .cnode:hover{border-color:#5A78FF;box-shadow:0 0 0 1px #5A78FF,0 18px 40px -20px rgba(90,120,255,.6)}
+/* Big outline section numbers (aria-hidden, added by script) */
+.rh-num{position:absolute;right:28px;top:-34px;z-index:0;font:700 clamp(96px,13vw,190px)/1 Inter,system-ui,sans-serif;letter-spacing:-.04em;
+  color:transparent;-webkit-text-stroke:1.3px color-mix(in srgb,var(--conductive) 30%,transparent);pointer-events:none;user-select:none;will-change:transform}
+#collaborations .rh-num{-webkit-text-stroke-color:rgba(120,150,255,.35)}
+.sec-head{position:relative;z-index:1}
+.sec-head h2{font-size:clamp(30px,4.8vw,54px)}
+.sec-head>.rh-num{right:0}
+@media(max-width:760px){.rh-num{top:-14px;right:16px;font-size:84px}.sec-head>.rh-num{right:0}}
+.mcard,.pub,.pat,.cnode,.sim-card{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+.pub:hover,.pat:hover{transform:translateX(4px)}
+
+/* At a glance */
+.glance{padding:84px 0 96px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.glance-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:30px}
+.glance-head h2{font:600 clamp(28px,3.6vw,42px)/1.15 var(--font-display);letter-spacing:-.02em;margin-top:12px}
+.glance-head p{color:var(--ink-soft);font-size:15px;max-width:360px}
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:168px;gap:16px}
+.tile{position:relative;overflow:hidden;border-radius:20px;background:var(--surface);border:1px solid var(--line);padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;color:var(--ink);
+  box-shadow:0 1px 2px rgba(10,15,30,.04);transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s,border-color .45s}
+.tile:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(10,15,30,.35);border-color:color-mix(in srgb,var(--conductive) 45%,var(--line))}
+.tile:focus-visible{outline:3px solid var(--conductive);outline-offset:3px}
+.tile .k{font:600 11.5px/1 var(--font-mono);letter-spacing:.14em;color:var(--conductive-text);display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.tile .k::after{content:"→";font-size:15px;letter-spacing:0;transition:transform .35s}
+.tile:hover .k::after{transform:translateX(4px)}
+.tile .big{font:700 clamp(40px,4.4vw,58px)/1 Inter,system-ui,sans-serif;letter-spacing:-.03em}
+.tile .big small{font-size:.42em;font-weight:600;margin-left:4px;color:var(--ink-soft)}
+.tile .sub{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.t-research{grid-column:span 6;grid-row:span 2;padding:0;color:#fff;border:0;background:#0A0F1E}
+.t-research .posters{position:absolute;inset:0}
+.t-research .posters img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;filter:blur(3px) saturate(1.15);transform:scale(1.04)}
+.t-research .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,11,22,.62) 0%,rgba(7,11,22,.42) 38%,rgba(7,11,22,.92) 100%)}
+.t-research .in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:22px 26px}
+.t-research .k{color:#9BE7DA}
+.t-research h3{font:600 26px/1.25 var(--font-display);margin:8px 0 14px;letter-spacing:-.01em}
+.t-research ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.t-research li{font-size:12.5px;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);transition:background .3s,border-color .3s}
+.t-research li.on{background:#1E3AFF;border-color:#1E3AFF}
+.t-pubs,.t-latest,.t-people,.t-pat{grid-column:span 3}
+.t-latest .pt{font-size:14.5px;font-weight:600;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.t-latest .jn{font-size:12px;color:var(--ink-soft);margin-top:6px}
+.t-people .faces{display:flex;min-height:42px}
+.t-people .faces img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2.5px solid var(--surface);margin-left:-10px;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.t-people .faces img:first-child{margin-left:0}
+.t-people:hover .faces img{transform:translateY(-3px)}
+.t-people:hover .faces img:nth-child(even){transform:translateY(3px)}
+.t-pat .chips{display:flex;flex-wrap:wrap;gap:6px}
+.t-pat .chips span{font-size:12px;padding:4px 9px;border-radius:999px;background:var(--surface-2);color:var(--ink-soft)}
+.t-pat .chips b{color:var(--ink)}
+.t-sim,.t-collab,.t-equip{grid-column:span 4}
+.t-sim{padding:0}
+.t-sim img{position:absolute;top:8%;right:4%;width:60%;height:84%;object-fit:contain;object-position:right center;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.t-sim:hover img{transform:scale(1.06)}
+.t-sim .in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:22px 24px;background:linear-gradient(90deg,var(--surface) 0%,var(--surface) 34%,color-mix(in srgb,var(--surface) 60%,transparent) 50%,transparent 70%)}
+.t-sim .nm{font:600 20px/1.3 var(--font-display)}
+.t-collab .flags{display:flex;gap:8px;flex-wrap:wrap}
+.t-collab .flags svg{width:38px;height:26px;border-radius:4px;box-shadow:0 0 0 1px var(--line);transition:transform .35s}
+.t-collab:hover .flags svg{transform:translateY(-3px) rotate(-3deg)}
+.t-equip .bars{display:flex;gap:4px;align-items:end;height:40px}
+.t-equip .bars i{flex:1;background:linear-gradient(180deg,#1E3AFF,#00B79C);border-radius:4px 4px 1px 1px;opacity:.85;transform-origin:bottom}
+.t-game{grid-column:span 12;background:#070B16;border:0;color:#E9EEF8;flex-direction:row;align-items:center;gap:24px}
+.t-game .k{color:#5DE8CF;flex:none}
+.t-game .k::after{display:none}
+.t-game .gl{font:800 clamp(30px,3.4vw,46px)/1 Inter,sans-serif;letter-spacing:-.02em;background:linear-gradient(90deg,#5A78FF,#00E6C6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.t-game .sub{color:#A6B0C4;margin-left:auto}
+.t-game .trace{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55}
+html[data-theme="dark"] .t-game{border:1px solid #22314D}
+@media(max-width:1080px){.t-research{grid-column:span 12}.t-pubs,.t-latest,.t-people,.t-pat,.t-sim,.t-collab{grid-column:span 6}.t-equip{grid-column:span 12}}
+@media(max-width:640px){.glance{padding:64px 0 72px}.bento{grid-auto-rows:150px;gap:12px}.tile{grid-column:span 12!important}.t-research{grid-row:span 2}.glance-head{display:block}.glance-head p{margin-top:8px}
+  .t-game{flex-wrap:wrap;gap:6px 16px}.t-game .sub{margin-left:0}}
+
+/* Long lists fold */
+.is-folded .fold-more{display:none!important}
+.foldable{position:relative}
+.foldable.is-folded::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(180deg,transparent,var(--fold-bg,var(--substrate)));pointer-events:none}
+.fold-btn{display:block;width:fit-content;margin:22px auto 0;padding:12px 22px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 14px/1 var(--font-body);cursor:pointer;box-shadow:var(--shadow);transition:border-color .3s,color .3s,transform .3s}
+.fold-btn:hover{border-color:var(--conductive);color:var(--conductive-text);transform:translateY(-2px)}
+.fold-btn:focus-visible{outline:3px solid var(--conductive);outline-offset:3px}
+.fold-btn b{font-family:var(--font-mono);color:var(--conductive-text)}
+#members .mgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+#members .mcard .nm{font-size:14px}
+/* Equipment: category cards that open in place */
+#equipment .equipment-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;columns:auto;align-items:start}
+#equipment .equipment-group{margin:0!important}
+#equipment .equipment-group-heading{margin-bottom:0;cursor:pointer;border-radius:10px}
+#equipment .equipment-group-heading:focus-visible{outline:3px solid var(--conductive);outline-offset:6px}
+#equipment .equipment-group:hover{border-color:var(--conductive)}
+#equipment .equipment-group-heading::after{content:"+";font:500 22px/1 var(--font-mono);color:var(--conductive-text);margin-left:10px;transition:transform .35s}
+#equipment .equipment-group.open .equipment-group-heading::after{transform:rotate(45deg)}
+#equipment .equipment-group:not(.open) .equipment-list{display:none}
+#equipment .equipment-group.open .equipment-group-heading{margin-bottom:12px}
+#equipment .equipment-names{flex-wrap:wrap!important}
+#equipment .equipment-en{white-space:normal!important}
+@media(max-width:760px){#equipment .equipment-grid{grid-template-columns:1fr}}
+@media print{#equipment .equipment-group .equipment-list{display:block!important}.is-folded .fold-more{display:revert!important}.fold-btn{display:none}}
+/* Long sections keep their head on the left while the list scrolls */
+@media(min-width:1180px){
+  #publications>.wrap,#patents>.wrap,#equipment>.wrap{max-width:1340px;display:grid;grid-template-columns:270px minmax(0,1fr);column-gap:56px;align-items:start}
+  #publications>.wrap>.sec-head,#patents>.wrap>.sec-head,#equipment>.wrap>.sec-head{grid-column:1;grid-row:1/span 30;position:sticky;top:104px;margin-bottom:0}
+  #publications>.wrap>:not(.sec-head):not(.rh-num),#patents>.wrap>:not(.sec-head):not(.rh-num),#equipment>.wrap>:not(.sec-head):not(.rh-num){grid-column:2}
+  #publications .sec-head h2,#patents .sec-head h2,#equipment .sec-head h2{font-size:38px}
+  #publications .sec-head p,#patents .sec-head p,#equipment .sec-head p{font-size:15px}
+  .sec-head>.rh-num{top:-50px;right:auto;left:-16px;font-size:150px;z-index:-1}
+}
+.foldable.fold-zero::after{display:none}
 </style>
 <link rel="stylesheet" href="assets/hero-immersive.css?v=20260928-1" />
 <script>
@@ -1017,6 +1141,55 @@ html[lang="ko"] .film-deck::before{letter-spacing:.03em;text-transform:none}
         <img src="image/all_opt.jpg" alt="PPEL research team sharing a meal" width="1200" height="900" loading="lazy" />
         <figcaption><span data-en="Different perspectives. Shared curiosity." data-ko="서로 다른 시선, 함께하는 호기심.">Different perspectives. Shared curiosity.</span><a href="#members" data-en="Meet the team →" data-ko="연구팀 만나기 →">Meet the team →</a></figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AT A GLANCE ============ -->
+<!-- Numbers below are fallbacks; the script re-reads them from the stats band, patents summary,
+     members, collaborations and equipment lists so this section never drifts from the page. -->
+<section class="glance" id="glance" aria-labelledby="glance-heading">
+  <div class="wrap">
+    <div class="glance-head">
+      <div><div class="eyebrow" data-en="At a glance" data-ko="한눈에 보기">At a glance</div>
+        <h2 id="glance-heading" data-en="PPEL on one screen" data-ko="PPEL을 한 화면에">PPEL on one screen</h2></div>
+      <p data-en="Tap a tile to jump to that section." data-ko="칸을 누르면 그 구역으로 바로 갑니다.">Tap a tile to jump to that section.</p>
+    </div>
+    <div class="bento">
+      <a class="tile t-research" href="#research">
+        <div class="posters" aria-hidden="true"></div><div class="shade" aria-hidden="true"></div>
+        <div class="in"><div class="k" data-en="Research · 5 areas · films" data-ko="연구 분야 5개 · 영상">Research · 5 areas · films</div>
+          <div><h3 data-en="Printed electronics<br>for human–robot links" data-ko="사람과 로봇을 잇는<br>인쇄전자 연구">Printed electronics<br>for human–robot links</h3>
+            <ul class="areas">
+              <li data-en="AI-Powered Printed Electronics" data-ko="AI 기반 인쇄전자">AI-Powered Printed Electronics</li>
+              <li data-en="Bioprinting &amp; Biosensors" data-ko="바이오프린팅과 바이오센서">Bioprinting &amp; Biosensors</li>
+              <li data-en="Printed Memory Devices" data-ko="인쇄형 메모리 소자">Printed Memory Devices</li>
+              <li data-en="Printed Supercapacitors &amp; Batteries" data-ko="인쇄형 슈퍼커패시터와 배터리">Printed Supercapacitors &amp; Batteries</li>
+              <li data-en="Piezo &amp; Triboelectric Energy Harvesting" data-ko="압전과 마찰전기 에너지 하베스팅">Piezo &amp; Triboelectric Energy Harvesting</li>
+            </ul></div></div>
+      </a>
+      <a class="tile t-pubs" href="#publications"><div class="k" data-en="Papers" data-ko="논문">Papers</div>
+        <div><div class="big" data-glance="pubs">127+</div><div class="sub"><span data-en="Citations" data-ko="피인용">Citations</span> <span data-glance="cites">3,049+</span> · <span data-glance="h">h-30</span></div></div></a>
+      <a class="tile t-latest" href="#publications"><div class="k" data-en="Latest paper" data-ko="최신 논문">Latest paper</div>
+        <div><div class="pt" data-glance="latest">Screen-printed functional materials for energy storage and harvesting: from fundamentals to integrated supercapacitors and nanogenerators</div><div class="jn" data-glance="journal">Progress in Materials Science · IF 37.4</div></div></a>
+      <a class="tile t-people" href="#members"><div class="k" data-en="Members" data-ko="구성원">Members</div>
+        <div class="faces" aria-hidden="true"></div>
+        <div class="sub"><span data-en="International team of" data-ko="국제 연구팀">International team of</span> <span data-glance="members">7</span><span data-en="" data-ko="명"></span></div></a>
+      <a class="tile t-pat" href="#patents"><div class="k" data-en="Patents" data-ko="특허">Patents</div>
+        <div class="big"><span data-glance="patents">17</span><small data-en="" data-ko="건"></small></div>
+        <div class="chips" data-glance="patchips"><span><b>11</b> Granted</span><span><b>5</b> Pending</span><span><b>1</b> Tech Transferred</span></div></a>
+      <a class="tile t-sim" href="#simulation"><img src="image/simulation/illust-dft.webp" alt="" loading="lazy" width="1600" height="700">
+        <div class="in"><div class="k" data-en="Computation" data-ko="전산모사">Computation</div><div class="nm">DFT · MD · COMSOL</div></div></a>
+      <a class="tile t-collab" href="#collaborations"><div class="k" data-en="Collaborations" data-ko="국제 공동 연구">Collaborations</div>
+        <div class="flags" aria-hidden="true"></div>
+        <div class="sub"><span data-glance="partners">6</span><span data-en=" partner institutions" data-ko="개 기관"> partner institutions</span></div></a>
+      <a class="tile t-equip" href="#equipment"><div class="k" data-en="Equipment" data-ko="장비">Equipment</div>
+        <div class="big"><span data-glance="equipment">35</span><small data-en="instruments" data-ko="대">instruments</small></div>
+        <div class="bars" aria-hidden="true"></div></a>
+      <a class="tile t-game" href="#game">
+        <svg class="trace" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,90 C200,90 260,30 420,30 S640,95 820,95 1000,40 1200,40" fill="none" stroke="#3854D9" stroke-width="3"/></svg>
+        <div class="k" data-en="Lab arcade" data-ko="랩 아케이드">Lab arcade</div><div class="gl">INK RUNNER</div>
+        <div class="sub" data-en="Print a circuit on a moving film" data-ko="달리는 필름 위에 회로를 인쇄해 보세요">Print a circuit on a moving film</div></a>
     </div>
   </div>
 </section>
@@ -2196,7 +2369,7 @@ KR 10-2019-0059812 · Filed 2019.05.22 · Reg. 10-2151766 (2020.08.28)"><div cla
       </div>
     </div>
     <div class="foot-bottom">
-      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.10.28-1</span></span>
+      <span><span data-en="© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University" data-ko="© 2026 PPEL+ (Printability for Printed Electronics Lab) · 전북대학교">© 2026 PPEL+ (Printability for Printed Electronics Lab) · Jeonbuk National University</span> <span class="build-stamp">· v2026.10.28-2</span></span>
       <span data-en="567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea" data-ko="54896 전북특별자치도 전주시 덕진구 백제대로 567">567 Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896, Republic of Korea</span>
     </div>
   </div>
@@ -2329,9 +2502,39 @@ document.getElementById("emailCopy").addEventListener("click",()=>{
   navigator.clipboard.writeText("smlim@jbnu.ac.kr").then(()=>showToast(lang==="en"?"✓ Email copied":"✓ 이메일이 복사되었습니다"));
 });
 
-/* ===== Reveal on scroll ===== */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.12});
-document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+/* ===== Reveal on scroll =====
+   Driven by the Web Animations API, not CSS transitions: the owner's Windows reports reduced
+   motion, and transitions gated by it looked frozen there (2026-10-28). Section heads reveal
+   child by child; rows slide in from the left; everything else rises. */
+const revealEls=new Set();
+document.querySelectorAll(".sec-head").forEach(h=>{
+  h.classList.remove("reveal");
+  h.querySelectorAll(":scope > .eyebrow, :scope > h2, :scope > p, :scope > .sim-actions").forEach(c=>revealEls.add(c));
+});
+document.querySelectorAll(".reveal, .equipment-group, .glance-head > *, .tile").forEach(el=>revealEls.add(el));
+const REVEAL_EASE="cubic-bezier(.2,.7,.2,1)";
+const revealFrames=el=>{
+  if(el.matches(".sec-head > h2")) return [
+    {opacity:0,transform:"translateY(42%)",clipPath:"inset(-20% 0 100% 0)"},
+    {opacity:1,transform:"none",clipPath:"inset(-20% 0 -20% 0)"}];
+  if(el.matches(".prof-card, .arcade-frame, .t-research")) return [{opacity:0,transform:"translateY(30px) scale(.96)"},{opacity:1,transform:"none"}];
+  if(el.matches(".pub, .pat")) return [{opacity:0,transform:"translateX(-18px)"},{opacity:1,transform:"none"}];
+  return [{opacity:0,transform:"translateY(26px)"},{opacity:1,transform:"none"}];
+};
+revealEls.forEach(el=>{el.classList.remove("reveal");el.style.opacity="0";});
+const io=new IntersectionObserver(es=>{
+  const vis=es.filter(e=>e.isIntersecting).map(e=>e.target)
+    .sort((a,b)=>{const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();return ra.top-rb.top||ra.left-rb.left;});
+  vis.forEach((el,i)=>{
+    io.unobserve(el);
+    const delay=Math.min(i*60,480);
+    const an=el.animate(revealFrames(el),{duration:780,easing:REVEAL_EASE,delay,fill:"both"});
+    an.onfinish=()=>{el.style.opacity="";an.cancel();};
+    if(el.matches(".eyebrow")){try{el.animate([{width:"0px",opacity:0},{width:"22px",opacity:1}],{pseudoElement:"::before",duration:900,easing:REVEAL_EASE,delay});}catch(_){}}
+  });
+},{threshold:.08,rootMargin:"0px 0px -6% 0px"});
+revealEls.forEach(el=>io.observe(el));
+addEventListener("beforeprint",()=>revealEls.forEach(el=>{el.style.opacity="";el.getAnimations().forEach(a=>a.finish());}));
 
 /* ===== Animated counters ===== */
 const counted=new WeakSet();
@@ -2556,6 +2759,141 @@ if('IntersectionObserver' in window){
       });
       list.addEventListener('pointerleave',reset);
     });
+  });
+})();
+
+/* ===== Section numbers, at-a-glance tiles, folding lists (2026-10-28) ===== */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const ko=()=>lang==="ko";
+  const easeOut=t=>1-Math.pow(1-t,3);
+
+  /* Big outline numbers behind section heads. Pinned-head sections carry theirs inside the head
+     so it travels with it; the others sit at the right of the section. Drift is slower than the page. */
+  const PINNED=["publications","patents","equipment"];
+  const nums=[];
+  ["research","professor","members","publications","simulation","patents","collaborations","equipment","game"].forEach((id,i)=>{
+    const sec=document.getElementById(id), wrap=sec&&sec.querySelector(":scope > .wrap"), head=wrap&&wrap.querySelector(":scope > .sec-head");
+    if(!head) return;
+    const n=document.createElement("div"); n.className="rh-num"; n.setAttribute("aria-hidden","true"); n.textContent=String(i+1).padStart(2,"0");
+    if(PINNED.includes(id)) head.prepend(n); else { wrap.style.position="relative"; wrap.prepend(n); }
+    nums.push([sec,n]);
+  });
+  let numTick=0;
+  const driftNums=()=>{numTick=0;
+    for(const [s,n] of nums){
+      if(n.parentElement.classList.contains("sec-head")) continue; /* rides the pinned head */
+      const r=s.getBoundingClientRect(); if(r.bottom<-200||r.top>innerHeight+200) continue;
+      const p=(innerHeight-r.top)/(innerHeight+Math.min(r.height,1400));
+      n.style.transform=`translateY(${((p-.25)*160).toFixed(1)}px)`;
+    }};
+  addEventListener("scroll",()=>{if(!numTick) numTick=requestAnimationFrame(driftNums);},{passive:true});
+  addEventListener("resize",driftNums); driftNums();
+
+  /* At a glance: re-read every number from its section so the tiles never drift from the page. */
+  const g=document.getElementById("glance");
+  if(g){
+    const set=(k,v)=>{const e=$(`[data-glance="${k}"]`,g); if(e&&v) e.textContent=v;};
+    const stat=en=>{const l=$$(".stats .stat .lbl").find(x=>x.dataset.en===en);const n=l&&l.parentElement.querySelector(".num");
+      return n?(n.dataset.prefix||"")+(+n.dataset.count).toLocaleString("en-US")+(n.dataset.suffix||""):"";};
+    set("pubs",stat("Publications")); set("cites",stat("Total Citations")); set("h",stat("h-index"));
+    const first=$("#publist .pub");
+    if(first){
+      const a=$(".pt a",first)||$(".pt",first), meta=(a&&a.title||"").split("\n")[1]||"", ifb=$(".if-badge",first);
+      set("latest",a&&a.textContent.trim()); set("journal",[meta.split(" · ")[0],ifb&&ifb.textContent.trim()].filter(Boolean).join(" · "));
+    }
+    const members=$$("#members .mgrid:not(.alumni-grid) .mcard");
+    set("members",String(members.length));
+    $(".faces",g).replaceChildren(...members.map(m=>m.querySelector(".ph img")).filter(Boolean).slice(0,9).map(img=>{
+      const f=document.createElement("img"); f.src=img.getAttribute("src"); f.alt=""; f.loading="lazy"; f.width=42; f.height=42; return f;}));
+    const chips=$$("#patents .pat-summary .chip");
+    if(chips.length){
+      set("patents",(chips[0].querySelector("b")||{}).textContent);
+      $('[data-glance="patchips"]',g).replaceChildren(...chips.slice(1).map(c=>{const s=document.createElement("span");s.innerHTML=c.innerHTML;
+        ["data-en","data-ko"].forEach(at=>{if(c.hasAttribute(at)) s.setAttribute(at,c.getAttribute(at));}); return s;}));
+    }
+    const flags=$$("#collaborations .cnode .flag svg");
+    set("partners",String(flags.length));
+    $(".flags",g).replaceChildren(...flags.map(svg=>{const c=svg.cloneNode(true);c.removeAttribute("role");c.removeAttribute("aria-label");
+      c.querySelectorAll("[id],title").forEach(x=>x.tagName.toLowerCase()==="title"?x.remove():x.removeAttribute("id"));return c;}));
+    const eq=$$("#equipment .equipment-count").map(e=>parseInt(e.textContent,10)||0);
+    if(eq.length){
+      set("equipment",String(eq.reduce((a,b)=>a+b,0)));
+      const mx=Math.max(...eq);
+      $(".bars",g).replaceChildren(...eq.map(c=>{const i=document.createElement("i");i.style.height=Math.round(c/mx*100)+"%";return i;}));
+    }
+    /* Research tile: film posters cross-fade and the matching area lights up. */
+    const box=$(".posters",g), pills=$$(".areas li",g);
+    const srcs=()=>$$("#research .film-deck").map(d=>{const im=$(".film-start img",d);return im?(ko()?im.dataset.srcKo:im.dataset.srcEn)||im.getAttribute("src"):null;}).filter(Boolean);
+    const ims=srcs().map(s=>{const im=document.createElement("img");im.src=s;im.alt="";im.loading="lazy";box.appendChild(im);return im;});
+    document.addEventListener("ppel:language",()=>srcs().forEach((s,i)=>{if(ims[i]) ims[i].src=s;}));
+    let cur=-1, timer=0;
+    const show=i=>{
+      ims.forEach((im,j)=>{if(j===i) im.animate([{opacity:0},{opacity:1}],{duration:900,fill:"forwards"});
+        else if(j===cur) im.animate([{opacity:1},{opacity:0}],{duration:900,fill:"forwards"});});
+      pills.forEach((p,j)=>p.classList.toggle("on",j===i)); cur=i;
+    };
+    if(ims.length){
+      show(0);
+      new IntersectionObserver(es=>{const on=es[0].isIntersecting;clearInterval(timer);
+        if(on) timer=setInterval(()=>{if(!document.hidden) show((cur+1)%ims.length);},2800);},{threshold:.2}).observe($(".t-research",g));
+    }
+    /* Numbers count up, equipment bars grow, the ink trace draws once. */
+    const once=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting) return; once.unobserve(e.target); const t=e.target;
+      if(t.matches(".big")){
+        const tgt=t.querySelector("[data-glance]")||t, txt=tgt.textContent, m=txt.match(/[\d,]+/); if(!m) return;
+        const end=+m[0].replace(/,/g,""), pre=txt.slice(0,m.index), suf=txt.slice(m.index+m[0].length), t0=performance.now();
+        const step=now=>{const p=Math.min(1,(now-t0)/1300);tgt.textContent=pre+Math.round(end*easeOut(p)).toLocaleString("en-US")+suf;if(p<1) requestAnimationFrame(step);};
+        requestAnimationFrame(step);
+      }else if(t.matches(".t-equip")){
+        $$(".bars i",t).forEach((b,i)=>b.animate([{transform:"scaleY(0)"},{transform:"scaleY(1)"}],{duration:800,delay:200+i*90,easing:REVEAL_EASE,fill:"backwards"}));
+      }else if(t.matches(".t-game")){
+        const path=$(".trace path",t), L=path.getTotalLength();
+        path.animate([{strokeDasharray:L,strokeDashoffset:L},{strokeDasharray:L,strokeDashoffset:0}],{duration:2200,easing:"cubic-bezier(.6,.05,.2,1)"});
+      }
+    }),{threshold:.6});
+    $$(".big, .t-equip, .t-game",g).forEach(e=>once.observe(e));
+  }
+
+  /* Long lists fold; the button label follows the page language. */
+  function fold(list,items,keep,label,bg){
+    if(!list||items.length<=keep) return null;
+    list.classList.add("foldable","is-folded"); if(!keep) list.classList.add("fold-zero");
+    if(bg) list.style.setProperty("--fold-bg",bg);
+    if(!list.id) list.id="fold-"+Math.random().toString(36).slice(2,8);
+    items.forEach((it,i)=>{if(i>=keep) it.classList.add("fold-more");});
+    const btn=document.createElement("button"); btn.type="button"; btn.className="fold-btn"; btn.setAttribute("aria-controls",list.id);
+    const sync=()=>{const folded=list.classList.contains("is-folded");btn.setAttribute("aria-expanded",String(!folded));
+      btn.innerHTML=folded?label(items.length):(ko()?"접기 ▴":"Collapse ▴");};
+    btn.addEventListener("click",()=>{
+      const opening=list.classList.contains("is-folded"); list.classList.toggle("is-folded"); sync();
+      if(opening) items.slice(keep).forEach((it,i)=>it.animate([{opacity:0,transform:"translateY(14px)"},{opacity:1,transform:"none"}],{duration:500,delay:Math.min(i*35,600),easing:REVEAL_EASE,fill:"backwards"}));
+      else (list.closest("section")||list).scrollIntoView({behavior:"smooth"});
+    });
+    document.addEventListener("ppel:language",sync);
+    sync(); list.after(btn); return {btn,sync};
+  }
+  const publist=$("#publist");
+  const pubFold=fold(publist,$$(".pub",publist),8,n=>ko()?`논문 <b>${n}</b>편 모두 보기 ▾`:`Show all <b>${n}</b> papers ▾`,"var(--substrate)");
+  if(pubFold) $$(".fbtn").forEach(b=>b.addEventListener("click",()=>{
+    const all=b.dataset.year==="all"; publist.classList.toggle("is-folded",all); pubFold.btn.hidden=!all; pubFold.sync();}));
+  const patGrid=$("#patents .pat-grid");
+  fold(patGrid,$$(".pat",patGrid),6,n=>ko()?`특허 <b>${n}</b>건 모두 보기 ▾`:`Show all <b>${n}</b> patents ▾`,"var(--surface)");
+  const alumni=$("#members .alumni-grid");
+  fold(alumni,$$(".mcard",alumni),0,n=>ko()?`졸업생 <b>${n}</b>명 보기 ▾`:`Show <b>${n}</b> alumni ▾`,"var(--substrate)");
+
+  /* Equipment: category cards open in place (first one open). */
+  $$("#equipment .equipment-group").forEach((grp,i)=>{
+    const head=$(".equipment-group-heading",grp), list=$(".equipment-list",grp); if(!head||!list) return;
+    if(!list.id) list.id="eq-list-"+i;
+    head.setAttribute("role","button"); head.tabIndex=0; head.setAttribute("aria-controls",list.id);
+    const set=open=>{grp.classList.toggle("open",open); head.setAttribute("aria-expanded",String(open));
+      if(open) $$(".equipment-item",grp).forEach((it,j)=>it.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:420,delay:j*40,fill:"backwards"}));};
+    set(i===0);
+    head.addEventListener("click",()=>set(!grp.classList.contains("open")));
+    head.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();set(!grp.classList.contains("open"));}});
+    grp.addEventListener("click",e=>{if(!grp.classList.contains("open")&&!head.contains(e.target)) set(true);});
   });
 })();
 

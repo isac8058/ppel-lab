@@ -70,3 +70,17 @@ Rules that must survive future edits:
   autopilot plays through the `window.__ink` debug hook, checks normal + reduced-motion
   contexts, touch, keyboard, mouse, pause, game over, and writes screenshots to
   `$OUT_DIR`).
+
+## Section rhythm, at-a-glance and reveal (v2026.10.28-2)
+
+- Reveal-on-scroll uses the Web Animations API (`revealEls` / `io` in the main script), not CSS
+  transitions, so it also plays on the owner's reduced-motion machine. The old global
+  `*{animation-duration:.001ms;transition-duration:.001ms}` reduced-motion rule was removed on
+  purpose (owner chose visible motion, 2026-10-28); only smooth scrolling is turned off there.
+- `#glance` (bento after `#welcome`) re-reads every number from its source section at load
+  (stats band, patent summary chips, members, collaborations, equipment counts, first publication);
+  the HTML numbers are only fallbacks. Update the source sections, not the tiles.
+- Folding: publications show 8, patents 6, alumni 0 until the fold button; the year filter
+  unfolds publications. Equipment groups are click/keyboard accordions (first open).
+- Big outline section numbers (`.rh-num`) are added by script; in the pinned-head sections
+  (publications, patents, equipment at >=1180px) they live inside `.sec-head` and do not drift.
