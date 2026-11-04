@@ -1,3 +1,9 @@
+## v2026.11.04-1 — 2026-11-04
+
+- 논문 목록을 Google Scholar 프로필(2026-11-04 조회)과 대조해 갱신. Chemical Engineering Journal 2026 논문 1편 추가(교신, IF 13.4, 같은 저널 2026 항목의 배지 기준).
+- 서지 정정(Crossref 대조). Progress in Materials Science 2026 논문 링크를 Scholar에서 DOI로, Advanced Composites and Hybrid Materials 산소 흡수 MnO₂ 논문의 빠진 공저자 3명 추가, 황산화 셀룰로오스 나노결정 논문 제목과 Int. J. Biological Macromolecules 2025 논문 제목을 출판사 제목대로 고침.
+- Scholar 지표 갱신. 피인용 3,343, h-index 33, i10-index 80, 2016년 이후 저널 논문 129편.
+
 ## v2026.10.28-5 — 2026-10-28
 
 - 교수 소개 갱신(교수님 지시). 글이 사진 카드보다 길어지지 않게 수상·활동 탭을 따로 두고, 수상 항목 신설(2026 한국유연인쇄전자학회 중견학술상, 2023 전북대학교 미래인재상), 대외 활동을 연도와 이름만 적은 목록으로(국가기술표준원 인쇄전자 IEC TC 119 전문위원, IEC TC 119 국제표준안 프로젝트 리더, Materials Chemistry Frontiers 게스트 에디터, 국방 연구개발·중소벤처기업부·정부와 지자체 평가위원 등, 2019~2026 메일과 위촉 기록 전수 대조), 현재 맡은 직책은 (현) 표시.
