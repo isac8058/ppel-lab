@@ -1,4 +1,4 @@
-# PPEL research films v6 (current homepage edition, 2026.10.27)
+# PPEL research films v6 (previous homepage edition, 2026.10.27, replaced by v7 on 2026.11.10)
 
 Ten films, two per research card, each in separate Korean and English versions with narration, background music and WebVTT captions. 1920x1080, H.264 + AAC, faststart.
 
